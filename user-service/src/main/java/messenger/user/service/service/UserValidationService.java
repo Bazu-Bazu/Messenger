@@ -25,7 +25,7 @@ public class UserValidationService {
         ValidationResult phoneResult = validateField(phone, ValidationType.PHONE);
         if (!phoneResult.valid()) errors.addAll(usernameResult.errors());
 
-        ValidationResult passwordResult = validateField(password, ValidationType.PHONE);
+        ValidationResult passwordResult = validateField(password, ValidationType.PASSWORD);
         if (!passwordResult.valid()) errors.addAll(usernameResult.errors());
 
         if (!errors.isEmpty()) {
