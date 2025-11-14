@@ -1,6 +1,5 @@
 .idea
 api-gateway.iml
-pom.xml
 
 api-gateway/.mvn
 api-gateway/src/main/resources
