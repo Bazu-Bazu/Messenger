@@ -17,8 +17,8 @@ public class ValidationException extends RuntimeException {
         for (int i = 0; i < errors.size(); i++) {
             stringBuilder.append(i + 1)
                          .append(") ")
-                         .append(errors)
-                         .append(".");
+                         .append(errors.get(i))
+                         .append(". ");
         }
 
         return stringBuilder.toString();

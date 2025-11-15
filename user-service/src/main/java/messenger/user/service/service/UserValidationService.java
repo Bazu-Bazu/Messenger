@@ -14,33 +14,33 @@ import java.util.List;
 @RequiredArgsConstructor
 public class UserValidationService {
 
-    private final List<ValidationStrategy<Object>> strategies;
+    private final List<ValidationStrategy<String>> stringStrategies;
 
-    public void validationRegisterUser(String username, String phone, String password) {
+    public void validateUserRegistration(String username, String phone, String password) {
         List<String> errors = new ArrayList<>();
 
-        ValidationResult usernameResult = validateField(username, ValidationType.USERNAME);
+        ValidationResult usernameResult = validateString(username, ValidationType.USERNAME);
         if (!usernameResult.valid()) errors.addAll(usernameResult.errors());
 
-        ValidationResult phoneResult = validateField(phone, ValidationType.PHONE);
-        if (!phoneResult.valid()) errors.addAll(usernameResult.errors());
+        ValidationResult phoneResult = validateString(phone, ValidationType.PHONE);
+        if (!phoneResult.valid()) errors.addAll(phoneResult.errors());
 
-        ValidationResult passwordResult = validateField(password, ValidationType.PASSWORD);
-        if (!passwordResult.valid()) errors.addAll(usernameResult.errors());
+        ValidationResult passwordResult = validateString(password, ValidationType.PASSWORD);
+        if (!passwordResult.valid()) errors.addAll(passwordResult.errors());
 
         if (!errors.isEmpty()) {
             throw new ValidationException("Validation failed: ", errors);
         }
     }
 
-    private ValidationResult validateField(String value, ValidationType type) {
-        for (ValidationStrategy<Object> strategy : strategies) {
-            if (strategy.getClass().getSimpleName().toUpperCase().contains(type.toString())) {
+    private ValidationResult validateString(String value, ValidationType type) {
+        for (ValidationStrategy<String> strategy : stringStrategies) {
+            if (strategy.getType().equals(type)) {
                 return strategy.validate(value);
             }
         }
 
-        throw new ValidationException("Couldn't find the necessary strategy");
+        throw new RuntimeException("Couldn't find the necessary strategy");
     }
 
 }

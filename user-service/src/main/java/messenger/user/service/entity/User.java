@@ -26,7 +26,7 @@ public class User {
     @Column(nullable = false, unique = true, length = 25)
     private String username;
 
-    @Column(unique = true, nullable = false)
+    @Column(unique = true, nullable = false, length = 15)
     private String phone;
 
     @Column(unique = true)
@@ -35,14 +35,15 @@ public class User {
     @Column(nullable = false)
     private String password;
 
-    @Column(nullable = false)
+    @Builder.Default
     private boolean enabled = true;
 
     private Instant createdAt;
 
     private Instant updatedAt;
 
-    @Enumerated
+    @Builder.Default
+    @Enumerated(EnumType.STRING)
     private UserStatus status = UserStatus.ACTIVE;
 
     @Embedded

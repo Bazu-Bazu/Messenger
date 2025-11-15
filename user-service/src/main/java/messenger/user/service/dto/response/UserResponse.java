@@ -1,11 +1,13 @@
 package messenger.user.service.dto.response;
 
 import lombok.Builder;
+import lombok.Getter;
 import messenger.user.service.userEnum.UserStatus;
 
 import java.time.Instant;
 
 @Builder
+@Getter
 public class UserResponse {
 
     private Long id;
@@ -16,6 +18,5 @@ public class UserResponse {
     private Instant createdAt;
     private Instant updatedAt;
     private UserStatus status;
-    private ProfileResponse profile;
 
 }

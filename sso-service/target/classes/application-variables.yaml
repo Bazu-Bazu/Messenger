@@ -1,0 +1,8 @@
+jwt:
+  secret-key: i3mOlQItCJ7wSbkiMAUaVBk8NZz4LjOlvIMMGXpwFeUHKMrdMpWygKWLxuFs9NVV
+
+  access-token:
+    experation: 3600000
+
+  refresh_token:
+    experation: 2592000000

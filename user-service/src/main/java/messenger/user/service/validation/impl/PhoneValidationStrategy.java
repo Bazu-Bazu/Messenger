@@ -4,6 +4,7 @@ import lombok.RequiredArgsConstructor;
 import messenger.user.service.validation.UniquenessChecker;
 import messenger.user.service.validation.ValidationResult;
 import messenger.user.service.validation.ValidationStrategy;
+import messenger.user.service.validation.ValidationType;
 import org.springframework.stereotype.Component;
 
 import java.util.ArrayList;
@@ -37,6 +38,11 @@ public class PhoneValidationStrategy implements ValidationStrategy<String> {
         }
 
         return new ValidationResult(errors.isEmpty(), errors);
+    }
+
+    @Override
+    public ValidationType getType() {
+        return ValidationType.PHONE;
     }
 
 }

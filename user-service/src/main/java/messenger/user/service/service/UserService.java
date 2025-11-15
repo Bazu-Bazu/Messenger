@@ -7,6 +7,7 @@ import messenger.user.service.entity.User;
 import messenger.user.service.repository.UserRepository;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
+import org.springframework.transaction.annotation.Transactional;
 
 import java.time.Instant;
 
@@ -14,13 +15,11 @@ import java.time.Instant;
 @RequiredArgsConstructor
 public class UserService {
 
-    private final UserValidationService userValidationService;
     private final UserRepository userRepository;
     private final PasswordEncoder passwordEncoder;
 
+    @Transactional
     public UserResponse registerUser(CreateUserRequest request) {
-        userValidationService.validationRegisterUser(request.username(), request.phone(), request.password());
-
         User newUser = createUser(request);
         userRepository.save(newUser);
 
@@ -38,6 +37,14 @@ public class UserService {
 
     private UserResponse createUserResponse(User user) {
         return UserResponse.builder()
+                .id(user.getId())
+                .username(user.getUsername())
+                .phone(user.getPhone())
+                .email(user.getEmail())
+                .enabled(user.isEnabled())
+                .status(user.getStatus())
+                .createdAt(user.getCreatedAt())
+                .updatedAt(user.getUpdatedAt())
                 .build();
     }
 

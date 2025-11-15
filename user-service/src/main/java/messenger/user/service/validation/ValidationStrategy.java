@@ -6,5 +6,6 @@ import org.springframework.stereotype.Component;
 public interface ValidationStrategy<T> {
 
     ValidationResult validate(T value);
+    ValidationType getType();
 
 }
