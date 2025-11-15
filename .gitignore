@@ -17,3 +17,7 @@ user-service/mvnw
 user-service/mvnw.cmd
 user-service/.mvn
 user-service/src/main/resources
+user-service/src/main/java/messenger/user/service/config/SecurityConfig.java
+
+infra
+k6
