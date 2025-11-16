@@ -31,7 +31,7 @@ public class UserController {
             userValidationService.validateUserRegistration(request.username(), request.phone(), request.password());
             UserResponse response = userService.registerUser(request);
 
-            log.info("User with phone {} registered successfully", response.getPhone());
+            log.info("User with phone {} registered successfully", response.phone());
 
             return ResponseEntity.status(201).body(response);
         } catch (ValidationException e) {

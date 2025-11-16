@@ -7,10 +7,8 @@ import org.springframework.stereotype.Service;
 @Service
 public class ProfileService {
 
-    public ProfileResponse createProfileResponse(User user) {
-        return ProfileResponse.builder()
-
-                .build();
-    }
+//    public ProfileResponse createProfileResponse(User user) {
+//
+//    }
 
 }

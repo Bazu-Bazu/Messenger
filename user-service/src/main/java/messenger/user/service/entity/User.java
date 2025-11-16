@@ -5,7 +5,6 @@ import lombok.AllArgsConstructor;
 import lombok.Builder;
 import lombok.Data;
 import lombok.NoArgsConstructor;
-import messenger.user.service.embeddable.Preferences;
 import messenger.user.service.embeddable.Profile;
 import messenger.user.service.userEnum.UserStatus;
 
@@ -48,8 +47,5 @@ public class User {
 
     @Embedded
     private Profile profile;
-
-    @Embedded
-    private Preferences preferences;
 
 }
