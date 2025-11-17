@@ -4,19 +4,15 @@ import jakarta.persistence.Column;
 import jakarta.persistence.Embeddable;
 import jakarta.persistence.EnumType;
 import jakarta.persistence.Enumerated;
-import lombok.AllArgsConstructor;
-import lombok.Builder;
 import lombok.Data;
-import lombok.NoArgsConstructor;
+import messenger.user.service.dto.request.UpdateProfileRequest;
 import messenger.user.service.userEnum.Gender;
 
 import java.time.LocalDate;
+import java.time.Period;
 
 @Embeddable
 @Data
-@Builder
-@NoArgsConstructor
-@AllArgsConstructor
 public class Profile {
 
     @Column(length = 25)
@@ -30,10 +26,33 @@ public class Profile {
 
     private String avatarUrl;
     private LocalDate birthDate;
-    private Short age;
 
     @Enumerated(EnumType.STRING)
     @Column(length = 6)
     private Gender gender;
+
+    public void updateFrom(UpdateProfileRequest request) {
+        if (request.firstName() != null) {
+            this.firstName = request.firstName();
+        }
+        if (request.lastName() != null) {
+            this.lastName = request.lastName();
+        }
+        if (request.bio() != null) {
+            this.bio = request.bio();
+        }
+        if (request.birthDate() != null) {
+            this.birthDate = request.birthDate();
+        }
+        if (request.gender() != null) {
+            this.gender = request.gender();
+        }
+    }
+
+    public Integer getAge() {
+        if (this.birthDate == null) return null;
+
+        return Period.between(this.birthDate, LocalDate.now()).getYears();
+    }
 
 }

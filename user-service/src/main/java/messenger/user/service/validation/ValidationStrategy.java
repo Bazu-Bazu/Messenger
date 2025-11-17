@@ -3,9 +3,9 @@ package messenger.user.service.validation;
 import org.springframework.stereotype.Component;
 
 @Component
-public interface ValidationStrategy<T> {
+public interface ValidationStrategy<String> {
 
-    ValidationResult validate(T value);
+    ValidationResult validate(String value);
     ValidationType getType();
 
 }

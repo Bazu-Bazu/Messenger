@@ -5,14 +5,12 @@ import lombok.RequiredArgsConstructor;
 import lombok.extern.log4j.Log4j2;
 import messenger.user.service.dto.request.CreateUserRequest;
 import messenger.user.service.dto.response.UserResponse;
+import messenger.user.service.exception.UserException;
 import messenger.user.service.exception.ValidationException;
 import messenger.user.service.service.UserService;
 import messenger.user.service.service.UserValidationService;
 import org.springframework.http.ResponseEntity;
-import org.springframework.web.bind.annotation.PostMapping;
-import org.springframework.web.bind.annotation.RequestBody;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RestController;
+import org.springframework.web.bind.annotation.*;
 
 @RestController
 @RequestMapping("/users")
@@ -41,6 +39,28 @@ public class UserController {
         } catch (Exception e) {
             log.warn("Unexpected error during registration with phone {}. Error: {}",
                     request.phone(), e.getMessage());
+
+            return ResponseEntity.status(500).body(e.getMessage());
+        }
+    }
+
+    @GetMapping("my-tools")
+    public ResponseEntity<?> getMy(@RequestParam Long userId) {
+        try {
+            log.info("Getting tools attempt for user with id {}", userId);
+
+            UserResponse response = userService.getUser(userId);
+
+            log.info("Got tools with user id {} successfully", userId);
+
+            return ResponseEntity.status(200).body(response);
+        } catch (UserException e) {
+            log.warn("User with id {} not found. Error: {}", userId, e.getMessage());
+
+            return ResponseEntity.status(404).body(e.getMessage());
+        } catch (Exception e) {
+            log.warn("Unexpected error during getting tools with userId {}. Error: {}",
+                    userId, e.getMessage());
 
             return ResponseEntity.status(500).body(e.getMessage());
         }

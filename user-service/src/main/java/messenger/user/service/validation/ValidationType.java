@@ -5,6 +5,9 @@ public enum ValidationType {
     USERNAME,
     EMAIL,
     PHONE,
-    PASSWORD
+    PASSWORD,
+    NAME,
+    BIO,
+    BIRTH_DATE
 
 }

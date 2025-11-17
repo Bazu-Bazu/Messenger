@@ -4,6 +4,7 @@ import lombok.RequiredArgsConstructor;
 import messenger.user.service.dto.request.CreateUserRequest;
 import messenger.user.service.dto.response.UserResponse;
 import messenger.user.service.entity.User;
+import messenger.user.service.exception.UserException;
 import messenger.user.service.repository.UserRepository;
 import messenger.user.service.service.event.UserEventPublisher;
 import org.springframework.security.crypto.password.PasswordEncoder;
@@ -48,6 +49,15 @@ public class UserService {
                 .updatedAt(user.getUpdatedAt())
                 .status(user.getStatus())
                 .build();
+    }
+
+    public UserResponse getUser(Long userId) {
+        User user = userRepository.findById(userId)
+                .orElseThrow(() -> new UserException(
+                        String.format("User with id %d not found", userId)
+                ));
+
+        return createUserResponse(user);
     }
 
 }
