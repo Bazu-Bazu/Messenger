@@ -3,6 +3,7 @@ api-gateway.iml
 
 api-gateway/.mvn
 api-gateway/src/main/resources
+api-gateway/target
 
 sso-service/.gitattributes
 sso-service/HELP.md
