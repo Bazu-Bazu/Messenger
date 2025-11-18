@@ -7,6 +7,8 @@ import lombok.Data;
 import lombok.NoArgsConstructor;
 import messenger.user.service.embeddable.Profile;
 import messenger.user.service.userEnum.UserStatus;
+import org.springframework.data.annotation.CreatedDate;
+import org.springframework.data.annotation.LastModifiedDate;
 
 import java.time.Instant;
 
@@ -37,8 +39,10 @@ public class User {
     @Builder.Default
     private boolean enabled = true;
 
+    @CreatedDate
     private Instant createdAt;
 
+    @LastModifiedDate
     private Instant updatedAt;
 
     @Builder.Default
@@ -47,5 +51,12 @@ public class User {
 
     @Embedded
     private Profile profile;
+
+    @PostLoad
+    private void initProfile() {
+        if (profile == null) {
+            profile = new Profile();
+        }
+    }
 
 }

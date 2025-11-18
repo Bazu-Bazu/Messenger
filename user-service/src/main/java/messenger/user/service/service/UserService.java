@@ -35,13 +35,13 @@ public class UserService {
                 .username(request.username())
                 .phone(request.phone())
                 .password(passwordEncoder.encode(request.password()))
-                .createdAt(Instant.now())
                 .build();
     }
 
     private UserResponse createUserResponse(User user) {
         return UserResponse.builder()
                 .id(user.getId())
+                .username(user.getUsername())
                 .phone(user.getPhone())
                 .email(user.getEmail())
                 .enabled(user.isEnabled())

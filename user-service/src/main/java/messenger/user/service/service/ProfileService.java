@@ -7,6 +7,8 @@ import messenger.user.service.embeddable.Profile;
 import messenger.user.service.entity.User;
 import messenger.user.service.exception.UserException;
 import messenger.user.service.repository.UserRepository;
+import org.springframework.cache.annotation.CacheEvict;
+import org.springframework.cache.annotation.Cacheable;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
@@ -17,6 +19,7 @@ public class ProfileService {
     private final UserRepository userRepository;
 
     @Transactional
+    @CacheEvict(value = "userProfiles", key = "#userId")
     public ProfileResponse updateProfile(Long userId, UpdateProfileRequest request) {
         User user = userRepository.findById(userId)
                 .orElseThrow(() -> new UserException(
@@ -24,9 +27,9 @@ public class ProfileService {
                 ));
 
         user.getProfile().updateFrom(request);
-        userRepository.save(user);
+        User savedUser = userRepository.save(user);
 
-        return createProfileResponse(userId, user.getProfile());
+        return createProfileResponse(userId, savedUser.getProfile());
     }
 
     private ProfileResponse createProfileResponse(Long userId, Profile profile) {
@@ -55,6 +58,7 @@ public class ProfileService {
         return createProfileResponse(userId, user.getProfile());
     }
 
+    @Cacheable(value = "userProfiles", key = "#userId")
     public ProfileResponse getProfile(Long userId) {
         User user = userRepository.findById(userId)
                 .orElseThrow(() -> new UserException(

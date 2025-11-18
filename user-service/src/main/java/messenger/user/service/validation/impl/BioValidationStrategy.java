@@ -12,7 +12,7 @@ import java.util.regex.Pattern;
 @Component
 public class BioValidationStrategy implements ValidationStrategy<String> {
 
-    private static final Pattern BIO_PATTERN = Pattern.compile("^{1,500}$");
+    private static final Pattern BIO_PATTERN = Pattern.compile("^[\\w\\W]{1,500}$");
 
     @Override
     public ValidationResult validate(String bio) {
