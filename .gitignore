@@ -22,5 +22,20 @@ user-service/src/main/resources
 user-service/src/main/java/messenger/user/service/config/SecurityConfig.java
 user-service/target
 
+chat-service/.gitattributes
+chat-service/HELP.md
+chat-service/mvnw
+chat-service/mvnw.cmd
+chat-service/.mvn
+chat-service/src/main/resources
+chat-service/target
+
+proto/target/generated-sources
+proto/target/maven-archiver
+proto/target/maven-status
+proto/target/protoc-dependencies
+proto/target/protoc-plugins
+proto/target/proto-1.0.0.jar
+
 infra
 k6
