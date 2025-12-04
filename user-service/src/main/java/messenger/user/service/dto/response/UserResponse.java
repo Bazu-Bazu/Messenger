@@ -1,7 +1,7 @@
 package messenger.user.service.dto.response;
 
 import lombok.Builder;
-import messenger.user.service.userEnum.UserStatus;
+import messenger.user.service.entity.UserStatus;
 
 import java.time.Instant;
 

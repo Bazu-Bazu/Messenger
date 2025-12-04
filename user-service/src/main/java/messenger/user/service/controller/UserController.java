@@ -44,8 +44,8 @@ public class UserController {
         }
     }
 
-    @GetMapping("my-tools")
-    public ResponseEntity<?> getMy(@RequestParam Long userId) {
+    @GetMapping("/my-tools")
+    public ResponseEntity<?> getMyTools(@RequestParam Long userId) {
         try {
             log.info("Getting tools attempt for user with id {}", userId);
 

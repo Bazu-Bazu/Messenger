@@ -3,7 +3,7 @@ package messenger.user.service.service;
 import lombok.RequiredArgsConstructor;
 import messenger.user.service.dto.request.UpdateProfileRequest;
 import messenger.user.service.dto.response.ProfileResponse;
-import messenger.user.service.embeddable.Profile;
+import messenger.user.service.entity.Profile;
 import messenger.user.service.entity.User;
 import messenger.user.service.exception.UserException;
 import messenger.user.service.repository.UserRepository;
