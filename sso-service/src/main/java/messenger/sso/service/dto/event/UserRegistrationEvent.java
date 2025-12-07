@@ -5,7 +5,7 @@ import lombok.Builder;
 @Builder
 public record UserEvent(
         Long id,
-        String userName,
+        String username,
         String phone,
         String email,
         String password
