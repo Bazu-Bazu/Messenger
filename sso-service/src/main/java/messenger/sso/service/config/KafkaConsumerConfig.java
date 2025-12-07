@@ -1,6 +1,7 @@
 package messenger.sso.service.config;
 
-import messenger.sso.service.dto.event.UserEvent;
+import messenger.sso.service.dto.event.UserRegistrationEvent;
+import messenger.sso.service.dto.event.UserUpdatingEvent;
 import org.apache.kafka.clients.consumer.ConsumerConfig;
 import org.apache.kafka.common.serialization.StringDeserializer;
 import org.springframework.beans.factory.annotation.Value;
@@ -26,7 +27,7 @@ public class KafkaConsumerConfig {
     private String autoOffsetReset;
 
     @Bean
-    ConsumerFactory<String, UserEvent> stringConsumerFactory() {
+    ConsumerFactory<String, UserRegistrationEvent> userRegistrationConsumerFactory() {
         Map<String, Object> configProperties = new HashMap<>();
         configProperties.put(ConsumerConfig.BOOTSTRAP_SERVERS_CONFIG, bootstrapServers);
         configProperties.put(ConsumerConfig.GROUP_ID_CONFIG, groupId);
@@ -38,9 +39,28 @@ public class KafkaConsumerConfig {
     }
 
     @Bean
-    public ConcurrentKafkaListenerContainerFactory<String, UserEvent> kafkaListenerContainerFactory() {
-        var factory = new ConcurrentKafkaListenerContainerFactory<String, UserEvent>();
-        factory.setConsumerFactory(stringConsumerFactory());
+    ConcurrentKafkaListenerContainerFactory<String, UserRegistrationEvent> userRegistrationListenerContainerFactory() {
+        var factory = new ConcurrentKafkaListenerContainerFactory<String, UserRegistrationEvent>();
+        factory.setConsumerFactory(userRegistrationConsumerFactory());
+        return factory;
+    }
+
+    @Bean
+    ConsumerFactory<String, UserUpdatingEvent> userUpdatingConsumerFactory() {
+        Map<String, Object> configProperties = new HashMap<>();
+        configProperties.put(ConsumerConfig.BOOTSTRAP_SERVERS_CONFIG, bootstrapServers);
+        configProperties.put(ConsumerConfig.GROUP_ID_CONFIG, groupId);
+        configProperties.put(ConsumerConfig.KEY_DESERIALIZER_CLASS_CONFIG, StringDeserializer.class);
+        configProperties.put(ConsumerConfig.VALUE_DESERIALIZER_CLASS_CONFIG, StringDeserializer.class);
+        configProperties.put(ConsumerConfig.AUTO_OFFSET_RESET_CONFIG, autoOffsetReset);
+
+        return new DefaultKafkaConsumerFactory<>(configProperties);
+    }
+
+    @Bean
+    ConcurrentKafkaListenerContainerFactory<String, UserUpdatingEvent> userUpdatingListenerContainerFactory() {
+        var factory = new ConcurrentKafkaListenerContainerFactory<String, UserUpdatingEvent>();
+        factory.setConsumerFactory(userUpdatingConsumerFactory());
         return factory;
     }
 

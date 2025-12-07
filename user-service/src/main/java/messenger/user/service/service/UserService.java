@@ -7,6 +7,9 @@ import messenger.user.service.entity.User;
 import messenger.user.service.exception.UserException;
 import messenger.user.service.repository.UserRepository;
 import messenger.user.service.service.event.UserEventPublisher;
+import messenger.user.service.validation.UserUpdateType;
+import messenger.user.service.validation.ValidationResult;
+import messenger.user.service.validation.ValidationType;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
@@ -58,6 +61,24 @@ public class UserService {
                 ));
 
         return createUserResponse(user);
+    }
+
+    public UserResponse updateUser(Long userId, String updatedField, UserUpdateType type) {
+        User user = userRepository.findById(userId)
+                .orElseThrow(() -> new UserException(
+                        String.format("User with id %d not found", userId)
+                ));
+
+        switch (type) {
+            case EMAIL -> user.setEmail(updatedField);
+            case PASSWORD -> user.setPassword(passwordEncoder.encode(updatedField));
+            case USERNAME -> user.setUsername(updatedField);
+            case PHONE -> user.setPhone(updatedField);
+        }
+
+        User savedUser = userRepository.save(user);
+        userEventPublisher.sendUserUpdatingToKafka(savedUser, type);
+        return createUserResponse(savedUser);
     }
 
 }

@@ -43,4 +43,36 @@ public class UserValidationService {
         throw new RuntimeException("Couldn't find the necessary strategy");
     }
 
+    public void validatePhone(String phone) {
+        ValidationResult phoneResult = validateString(phone, ValidationType.PHONE);
+
+        if (!phoneResult.valid()) {
+            throw new ValidationException("Validation failed: ", phoneResult.errors());
+        }
+    }
+
+    public void validateUsername(String username) {
+        ValidationResult usernameResult = validateString(username, ValidationType.USERNAME);
+
+        if (!usernameResult.valid()) {
+            throw new ValidationException("Validation failed: ", usernameResult.errors());
+        }
+    }
+
+    public void validateEmail(String email) {
+        ValidationResult emailResult = validateString(email, ValidationType.EMAIL);
+
+        if (!emailResult.valid()) {
+            throw new ValidationException("Validation failed: ", emailResult.errors());
+        }
+    }
+
+    public void validatePassword(String password) {
+        ValidationResult passwordResult = validateString(password, ValidationType.PASSWORD);
+
+        if (!passwordResult.valid()) {
+            throw new ValidationException("Validation failed: ", passwordResult.errors());
+        }
+    }
+
 }
