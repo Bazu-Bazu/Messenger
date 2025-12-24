@@ -21,7 +21,7 @@ public class ProfileController {
     private final ProfileService profileService;
     private final ProfileValidationService profileValidationService;
 
-    @PostMapping("/update")
+    @PatchMapping("/update")
     public ResponseEntity<?> updateProfile(
             @RequestParam @Valid Long userId,
             @RequestBody @Valid UpdateProfileRequest request

@@ -10,7 +10,6 @@ import messenger.user.service.exception.ValidationException;
 import messenger.user.service.service.UserService;
 import messenger.user.service.service.UserValidationService;
 import messenger.user.service.validation.UserUpdateType;
-import messenger.user.service.validation.ValidationType;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
@@ -68,7 +67,7 @@ public class UserController {
         }
     }
 
-    @PostMapping("/update/phone")
+    @PatchMapping("/update/phone")
     public ResponseEntity<?> updatePhone(
             @RequestParam @Valid Long userId,
             @RequestBody @Valid UpdatePhoneRequest request
@@ -98,7 +97,7 @@ public class UserController {
         }
     }
 
-    @PostMapping("/update/password")
+    @PatchMapping("/update/password")
     public ResponseEntity<?> updatePassword(
             @RequestParam @Valid Long userId,
             @RequestBody @Valid UpdatePasswordRequest request
@@ -128,7 +127,7 @@ public class UserController {
         }
     }
 
-    @PostMapping("/update/username")
+    @PatchMapping("/update/username")
     public ResponseEntity<?> updateUsername(
             @RequestParam @Valid Long userId,
             @RequestBody @Valid UpdateUsernameRequest request
@@ -158,7 +157,7 @@ public class UserController {
         }
     }
 
-    @PostMapping("/update/email")
+    @PatchMapping("/update/email")
     public ResponseEntity<?> updateEmail(
             @RequestParam @Valid Long userId,
             @RequestBody @Valid UpdateEmailRequest request
