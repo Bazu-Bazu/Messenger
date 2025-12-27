@@ -1,4 +1,4 @@
-CREATE TABLE chat (
+CREATE TABLE chats (
                       id BIGSERIAL PRIMARY KEY,
                       type VARCHAR(7) NOT NULL,
                       name VARCHAR(40),
@@ -9,7 +9,7 @@ CREATE TABLE chat (
                       updated_at TIMESTAMP WITH TIME ZONE DEFAULT CURRENT_TIMESTAMP
 );
 
-ALTER TABLE chat ADD CONSTRAINT chat_type_check
+ALTER TABLE chats ADD CONSTRAINT chat_type_check
     CHECK (type IN ('PRIVATE', 'GROUP', 'CHANNEL'));
 
 -- Создаем функцию для обновления updated_at
@@ -23,6 +23,6 @@ $$ language 'plpgsql';
 
 -- Создаем триггер для таблицы users
 CREATE TRIGGER update_users_updated_at
-    BEFORE UPDATE ON chat
+    BEFORE UPDATE ON chats
     FOR EACH ROW
 EXECUTE FUNCTION update_updated_at_column();
