@@ -1,15 +1,19 @@
 syntax = "proto3";
 package com.messenger.grpc;
 
-message UserExistRequest {
-  int64 user_id = 1;
-}
-
-message UserExistResponse {
-  bool user_exist = 1;
-  string username = 2;
-}
-
 service UserService {
-  rpc UserExist(UserExistRequest) returns (UserExistResponse);
+  rpc ValidateUsersExist(ValidateUsersExistRequest) returns (UsersExistResponse);
+}
+
+message ValidateUsersExistRequest {
+  repeated int64 userIds = 1;
+}
+
+message UsersExistResponse {
+  message UserExistence {
+    int64 userId = 1;
+    bool exists = 2;
+    bool is_active = 3;
+  }
+  repeated UserExistence results = 1;
 }

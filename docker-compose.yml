@@ -17,7 +17,7 @@ services:
     ports:
       - "5432:5432"
     volumes:
-      - postgres_data:/var/lib/postgresql/data
+      - postgres_user:/var/lib/postgresql/data
 
   postgres_sso:
     image: postgres:16
@@ -29,7 +29,19 @@ services:
     ports:
       - "5433:5432"
     volumes:
-      - postgres_data:/var/lib/postgresql/data
+      - postgres_sso:/var/lib/postgresql/data
+
+  postgres_personal-chat:
+    image: postgres:16
+    container_name: postgres_personal-chat-service
+    environment:
+      POSTGRES_USER: postgres
+      POSTGRES_PASSWORD: postgres
+      POSTGRES_DB: personal-chat_db
+    ports:
+      - "5434:5432"
+    volumes:
+      - postgres_personal-chat:/var/lib/postgresql/data
 
   zookeeper:
     image: wurstmeister/zookeeper:latest
@@ -53,5 +65,7 @@ services:
       - zookeeper
 
 volumes:
-  postgres_data:
+  postgres_user:
+  postgres_sso:
+  postgres_personal-chat:
   redis_data:

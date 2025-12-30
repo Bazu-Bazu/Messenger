@@ -1,0 +1,13 @@
+package messenger.personal.chat.service;
+
+import org.springframework.boot.SpringApplication;
+import org.springframework.boot.autoconfigure.SpringBootApplication;
+
+@SpringBootApplication
+public class PersonalChatServiceApplication {
+
+    public static void main(String[] args) {
+        SpringApplication.run(PersonalChatServiceApplication.class, args);
+    }
+
+}
