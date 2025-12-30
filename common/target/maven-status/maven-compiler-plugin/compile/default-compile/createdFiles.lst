@@ -1,0 +1,7 @@
+exception/UserNotFoundException.class
+exception/UserIsNotActive.class
+dto/event/PersonalChatActivityEvent.class
+dto/response/ErrorResponse$ErrorResponseBuilder.class
+dto/event/PersonalChatActivityEvent$PersonalChatActivityEventBuilder.class
+dto/response/ErrorResponse.class
+exception/AuthorizationException.class

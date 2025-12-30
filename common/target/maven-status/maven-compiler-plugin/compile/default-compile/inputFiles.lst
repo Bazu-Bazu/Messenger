@@ -1,0 +1,5 @@
+/home/burkina/IdeaProjects/Messenger/common/src/main/java/dto/event/PersonalChatActivityEvent.java
+/home/burkina/IdeaProjects/Messenger/common/src/main/java/dto/response/ErrorResponse.java
+/home/burkina/IdeaProjects/Messenger/common/src/main/java/exception/AuthorizationException.java
+/home/burkina/IdeaProjects/Messenger/common/src/main/java/exception/UserIsNotActive.java
+/home/burkina/IdeaProjects/Messenger/common/src/main/java/exception/UserNotFoundException.java

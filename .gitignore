@@ -10,7 +10,6 @@ sso-service/HELP.md
 sso-service/mvnw
 sso-service/mvnw.cmd
 sso-service/.mvn
-sso-service/src/main/resources
 sso-service/target
 
 user-service/.gitattributes
@@ -18,7 +17,6 @@ user-service/HELP.md
 user-service/mvnw
 user-service/mvnw.cmd
 user-service/.mvn
-user-service/src/main/resources
 user-service/target
 
 chat-service/.gitattributes
@@ -36,6 +34,8 @@ message-service/mvnw.cmd
 message-service/.mvn
 message-service/src/main/resources
 message-service/target
+
+personal-chat-service/target
 
 proto/target/generated-sources
 proto/target/maven-archiver
