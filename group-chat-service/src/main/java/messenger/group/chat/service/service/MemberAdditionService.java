@@ -38,6 +38,24 @@ public class MemberAdditionService {
         group.addMembers(newMembers);
     }
 
+    public void addMembersToGroup(GroupChat group, List<Long> userIds) {
+        List<Long> usersToAdd = removeExistingMembersAndDuplicates(group.getId(), userIds);
+
+        userGrpcClient.validateUsersExist(usersToAdd);
+
+        List<GroupChatMember> newMembers = usersToAdd.stream()
+                .map(userId -> (createGroupMember(userId, GroupMemberRole.MEMBER)))
+                .toList();
+
+        group.addMembers(newMembers);
+    }
+
+    public void removeMembersFromGroup(GroupChat group, List<Long> userIds) {
+        List<Long> usersToDelete = removeDuplicates(userIds);
+
+        groupChatMemberRepository.deleteByUserIdsAndGroupId(usersToDelete, group.getId());
+    }
+
     private GroupChatMember createGroupMember(Long userId, GroupMemberRole role) {
         return GroupChatMember.builder()
                 .userId(userId)
@@ -64,6 +82,12 @@ public class MemberAdditionService {
                 .filter(Objects::nonNull)
                 .distinct()
                 .filter(userId -> !existingUserIdsInGroup.contains(userId))
+                .toList();
+    }
+
+    private List<Long> removeDuplicates(List<Long> userIds) {
+        return userIds.stream()
+                .distinct()
                 .toList();
     }
 
