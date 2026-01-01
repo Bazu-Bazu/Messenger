@@ -17,6 +17,7 @@
         <module>personal-chat-service</module>
         <module>common</module>
         <module>proto</module>
+        <module>group-chat-service</module>
     </modules>
 
     <properties>
