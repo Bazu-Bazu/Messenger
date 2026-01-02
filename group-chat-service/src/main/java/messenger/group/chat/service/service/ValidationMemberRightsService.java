@@ -18,6 +18,14 @@ public class ValidationMemberRightsService {
 
     private final GroupChatMemberRepository groupChatMemberRepository;
 
+    public void validateCanGetGroupMembers(Long groupId, Long userId) {
+        if (!groupChatMemberRepository.existsByGroupIdAndUserId(groupId, userId)) {
+            throw new GroupChatMemberException(
+                    String.format("Group %d member with id %d not found", groupId, userId)
+            );
+        }
+    }
+
     public void validateCanAddMembers(Long groupId, Long invitorId) {
         GroupChatMember member = groupChatMemberRepository.findByGroupIdAndUserId(groupId, invitorId)
                 .orElseThrow(() -> new GroupChatMemberException(
@@ -53,7 +61,7 @@ public class ValidationMemberRightsService {
         roles.forEach(role -> {
             if (!member.getRole().canManage(role)) {
                 throw new AuthorizationException(
-                        String.format("User %d cannot manage user with %s", member.getUserId(), role)
+                        String.format("User %d cannot manage user with role %s", member.getUserId(), role)
                 );
             }
         });

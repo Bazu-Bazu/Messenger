@@ -38,4 +38,8 @@ public interface GroupChatMemberRepository extends JpaRepository<GroupChatMember
            "AND gm.userId IN :userIds")
     void deleteByUserIdsAndGroupId(@Param("userIds") List<Long> userIds, @Param("groupId") Long groupId);
 
+    List<GroupChatMember> findAllByGroupId(Long groupId);
+
+    boolean existsByGroupIdAndUserId(Long groupId, Long userId);
+
 }

@@ -2,12 +2,15 @@ package messenger.group.chat.service.client.grpc;
 
 import com.messenger.grpc.User;
 import com.messenger.grpc.UserServiceGrpc;
+import dto.response.UserInfo;
 import exception.UserIsNotActive;
 import exception.UserNotFoundException;
 import net.devh.boot.grpc.client.inject.GrpcClient;
 import org.springframework.stereotype.Component;
 
+import java.util.HashMap;
 import java.util.List;
+import java.util.Map;
 
 @Component
 public class UserGrpcClient {
@@ -36,6 +39,31 @@ public class UserGrpcClient {
                         );
                     }
                 });
+    }
+
+    public Map<Long, UserInfo> getUsersInfo(List<Long> userIds) {
+        User.UsersInfoRequest request = User.UsersInfoRequest.newBuilder()
+                .addAllUserIds(userIds)
+                .build();
+
+        User.UsersInfoResponse response = blockingStub.usersInfo(request);
+
+        Map<Long, UserInfo> usersInfoMap = new HashMap<>();
+
+        response.getResultsList()
+                .forEach(result -> {
+                    UserInfo info = UserInfo.builder()
+                            .id(result.getUserId())
+                            .username(result.getUsername())
+                            .avatarUrl(result.getAvatarUrl())
+                            .bio(result.getBio())
+                            .status(result.getStatus())
+                            .build();
+
+                    usersInfoMap.put(result.getUserId(), info);
+                });
+
+        return usersInfoMap;
     }
 
 }

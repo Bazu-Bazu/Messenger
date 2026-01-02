@@ -66,4 +66,32 @@ public class UserGrpcServer extends UserServiceGrpc.UserServiceImplBase {
                 .toList();
     }
 
+    @Override
+    public void usersInfo(User.UsersInfoRequest request, StreamObserver<User.UsersInfoResponse> responseObserver) {
+        List<Long> userIds = request.getUserIdsList();
+
+        List<User.UsersInfoResponse.UserInfo> results = getUsersInfo(userIds);
+
+        User.UsersInfoResponse response = User.UsersInfoResponse.newBuilder()
+                .addAllResults(results)
+                .build();
+
+        responseObserver.onNext(response);
+        responseObserver.onCompleted();
+    }
+
+    private List<User.UsersInfoResponse.UserInfo> getUsersInfo(List<Long> userIds) {
+        List<messenger.user.service.entity.User> users = userRepository.findAllById(userIds);
+
+        return users.stream()
+                .map(user -> User.UsersInfoResponse.UserInfo.newBuilder()
+                        .setUserId(user.getId())
+                        .setUsername(user.getUsername())
+                        .setAvatarUrl(user.getProfile().getAvatarUrl() != null ? user.getProfile().getAvatarUrl() : "")
+                        .setBio(user.getProfile().getBio() != null ? user.getProfile().getBio() : "")
+                        .setStatus(user.getStatus().toString())
+                        .build())
+                .toList();
+    }
+
 }

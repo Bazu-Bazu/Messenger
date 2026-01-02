@@ -1,11 +1,15 @@
 package messenger.group.chat.service.service;
 
+import dto.response.UserInfo;
 import lombok.RequiredArgsConstructor;
 import messenger.group.chat.service.client.grpc.UserGrpcClient;
 import messenger.group.chat.service.domain.entity.GroupChat;
 import messenger.group.chat.service.domain.entity.GroupChatMember;
 import messenger.group.chat.service.domain.enums.GroupMemberRole;
 import messenger.group.chat.service.domain.repository.GroupChatMemberRepository;
+import messenger.group.chat.service.dto.response.GroupMemberResponse;
+import org.springframework.cache.annotation.CacheEvict;
+import org.springframework.cache.annotation.Cacheable;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Propagation;
 import org.springframework.transaction.annotation.Transactional;
@@ -38,6 +42,7 @@ public class MemberAdditionService {
         group.addMembers(newMembers);
     }
 
+    @CacheEvict(value = "groupMembers", key = "#group.id")
     public void addMembersToGroup(GroupChat group, List<Long> userIds) {
         List<Long> usersToAdd = removeExistingMembersAndDuplicates(group.getId(), userIds);
 
@@ -50,10 +55,19 @@ public class MemberAdditionService {
         group.addMembers(newMembers);
     }
 
+    @CacheEvict(value = "groupMembers", key = "#group.id")
     public void removeMembersFromGroup(GroupChat group, List<Long> userIds) {
         List<Long> usersToDelete = removeDuplicates(userIds);
 
         groupChatMemberRepository.deleteByUserIdsAndGroupId(usersToDelete, group.getId());
+    }
+
+    @Transactional(propagation = Propagation.NOT_SUPPORTED)
+    @Cacheable(value = "groupMembers", key = "#groupId")
+    public List<GroupMemberResponse> getGroupMembers(Long groupId) {
+        List<GroupChatMember> groupMembers = groupChatMemberRepository.findAllByGroupId(groupId);
+
+        return createGroupMemberResponses(groupMembers);
     }
 
     private GroupChatMember createGroupMember(Long userId, GroupMemberRole role) {
@@ -61,6 +75,24 @@ public class MemberAdditionService {
                 .userId(userId)
                 .role(role)
                 .build();
+    }
+
+    private List<GroupMemberResponse> createGroupMemberResponses(List<GroupChatMember> groupMembers) {
+        List<Long> userIds = groupMembers.stream()
+                .map(GroupChatMember::getUserId)
+                .toList();
+
+         Map<Long, UserInfo> usersInfoMap = userGrpcClient.getUsersInfo(userIds);
+
+         return groupMembers.stream()
+                 .map(member -> GroupMemberResponse.builder()
+                         .id(member.getId())
+                         .customNickname(member.getCustomNickname())
+                         .role(member.getRole())
+                         .userInfo(usersInfoMap.get(member.getUserId()))
+                         .build()
+                 )
+                 .toList();
     }
 
     private List<Long> removeOwnerAndDuplicates(Long ownerId, List<Long> userIds) {

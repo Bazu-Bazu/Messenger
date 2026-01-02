@@ -7,8 +7,6 @@ import messenger.group.chat.service.domain.enums.GroupMemberRole;
 @Builder
 public record GroupMemberResponse(
         Long id,
-        String username,
-        String avatarUrl,
         String customNickname,
         GroupMemberRole role,
         UserInfo userInfo

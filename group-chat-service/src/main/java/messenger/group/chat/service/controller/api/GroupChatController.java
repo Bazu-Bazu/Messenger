@@ -7,9 +7,12 @@ import messenger.group.chat.service.dto.request.AddNewMembersRequest;
 import messenger.group.chat.service.dto.request.CreateGroupChatRequest;
 import messenger.group.chat.service.dto.request.RemoveMembersRequest;
 import messenger.group.chat.service.dto.response.GroupChatResponse;
+import messenger.group.chat.service.dto.response.GroupMemberResponse;
 import messenger.group.chat.service.service.GroupChatService;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
+
+import java.util.List;
 
 @RestController
 @RequestMapping("/group-chat")
@@ -40,11 +43,11 @@ public class GroupChatController {
     ) {
         log.info("Adding new members to group {} attempt by user {}", request.groupId(), invitorId);
 
-        GroupChatResponse response = groupChatService.addNewMembers(invitorId, request);
+        groupChatService.addNewMembers(invitorId, request);
 
         log.info("New members added to group {} by user {} successfully", request.groupId(), invitorId);
 
-        return ResponseEntity.status(200).body(response);
+        return ResponseEntity.status(200).body(null);
     }
 
     @DeleteMapping("/remove-members")
@@ -54,11 +57,25 @@ public class GroupChatController {
     ) {
         log.info("Removing members from group {} attempt by user {}", request.groupId(), removerId);
 
-        GroupChatResponse response = groupChatService.removeMembers(removerId, request);
+        groupChatService.removeMembers(removerId, request);
 
         log.info("Members removed from group {} by user {} successfully", request.groupId(), removerId);
 
-        return ResponseEntity.status(200).body(response);
+        return ResponseEntity.status(200).body(null);
+    }
+
+    @GetMapping("/get-members")
+    public ResponseEntity<?> getMembers(
+            @RequestParam @Valid Long userId,
+            @RequestParam @Valid Long groupId
+    ) {
+        log.info("Getting group {} members by attempt by user {}", groupId, userId);
+
+        List<GroupMemberResponse> responses = groupChatService.getGroupMembers(userId, groupId);
+
+        log.info("Group {} members got by user {} successfully", groupId, userId);
+
+        return ResponseEntity.status(200).body(responses);
     }
 
     @DeleteMapping("/delete")

@@ -8,6 +8,7 @@ import messenger.group.chat.service.dto.request.AddNewMembersRequest;
 import messenger.group.chat.service.dto.request.CreateGroupChatRequest;
 import messenger.group.chat.service.dto.request.RemoveMembersRequest;
 import messenger.group.chat.service.dto.response.GroupChatResponse;
+import messenger.group.chat.service.dto.response.GroupMemberResponse;
 import messenger.group.chat.service.exception.GroupChatException;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
@@ -42,7 +43,7 @@ public class GroupChatService {
     }
 
     @Transactional
-    public GroupChatResponse addNewMembers(Long invitorId, AddNewMembersRequest request) {
+    public void addNewMembers(Long invitorId, AddNewMembersRequest request) {
         userGrpcClient.validateUsersExist(List.of(invitorId));
 
         Long groupId = request.groupId();
@@ -54,12 +55,10 @@ public class GroupChatService {
         validationMemberRightsService.validateCanAddMembers(groupId, invitorId);
 
         memberAdditionService.addMembersToGroup(group, request.userIds());
-
-        return createGroupChatResponse(group);
     }
 
     @Transactional
-    public GroupChatResponse removeMembers(Long removerId, RemoveMembersRequest request) {
+    public void removeMembers(Long removerId, RemoveMembersRequest request) {
         userGrpcClient.validateUsersExist(List.of(removerId));
 
         Long groupId = request.groupId();
@@ -71,8 +70,6 @@ public class GroupChatService {
         validationMemberRightsService.validateCanRemoveMembers(groupId, removerId, request.userIds());
 
         memberAdditionService.removeMembersFromGroup(group, request.userIds());
-
-        return createGroupChatResponse(group);
     }
 
     @Transactional
@@ -87,6 +84,14 @@ public class GroupChatService {
         validationMemberRightsService.validateCanDeleteGroup(group, ownerId);
 
         groupChatRepository.delete(group);
+    }
+
+    public List<GroupMemberResponse> getGroupMembers(Long userId, Long groupId) {
+        userGrpcClient.validateUsersExist(List.of(userId));
+
+        validationMemberRightsService.validateCanGetGroupMembers(groupId, userId);
+
+        return memberAdditionService.getGroupMembers(groupId);
     }
 
     private GroupChatResponse createGroupChatResponse(GroupChat group) {
