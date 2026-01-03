@@ -37,6 +37,10 @@ message-service/target
 
 personal-chat-service/target
 
+common/target
+
+group-chat-service/target
+
 proto/target/generated-sources
 proto/target/maven-archiver
 proto/target/maven-status
