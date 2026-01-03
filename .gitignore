@@ -19,14 +19,6 @@ user-service/mvnw.cmd
 user-service/.mvn
 user-service/target
 
-chat-service/.gitattributes
-chat-service/HELP.md
-chat-service/mvnw
-chat-service/mvnw.cmd
-chat-service/.mvn
-chat-service/src/main/resources
-chat-service/target
-
 message-service/.gitattributes
 message-service/HELP.md
 message-service/mvnw
