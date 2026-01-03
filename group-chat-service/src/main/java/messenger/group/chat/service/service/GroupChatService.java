@@ -3,26 +3,32 @@ package messenger.group.chat.service.service;
 import lombok.RequiredArgsConstructor;
 import messenger.group.chat.service.client.grpc.UserGrpcClient;
 import messenger.group.chat.service.domain.entity.GroupChat;
+import messenger.group.chat.service.domain.repository.GroupChatMemberRepository;
 import messenger.group.chat.service.domain.repository.GroupChatRepository;
 import messenger.group.chat.service.dto.request.AddNewMembersRequest;
+import messenger.group.chat.service.dto.request.ChangeGroupInfoRequest;
 import messenger.group.chat.service.dto.request.CreateGroupChatRequest;
 import messenger.group.chat.service.dto.request.RemoveMembersRequest;
 import messenger.group.chat.service.dto.response.GroupChatResponse;
 import messenger.group.chat.service.dto.response.GroupMemberResponse;
 import messenger.group.chat.service.exception.GroupChatException;
+import org.springframework.cache.annotation.Cacheable;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
 import java.util.List;
+import java.util.Set;
 
 @Service
 @RequiredArgsConstructor
 public class GroupChatService {
 
     private final GroupChatRepository groupChatRepository;
+    private final GroupChatMemberRepository groupChatMemberRepository;
     private final UserGrpcClient userGrpcClient;
     private final MemberAdditionService memberAdditionService;
     private final ValidationMemberRightsService validationMemberRightsService;
+    private final CacheEvictionService cacheEvictionService;
 
     @Transactional
     public GroupChatResponse createGroupChat(Long creatorId, CreateGroupChatRequest request) {
@@ -31,7 +37,6 @@ public class GroupChatService {
                 .name(request.name())
                 .description(request.description())
                 .avatarUrl(request.avatarUrl())
-                .createdBy(creatorId)
                 .build();
 
         GroupChat savedGroup = groupChatRepository.save(newGroup);
@@ -84,6 +89,9 @@ public class GroupChatService {
         validationMemberRightsService.validateCanDeleteGroup(group, ownerId);
 
         groupChatRepository.delete(group);
+
+        cacheEvictionService.evictGroupChatCache(groupId);
+        cacheEvictionService.evictGroupMembersCache(groupId);
     }
 
     public List<GroupMemberResponse> getGroupMembers(Long userId, Long groupId) {
@@ -92,6 +100,39 @@ public class GroupChatService {
         validationMemberRightsService.validateCanGetGroupMembers(groupId, userId);
 
         return memberAdditionService.getGroupMembers(groupId);
+    }
+
+    @Transactional
+    public GroupChatResponse changeGroupInfo(Long changerId, ChangeGroupInfoRequest request) {
+        userGrpcClient.validateUsersExist(List.of(changerId));
+
+        Long groupId = request.groupId();
+        validationMemberRightsService.validateCanChangeGroupInfo(groupId, changerId);
+
+        GroupChat group = groupChatRepository.findById(groupId)
+                .orElseThrow(() -> new GroupChatException(
+                        String.format("Group with id %d not found", groupId)
+                ));
+
+        group.changeFrom(request);
+        GroupChat savedGroup = groupChatRepository.save(group);
+
+        Set<Long> memberIds = groupChatMemberRepository.findAllUserIdsByGroupId(groupId);
+        memberIds.forEach(cacheEvictionService::evictUserGroupChats);
+        cacheEvictionService.evictGroupChatCache(groupId);
+
+        return createGroupChatResponse(savedGroup);
+    }
+
+    @Cacheable(value = CacheEvictionService.USER_GROUP_CHATS_CACHE, key = "#userId")
+    public List<GroupChatResponse> getAllUserGroupChat(Long userId) {
+        userGrpcClient.validateUsersExist(List.of(userId));
+
+        List<GroupChat> groupIds = groupChatRepository.findAllUserChatIds(userId);
+
+        return groupIds.stream()
+                .map(this::createGroupChatResponse)
+                .toList();
     }
 
     private GroupChatResponse createGroupChatResponse(GroupChat group) {

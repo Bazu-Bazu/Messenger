@@ -8,28 +8,30 @@ import messenger.group.chat.service.domain.entity.GroupChatMember;
 import messenger.group.chat.service.domain.enums.GroupMemberRole;
 import messenger.group.chat.service.domain.repository.GroupChatMemberRepository;
 import messenger.group.chat.service.dto.response.GroupMemberResponse;
-import org.springframework.cache.annotation.CacheEvict;
 import org.springframework.cache.annotation.Cacheable;
 import org.springframework.stereotype.Service;
-import org.springframework.transaction.annotation.Propagation;
 import org.springframework.transaction.annotation.Transactional;
 
 import java.util.*;
 
 @Service
-@Transactional(propagation = Propagation.MANDATORY)
 @RequiredArgsConstructor
 public class MemberAdditionService {
 
     private final GroupChatMemberRepository groupChatMemberRepository;
     private final UserGrpcClient userGrpcClient;
+    private final CacheEvictionService cacheEvictionService;
 
+    @Transactional
     public void addOwnerToGroup(GroupChat group, Long ownerId) {
         userGrpcClient.validateUsersExist(List.of(ownerId));
 
         group.addMember(createGroupMember(ownerId, GroupMemberRole.OWNER));
+
+        cacheEvictionService.evictUserGroupChats(ownerId);
     }
 
+    @Transactional
     public void addMembersToNewGroup(GroupChat group, List<Long> userIds) {
         List<Long> usersToAdd = removeOwnerAndDuplicates(group.getCreatedBy(), userIds);
 
@@ -40,9 +42,11 @@ public class MemberAdditionService {
                 .toList();
 
         group.addMembers(newMembers);
+
+        usersToAdd.forEach(cacheEvictionService::evictUserGroupChats);
     }
 
-    @CacheEvict(value = "groupMembers", key = "#group.id")
+    @Transactional
     public void addMembersToGroup(GroupChat group, List<Long> userIds) {
         List<Long> usersToAdd = removeExistingMembersAndDuplicates(group.getId(), userIds);
 
@@ -53,17 +57,22 @@ public class MemberAdditionService {
                 .toList();
 
         group.addMembers(newMembers);
+
+        cacheEvictionService.evictGroupMembersCache(group.getId());
+        usersToAdd.forEach(cacheEvictionService::evictUserGroupChats);
     }
 
-    @CacheEvict(value = "groupMembers", key = "#group.id")
+    @Transactional
     public void removeMembersFromGroup(GroupChat group, List<Long> userIds) {
         List<Long> usersToDelete = removeDuplicates(userIds);
 
         groupChatMemberRepository.deleteByUserIdsAndGroupId(usersToDelete, group.getId());
+
+        cacheEvictionService.evictGroupMembersCache(group.getId());
+        usersToDelete.forEach(cacheEvictionService::evictUserGroupChats);
     }
 
-    @Transactional(propagation = Propagation.NOT_SUPPORTED)
-    @Cacheable(value = "groupMembers", key = "#groupId")
+    @Cacheable(value = CacheEvictionService.GROUP_MEMBERS_CACHE, key = "#groupId")
     public List<GroupMemberResponse> getGroupMembers(Long groupId) {
         List<GroupChatMember> groupMembers = groupChatMemberRepository.findAllByGroupId(groupId);
 

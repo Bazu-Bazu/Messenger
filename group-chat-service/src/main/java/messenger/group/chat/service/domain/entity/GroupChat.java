@@ -5,6 +5,7 @@ import lombok.AllArgsConstructor;
 import lombok.Builder;
 import lombok.Data;
 import lombok.NoArgsConstructor;
+import messenger.group.chat.service.dto.request.ChangeGroupInfoRequest;
 import org.hibernate.annotations.CreationTimestamp;
 
 import java.time.Instant;
@@ -53,6 +54,18 @@ public class GroupChat {
 
     public void addMembers(List<GroupChatMember> members) {
         members.forEach(this::addMember);
+    }
+
+    public void changeFrom(ChangeGroupInfoRequest request) {
+        if (request.name() != null) {
+            this.name = request.name();
+        }
+        if (request.description() != null) {
+            this.description = request.description();
+        }
+        if (request.avatarUrl() != null) {
+            this.avatarUrl = request.avatarUrl();
+        }
     }
 
 }

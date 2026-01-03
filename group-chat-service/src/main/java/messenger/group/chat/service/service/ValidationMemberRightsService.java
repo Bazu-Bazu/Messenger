@@ -39,6 +39,19 @@ public class ValidationMemberRightsService {
         }
     }
 
+    public void validateCanChangeGroupInfo(Long groupId, Long changerId) {
+        GroupChatMember member = groupChatMemberRepository.findByGroupIdAndUserId(groupId, changerId)
+                .orElseThrow(() -> new GroupChatMemberException(
+                        String.format("Group %d member with id %d not found", groupId, changerId)
+                ));
+
+        if (!member.canChangeGroupInfo()) {
+            throw new AuthorizationException(
+                    String.format("User %d cannot change info in group %d", changerId, groupId)
+            );
+        }
+    }
+
     public void validateCanRemoveMembers(Long groupId, Long removerId, List<Long> userIds) {
         if (userIds == null || userIds.isEmpty()) return;
 

@@ -25,14 +25,6 @@ public enum GroupMemberRole {
         return this.priority >= ADMIN.priority;
     }
 
-    public boolean canBanUsers() {
-        return this.priority >= ADMIN.priority;
-    }
-
-    public boolean canDeleteGroup() {
-        return this == OWNER;
-    }
-
     public boolean canSetRole() {
         return this == OWNER;
     }

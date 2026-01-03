@@ -4,6 +4,7 @@ import jakarta.validation.Valid;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.log4j.Log4j2;
 import messenger.group.chat.service.dto.request.AddNewMembersRequest;
+import messenger.group.chat.service.dto.request.ChangeGroupInfoRequest;
 import messenger.group.chat.service.dto.request.CreateGroupChatRequest;
 import messenger.group.chat.service.dto.request.RemoveMembersRequest;
 import messenger.group.chat.service.dto.response.GroupChatResponse;
@@ -74,6 +75,31 @@ public class GroupChatController {
         List<GroupMemberResponse> responses = groupChatService.getGroupMembers(userId, groupId);
 
         log.info("Group {} members got by user {} successfully", groupId, userId);
+
+        return ResponseEntity.status(200).body(responses);
+    }
+
+    @PatchMapping("/change-info")
+    public ResponseEntity<?> changeGroupInfo(
+            @RequestParam @Valid Long changerId,
+            @RequestBody @Valid ChangeGroupInfoRequest request
+    ) {
+        log.info("Changing group {} info by user {}", request.groupId(), changerId);
+
+        GroupChatResponse response = groupChatService.changeGroupInfo(changerId, request);
+
+        log.info("Group {} info changed by user {} successfully", request.groupId(), changerId);
+
+        return ResponseEntity.status(200).body(response);
+    }
+
+    @GetMapping("/get-all-user-group-chats")
+    public ResponseEntity<?> getAllUserGroupChats(@RequestParam @Valid Long userId) {
+        log.info("Getting all user {} group chats attempt", userId);
+
+        List<GroupChatResponse> responses = groupChatService.getAllUserGroupChat(userId);
+
+        log.info("User {} got all your own group chats", userId);
 
         return ResponseEntity.status(200).body(responses);
     }
