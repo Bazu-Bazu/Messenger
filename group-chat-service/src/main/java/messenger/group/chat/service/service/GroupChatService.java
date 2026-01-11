@@ -5,10 +5,7 @@ import messenger.group.chat.service.client.grpc.UserGrpcClient;
 import messenger.group.chat.service.domain.entity.GroupChat;
 import messenger.group.chat.service.domain.repository.GroupChatMemberRepository;
 import messenger.group.chat.service.domain.repository.GroupChatRepository;
-import messenger.group.chat.service.dto.request.AddNewMembersRequest;
-import messenger.group.chat.service.dto.request.ChangeGroupInfoRequest;
-import messenger.group.chat.service.dto.request.CreateGroupChatRequest;
-import messenger.group.chat.service.dto.request.RemoveMembersRequest;
+import messenger.group.chat.service.dto.request.*;
 import messenger.group.chat.service.dto.response.GroupChatResponse;
 import messenger.group.chat.service.dto.response.GroupMemberResponse;
 import messenger.group.chat.service.exception.GroupChatException;
@@ -133,6 +130,14 @@ public class GroupChatService {
         return groupIds.stream()
                 .map(this::createGroupChatResponse)
                 .toList();
+    }
+
+    public List<GroupMemberResponse> setRoles(Long setterId, SetRolesRequest request) {
+        userGrpcClient.validateUsersExist(List.of(setterId));
+
+        validationMemberRightsService.validateCanSetRole(request.groupId(), setterId, request.userIds(), request.role());
+
+        return memberAdditionService.setRoles(request.groupId(), request.userIds(), request.role());
     }
 
     private GroupChatResponse createGroupChatResponse(GroupChat group) {

@@ -3,10 +3,7 @@ package messenger.group.chat.service.controller.api;
 import jakarta.validation.Valid;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.log4j.Log4j2;
-import messenger.group.chat.service.dto.request.AddNewMembersRequest;
-import messenger.group.chat.service.dto.request.ChangeGroupInfoRequest;
-import messenger.group.chat.service.dto.request.CreateGroupChatRequest;
-import messenger.group.chat.service.dto.request.RemoveMembersRequest;
+import messenger.group.chat.service.dto.request.*;
 import messenger.group.chat.service.dto.response.GroupChatResponse;
 import messenger.group.chat.service.dto.response.GroupMemberResponse;
 import messenger.group.chat.service.service.GroupChatService;
@@ -116,6 +113,20 @@ public class GroupChatController {
         log.info("Group chat {} deleted by user {} successfully", groupId, ownerId);
 
         return ResponseEntity.status(200).body(null);
+    }
+
+    @PatchMapping("/set-roles")
+    public ResponseEntity<?> setRoles(
+            @RequestParam @Valid Long setterId,
+            @RequestBody @Valid SetRolesRequest request)
+    {
+        log.info("Setting role in group {} by user {}", request.groupId(), setterId);
+
+        List<GroupMemberResponse> responses = groupChatService.setRoles(setterId, request);
+
+        log.info("New roles in group {} by user {} set successfully", request.groupId(), setterId);
+
+        return ResponseEntity.status(200).body(responses);
     }
 
 }

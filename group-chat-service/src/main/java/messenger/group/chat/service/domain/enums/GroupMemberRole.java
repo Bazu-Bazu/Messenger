@@ -26,7 +26,7 @@ public enum GroupMemberRole {
     }
 
     public boolean canSetRole() {
-        return this == OWNER;
+        return this.priority >= ADMIN.priority;
     }
 
     public boolean canSendMessage() {

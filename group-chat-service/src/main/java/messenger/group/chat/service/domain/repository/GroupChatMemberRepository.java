@@ -42,4 +42,23 @@ public interface GroupChatMemberRepository extends JpaRepository<GroupChatMember
 
     boolean existsByGroupIdAndUserId(Long groupId, Long userId);
 
+    @Modifying
+    @Query("UPDATE GroupChatMember gm " +
+           "SET gm.role = :role " +
+           "WHERE gm.group.id = :groupId " +
+           "AND gm.userId IN :userIds")
+    void setRoleByUserIdsAndGroupId(
+            @Param("role") GroupMemberRole role,
+            @Param("userIds") List<Long> userIds,
+            @Param("groupId") Long groupId
+    );
+
+    @Query("SELECT gm FROM GroupChatMember gm " +
+            "WHERE gm.userId IN :userIds " +
+            "AND gm.group.id = :groupId")
+    List<GroupChatMember> findAllByUserIdsAndGroupId(
+            @Param("userIds") List<Long> userIds,
+            @Param("groupId") Long groupId
+    );
+
 }

@@ -79,6 +79,18 @@ public class MemberAdditionService {
         return createGroupMemberResponses(groupMembers);
     }
 
+    @Transactional
+    public List<GroupMemberResponse> setRoles(Long groupId, List<Long> userIds, GroupMemberRole role) {
+        List<Long> membersToChange = removeDuplicates(userIds);
+
+        groupChatMemberRepository.setRoleByUserIdsAndGroupId(role, membersToChange, groupId);
+        List<GroupChatMember> changedMembers = groupChatMemberRepository.findAllByUserIdsAndGroupId(userIds, groupId);
+
+        cacheEvictionService.evictGroupMembersCache(groupId);
+
+        return createGroupMemberResponses(changedMembers);
+    }
+
     private GroupChatMember createGroupMember(Long userId, GroupMemberRole role) {
         return GroupChatMember.builder()
                 .userId(userId)
