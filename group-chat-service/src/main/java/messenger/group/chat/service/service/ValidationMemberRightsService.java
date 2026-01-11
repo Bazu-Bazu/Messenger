@@ -88,4 +88,27 @@ public class ValidationMemberRightsService {
         }
     }
 
+    public void validateCanSetRole(Long groupId, Long setterId, List<Long> userIds, GroupMemberRole role) {
+        if (userIds == null || userIds.isEmpty()) return;
+
+        GroupChatMember member = groupChatMemberRepository.findByGroupIdAndUserId(groupId, setterId)
+                .orElseThrow(() -> new GroupChatMemberException(
+                        String.format("Group %d member with id %d not found", groupId, setterId)
+                ));
+
+        if (!member.canSetRole()) {
+            throw new AuthorizationException(
+                    String.format("User %d cannot set roles in group %d", setterId, groupId)
+            );
+        }
+
+        if (!member.canManage(role)) {
+            throw new AuthorizationException(
+                    String.format("User %d cannot set role %s in group %d", setterId, role, groupId)
+            );
+        }
+
+        validateCanManageUsers(groupId, member, userIds);
+    }
+
 }

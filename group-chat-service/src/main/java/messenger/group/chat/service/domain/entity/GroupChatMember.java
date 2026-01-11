@@ -55,4 +55,12 @@ public class GroupChatMember {
         return role.canChangeGroupInfo();
     }
 
+    public boolean canSetRole() {
+        return role.canSetRole();
+    }
+
+    public boolean canManage(GroupMemberRole role) {
+        return this.role.canManage(role);
+    }
+
 }
