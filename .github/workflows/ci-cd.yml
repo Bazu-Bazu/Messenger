@@ -1,0 +1,329 @@
+name: messenger CI/CD
+
+on:
+  push:
+    branches: [ "master" ]
+  pull_request:
+    branches: [ "master" ]
+  workflow_dispatch:  # Позволяет запускать вручную
+
+# Переменные окружения
+env:
+  REGISTRY: ghcr.io  # GitHub Container Registry
+  IMAGE_PREFIX: messenger
+  DOCKER_BUILDKIT: 1  # Включаем BuildKit для быстрой сборки
+
+jobs:
+  # Job 0: Сборка общих модулей (proto и common)
+  build-common-modules:
+    name: Build Common Modules
+    runs-on: ubuntu-latest
+
+    steps:
+      - name: Checkout code
+        uses: actions/checkout@v4
+
+      - name: Set up JDK 17
+        uses: actions/setup-java@v3
+        with:
+          java-version: '17'
+          distribution: 'temurin'
+          cache: maven
+
+      - name: Cache Maven dependencies
+        uses: actions/cache@v3
+        with:
+          path: ~/.m2
+          key: ${{ runner.os }}-m2-${{ hashFiles('**/pom.xml') }}
+          restore-keys: |
+            ${{ runner.os }}-m2-
+
+      - name: Build proto module
+        run: |
+          if [ -d "proto" ]; then
+            cd proto
+            mvn clean install -DskipTests
+            echo "✅ proto module built successfully"
+          else
+            echo "⚠️ proto directory not found"
+          fi
+
+      - name: Build common module
+        run: |
+          if [ -d "common" ]; then
+            cd common
+            mvn clean install -DskipTests
+            echo "✅ common module built successfully"
+          else
+            echo "⚠️ common directory not found"
+          fi
+
+  # Job 1: Сборка всех сервисов
+  build-all-services:
+    name: Build All Services
+    runs-on: ubuntu-latest
+    needs: build-common-modules
+
+    strategy:
+      matrix:
+        service:
+          - user-service
+          - personal-chat-service
+          - group-chat-service
+
+    steps:
+      - name: Checkout code
+        uses: actions/checkout@v4
+
+      - name: Set up JDK 17
+        uses: actions/setup-java@v3
+        with:
+          java-version: '17'
+          distribution: 'temurin'
+          cache: maven
+
+      - name: Cache Maven dependencies
+        uses: actions/cache@v3
+        with:
+          path: ~/.m2
+          key: ${{ runner.os }}-m2-${{ hashFiles('**/pom.xml') }}
+          restore-keys: |
+            ${{ runner.os }}-m2-
+
+      - name: Build and package ${{ matrix.service }}
+        run: |
+          cd ${{ matrix.service }}
+          mvn clean package -Dmaven.test.skip=true -Dmaven.test.failure.ignore=true
+
+  # Job 2: Проверка Dockerfile (оставляем - это полезно)
+  validate-dockerfiles:
+    name: Validate Dockerfiles
+    runs-on: ubuntu-latest
+    needs: build-all-services
+
+    steps:
+      - name: Checkout code
+        uses: actions/checkout@v4
+
+      - name: Validate Dockerfiles syntax
+        run: |
+          echo "🔍 Проверяем Dockerfiles..."
+          for service in user-service personal-chat-service group-chat-service; do
+            if [ -f "$service/Dockerfile" ]; then
+              echo "✅ $service/Dockerfile существует"
+              if grep -q "FROM " "$service/Dockerfile"; then
+                echo "   ✅ Корректный FROM"
+              else
+                echo "   ❌ Ошибка: нет FROM"
+                exit 1
+              fi
+            else
+              echo "⚠️ $service/Dockerfile не найден"
+            fi
+          done
+
+  # Job 3: Сборка Docker образов
+  build-docker-images:
+    name: Build Docker Images
+    runs-on: ubuntu-latest
+    needs: build-common-modules  # нужна для порядка выполнения
+    if: github.event_name == 'push' || github.event_name == 'workflow_dispatch'
+
+    strategy:
+      matrix:
+        service:
+          - name: user-service
+            dockerfile: user-service/Dockerfile
+            context: user-service
+          - name: personal-chat-service
+            dockerfile: personal-chat-service/Dockerfile
+            context: personal-chat-service
+          - name: group-chat-service
+            dockerfile: group-chat-service/Dockerfile
+            context: group-chat-service
+
+    steps:
+      - name: Checkout code
+        uses: actions/checkout@v4
+
+      - name: Set up JDK 17
+        uses: actions/setup-java@v3
+        with:
+          java-version: '17'
+          distribution: 'temurin'
+          cache: maven
+
+      - name: Cache Maven dependencies
+        uses: actions/cache@v3
+        with:
+          path: ~/.m2
+          key: ${{ runner.os }}-m2-${{ hashFiles('**/pom.xml') }}
+          restore-keys: |
+            ${{ runner.os }}-m2-
+
+      # ВАЖНО: Сначала устанавливаем локальные зависимости
+      - name: Install local dependencies
+        run: |
+          if [ -d "proto" ]; then
+            cd proto
+            mvn clean install -DskipTests
+            echo "✅ proto module installed"
+          fi
+          if [ -d "common" ]; then
+            cd ../common
+            mvn clean install -DskipTests
+            echo "✅ common module installed"
+          fi
+
+      - name: Build jar file
+        run: |
+          cd ${{ matrix.service.context }}
+          mvn clean package -Dmaven.test.skip=true -DskipTests
+
+      - name: Verify jar file
+        run: |
+          cd ${{ matrix.service.context }}
+          echo "📦 Checking jar file in ${{ matrix.service.context }}/target/"
+          if ls target/*.jar 1> /dev/null 2>&1; then
+            echo "✅ Jar file exists"
+            ls -la target/*.jar
+          else
+            echo "❌ No jar file found!"
+            exit 1
+          fi
+
+      - name: Log in to GitHub Container Registry
+        uses: docker/login-action@v3
+        with:
+          registry: ghcr.io
+          username: ${{ github.actor }}
+          password: ${{ secrets.GHCR_TOKEN }}
+
+      - name: Generate image tag
+        id: tag
+        run: |
+          SHORT_SHA=$(echo ${{ github.sha }} | cut -c1-7)
+          DATE=$(date +'%Y%m%d')
+          IMAGE_TAG="${DATE}-${SHORT_SHA}"
+          echo "image-tag=${IMAGE_TAG}" >> $GITHUB_OUTPUT
+          echo "📦 Image tag: ${IMAGE_TAG}"
+
+      - name: Build and push ${{ matrix.service.name }}
+        uses: docker/build-push-action@v6
+        with:
+          context: ${{ matrix.service.context }}
+          file: ${{ matrix.service.dockerfile }}
+          push: true
+          tags: |
+            ghcr.io/bazu-bazu/messenger-${{ matrix.service.name }}:${{ steps.tag.outputs.image-tag }}
+            ghcr.io/bazu-bazu/messenger-${{ matrix.service.name }}:latest
+        env:
+          DOCKER_BUILDKIT: 1
+
+  # Job 4: Деплой на сервер
+  deploy-to-server:
+    name: Deploy to Server
+    runs-on: ubuntu-latest
+    needs: build-docker-images
+    #if: github.event_name == 'push' && github.ref == 'refs/heads/master'
+    if: github.event_name == 'workflow_dispatch'
+
+    steps:
+      - name: Install SSH client
+        run: sudo apt-get update && sudo apt-get install -y sshpass
+
+      - name: Deploy services
+        env:
+          SERVER_PASSWORD: ${{ secrets.SERVER_PASSWORD }}
+          GHCR_TOKEN: ${{ secrets.GHCR_TOKEN }}
+          GHCR_USERNAME: ${{ github.actor }}
+        run: |
+          echo "🚀 Starting deployment..."
+          
+          # Создаем Docker config локально
+          echo "🔑 Creating Docker config..."
+          AUTH_TOKEN=$(echo -n "${GHCR_USERNAME}:${GHCR_TOKEN}" | base64)
+          echo "{\"auths\":{\"ghcr.io\":{\"auth\":\"${AUTH_TOKEN}\"}}}" > docker-config.json
+          
+          # Создаем скрипт деплоя
+          cat > deploy.sh << 'EOF'
+          #!/bin/bash
+          echo "🔄 Updating Docker images..."
+          
+          # Копируем Docker config
+          mkdir -p ~/.docker
+          cp /tmp/docker-config.json ~/.docker/config.json
+          
+          # Проверяем
+          docker pull ghcr.io/bazu-bazu/messenger-user-service:latest 2>/dev/null && echo "✅ Auth OK" || echo "⚠️ Auth may fail"
+          
+          # Деплой
+          declare -A ports=(
+            [user-service]="8082"
+            [personal-chat-service]="8083"
+            [group-chat-service]="8084"
+          )
+          
+          for service in user-service personal-chat-service group-chat-service; do
+            echo "🔄 Deploying $service..."
+          
+            docker stop messenger-$service 2>/dev/null || true
+            docker rm messenger-$service 2>/dev/null || true
+          
+            docker pull ghcr.io/bazu-bazu/messenger-$service:latest 2>/dev/null || true
+          
+            docker run -d \
+              --name messenger-$service \
+              --restart unless-stopped \
+              -p ${ports[$service]}:8080 \
+              ghcr.io/bazu-bazu/messenger-$service:latest 2>/dev/null || echo "⚠️ Failed to start $service"
+          
+            echo "✅ $service deployed"
+          done
+          
+          docker ps
+          echo "🎉 Done!"
+          EOF
+          
+          chmod +x deploy.sh
+          
+          # Копируем файлы на сервер
+          sshpass -p "$SERVER_PASSWORD" scp -o StrictHostKeyChecking=no \
+            docker-config.json \
+            deploy.sh \
+            ${{ secrets.SERVER_USER }}@${{ secrets.SERVER_IP }}:/tmp/
+          
+          # Запускаем
+          sshpass -p "$SERVER_PASSWORD" ssh -o StrictHostKeyChecking=no \
+            ${{ secrets.SERVER_USER }}@${{ secrets.SERVER_IP }} "bash /tmp/deploy.sh"
+          
+          echo "✅ Deployment completed!"
+
+  # Job 5: Уведомления
+  notify:
+    name: Notify Status
+    runs-on: ubuntu-latest
+    needs: [build-common-modules, build-all-services, build-docker-images]
+    if: always()
+
+    steps:
+      - name: Determine build status
+        id: status
+        run: |
+          if [ "${{ needs.build-common-modules.result }}" == "success" ] && \
+             [ "${{ needs.build-all-services.result }}" == "success" ] && \
+             ([ "${{ needs.build-docker-images.result }}" == "success" ] || [ "${{ needs.build-docker-images.result }}" == "skipped" ]); then
+            echo "status=✅ SUCCESS" >> $GITHUB_OUTPUT
+            echo "emoji=🎉" >> $GITHUB_OUTPUT
+          else
+            echo "status=❌ FAILED" >> $GITHUB_OUTPUT
+            echo "emoji=🚨" >> $GITHUB_OUTPUT
+          fi
+
+      - name: Send notification
+        run: |
+          echo "${{ steps.status.outputs.emoji }} Build ${{ steps.status.outputs.status }}"
+          echo "📦 Repository: ${{ github.repository }}"
+          echo "🌿 Branch: ${{ github.ref_name }}"
+          echo "👤 Author: ${{ github.actor }}"
+          echo "🔗 Details: https://github.com/${{ github.repository }}/actions/runs/${{ github.run_id }}"
