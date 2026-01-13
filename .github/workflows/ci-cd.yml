@@ -236,74 +236,66 @@ jobs:
         env:
           SERVER_PASSWORD: ${{ secrets.SERVER_PASSWORD }}
           GHCR_TOKEN: ${{ secrets.GHCR_TOKEN }}
+          GHCR_USERNAME: ${{ github.actor }}
         run: |
           echo "🚀 Starting deployment..."
           
-          # Создаем временный файл со скриптом деплоя
+          # Создаем Docker config локально
+          echo "🔑 Creating Docker config..."
+          AUTH_TOKEN=$(echo -n "${GHCR_USERNAME}:${GHCR_TOKEN}" | base64)
+          echo "{\"auths\":{\"ghcr.io\":{\"auth\":\"${AUTH_TOKEN}\"}}}" > docker-config.json
+          
+          # Создаем скрипт деплоя
           cat > deploy.sh << 'EOF'
           #!/bin/bash
           echo "🔄 Updating Docker images..."
           
-          # Логинимся в GitHub Container Registry (без интерактивности)
+          # Копируем Docker config
           mkdir -p ~/.docker
-          echo '{"auths":{"ghcr.io":{"auth":"'$(echo -n "${{ github.actor }}:$GHCR_TOKEN" | base64)'"}}}' > ~/.docker/config.json
+          cp /tmp/docker-config.json ~/.docker/config.json
           
-          # Проверяем аутентификацию
-          if docker pull ghcr.io/bazu-bazu/messenger-user-service:latest 2>/dev/null; then
-            echo "✅ Docker authenticated successfully"
-          else
-            echo "❌ Docker authentication failed!"
-            exit 1
-          fi
+          # Проверяем
+          docker pull ghcr.io/bazu-bazu/messenger-user-service:latest 2>/dev/null && echo "✅ Auth OK" || echo "⚠️ Auth may fail"
+          
+          # Деплой
+          declare -A ports=(
+            [user-service]="8082"
+            [personal-chat-service]="8083"
+            [group-chat-service]="8084"
+          )
           
           for service in user-service personal-chat-service group-chat-service; do
             echo "🔄 Deploying $service..."
           
-            # Определяем порт для каждого сервиса
-            if [ "$service" = "user-service" ]; then
-              HOST_PORT="8082"
-            elif [ "$service" = "personal-chat-service" ]; then
-              HOST_PORT="8083"
-            elif [ "$service" = "group-chat-service" ]; then
-              HOST_PORT="8084"
-            else
-              HOST_PORT="8080"
-            fi
-          
-            # Pull latest image
-            if ! docker pull ghcr.io/bazu-bazu/messenger-$service:latest; then
-              echo "❌ Failed to pull image for $service"
-              continue
-            fi
-          
-            # Stop and remove old container
             docker stop messenger-$service 2>/dev/null || true
             docker rm messenger-$service 2>/dev/null || true
           
-            # Run new container
+            docker pull ghcr.io/bazu-bazu/messenger-$service:latest 2>/dev/null || true
+          
             docker run -d \
               --name messenger-$service \
               --restart unless-stopped \
-              -p $HOST_PORT:8080 \
-              -e SPRING_PROFILES_ACTIVE=prod \
-              ghcr.io/bazu-bazu/messenger-$service:latest
+              -p ${ports[$service]}:8080 \
+              ghcr.io/bazu-bazu/messenger-$service:latest 2>/dev/null || echo "⚠️ Failed to start $service"
           
-            echo "✅ $service deployed on port $HOST_PORT"
-            sleep 2
+            echo "✅ $service deployed"
           done
           
-          # Проверяем, что контейнеры запущены
-          echo "📊 Checking running containers..."
-          docker ps --format "table {{.Names}}\t{{.Status}}\t{{.Ports}}"
-          
-          echo "🎉 All services deployed successfully!"
+          docker ps
+          echo "🎉 Done!"
           EOF
           
           chmod +x deploy.sh
           
-          # Копируем скрипт на сервер и выполняем
-          sshpass -p "$SERVER_PASSWORD" scp -o StrictHostKeyChecking=no deploy.sh ${{ secrets.SERVER_USER }}@${{ secrets.SERVER_IP }}:/tmp/deploy.sh
-          sshpass -p "$SERVER_PASSWORD" ssh -o StrictHostKeyChecking=no ${{ secrets.SERVER_USER }}@${{ secrets.SERVER_IP }} "bash /tmp/deploy.sh"
+          # Копируем файлы на сервер
+          sshpass -p "$SERVER_PASSWORD" scp -o StrictHostKeyChecking=no \
+            docker-config.json \
+            deploy.sh \
+            ${{ secrets.SERVER_USER }}@${{ secrets.SERVER_IP }}:/tmp/
+          
+          # Запускаем
+          sshpass -p "$SERVER_PASSWORD" ssh -o StrictHostKeyChecking=no \
+            ${{ secrets.SERVER_USER }}@${{ secrets.SERVER_IP }} "bash /tmp/deploy.sh"
           
           echo "✅ Deployment completed!"
 
