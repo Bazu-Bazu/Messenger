@@ -235,6 +235,7 @@ jobs:
       - name: Deploy services
         env:
           SERVER_PASSWORD: ${{ secrets.SERVER_PASSWORD }}
+          GHCR_TOKEN: ${{ secrets.GHCR_TOKEN }}
         run: |
           echo "🚀 Starting deployment..."
           
@@ -243,11 +244,31 @@ jobs:
           #!/bin/bash
           echo "🔄 Updating Docker images..."
           
+          # Логинимся в GitHub Container Registry
+          if ! echo "$GHCR_TOKEN" | docker login ghcr.io -u ${{ github.actor }} --password-stdin; then
+            echo "❌ Docker login failed!"
+            exit 1
+          fi
+          
           for service in user-service personal-chat-service group-chat-service; do
             echo "🔄 Deploying $service..."
           
+            # Определяем порт для каждого сервиса
+            if [ "$service" = "user-service" ]; then
+              HOST_PORT="8082"
+            elif [ "$service" = "personal-chat-service" ]; then
+              HOST_PORT="8083"
+            elif [ "$service" = "group-chat-service" ]; then
+              HOST_PORT="8084"
+            else
+              HOST_PORT="8080"
+            fi
+          
             # Pull latest image
-            docker pull ghcr.io/bazu-bazu/messenger-$service:latest
+            if ! docker pull ghcr.io/bazu-bazu/messenger-$service:latest; then
+              echo "❌ Failed to pull image for $service"
+              continue
+            fi
           
             # Stop and remove old container
             docker stop messenger-$service 2>/dev/null || true
@@ -257,11 +278,17 @@ jobs:
             docker run -d \
               --name messenger-$service \
               --restart unless-stopped \
-              -p 8080:8080 \
+              -p $HOST_PORT:8080 \
+              -e SPRING_PROFILES_ACTIVE=prod \
               ghcr.io/bazu-bazu/messenger-$service:latest
           
-            echo "✅ $service deployed"
+            echo "✅ $service deployed on port $HOST_PORT"
+            sleep 2  # Даем время для старта
           done
+          
+          # Проверяем, что контейнеры запущены
+          echo "📊 Checking running containers..."
+          docker ps --format "table {{.Names}}\t{{.Status}}\t{{.Ports}}"
           
           echo "🎉 All services deployed successfully!"
           EOF
