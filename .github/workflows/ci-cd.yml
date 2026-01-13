@@ -30,6 +30,14 @@ jobs:
           distribution: 'temurin'
           cache: maven
 
+      - name: Cache Maven dependencies
+        uses: actions/cache@v3
+        with:
+          path: ~/.m2
+          key: ${{ runner.os }}-m2-${{ hashFiles('**/pom.xml') }}
+          restore-keys: |
+            ${{ runner.os }}-m2-
+
       - name: Build proto module
         run: |
           if [ -d "proto" ]; then
@@ -54,7 +62,7 @@ jobs:
   build-all-services:
     name: Build All Services
     runs-on: ubuntu-latest
-    needs: build-common-modules  # Добавить эту зависимость
+    needs: build-common-modules
 
     strategy:
       matrix:
@@ -82,17 +90,16 @@ jobs:
           restore-keys: |
             ${{ runner.os }}-m2-
 
-      # Одна команда для всего, с пропуском тестов
       - name: Build and package ${{ matrix.service }}
         run: |
           cd ${{ matrix.service }}
           mvn clean package -Dmaven.test.skip=true -Dmaven.test.failure.ignore=true
 
-  # Job 2: Проверка Dockerfile
+  # Job 2: Проверка Dockerfile (оставляем - это полезно)
   validate-dockerfiles:
     name: Validate Dockerfiles
     runs-on: ubuntu-latest
-    needs: build-all-services  # Ждем завершения сборки
+    needs: build-all-services
 
     steps:
       - name: Checkout code
@@ -119,7 +126,7 @@ jobs:
   build-docker-images:
     name: Build Docker Images
     runs-on: ubuntu-latest
-    needs: build-common-modules  # измени зависимость
+    needs: build-common-modules  # нужна для порядка выполнения
     if: github.event_name == 'push' || github.event_name == 'workflow_dispatch'
 
     strategy:
@@ -144,11 +151,46 @@ jobs:
         with:
           java-version: '17'
           distribution: 'temurin'
+          cache: maven
+
+      - name: Cache Maven dependencies
+        uses: actions/cache@v3
+        with:
+          path: ~/.m2
+          key: ${{ runner.os }}-m2-${{ hashFiles('**/pom.xml') }}
+          restore-keys: |
+            ${{ runner.os }}-m2-
+
+      # ВАЖНО: Сначала устанавливаем локальные зависимости
+      - name: Install local dependencies
+        run: |
+          if [ -d "proto" ]; then
+            cd proto
+            mvn clean install -DskipTests
+            echo "✅ proto module installed"
+          fi
+          if [ -d "common" ]; then
+            cd ../common
+            mvn clean install -DskipTests
+            echo "✅ common module installed"
+          fi
 
       - name: Build jar file
         run: |
           cd ${{ matrix.service.context }}
           mvn clean package -Dmaven.test.skip=true -DskipTests
+
+      - name: Verify jar file
+        run: |
+          cd ${{ matrix.service.context }}
+          echo "📦 Checking jar file in ${{ matrix.service.context }}/target/"
+          if ls target/*.jar 1> /dev/null 2>&1; then
+            echo "✅ Jar file exists"
+            ls -la target/*.jar
+          else
+            echo "❌ No jar file found!"
+            exit 1
+          fi
 
       - name: Log in to GitHub Container Registry
         uses: docker/login-action@v3
@@ -164,6 +206,7 @@ jobs:
           DATE=$(date +'%Y%m%d')
           IMAGE_TAG="${DATE}-${SHORT_SHA}"
           echo "image-tag=${IMAGE_TAG}" >> $GITHUB_OUTPUT
+          echo "📦 Image tag: ${IMAGE_TAG}"
 
       - name: Build and push ${{ matrix.service.name }}
         uses: docker/build-push-action@v6
@@ -174,6 +217,8 @@ jobs:
           tags: |
             ghcr.io/bazu-bazu/messenger-${{ matrix.service.name }}:${{ steps.tag.outputs.image-tag }}
             ghcr.io/bazu-bazu/messenger-${{ matrix.service.name }}:latest
+        env:
+          DOCKER_BUILDKIT: 1
 
   # Job 4: Уведомления
   notify:
@@ -186,7 +231,8 @@ jobs:
       - name: Determine build status
         id: status
         run: |
-          if [ "${{ needs.build-all-services.result }}" == "success" ] && \
+          if [ "${{ needs.build-common-modules.result }}" == "success" ] && \
+             [ "${{ needs.build-all-services.result }}" == "success" ] && \
              ([ "${{ needs.build-docker-images.result }}" == "success" ] || [ "${{ needs.build-docker-images.result }}" == "skipped" ]); then
             echo "status=✅ SUCCESS" >> $GITHUB_OUTPUT
             echo "emoji=🎉" >> $GITHUB_OUTPUT
