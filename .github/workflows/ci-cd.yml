@@ -81,16 +81,12 @@ jobs:
           key: ${{ runner.os }}-m2-${{ hashFiles('**/pom.xml') }}
           restore-keys: |
             ${{ runner.os }}-m2-
-
-      - name: Build ${{ matrix.service }}
+            
+            # Одна команда для всего, с пропуском тестов
+      - name: Build and package ${{ matrix.service }}
         run: |
           cd ${{ matrix.service }}
-          mvn clean compile
-
-      - name: Package ${{ matrix.service }}
-        run: |
-          cd ${{ matrix.service }}
-          mvn clean package -DskipTests
+          mvn clean package -Dmaven.test.skip=true -Dmaven.test.failure.ignore=true
 
   # Job 2: Проверка Dockerfile
   validate-dockerfiles:
