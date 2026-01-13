@@ -40,7 +40,6 @@ proto/target/protoc-dependencies
 proto/target/protoc-plugins
 proto/target/proto-1.0.0.jar
 
-infra
-k6
+/for-develop
 
 Messenger.iml

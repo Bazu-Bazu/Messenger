@@ -15,9 +15,9 @@
         <module>sso-service</module>
         <module>user-service</module>
         <module>personal-chat-service</module>
+        <module>group-chat-service</module>
         <module>common</module>
         <module>proto</module>
-        <module>group-chat-service</module>
     </modules>
 
     <properties>
