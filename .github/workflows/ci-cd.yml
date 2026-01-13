@@ -162,8 +162,8 @@ jobs:
           file: ${{ matrix.service.dockerfile }}
           push: true
           tags: |
-            ghcr.io/${{ github.repository_owner | lower }}/${{ env.IMAGE_PREFIX }}-${{ matrix.service.name }}:${{ steps.tag.outputs.image-tag }}
-            ghcr.io/${{ github.repository_owner | lower }}/${{ env.IMAGE_PREFIX }}-${{ matrix.service.name }}:latest
+            ghcr.io/bazu-bazu/messenger-${{ matrix.service.name }}:${{ steps.tag.outputs.image-tag }}
+            ghcr.io/bazu-bazu/messenger-${{ matrix.service.name }}:latest
 
   # Job 4: Уведомления
   notify:
