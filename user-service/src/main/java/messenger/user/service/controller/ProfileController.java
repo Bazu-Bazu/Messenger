@@ -23,7 +23,7 @@ public class ProfileController {
 
     @PatchMapping("/update")
     public ResponseEntity<?> updateProfile(
-            @RequestParam @Valid Long userId,
+            @RequestParam("userId") @Valid Long userId,
             @RequestBody @Valid UpdateProfileRequest request
     ) {
         try {
@@ -53,8 +53,8 @@ public class ProfileController {
 
     @PostMapping("/avatar_url")
     public ResponseEntity<?> addAvatarUrl(
-            @RequestParam @Valid Long userId,
-            @RequestParam @Valid String url
+            @RequestParam("userId") @Valid Long userId,
+            @RequestParam("url") @Valid String url
     ) {
         try {
             log.info("Adding avatar url attempt for userId: {}", userId);

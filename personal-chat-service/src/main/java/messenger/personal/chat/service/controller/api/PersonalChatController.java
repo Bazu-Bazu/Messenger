@@ -20,8 +20,8 @@ public class PersonalChatController {
 
     @PostMapping("/get-or-create")
     public ResponseEntity<?> getOrCreatePersonalChat(
-            @RequestParam @Valid Long user1Id,
-            @RequestParam @Valid Long user2Id
+            @RequestParam("user1Id") @Valid Long user1Id,
+            @RequestParam("user2Id") @Valid Long user2Id
     ) {
         log.info("Getting or creating personal chat attempt between users {} and {}", user1Id, user2Id);
 
@@ -34,7 +34,7 @@ public class PersonalChatController {
     }
 
     @GetMapping("/get-all-user-personal-chats")
-    public ResponseEntity<?> getAllUserPersonalChats(@RequestParam @Valid Long userId) {
+    public ResponseEntity<?> getAllUserPersonalChats(@RequestParam("userId") @Valid Long userId) {
         log.info("Getting all user {} personal chats attempt", userId);
 
         List<PersonalChatResponse> responses = personalChatService.getAllUserPersonalChats(userId);
@@ -46,8 +46,8 @@ public class PersonalChatController {
 
     @DeleteMapping("/delete")
     public ResponseEntity<?> deletePersonalChat(
-            @RequestParam @Valid Long userId,
-            @RequestParam @Valid Long chatId
+            @RequestParam("userId") @Valid Long userId,
+            @RequestParam("chatId") @Valid Long chatId
     ) {
         log.info("Deleting chat {} by user {} attempt", chatId, userId);
 

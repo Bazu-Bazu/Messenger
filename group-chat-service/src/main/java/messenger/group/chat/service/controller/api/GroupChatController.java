@@ -22,7 +22,7 @@ public class GroupChatController {
 
     @PostMapping("/create")
     public ResponseEntity<?> createGroupChat(
-            @RequestParam @Valid Long creatorId,
+            @RequestParam("creatorId") @Valid Long creatorId,
             @RequestBody @Valid CreateGroupChatRequest request
     ) {
         log.info("Creating group chat attempt by user {}", creatorId);
@@ -36,7 +36,7 @@ public class GroupChatController {
 
     @PostMapping("/add-members")
     public ResponseEntity<?> addNewMembers(
-            @RequestParam @Valid Long invitorId,
+            @RequestParam("invitorId") @Valid Long invitorId,
             @RequestBody @Valid AddNewMembersRequest request
     ) {
         log.info("Adding new members to group {} attempt by user {}", request.groupId(), invitorId);
@@ -50,7 +50,7 @@ public class GroupChatController {
 
     @DeleteMapping("/remove-members")
     public ResponseEntity<?> removeMembers(
-            @RequestParam @Valid Long removerId,
+            @RequestParam("removerId") @Valid Long removerId,
             @RequestBody @Valid RemoveMembersRequest request
     ) {
         log.info("Removing members from group {} attempt by user {}", request.groupId(), removerId);
@@ -64,8 +64,8 @@ public class GroupChatController {
 
     @GetMapping("/get-members")
     public ResponseEntity<?> getMembers(
-            @RequestParam @Valid Long userId,
-            @RequestParam @Valid Long groupId
+            @RequestParam("userId") @Valid Long userId,
+            @RequestParam("groupId") @Valid Long groupId
     ) {
         log.info("Getting group {} members by attempt by user {}", groupId, userId);
 
@@ -78,7 +78,7 @@ public class GroupChatController {
 
     @PatchMapping("/change-info")
     public ResponseEntity<?> changeGroupInfo(
-            @RequestParam @Valid Long changerId,
+            @RequestParam("changerId") @Valid Long changerId,
             @RequestBody @Valid ChangeGroupInfoRequest request
     ) {
         log.info("Changing group {} info by user {}", request.groupId(), changerId);
@@ -91,7 +91,7 @@ public class GroupChatController {
     }
 
     @GetMapping("/get-all-user-group-chats")
-    public ResponseEntity<?> getAllUserGroupChats(@RequestParam @Valid Long userId) {
+    public ResponseEntity<?> getAllUserGroupChats(@RequestParam("userId") @Valid Long userId) {
         log.info("Getting all user {} group chats attempt", userId);
 
         List<GroupChatResponse> responses = groupChatService.getAllUserGroupChat(userId);
@@ -103,8 +103,8 @@ public class GroupChatController {
 
     @DeleteMapping("/delete")
     public ResponseEntity<?> deleteGroupChat(
-            @RequestParam @Valid Long ownerId,
-            @RequestParam @Valid Long groupId
+            @RequestParam("ownerId") @Valid Long ownerId,
+            @RequestParam("groupId") @Valid Long groupId
     ) {
         log.info("Deleting group chat {} attempt by user {}", groupId, ownerId);
 
@@ -117,7 +117,7 @@ public class GroupChatController {
 
     @PatchMapping("/set-roles")
     public ResponseEntity<?> setRoles(
-            @RequestParam @Valid Long setterId,
+            @RequestParam("setterId") @Valid Long setterId,
             @RequestBody @Valid SetRolesRequest request)
     {
         log.info("Setting role in group {} by user {}", request.groupId(), setterId);
