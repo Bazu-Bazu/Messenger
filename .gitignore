@@ -24,7 +24,6 @@ message-service/HELP.md
 message-service/mvnw
 message-service/mvnw.cmd
 message-service/.mvn
-message-service/src/main/resources
 message-service/target
 
 personal-chat-service/target
@@ -33,12 +32,7 @@ common/target
 
 group-chat-service/target
 
-proto/target/generated-sources
-proto/target/maven-archiver
-proto/target/maven-status
-proto/target/protoc-dependencies
-proto/target/protoc-plugins
-proto/target/proto-1.0.0.jar
+proto/target
 
 /for-develop
 

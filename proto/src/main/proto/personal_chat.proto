@@ -1,0 +1,18 @@
+syntax = "proto3";
+package personal_chat;
+
+service PersonalChatService {
+  rpc ValidateUserIsMemberOfPersonalChat(ValidateUserIsMemberOfPersonalChatRequest)
+      returns (ValidateUserIsMemberOfPersonalChatResponse);
+}
+
+message ValidateUserIsMemberOfPersonalChatRequest {
+  int64 userId = 1;
+  int64 chatId = 2;
+}
+
+message ValidateUserIsMemberOfPersonalChatResponse {
+  int64 userId = 1;
+  int64 chatId = 2;
+  bool isMember = 3;
+}

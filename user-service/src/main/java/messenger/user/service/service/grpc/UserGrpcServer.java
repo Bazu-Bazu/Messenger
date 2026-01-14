@@ -1,12 +1,12 @@
 package messenger.user.service.service.grpc;
 
-import com.messenger.grpc.User;
-import com.messenger.grpc.UserServiceGrpc;
 import io.grpc.stub.StreamObserver;
 import lombok.RequiredArgsConstructor;
 import messenger.user.service.entity.UserStatus;
 import messenger.user.service.repository.UserRepository;
 import net.devh.boot.grpc.server.service.GrpcService;
+import user.User;
+import user.UserServiceGrpc;
 
 import java.util.List;
 import java.util.Map;

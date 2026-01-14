@@ -1,5 +1,5 @@
 syntax = "proto3";
-package com.messenger.grpc;
+package user;
 
 service UserService {
   rpc ValidateUsersExist(ValidateUsersExistRequest) returns (UsersExistResponse);
