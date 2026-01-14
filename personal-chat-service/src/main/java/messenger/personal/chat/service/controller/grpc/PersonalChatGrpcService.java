@@ -7,6 +7,8 @@ import net.devh.boot.grpc.server.service.GrpcService;
 import personal_chat.PersonalChat;
 import personal_chat.PersonalChatServiceGrpc;
 
+import java.util.List;
+
 @GrpcService
 @RequiredArgsConstructor
 public class PersonalChatGrpcService extends PersonalChatServiceGrpc.PersonalChatServiceImplBase {
@@ -27,6 +29,21 @@ public class PersonalChatGrpcService extends PersonalChatServiceGrpc.PersonalCha
                 .setUserId(request.getUserId())
                 .setChatId(request.getChatId())
                 .setIsMember(memberExists)
+                .build();
+
+        responseObserver.onNext(response);
+        responseObserver.onCompleted();
+    }
+
+    @Override
+    public void getAllPersonalChatMembers(
+            PersonalChat.GetAllPersonalChatMembersRequest request,
+            StreamObserver<PersonalChat.GetAllPersonalChatMembersResponse> responseObserver
+    ) {
+        List<Long> memberIds = personalChatRepository.findUserIdsByChatId(request.getChatId());
+
+        var response = PersonalChat.GetAllPersonalChatMembersResponse.newBuilder()
+                .addAllUserId(memberIds)
                 .build();
 
         responseObserver.onNext(response);

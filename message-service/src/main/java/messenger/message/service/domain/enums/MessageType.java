@@ -1,4 +1,4 @@
-package messenger.message.service.entity;
+package messenger.message.service.domain.enums;
 
 public enum MessageType {
 

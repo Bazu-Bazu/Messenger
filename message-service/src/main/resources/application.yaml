@@ -1,0 +1,58 @@
+server:
+  port: 8085
+
+spring:
+  application:
+    name: message-service
+
+  datasource:
+    url: jdbc:postgresql://localhost:5436/postgres
+    username: postgres
+    password: postgres
+
+    hikari:
+      maximum-pool-size: 50
+      minimum-idle: 10
+      connection-timeout: 30000
+      max-lifetime: 300000
+      idle-timeout: 30000
+      leak-detection-threshold: 60000
+
+  jpa:
+    hibernate:
+      ddl-auto: validate
+
+    show-sql: true
+
+    properties:
+      hibernate:
+        dialect: org.hibernate.dialect.PostgreSQLDialect
+
+  kafka:
+    bootstrap-servers: localhost:9093
+
+  cache:
+    type: redis
+    redis:
+      time-to-live: 3m
+      cache-null-values: false
+
+  data:
+    redis:
+      host: localhost
+      port: 6379
+
+grpc:
+  client:
+    user-service:
+      address: static://localhost:6565
+      negotiation-type: plaintext
+    group-chat-service:
+      address: static://localhost:6566
+      negotiation-type: plaintext
+    personal-chat-service:
+      address: static://localhost:6567
+      negotiation-type: plaintext
+
+redis:
+  ttl: 2

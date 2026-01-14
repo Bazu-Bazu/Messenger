@@ -1,7 +1,8 @@
 package messenger.message.service.dto.response;
 
 import lombok.Builder;
-import messenger.message.service.entity.MessageType;
+import messenger.message.service.domain.enums.ChatType;
+import messenger.message.service.domain.enums.MessageType;
 
 import java.time.Instant;
 
@@ -9,9 +10,10 @@ import java.time.Instant;
 public record MessageResponse (
          Long id,
          Long chatId,
+         ChatType chatType,
          String content,
          Long senderId,
-         MessageType type,
+         MessageType messageType,
          Instant createdAt,
          Instant editedAt,
          Instant readAt

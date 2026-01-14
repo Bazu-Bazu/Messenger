@@ -1,24 +1,27 @@
 package messenger.message.service.service;
 
-import jakarta.transaction.Transactional;
 import lombok.RequiredArgsConstructor;
+import messenger.message.service.client.grpc.GroupChatServiceClient;
+import messenger.message.service.domain.enums.ChatType;
 import messenger.message.service.dto.request.EditMessageRequest;
 import messenger.message.service.dto.request.SendMessageRequest;
 import messenger.message.service.dto.response.MessageResponse;
-import messenger.message.service.entity.Message;
+import messenger.message.service.domain.entity.Message;
 import messenger.message.service.exception.MessageException;
-import messenger.message.service.repository.MessageRepository;
-import messenger.message.service.service.event.MessageEventProducer;
-import messenger.message.service.service.grpc.ChatServiceClient;
+import messenger.message.service.domain.repository.MessageRepository;
+import messenger.message.service.client.kafka.MessageEventProducer;
+import messenger.message.service.client.grpc.PersonalChatServiceClient;
 import org.springframework.cache.annotation.CacheEvict;
 import org.springframework.cache.annotation.Cacheable;
 import org.springframework.data.domain.PageRequest;
+import org.springframework.data.domain.Pageable;
 import org.springframework.data.domain.Sort;
 import org.springframework.stereotype.Service;
+import org.springframework.transaction.annotation.Transactional;
 
-import java.awt.print.Pageable;
 import java.time.Instant;
 import java.util.List;
+import java.util.Set;
 import java.util.concurrent.CompletableFuture;
 
 @Service
@@ -27,70 +30,74 @@ public class MessageService {
 
     private final MessageRepository messageRepository;
     private final MessageEventProducer messageEventProducer;
-    private final ChatServiceClient chatServiceClient;
+    private final ValidationMemberService validationMemberService;
+    private final GroupChatServiceClient groupChatServiceClient;
+    private final PersonalChatServiceClient personalChatServiceClient;
 
     @Transactional
     public MessageResponse sendMessage(SendMessageRequest request, Long senderId) {
-//        chatServiceClient.validateUserCanSendMessage(request.chatId(), senderId);
+        validationMemberService.validateOfSending(senderId, request.chatId(), request.chatType());
 
         Message newMessage = createAndSaveMessage(request, senderId);
 
         CompletableFuture.runAsync(() -> {
-            messageEventProducer.publishMessageSent(newMessage);
             notifyChatMembers(newMessage);
         });
 
         return createMessageResponse(newMessage);
     }
 
-    @Cacheable(value = "chatMessages", key = "#chatId + ':' + #page")
-    public List<MessageResponse> getChatMessages(Long chatId, int page, int size) {
-//        chatServiceClient.validateUserIsChatMember(userId);
-
-        Pageable pageable = (Pageable) PageRequest.of(page, size, Sort.by("created_at").descending());
-        return messageRepository.findByChatId(chatId, pageable).stream()
-                .map(this::createMessageResponse)
-                .toList();
-    }
-
-    @CacheEvict(value = "chatMessages", key = "#request.chatId()")
-    public MessageResponse editMessage(EditMessageRequest request, Long senderId) {
-        Message message = messageRepository.findById(request.messageId())
-                .orElseThrow(() -> new MessageException(
-                        String.format("Message with id %d not found", request.messageId())
-                ));
-
-        message.setContent(request.content());
-        message.setType(request.type());
-        message.setEditedAt(Instant.now());
-
-        Message updatedMessage = messageRepository.save(message);
-
-        CompletableFuture.runAsync(() -> {
-            messageEventProducer.publishMessageEdited(updatedMessage);
-        });
-
-        return createMessageResponse(updatedMessage);
-    }
-
-    public void markMessageAsRead(Long messageId) {
-        Message message = messageRepository.findById(messageId)
-                .orElseThrow(() -> new MessageException(
-                        String.format("Message with id %d not found", messageId)
-                ));
-
-        message.setReadAt(Instant.now());
-        Message updatedMessage = messageRepository.save(message);
-
-        messageEventProducer.publishMessageRead(updatedMessage);
-    }
+//    @Cacheable(value = "chatMessages", key = "#chatId + ':' + #page")
+//    public List<MessageResponse> getChatMessages(Long chatId, int page, int size) {
+//        Pageable pageable = PageRequest.of(page, size, Sort.by("created_at").descending());
+//        return messageRepository.findByChatId(chatId, pageable).stream()
+//                .map(this::createMessageResponse)
+//                .toList();
+//    }
+//
+//    @CacheEvict(value = "chatMessages", key = "#request.chatId()")
+//    public MessageResponse editMessage(EditMessageRequest request, Long senderId) {
+//        Message message = messageRepository.findById(request.messageId())
+//                .orElseThrow(() -> new MessageException(
+//                        String.format("Message with id %d not found", request.messageId())
+//                ));
+//
+//        if (!message.getSenderId().equals(senderId)) {
+//            throw new RightsException("User cannot edit this message");
+//        }
+//
+//        message.setContent(request.content());
+//        message.setType(request.type());
+//        message.setEditedAt(Instant.now());
+//
+//        Message updatedMessage = messageRepository.save(message);
+//
+//        CompletableFuture.runAsync(() -> {
+//            messageEventProducer.publishMessageEdited(updatedMessage);
+//        });
+//
+//        return createMessageResponse(updatedMessage);
+//    }
+//
+//    public void markMessageAsRead(Long messageId) {
+//        Message message = messageRepository.findById(messageId)
+//                .orElseThrow(() -> new MessageException(
+//                        String.format("Message with id %d not found", messageId)
+//                ));
+//
+//        message.setReadAt(Instant.now());
+//        Message updatedMessage = messageRepository.save(message);
+//
+//        messageEventProducer.publishMessageRead(updatedMessage);
+//    }
 
     private Message createAndSaveMessage(SendMessageRequest request, Long senderId) {
         Message message = Message.builder()
                 .chatId(request.chatId())
                 .senderId(senderId)
                 .content(request.content())
-                .type(request.type())
+                .messageType(request.messageType())
+                .chatType(request.chatType())
                 .createdAt(Instant.now())
                 .build();
 
@@ -106,16 +113,22 @@ public class MessageService {
                 .createdAt(message.getCreatedAt())
                 .editedAt(message.getEditedAt())
                 .readAt(message.getReadAt())
-                .type(message.getType())
+                .messageType(message.getMessageType())
+                .chatType(message.getChatType())
                 .build();
     }
 
     private void notifyChatMembers(Message message) {
-        List<Long> memberIds = chatServiceClient.getChatMembersIds(message.getChatId()).stream()
-                .filter(memberId -> !memberId.equals(message.getSenderId()))
-                .toList();
+        Set<Long> memberIds;
+        if (message.getChatType().equals(ChatType.PERSONAL)) {
+            memberIds = personalChatServiceClient.getAllPersonalChatMembers(message.getChatId());
+        } else {
+            memberIds = groupChatServiceClient.getAllGroupChatMembers(message.getChatId());
+        }
+        memberIds.remove(message.getSenderId());
 
-        messageEventProducer.publishMessageNotification(message, memberIds);
+        MessageResponse messageResponse = createMessageResponse(message);
+        messageEventProducer.publishMessageNotification(messageResponse, memberIds);
     }
 
 }

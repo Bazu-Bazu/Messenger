@@ -38,4 +38,9 @@ public interface PersonalChatRepository extends JpaRepository<PersonalChat, Long
            "AND pc.id = :chatId")
     boolean existsMemberByChatIdAndUserId(@Param("chatId") Long chatId, @Param("userId") Long userId);
 
+    @Query("SELECT pc.user1Id FROM PersonalChat pc WHERE pc.id = :chatId " +
+           "UNION ALL " +
+           "SELECT pc.user2Id FROM PersonalChat pc WHERE pc.id = :chatId")
+    List<Long> findUserIdsByChatId(@Param("chatId") Long chatId);
+
 }

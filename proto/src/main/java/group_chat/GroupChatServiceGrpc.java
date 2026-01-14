@@ -46,6 +46,37 @@ public final class GroupChatServiceGrpc {
     return getValidateMemberRightsInGroupChatMethod;
   }
 
+  private static volatile io.grpc.MethodDescriptor<group_chat.GroupChat.GetAllGroupChatMembersRequest,
+      group_chat.GroupChat.GetAllGroupChatMembersResponse> getGetAllGroupChatMembersMethod;
+
+  @io.grpc.stub.annotations.RpcMethod(
+      fullMethodName = SERVICE_NAME + '/' + "GetAllGroupChatMembers",
+      requestType = group_chat.GroupChat.GetAllGroupChatMembersRequest.class,
+      responseType = group_chat.GroupChat.GetAllGroupChatMembersResponse.class,
+      methodType = io.grpc.MethodDescriptor.MethodType.UNARY)
+  public static io.grpc.MethodDescriptor<group_chat.GroupChat.GetAllGroupChatMembersRequest,
+      group_chat.GroupChat.GetAllGroupChatMembersResponse> getGetAllGroupChatMembersMethod() {
+    io.grpc.MethodDescriptor<group_chat.GroupChat.GetAllGroupChatMembersRequest, group_chat.GroupChat.GetAllGroupChatMembersResponse> getGetAllGroupChatMembersMethod;
+    if ((getGetAllGroupChatMembersMethod = GroupChatServiceGrpc.getGetAllGroupChatMembersMethod) == null) {
+      synchronized (GroupChatServiceGrpc.class) {
+        if ((getGetAllGroupChatMembersMethod = GroupChatServiceGrpc.getGetAllGroupChatMembersMethod) == null) {
+          GroupChatServiceGrpc.getGetAllGroupChatMembersMethod = getGetAllGroupChatMembersMethod =
+              io.grpc.MethodDescriptor.<group_chat.GroupChat.GetAllGroupChatMembersRequest, group_chat.GroupChat.GetAllGroupChatMembersResponse>newBuilder()
+              .setType(io.grpc.MethodDescriptor.MethodType.UNARY)
+              .setFullMethodName(generateFullMethodName(SERVICE_NAME, "GetAllGroupChatMembers"))
+              .setSampledToLocalTracing(true)
+              .setRequestMarshaller(io.grpc.protobuf.ProtoUtils.marshaller(
+                  group_chat.GroupChat.GetAllGroupChatMembersRequest.getDefaultInstance()))
+              .setResponseMarshaller(io.grpc.protobuf.ProtoUtils.marshaller(
+                  group_chat.GroupChat.GetAllGroupChatMembersResponse.getDefaultInstance()))
+              .setSchemaDescriptor(new GroupChatServiceMethodDescriptorSupplier("GetAllGroupChatMembers"))
+              .build();
+        }
+      }
+    }
+    return getGetAllGroupChatMembersMethod;
+  }
+
   /**
    * Creates a new async stub that supports all call types for the service
    */
@@ -100,6 +131,13 @@ public final class GroupChatServiceGrpc {
         io.grpc.stub.StreamObserver<group_chat.GroupChat.ValidateMemberRightsInGroupChatRequestResponse> responseObserver) {
       io.grpc.stub.ServerCalls.asyncUnimplementedUnaryCall(getValidateMemberRightsInGroupChatMethod(), responseObserver);
     }
+
+    /**
+     */
+    default void getAllGroupChatMembers(group_chat.GroupChat.GetAllGroupChatMembersRequest request,
+        io.grpc.stub.StreamObserver<group_chat.GroupChat.GetAllGroupChatMembersResponse> responseObserver) {
+      io.grpc.stub.ServerCalls.asyncUnimplementedUnaryCall(getGetAllGroupChatMembersMethod(), responseObserver);
+    }
   }
 
   /**
@@ -136,6 +174,14 @@ public final class GroupChatServiceGrpc {
       io.grpc.stub.ClientCalls.asyncUnaryCall(
           getChannel().newCall(getValidateMemberRightsInGroupChatMethod(), getCallOptions()), request, responseObserver);
     }
+
+    /**
+     */
+    public void getAllGroupChatMembers(group_chat.GroupChat.GetAllGroupChatMembersRequest request,
+        io.grpc.stub.StreamObserver<group_chat.GroupChat.GetAllGroupChatMembersResponse> responseObserver) {
+      io.grpc.stub.ClientCalls.asyncUnaryCall(
+          getChannel().newCall(getGetAllGroupChatMembersMethod(), getCallOptions()), request, responseObserver);
+    }
   }
 
   /**
@@ -159,6 +205,13 @@ public final class GroupChatServiceGrpc {
     public group_chat.GroupChat.ValidateMemberRightsInGroupChatRequestResponse validateMemberRightsInGroupChat(group_chat.GroupChat.ValidateMemberRightsInGroupChatRequest request) {
       return io.grpc.stub.ClientCalls.blockingUnaryCall(
           getChannel(), getValidateMemberRightsInGroupChatMethod(), getCallOptions(), request);
+    }
+
+    /**
+     */
+    public group_chat.GroupChat.GetAllGroupChatMembersResponse getAllGroupChatMembers(group_chat.GroupChat.GetAllGroupChatMembersRequest request) {
+      return io.grpc.stub.ClientCalls.blockingUnaryCall(
+          getChannel(), getGetAllGroupChatMembersMethod(), getCallOptions(), request);
     }
   }
 
@@ -185,9 +238,18 @@ public final class GroupChatServiceGrpc {
       return io.grpc.stub.ClientCalls.futureUnaryCall(
           getChannel().newCall(getValidateMemberRightsInGroupChatMethod(), getCallOptions()), request);
     }
+
+    /**
+     */
+    public com.google.common.util.concurrent.ListenableFuture<group_chat.GroupChat.GetAllGroupChatMembersResponse> getAllGroupChatMembers(
+        group_chat.GroupChat.GetAllGroupChatMembersRequest request) {
+      return io.grpc.stub.ClientCalls.futureUnaryCall(
+          getChannel().newCall(getGetAllGroupChatMembersMethod(), getCallOptions()), request);
+    }
   }
 
   private static final int METHODID_VALIDATE_MEMBER_RIGHTS_IN_GROUP_CHAT = 0;
+  private static final int METHODID_GET_ALL_GROUP_CHAT_MEMBERS = 1;
 
   private static final class MethodHandlers<Req, Resp> implements
       io.grpc.stub.ServerCalls.UnaryMethod<Req, Resp>,
@@ -209,6 +271,10 @@ public final class GroupChatServiceGrpc {
         case METHODID_VALIDATE_MEMBER_RIGHTS_IN_GROUP_CHAT:
           serviceImpl.validateMemberRightsInGroupChat((group_chat.GroupChat.ValidateMemberRightsInGroupChatRequest) request,
               (io.grpc.stub.StreamObserver<group_chat.GroupChat.ValidateMemberRightsInGroupChatRequestResponse>) responseObserver);
+          break;
+        case METHODID_GET_ALL_GROUP_CHAT_MEMBERS:
+          serviceImpl.getAllGroupChatMembers((group_chat.GroupChat.GetAllGroupChatMembersRequest) request,
+              (io.grpc.stub.StreamObserver<group_chat.GroupChat.GetAllGroupChatMembersResponse>) responseObserver);
           break;
         default:
           throw new AssertionError();
@@ -235,6 +301,13 @@ public final class GroupChatServiceGrpc {
               group_chat.GroupChat.ValidateMemberRightsInGroupChatRequest,
               group_chat.GroupChat.ValidateMemberRightsInGroupChatRequestResponse>(
                 service, METHODID_VALIDATE_MEMBER_RIGHTS_IN_GROUP_CHAT)))
+        .addMethod(
+          getGetAllGroupChatMembersMethod(),
+          io.grpc.stub.ServerCalls.asyncUnaryCall(
+            new MethodHandlers<
+              group_chat.GroupChat.GetAllGroupChatMembersRequest,
+              group_chat.GroupChat.GetAllGroupChatMembersResponse>(
+                service, METHODID_GET_ALL_GROUP_CHAT_MEMBERS)))
         .build();
   }
 
@@ -284,6 +357,7 @@ public final class GroupChatServiceGrpc {
           serviceDescriptor = result = io.grpc.ServiceDescriptor.newBuilder(SERVICE_NAME)
               .setSchemaDescriptor(new GroupChatServiceFileDescriptorSupplier())
               .addMethod(getValidateMemberRightsInGroupChatMethod())
+              .addMethod(getGetAllGroupChatMembersMethod())
               .build();
         }
       }

@@ -6,6 +6,9 @@ import group_chat.GroupChatServiceGrpc;
 import net.devh.boot.grpc.client.inject.GrpcClient;
 import org.springframework.stereotype.Component;
 
+import java.util.HashSet;
+import java.util.Set;
+
 @Component
 public class GroupChatServiceClient {
 
@@ -42,6 +45,16 @@ public class GroupChatServiceClient {
                     String.format("User %d can not get messages from group chat %d", userId, chatId)
             );
         }
+    }
+
+    public Set<Long> getAllGroupChatMembers(Long chatId) {
+        var request = GroupChat.GetAllGroupChatMembersRequest.newBuilder()
+                .setChatId(chatId)
+                .build();
+
+        var response = blockingStub.getAllGroupChatMembers(request);
+
+        return new HashSet<>(response.getUserIdList());
     }
 
 }

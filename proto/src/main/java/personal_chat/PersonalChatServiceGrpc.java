@@ -46,6 +46,37 @@ public final class PersonalChatServiceGrpc {
     return getValidateUserIsMemberOfPersonalChatMethod;
   }
 
+  private static volatile io.grpc.MethodDescriptor<personal_chat.PersonalChat.GetAllPersonalChatMembersRequest,
+      personal_chat.PersonalChat.GetAllPersonalChatMembersResponse> getGetAllPersonalChatMembersMethod;
+
+  @io.grpc.stub.annotations.RpcMethod(
+      fullMethodName = SERVICE_NAME + '/' + "GetAllPersonalChatMembers",
+      requestType = personal_chat.PersonalChat.GetAllPersonalChatMembersRequest.class,
+      responseType = personal_chat.PersonalChat.GetAllPersonalChatMembersResponse.class,
+      methodType = io.grpc.MethodDescriptor.MethodType.UNARY)
+  public static io.grpc.MethodDescriptor<personal_chat.PersonalChat.GetAllPersonalChatMembersRequest,
+      personal_chat.PersonalChat.GetAllPersonalChatMembersResponse> getGetAllPersonalChatMembersMethod() {
+    io.grpc.MethodDescriptor<personal_chat.PersonalChat.GetAllPersonalChatMembersRequest, personal_chat.PersonalChat.GetAllPersonalChatMembersResponse> getGetAllPersonalChatMembersMethod;
+    if ((getGetAllPersonalChatMembersMethod = PersonalChatServiceGrpc.getGetAllPersonalChatMembersMethod) == null) {
+      synchronized (PersonalChatServiceGrpc.class) {
+        if ((getGetAllPersonalChatMembersMethod = PersonalChatServiceGrpc.getGetAllPersonalChatMembersMethod) == null) {
+          PersonalChatServiceGrpc.getGetAllPersonalChatMembersMethod = getGetAllPersonalChatMembersMethod =
+              io.grpc.MethodDescriptor.<personal_chat.PersonalChat.GetAllPersonalChatMembersRequest, personal_chat.PersonalChat.GetAllPersonalChatMembersResponse>newBuilder()
+              .setType(io.grpc.MethodDescriptor.MethodType.UNARY)
+              .setFullMethodName(generateFullMethodName(SERVICE_NAME, "GetAllPersonalChatMembers"))
+              .setSampledToLocalTracing(true)
+              .setRequestMarshaller(io.grpc.protobuf.ProtoUtils.marshaller(
+                  personal_chat.PersonalChat.GetAllPersonalChatMembersRequest.getDefaultInstance()))
+              .setResponseMarshaller(io.grpc.protobuf.ProtoUtils.marshaller(
+                  personal_chat.PersonalChat.GetAllPersonalChatMembersResponse.getDefaultInstance()))
+              .setSchemaDescriptor(new PersonalChatServiceMethodDescriptorSupplier("GetAllPersonalChatMembers"))
+              .build();
+        }
+      }
+    }
+    return getGetAllPersonalChatMembersMethod;
+  }
+
   /**
    * Creates a new async stub that supports all call types for the service
    */
@@ -100,6 +131,13 @@ public final class PersonalChatServiceGrpc {
         io.grpc.stub.StreamObserver<personal_chat.PersonalChat.ValidateUserIsMemberOfPersonalChatResponse> responseObserver) {
       io.grpc.stub.ServerCalls.asyncUnimplementedUnaryCall(getValidateUserIsMemberOfPersonalChatMethod(), responseObserver);
     }
+
+    /**
+     */
+    default void getAllPersonalChatMembers(personal_chat.PersonalChat.GetAllPersonalChatMembersRequest request,
+        io.grpc.stub.StreamObserver<personal_chat.PersonalChat.GetAllPersonalChatMembersResponse> responseObserver) {
+      io.grpc.stub.ServerCalls.asyncUnimplementedUnaryCall(getGetAllPersonalChatMembersMethod(), responseObserver);
+    }
   }
 
   /**
@@ -136,6 +174,14 @@ public final class PersonalChatServiceGrpc {
       io.grpc.stub.ClientCalls.asyncUnaryCall(
           getChannel().newCall(getValidateUserIsMemberOfPersonalChatMethod(), getCallOptions()), request, responseObserver);
     }
+
+    /**
+     */
+    public void getAllPersonalChatMembers(personal_chat.PersonalChat.GetAllPersonalChatMembersRequest request,
+        io.grpc.stub.StreamObserver<personal_chat.PersonalChat.GetAllPersonalChatMembersResponse> responseObserver) {
+      io.grpc.stub.ClientCalls.asyncUnaryCall(
+          getChannel().newCall(getGetAllPersonalChatMembersMethod(), getCallOptions()), request, responseObserver);
+    }
   }
 
   /**
@@ -159,6 +205,13 @@ public final class PersonalChatServiceGrpc {
     public personal_chat.PersonalChat.ValidateUserIsMemberOfPersonalChatResponse validateUserIsMemberOfPersonalChat(personal_chat.PersonalChat.ValidateUserIsMemberOfPersonalChatRequest request) {
       return io.grpc.stub.ClientCalls.blockingUnaryCall(
           getChannel(), getValidateUserIsMemberOfPersonalChatMethod(), getCallOptions(), request);
+    }
+
+    /**
+     */
+    public personal_chat.PersonalChat.GetAllPersonalChatMembersResponse getAllPersonalChatMembers(personal_chat.PersonalChat.GetAllPersonalChatMembersRequest request) {
+      return io.grpc.stub.ClientCalls.blockingUnaryCall(
+          getChannel(), getGetAllPersonalChatMembersMethod(), getCallOptions(), request);
     }
   }
 
@@ -185,9 +238,18 @@ public final class PersonalChatServiceGrpc {
       return io.grpc.stub.ClientCalls.futureUnaryCall(
           getChannel().newCall(getValidateUserIsMemberOfPersonalChatMethod(), getCallOptions()), request);
     }
+
+    /**
+     */
+    public com.google.common.util.concurrent.ListenableFuture<personal_chat.PersonalChat.GetAllPersonalChatMembersResponse> getAllPersonalChatMembers(
+        personal_chat.PersonalChat.GetAllPersonalChatMembersRequest request) {
+      return io.grpc.stub.ClientCalls.futureUnaryCall(
+          getChannel().newCall(getGetAllPersonalChatMembersMethod(), getCallOptions()), request);
+    }
   }
 
   private static final int METHODID_VALIDATE_USER_IS_MEMBER_OF_PERSONAL_CHAT = 0;
+  private static final int METHODID_GET_ALL_PERSONAL_CHAT_MEMBERS = 1;
 
   private static final class MethodHandlers<Req, Resp> implements
       io.grpc.stub.ServerCalls.UnaryMethod<Req, Resp>,
@@ -209,6 +271,10 @@ public final class PersonalChatServiceGrpc {
         case METHODID_VALIDATE_USER_IS_MEMBER_OF_PERSONAL_CHAT:
           serviceImpl.validateUserIsMemberOfPersonalChat((personal_chat.PersonalChat.ValidateUserIsMemberOfPersonalChatRequest) request,
               (io.grpc.stub.StreamObserver<personal_chat.PersonalChat.ValidateUserIsMemberOfPersonalChatResponse>) responseObserver);
+          break;
+        case METHODID_GET_ALL_PERSONAL_CHAT_MEMBERS:
+          serviceImpl.getAllPersonalChatMembers((personal_chat.PersonalChat.GetAllPersonalChatMembersRequest) request,
+              (io.grpc.stub.StreamObserver<personal_chat.PersonalChat.GetAllPersonalChatMembersResponse>) responseObserver);
           break;
         default:
           throw new AssertionError();
@@ -235,6 +301,13 @@ public final class PersonalChatServiceGrpc {
               personal_chat.PersonalChat.ValidateUserIsMemberOfPersonalChatRequest,
               personal_chat.PersonalChat.ValidateUserIsMemberOfPersonalChatResponse>(
                 service, METHODID_VALIDATE_USER_IS_MEMBER_OF_PERSONAL_CHAT)))
+        .addMethod(
+          getGetAllPersonalChatMembersMethod(),
+          io.grpc.stub.ServerCalls.asyncUnaryCall(
+            new MethodHandlers<
+              personal_chat.PersonalChat.GetAllPersonalChatMembersRequest,
+              personal_chat.PersonalChat.GetAllPersonalChatMembersResponse>(
+                service, METHODID_GET_ALL_PERSONAL_CHAT_MEMBERS)))
         .build();
   }
 
@@ -284,6 +357,7 @@ public final class PersonalChatServiceGrpc {
           serviceDescriptor = result = io.grpc.ServiceDescriptor.newBuilder(SERVICE_NAME)
               .setSchemaDescriptor(new PersonalChatServiceFileDescriptorSupplier())
               .addMethod(getValidateUserIsMemberOfPersonalChatMethod())
+              .addMethod(getGetAllPersonalChatMembersMethod())
               .build();
         }
       }

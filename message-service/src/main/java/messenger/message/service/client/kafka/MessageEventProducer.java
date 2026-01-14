@@ -1,26 +1,14 @@
-package messenger.message.service.service.event;
+package messenger.message.service.client.kafka;
 
-import messenger.message.service.entity.Message;
+import messenger.message.service.dto.response.MessageResponse;
 import org.springframework.stereotype.Service;
 
-import java.util.List;
+import java.util.Set;
 
 @Service
 public class MessageEventProducer {
 
-    public void publishMessageSent(Message message) {
-
-    }
-
-    public void publishMessageNotification(Message message, List<Long> memberIds) {
-
-    }
-
-    public void publishMessageEdited(Message message) {
-
-    }
-
-    public void publishMessageRead(Message message) {
+    public void publishMessageNotification(MessageResponse messageResponse, Set<Long> memberIds) {
 
     }
 

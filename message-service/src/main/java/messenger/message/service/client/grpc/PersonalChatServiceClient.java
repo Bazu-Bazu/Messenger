@@ -6,6 +6,9 @@ import org.springframework.stereotype.Component;
 import personal_chat.PersonalChat;
 import personal_chat.PersonalChatServiceGrpc;
 
+import java.util.HashSet;
+import java.util.Set;
+
 @Component
 public class PersonalChatServiceClient {
 
@@ -25,6 +28,16 @@ public class PersonalChatServiceClient {
                     String.format("User %d can not send message to personal chat %d", userId, chatId)
             );
         }
+    }
+
+    public Set<Long> getAllPersonalChatMembers(Long chatId) {
+        var request = PersonalChat.GetAllPersonalChatMembersRequest.newBuilder()
+                .setChatId(chatId)
+                .build();
+
+        var response = blockingStub.getAllPersonalChatMembers(request);
+
+        return new HashSet<>(response.getUserIdList());
     }
 
 }

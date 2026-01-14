@@ -1,6 +1,6 @@
-package messenger.message.service.repository;
+package messenger.message.service.domain.repository;
 
-import messenger.message.service.entity.Message;
+import messenger.message.service.domain.entity.Message;
 import org.springframework.data.domain.Pageable;
 import org.springframework.data.jpa.repository.JpaRepository;
 import org.springframework.stereotype.Repository;

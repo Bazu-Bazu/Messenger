@@ -4,6 +4,7 @@ package group_chat;
 service GroupChatService {
   rpc ValidateMemberRightsInGroupChat(ValidateMemberRightsInGroupChatRequest)
       returns (ValidateMemberRightsInGroupChatRequestResponse);
+  rpc GetAllGroupChatMembers(GetAllGroupChatMembersRequest) returns (GetAllGroupChatMembersResponse);
 }
 
 message ValidateMemberRightsInGroupChatRequest {
@@ -16,4 +17,12 @@ message ValidateMemberRightsInGroupChatRequestResponse {
   int64 chatId = 2;
   bool canSendMessage = 3;
   bool canGetMessage = 4;
+}
+
+message GetAllGroupChatMembersRequest {
+  int64 chatId = 1;
+}
+
+message GetAllGroupChatMembersResponse {
+  repeated int64 userId = 1;
 }

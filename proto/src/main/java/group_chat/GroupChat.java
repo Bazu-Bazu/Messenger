@@ -1261,6 +1261,1079 @@ public final class GroupChat {
 
   }
 
+  public interface GetAllGroupChatMembersRequestOrBuilder extends
+      // @@protoc_insertion_point(interface_extends:group_chat.GetAllGroupChatMembersRequest)
+      com.google.protobuf.MessageOrBuilder {
+
+    /**
+     * <code>int64 chatId = 1;</code>
+     * @return The chatId.
+     */
+    long getChatId();
+  }
+  /**
+   * Protobuf type {@code group_chat.GetAllGroupChatMembersRequest}
+   */
+  public static final class GetAllGroupChatMembersRequest extends
+      com.google.protobuf.GeneratedMessageV3 implements
+      // @@protoc_insertion_point(message_implements:group_chat.GetAllGroupChatMembersRequest)
+      GetAllGroupChatMembersRequestOrBuilder {
+  private static final long serialVersionUID = 0L;
+    // Use GetAllGroupChatMembersRequest.newBuilder() to construct.
+    private GetAllGroupChatMembersRequest(com.google.protobuf.GeneratedMessageV3.Builder<?> builder) {
+      super(builder);
+    }
+    private GetAllGroupChatMembersRequest() {
+    }
+
+    @java.lang.Override
+    @SuppressWarnings({"unused"})
+    protected java.lang.Object newInstance(
+        UnusedPrivateParameter unused) {
+      return new GetAllGroupChatMembersRequest();
+    }
+
+    public static final com.google.protobuf.Descriptors.Descriptor
+        getDescriptor() {
+      return group_chat.GroupChat.internal_static_group_chat_GetAllGroupChatMembersRequest_descriptor;
+    }
+
+    @java.lang.Override
+    protected com.google.protobuf.GeneratedMessageV3.FieldAccessorTable
+        internalGetFieldAccessorTable() {
+      return group_chat.GroupChat.internal_static_group_chat_GetAllGroupChatMembersRequest_fieldAccessorTable
+          .ensureFieldAccessorsInitialized(
+              group_chat.GroupChat.GetAllGroupChatMembersRequest.class, group_chat.GroupChat.GetAllGroupChatMembersRequest.Builder.class);
+    }
+
+    public static final int CHATID_FIELD_NUMBER = 1;
+    private long chatId_ = 0L;
+    /**
+     * <code>int64 chatId = 1;</code>
+     * @return The chatId.
+     */
+    @java.lang.Override
+    public long getChatId() {
+      return chatId_;
+    }
+
+    private byte memoizedIsInitialized = -1;
+    @java.lang.Override
+    public final boolean isInitialized() {
+      byte isInitialized = memoizedIsInitialized;
+      if (isInitialized == 1) return true;
+      if (isInitialized == 0) return false;
+
+      memoizedIsInitialized = 1;
+      return true;
+    }
+
+    @java.lang.Override
+    public void writeTo(com.google.protobuf.CodedOutputStream output)
+                        throws java.io.IOException {
+      if (chatId_ != 0L) {
+        output.writeInt64(1, chatId_);
+      }
+      getUnknownFields().writeTo(output);
+    }
+
+    @java.lang.Override
+    public int getSerializedSize() {
+      int size = memoizedSize;
+      if (size != -1) return size;
+
+      size = 0;
+      if (chatId_ != 0L) {
+        size += com.google.protobuf.CodedOutputStream
+          .computeInt64Size(1, chatId_);
+      }
+      size += getUnknownFields().getSerializedSize();
+      memoizedSize = size;
+      return size;
+    }
+
+    @java.lang.Override
+    public boolean equals(final java.lang.Object obj) {
+      if (obj == this) {
+       return true;
+      }
+      if (!(obj instanceof group_chat.GroupChat.GetAllGroupChatMembersRequest)) {
+        return super.equals(obj);
+      }
+      group_chat.GroupChat.GetAllGroupChatMembersRequest other = (group_chat.GroupChat.GetAllGroupChatMembersRequest) obj;
+
+      if (getChatId()
+          != other.getChatId()) return false;
+      if (!getUnknownFields().equals(other.getUnknownFields())) return false;
+      return true;
+    }
+
+    @java.lang.Override
+    public int hashCode() {
+      if (memoizedHashCode != 0) {
+        return memoizedHashCode;
+      }
+      int hash = 41;
+      hash = (19 * hash) + getDescriptor().hashCode();
+      hash = (37 * hash) + CHATID_FIELD_NUMBER;
+      hash = (53 * hash) + com.google.protobuf.Internal.hashLong(
+          getChatId());
+      hash = (29 * hash) + getUnknownFields().hashCode();
+      memoizedHashCode = hash;
+      return hash;
+    }
+
+    public static group_chat.GroupChat.GetAllGroupChatMembersRequest parseFrom(
+        java.nio.ByteBuffer data)
+        throws com.google.protobuf.InvalidProtocolBufferException {
+      return PARSER.parseFrom(data);
+    }
+    public static group_chat.GroupChat.GetAllGroupChatMembersRequest parseFrom(
+        java.nio.ByteBuffer data,
+        com.google.protobuf.ExtensionRegistryLite extensionRegistry)
+        throws com.google.protobuf.InvalidProtocolBufferException {
+      return PARSER.parseFrom(data, extensionRegistry);
+    }
+    public static group_chat.GroupChat.GetAllGroupChatMembersRequest parseFrom(
+        com.google.protobuf.ByteString data)
+        throws com.google.protobuf.InvalidProtocolBufferException {
+      return PARSER.parseFrom(data);
+    }
+    public static group_chat.GroupChat.GetAllGroupChatMembersRequest parseFrom(
+        com.google.protobuf.ByteString data,
+        com.google.protobuf.ExtensionRegistryLite extensionRegistry)
+        throws com.google.protobuf.InvalidProtocolBufferException {
+      return PARSER.parseFrom(data, extensionRegistry);
+    }
+    public static group_chat.GroupChat.GetAllGroupChatMembersRequest parseFrom(byte[] data)
+        throws com.google.protobuf.InvalidProtocolBufferException {
+      return PARSER.parseFrom(data);
+    }
+    public static group_chat.GroupChat.GetAllGroupChatMembersRequest parseFrom(
+        byte[] data,
+        com.google.protobuf.ExtensionRegistryLite extensionRegistry)
+        throws com.google.protobuf.InvalidProtocolBufferException {
+      return PARSER.parseFrom(data, extensionRegistry);
+    }
+    public static group_chat.GroupChat.GetAllGroupChatMembersRequest parseFrom(java.io.InputStream input)
+        throws java.io.IOException {
+      return com.google.protobuf.GeneratedMessageV3
+          .parseWithIOException(PARSER, input);
+    }
+    public static group_chat.GroupChat.GetAllGroupChatMembersRequest parseFrom(
+        java.io.InputStream input,
+        com.google.protobuf.ExtensionRegistryLite extensionRegistry)
+        throws java.io.IOException {
+      return com.google.protobuf.GeneratedMessageV3
+          .parseWithIOException(PARSER, input, extensionRegistry);
+    }
+
+    public static group_chat.GroupChat.GetAllGroupChatMembersRequest parseDelimitedFrom(java.io.InputStream input)
+        throws java.io.IOException {
+      return com.google.protobuf.GeneratedMessageV3
+          .parseDelimitedWithIOException(PARSER, input);
+    }
+
+    public static group_chat.GroupChat.GetAllGroupChatMembersRequest parseDelimitedFrom(
+        java.io.InputStream input,
+        com.google.protobuf.ExtensionRegistryLite extensionRegistry)
+        throws java.io.IOException {
+      return com.google.protobuf.GeneratedMessageV3
+          .parseDelimitedWithIOException(PARSER, input, extensionRegistry);
+    }
+    public static group_chat.GroupChat.GetAllGroupChatMembersRequest parseFrom(
+        com.google.protobuf.CodedInputStream input)
+        throws java.io.IOException {
+      return com.google.protobuf.GeneratedMessageV3
+          .parseWithIOException(PARSER, input);
+    }
+    public static group_chat.GroupChat.GetAllGroupChatMembersRequest parseFrom(
+        com.google.protobuf.CodedInputStream input,
+        com.google.protobuf.ExtensionRegistryLite extensionRegistry)
+        throws java.io.IOException {
+      return com.google.protobuf.GeneratedMessageV3
+          .parseWithIOException(PARSER, input, extensionRegistry);
+    }
+
+    @java.lang.Override
+    public Builder newBuilderForType() { return newBuilder(); }
+    public static Builder newBuilder() {
+      return DEFAULT_INSTANCE.toBuilder();
+    }
+    public static Builder newBuilder(group_chat.GroupChat.GetAllGroupChatMembersRequest prototype) {
+      return DEFAULT_INSTANCE.toBuilder().mergeFrom(prototype);
+    }
+    @java.lang.Override
+    public Builder toBuilder() {
+      return this == DEFAULT_INSTANCE
+          ? new Builder() : new Builder().mergeFrom(this);
+    }
+
+    @java.lang.Override
+    protected Builder newBuilderForType(
+        com.google.protobuf.GeneratedMessageV3.BuilderParent parent) {
+      Builder builder = new Builder(parent);
+      return builder;
+    }
+    /**
+     * Protobuf type {@code group_chat.GetAllGroupChatMembersRequest}
+     */
+    public static final class Builder extends
+        com.google.protobuf.GeneratedMessageV3.Builder<Builder> implements
+        // @@protoc_insertion_point(builder_implements:group_chat.GetAllGroupChatMembersRequest)
+        group_chat.GroupChat.GetAllGroupChatMembersRequestOrBuilder {
+      public static final com.google.protobuf.Descriptors.Descriptor
+          getDescriptor() {
+        return group_chat.GroupChat.internal_static_group_chat_GetAllGroupChatMembersRequest_descriptor;
+      }
+
+      @java.lang.Override
+      protected com.google.protobuf.GeneratedMessageV3.FieldAccessorTable
+          internalGetFieldAccessorTable() {
+        return group_chat.GroupChat.internal_static_group_chat_GetAllGroupChatMembersRequest_fieldAccessorTable
+            .ensureFieldAccessorsInitialized(
+                group_chat.GroupChat.GetAllGroupChatMembersRequest.class, group_chat.GroupChat.GetAllGroupChatMembersRequest.Builder.class);
+      }
+
+      // Construct using group_chat.GroupChat.GetAllGroupChatMembersRequest.newBuilder()
+      private Builder() {
+
+      }
+
+      private Builder(
+          com.google.protobuf.GeneratedMessageV3.BuilderParent parent) {
+        super(parent);
+
+      }
+      @java.lang.Override
+      public Builder clear() {
+        super.clear();
+        bitField0_ = 0;
+        chatId_ = 0L;
+        return this;
+      }
+
+      @java.lang.Override
+      public com.google.protobuf.Descriptors.Descriptor
+          getDescriptorForType() {
+        return group_chat.GroupChat.internal_static_group_chat_GetAllGroupChatMembersRequest_descriptor;
+      }
+
+      @java.lang.Override
+      public group_chat.GroupChat.GetAllGroupChatMembersRequest getDefaultInstanceForType() {
+        return group_chat.GroupChat.GetAllGroupChatMembersRequest.getDefaultInstance();
+      }
+
+      @java.lang.Override
+      public group_chat.GroupChat.GetAllGroupChatMembersRequest build() {
+        group_chat.GroupChat.GetAllGroupChatMembersRequest result = buildPartial();
+        if (!result.isInitialized()) {
+          throw newUninitializedMessageException(result);
+        }
+        return result;
+      }
+
+      @java.lang.Override
+      public group_chat.GroupChat.GetAllGroupChatMembersRequest buildPartial() {
+        group_chat.GroupChat.GetAllGroupChatMembersRequest result = new group_chat.GroupChat.GetAllGroupChatMembersRequest(this);
+        if (bitField0_ != 0) { buildPartial0(result); }
+        onBuilt();
+        return result;
+      }
+
+      private void buildPartial0(group_chat.GroupChat.GetAllGroupChatMembersRequest result) {
+        int from_bitField0_ = bitField0_;
+        if (((from_bitField0_ & 0x00000001) != 0)) {
+          result.chatId_ = chatId_;
+        }
+      }
+
+      @java.lang.Override
+      public Builder clone() {
+        return super.clone();
+      }
+      @java.lang.Override
+      public Builder setField(
+          com.google.protobuf.Descriptors.FieldDescriptor field,
+          java.lang.Object value) {
+        return super.setField(field, value);
+      }
+      @java.lang.Override
+      public Builder clearField(
+          com.google.protobuf.Descriptors.FieldDescriptor field) {
+        return super.clearField(field);
+      }
+      @java.lang.Override
+      public Builder clearOneof(
+          com.google.protobuf.Descriptors.OneofDescriptor oneof) {
+        return super.clearOneof(oneof);
+      }
+      @java.lang.Override
+      public Builder setRepeatedField(
+          com.google.protobuf.Descriptors.FieldDescriptor field,
+          int index, java.lang.Object value) {
+        return super.setRepeatedField(field, index, value);
+      }
+      @java.lang.Override
+      public Builder addRepeatedField(
+          com.google.protobuf.Descriptors.FieldDescriptor field,
+          java.lang.Object value) {
+        return super.addRepeatedField(field, value);
+      }
+      @java.lang.Override
+      public Builder mergeFrom(com.google.protobuf.Message other) {
+        if (other instanceof group_chat.GroupChat.GetAllGroupChatMembersRequest) {
+          return mergeFrom((group_chat.GroupChat.GetAllGroupChatMembersRequest)other);
+        } else {
+          super.mergeFrom(other);
+          return this;
+        }
+      }
+
+      public Builder mergeFrom(group_chat.GroupChat.GetAllGroupChatMembersRequest other) {
+        if (other == group_chat.GroupChat.GetAllGroupChatMembersRequest.getDefaultInstance()) return this;
+        if (other.getChatId() != 0L) {
+          setChatId(other.getChatId());
+        }
+        this.mergeUnknownFields(other.getUnknownFields());
+        onChanged();
+        return this;
+      }
+
+      @java.lang.Override
+      public final boolean isInitialized() {
+        return true;
+      }
+
+      @java.lang.Override
+      public Builder mergeFrom(
+          com.google.protobuf.CodedInputStream input,
+          com.google.protobuf.ExtensionRegistryLite extensionRegistry)
+          throws java.io.IOException {
+        if (extensionRegistry == null) {
+          throw new java.lang.NullPointerException();
+        }
+        try {
+          boolean done = false;
+          while (!done) {
+            int tag = input.readTag();
+            switch (tag) {
+              case 0:
+                done = true;
+                break;
+              case 8: {
+                chatId_ = input.readInt64();
+                bitField0_ |= 0x00000001;
+                break;
+              } // case 8
+              default: {
+                if (!super.parseUnknownField(input, extensionRegistry, tag)) {
+                  done = true; // was an endgroup tag
+                }
+                break;
+              } // default:
+            } // switch (tag)
+          } // while (!done)
+        } catch (com.google.protobuf.InvalidProtocolBufferException e) {
+          throw e.unwrapIOException();
+        } finally {
+          onChanged();
+        } // finally
+        return this;
+      }
+      private int bitField0_;
+
+      private long chatId_ ;
+      /**
+       * <code>int64 chatId = 1;</code>
+       * @return The chatId.
+       */
+      @java.lang.Override
+      public long getChatId() {
+        return chatId_;
+      }
+      /**
+       * <code>int64 chatId = 1;</code>
+       * @param value The chatId to set.
+       * @return This builder for chaining.
+       */
+      public Builder setChatId(long value) {
+
+        chatId_ = value;
+        bitField0_ |= 0x00000001;
+        onChanged();
+        return this;
+      }
+      /**
+       * <code>int64 chatId = 1;</code>
+       * @return This builder for chaining.
+       */
+      public Builder clearChatId() {
+        bitField0_ = (bitField0_ & ~0x00000001);
+        chatId_ = 0L;
+        onChanged();
+        return this;
+      }
+      @java.lang.Override
+      public final Builder setUnknownFields(
+          final com.google.protobuf.UnknownFieldSet unknownFields) {
+        return super.setUnknownFields(unknownFields);
+      }
+
+      @java.lang.Override
+      public final Builder mergeUnknownFields(
+          final com.google.protobuf.UnknownFieldSet unknownFields) {
+        return super.mergeUnknownFields(unknownFields);
+      }
+
+
+      // @@protoc_insertion_point(builder_scope:group_chat.GetAllGroupChatMembersRequest)
+    }
+
+    // @@protoc_insertion_point(class_scope:group_chat.GetAllGroupChatMembersRequest)
+    private static final group_chat.GroupChat.GetAllGroupChatMembersRequest DEFAULT_INSTANCE;
+    static {
+      DEFAULT_INSTANCE = new group_chat.GroupChat.GetAllGroupChatMembersRequest();
+    }
+
+    public static group_chat.GroupChat.GetAllGroupChatMembersRequest getDefaultInstance() {
+      return DEFAULT_INSTANCE;
+    }
+
+    private static final com.google.protobuf.Parser<GetAllGroupChatMembersRequest>
+        PARSER = new com.google.protobuf.AbstractParser<GetAllGroupChatMembersRequest>() {
+      @java.lang.Override
+      public GetAllGroupChatMembersRequest parsePartialFrom(
+          com.google.protobuf.CodedInputStream input,
+          com.google.protobuf.ExtensionRegistryLite extensionRegistry)
+          throws com.google.protobuf.InvalidProtocolBufferException {
+        Builder builder = newBuilder();
+        try {
+          builder.mergeFrom(input, extensionRegistry);
+        } catch (com.google.protobuf.InvalidProtocolBufferException e) {
+          throw e.setUnfinishedMessage(builder.buildPartial());
+        } catch (com.google.protobuf.UninitializedMessageException e) {
+          throw e.asInvalidProtocolBufferException().setUnfinishedMessage(builder.buildPartial());
+        } catch (java.io.IOException e) {
+          throw new com.google.protobuf.InvalidProtocolBufferException(e)
+              .setUnfinishedMessage(builder.buildPartial());
+        }
+        return builder.buildPartial();
+      }
+    };
+
+    public static com.google.protobuf.Parser<GetAllGroupChatMembersRequest> parser() {
+      return PARSER;
+    }
+
+    @java.lang.Override
+    public com.google.protobuf.Parser<GetAllGroupChatMembersRequest> getParserForType() {
+      return PARSER;
+    }
+
+    @java.lang.Override
+    public group_chat.GroupChat.GetAllGroupChatMembersRequest getDefaultInstanceForType() {
+      return DEFAULT_INSTANCE;
+    }
+
+  }
+
+  public interface GetAllGroupChatMembersResponseOrBuilder extends
+      // @@protoc_insertion_point(interface_extends:group_chat.GetAllGroupChatMembersResponse)
+      com.google.protobuf.MessageOrBuilder {
+
+    /**
+     * <code>repeated int64 userId = 1;</code>
+     * @return A list containing the userId.
+     */
+    java.util.List<java.lang.Long> getUserIdList();
+    /**
+     * <code>repeated int64 userId = 1;</code>
+     * @return The count of userId.
+     */
+    int getUserIdCount();
+    /**
+     * <code>repeated int64 userId = 1;</code>
+     * @param index The index of the element to return.
+     * @return The userId at the given index.
+     */
+    long getUserId(int index);
+  }
+  /**
+   * Protobuf type {@code group_chat.GetAllGroupChatMembersResponse}
+   */
+  public static final class GetAllGroupChatMembersResponse extends
+      com.google.protobuf.GeneratedMessageV3 implements
+      // @@protoc_insertion_point(message_implements:group_chat.GetAllGroupChatMembersResponse)
+      GetAllGroupChatMembersResponseOrBuilder {
+  private static final long serialVersionUID = 0L;
+    // Use GetAllGroupChatMembersResponse.newBuilder() to construct.
+    private GetAllGroupChatMembersResponse(com.google.protobuf.GeneratedMessageV3.Builder<?> builder) {
+      super(builder);
+    }
+    private GetAllGroupChatMembersResponse() {
+      userId_ = emptyLongList();
+    }
+
+    @java.lang.Override
+    @SuppressWarnings({"unused"})
+    protected java.lang.Object newInstance(
+        UnusedPrivateParameter unused) {
+      return new GetAllGroupChatMembersResponse();
+    }
+
+    public static final com.google.protobuf.Descriptors.Descriptor
+        getDescriptor() {
+      return group_chat.GroupChat.internal_static_group_chat_GetAllGroupChatMembersResponse_descriptor;
+    }
+
+    @java.lang.Override
+    protected com.google.protobuf.GeneratedMessageV3.FieldAccessorTable
+        internalGetFieldAccessorTable() {
+      return group_chat.GroupChat.internal_static_group_chat_GetAllGroupChatMembersResponse_fieldAccessorTable
+          .ensureFieldAccessorsInitialized(
+              group_chat.GroupChat.GetAllGroupChatMembersResponse.class, group_chat.GroupChat.GetAllGroupChatMembersResponse.Builder.class);
+    }
+
+    public static final int USERID_FIELD_NUMBER = 1;
+    @SuppressWarnings("serial")
+    private com.google.protobuf.Internal.LongList userId_ =
+        emptyLongList();
+    /**
+     * <code>repeated int64 userId = 1;</code>
+     * @return A list containing the userId.
+     */
+    @java.lang.Override
+    public java.util.List<java.lang.Long>
+        getUserIdList() {
+      return userId_;
+    }
+    /**
+     * <code>repeated int64 userId = 1;</code>
+     * @return The count of userId.
+     */
+    public int getUserIdCount() {
+      return userId_.size();
+    }
+    /**
+     * <code>repeated int64 userId = 1;</code>
+     * @param index The index of the element to return.
+     * @return The userId at the given index.
+     */
+    public long getUserId(int index) {
+      return userId_.getLong(index);
+    }
+    private int userIdMemoizedSerializedSize = -1;
+
+    private byte memoizedIsInitialized = -1;
+    @java.lang.Override
+    public final boolean isInitialized() {
+      byte isInitialized = memoizedIsInitialized;
+      if (isInitialized == 1) return true;
+      if (isInitialized == 0) return false;
+
+      memoizedIsInitialized = 1;
+      return true;
+    }
+
+    @java.lang.Override
+    public void writeTo(com.google.protobuf.CodedOutputStream output)
+                        throws java.io.IOException {
+      getSerializedSize();
+      if (getUserIdList().size() > 0) {
+        output.writeUInt32NoTag(10);
+        output.writeUInt32NoTag(userIdMemoizedSerializedSize);
+      }
+      for (int i = 0; i < userId_.size(); i++) {
+        output.writeInt64NoTag(userId_.getLong(i));
+      }
+      getUnknownFields().writeTo(output);
+    }
+
+    @java.lang.Override
+    public int getSerializedSize() {
+      int size = memoizedSize;
+      if (size != -1) return size;
+
+      size = 0;
+      {
+        int dataSize = 0;
+        for (int i = 0; i < userId_.size(); i++) {
+          dataSize += com.google.protobuf.CodedOutputStream
+            .computeInt64SizeNoTag(userId_.getLong(i));
+        }
+        size += dataSize;
+        if (!getUserIdList().isEmpty()) {
+          size += 1;
+          size += com.google.protobuf.CodedOutputStream
+              .computeInt32SizeNoTag(dataSize);
+        }
+        userIdMemoizedSerializedSize = dataSize;
+      }
+      size += getUnknownFields().getSerializedSize();
+      memoizedSize = size;
+      return size;
+    }
+
+    @java.lang.Override
+    public boolean equals(final java.lang.Object obj) {
+      if (obj == this) {
+       return true;
+      }
+      if (!(obj instanceof group_chat.GroupChat.GetAllGroupChatMembersResponse)) {
+        return super.equals(obj);
+      }
+      group_chat.GroupChat.GetAllGroupChatMembersResponse other = (group_chat.GroupChat.GetAllGroupChatMembersResponse) obj;
+
+      if (!getUserIdList()
+          .equals(other.getUserIdList())) return false;
+      if (!getUnknownFields().equals(other.getUnknownFields())) return false;
+      return true;
+    }
+
+    @java.lang.Override
+    public int hashCode() {
+      if (memoizedHashCode != 0) {
+        return memoizedHashCode;
+      }
+      int hash = 41;
+      hash = (19 * hash) + getDescriptor().hashCode();
+      if (getUserIdCount() > 0) {
+        hash = (37 * hash) + USERID_FIELD_NUMBER;
+        hash = (53 * hash) + getUserIdList().hashCode();
+      }
+      hash = (29 * hash) + getUnknownFields().hashCode();
+      memoizedHashCode = hash;
+      return hash;
+    }
+
+    public static group_chat.GroupChat.GetAllGroupChatMembersResponse parseFrom(
+        java.nio.ByteBuffer data)
+        throws com.google.protobuf.InvalidProtocolBufferException {
+      return PARSER.parseFrom(data);
+    }
+    public static group_chat.GroupChat.GetAllGroupChatMembersResponse parseFrom(
+        java.nio.ByteBuffer data,
+        com.google.protobuf.ExtensionRegistryLite extensionRegistry)
+        throws com.google.protobuf.InvalidProtocolBufferException {
+      return PARSER.parseFrom(data, extensionRegistry);
+    }
+    public static group_chat.GroupChat.GetAllGroupChatMembersResponse parseFrom(
+        com.google.protobuf.ByteString data)
+        throws com.google.protobuf.InvalidProtocolBufferException {
+      return PARSER.parseFrom(data);
+    }
+    public static group_chat.GroupChat.GetAllGroupChatMembersResponse parseFrom(
+        com.google.protobuf.ByteString data,
+        com.google.protobuf.ExtensionRegistryLite extensionRegistry)
+        throws com.google.protobuf.InvalidProtocolBufferException {
+      return PARSER.parseFrom(data, extensionRegistry);
+    }
+    public static group_chat.GroupChat.GetAllGroupChatMembersResponse parseFrom(byte[] data)
+        throws com.google.protobuf.InvalidProtocolBufferException {
+      return PARSER.parseFrom(data);
+    }
+    public static group_chat.GroupChat.GetAllGroupChatMembersResponse parseFrom(
+        byte[] data,
+        com.google.protobuf.ExtensionRegistryLite extensionRegistry)
+        throws com.google.protobuf.InvalidProtocolBufferException {
+      return PARSER.parseFrom(data, extensionRegistry);
+    }
+    public static group_chat.GroupChat.GetAllGroupChatMembersResponse parseFrom(java.io.InputStream input)
+        throws java.io.IOException {
+      return com.google.protobuf.GeneratedMessageV3
+          .parseWithIOException(PARSER, input);
+    }
+    public static group_chat.GroupChat.GetAllGroupChatMembersResponse parseFrom(
+        java.io.InputStream input,
+        com.google.protobuf.ExtensionRegistryLite extensionRegistry)
+        throws java.io.IOException {
+      return com.google.protobuf.GeneratedMessageV3
+          .parseWithIOException(PARSER, input, extensionRegistry);
+    }
+
+    public static group_chat.GroupChat.GetAllGroupChatMembersResponse parseDelimitedFrom(java.io.InputStream input)
+        throws java.io.IOException {
+      return com.google.protobuf.GeneratedMessageV3
+          .parseDelimitedWithIOException(PARSER, input);
+    }
+
+    public static group_chat.GroupChat.GetAllGroupChatMembersResponse parseDelimitedFrom(
+        java.io.InputStream input,
+        com.google.protobuf.ExtensionRegistryLite extensionRegistry)
+        throws java.io.IOException {
+      return com.google.protobuf.GeneratedMessageV3
+          .parseDelimitedWithIOException(PARSER, input, extensionRegistry);
+    }
+    public static group_chat.GroupChat.GetAllGroupChatMembersResponse parseFrom(
+        com.google.protobuf.CodedInputStream input)
+        throws java.io.IOException {
+      return com.google.protobuf.GeneratedMessageV3
+          .parseWithIOException(PARSER, input);
+    }
+    public static group_chat.GroupChat.GetAllGroupChatMembersResponse parseFrom(
+        com.google.protobuf.CodedInputStream input,
+        com.google.protobuf.ExtensionRegistryLite extensionRegistry)
+        throws java.io.IOException {
+      return com.google.protobuf.GeneratedMessageV3
+          .parseWithIOException(PARSER, input, extensionRegistry);
+    }
+
+    @java.lang.Override
+    public Builder newBuilderForType() { return newBuilder(); }
+    public static Builder newBuilder() {
+      return DEFAULT_INSTANCE.toBuilder();
+    }
+    public static Builder newBuilder(group_chat.GroupChat.GetAllGroupChatMembersResponse prototype) {
+      return DEFAULT_INSTANCE.toBuilder().mergeFrom(prototype);
+    }
+    @java.lang.Override
+    public Builder toBuilder() {
+      return this == DEFAULT_INSTANCE
+          ? new Builder() : new Builder().mergeFrom(this);
+    }
+
+    @java.lang.Override
+    protected Builder newBuilderForType(
+        com.google.protobuf.GeneratedMessageV3.BuilderParent parent) {
+      Builder builder = new Builder(parent);
+      return builder;
+    }
+    /**
+     * Protobuf type {@code group_chat.GetAllGroupChatMembersResponse}
+     */
+    public static final class Builder extends
+        com.google.protobuf.GeneratedMessageV3.Builder<Builder> implements
+        // @@protoc_insertion_point(builder_implements:group_chat.GetAllGroupChatMembersResponse)
+        group_chat.GroupChat.GetAllGroupChatMembersResponseOrBuilder {
+      public static final com.google.protobuf.Descriptors.Descriptor
+          getDescriptor() {
+        return group_chat.GroupChat.internal_static_group_chat_GetAllGroupChatMembersResponse_descriptor;
+      }
+
+      @java.lang.Override
+      protected com.google.protobuf.GeneratedMessageV3.FieldAccessorTable
+          internalGetFieldAccessorTable() {
+        return group_chat.GroupChat.internal_static_group_chat_GetAllGroupChatMembersResponse_fieldAccessorTable
+            .ensureFieldAccessorsInitialized(
+                group_chat.GroupChat.GetAllGroupChatMembersResponse.class, group_chat.GroupChat.GetAllGroupChatMembersResponse.Builder.class);
+      }
+
+      // Construct using group_chat.GroupChat.GetAllGroupChatMembersResponse.newBuilder()
+      private Builder() {
+
+      }
+
+      private Builder(
+          com.google.protobuf.GeneratedMessageV3.BuilderParent parent) {
+        super(parent);
+
+      }
+      @java.lang.Override
+      public Builder clear() {
+        super.clear();
+        bitField0_ = 0;
+        userId_ = emptyLongList();
+        return this;
+      }
+
+      @java.lang.Override
+      public com.google.protobuf.Descriptors.Descriptor
+          getDescriptorForType() {
+        return group_chat.GroupChat.internal_static_group_chat_GetAllGroupChatMembersResponse_descriptor;
+      }
+
+      @java.lang.Override
+      public group_chat.GroupChat.GetAllGroupChatMembersResponse getDefaultInstanceForType() {
+        return group_chat.GroupChat.GetAllGroupChatMembersResponse.getDefaultInstance();
+      }
+
+      @java.lang.Override
+      public group_chat.GroupChat.GetAllGroupChatMembersResponse build() {
+        group_chat.GroupChat.GetAllGroupChatMembersResponse result = buildPartial();
+        if (!result.isInitialized()) {
+          throw newUninitializedMessageException(result);
+        }
+        return result;
+      }
+
+      @java.lang.Override
+      public group_chat.GroupChat.GetAllGroupChatMembersResponse buildPartial() {
+        group_chat.GroupChat.GetAllGroupChatMembersResponse result = new group_chat.GroupChat.GetAllGroupChatMembersResponse(this);
+        if (bitField0_ != 0) { buildPartial0(result); }
+        onBuilt();
+        return result;
+      }
+
+      private void buildPartial0(group_chat.GroupChat.GetAllGroupChatMembersResponse result) {
+        int from_bitField0_ = bitField0_;
+        if (((from_bitField0_ & 0x00000001) != 0)) {
+          userId_.makeImmutable();
+          result.userId_ = userId_;
+        }
+      }
+
+      @java.lang.Override
+      public Builder clone() {
+        return super.clone();
+      }
+      @java.lang.Override
+      public Builder setField(
+          com.google.protobuf.Descriptors.FieldDescriptor field,
+          java.lang.Object value) {
+        return super.setField(field, value);
+      }
+      @java.lang.Override
+      public Builder clearField(
+          com.google.protobuf.Descriptors.FieldDescriptor field) {
+        return super.clearField(field);
+      }
+      @java.lang.Override
+      public Builder clearOneof(
+          com.google.protobuf.Descriptors.OneofDescriptor oneof) {
+        return super.clearOneof(oneof);
+      }
+      @java.lang.Override
+      public Builder setRepeatedField(
+          com.google.protobuf.Descriptors.FieldDescriptor field,
+          int index, java.lang.Object value) {
+        return super.setRepeatedField(field, index, value);
+      }
+      @java.lang.Override
+      public Builder addRepeatedField(
+          com.google.protobuf.Descriptors.FieldDescriptor field,
+          java.lang.Object value) {
+        return super.addRepeatedField(field, value);
+      }
+      @java.lang.Override
+      public Builder mergeFrom(com.google.protobuf.Message other) {
+        if (other instanceof group_chat.GroupChat.GetAllGroupChatMembersResponse) {
+          return mergeFrom((group_chat.GroupChat.GetAllGroupChatMembersResponse)other);
+        } else {
+          super.mergeFrom(other);
+          return this;
+        }
+      }
+
+      public Builder mergeFrom(group_chat.GroupChat.GetAllGroupChatMembersResponse other) {
+        if (other == group_chat.GroupChat.GetAllGroupChatMembersResponse.getDefaultInstance()) return this;
+        if (!other.userId_.isEmpty()) {
+          if (userId_.isEmpty()) {
+            userId_ = other.userId_;
+            userId_.makeImmutable();
+            bitField0_ |= 0x00000001;
+          } else {
+            ensureUserIdIsMutable();
+            userId_.addAll(other.userId_);
+          }
+          onChanged();
+        }
+        this.mergeUnknownFields(other.getUnknownFields());
+        onChanged();
+        return this;
+      }
+
+      @java.lang.Override
+      public final boolean isInitialized() {
+        return true;
+      }
+
+      @java.lang.Override
+      public Builder mergeFrom(
+          com.google.protobuf.CodedInputStream input,
+          com.google.protobuf.ExtensionRegistryLite extensionRegistry)
+          throws java.io.IOException {
+        if (extensionRegistry == null) {
+          throw new java.lang.NullPointerException();
+        }
+        try {
+          boolean done = false;
+          while (!done) {
+            int tag = input.readTag();
+            switch (tag) {
+              case 0:
+                done = true;
+                break;
+              case 8: {
+                long v = input.readInt64();
+                ensureUserIdIsMutable();
+                userId_.addLong(v);
+                break;
+              } // case 8
+              case 10: {
+                int length = input.readRawVarint32();
+                int limit = input.pushLimit(length);
+                ensureUserIdIsMutable();
+                while (input.getBytesUntilLimit() > 0) {
+                  userId_.addLong(input.readInt64());
+                }
+                input.popLimit(limit);
+                break;
+              } // case 10
+              default: {
+                if (!super.parseUnknownField(input, extensionRegistry, tag)) {
+                  done = true; // was an endgroup tag
+                }
+                break;
+              } // default:
+            } // switch (tag)
+          } // while (!done)
+        } catch (com.google.protobuf.InvalidProtocolBufferException e) {
+          throw e.unwrapIOException();
+        } finally {
+          onChanged();
+        } // finally
+        return this;
+      }
+      private int bitField0_;
+
+      private com.google.protobuf.Internal.LongList userId_ = emptyLongList();
+      private void ensureUserIdIsMutable() {
+        if (!userId_.isModifiable()) {
+          userId_ = makeMutableCopy(userId_);
+        }
+        bitField0_ |= 0x00000001;
+      }
+      /**
+       * <code>repeated int64 userId = 1;</code>
+       * @return A list containing the userId.
+       */
+      public java.util.List<java.lang.Long>
+          getUserIdList() {
+        userId_.makeImmutable();
+        return userId_;
+      }
+      /**
+       * <code>repeated int64 userId = 1;</code>
+       * @return The count of userId.
+       */
+      public int getUserIdCount() {
+        return userId_.size();
+      }
+      /**
+       * <code>repeated int64 userId = 1;</code>
+       * @param index The index of the element to return.
+       * @return The userId at the given index.
+       */
+      public long getUserId(int index) {
+        return userId_.getLong(index);
+      }
+      /**
+       * <code>repeated int64 userId = 1;</code>
+       * @param index The index to set the value at.
+       * @param value The userId to set.
+       * @return This builder for chaining.
+       */
+      public Builder setUserId(
+          int index, long value) {
+
+        ensureUserIdIsMutable();
+        userId_.setLong(index, value);
+        bitField0_ |= 0x00000001;
+        onChanged();
+        return this;
+      }
+      /**
+       * <code>repeated int64 userId = 1;</code>
+       * @param value The userId to add.
+       * @return This builder for chaining.
+       */
+      public Builder addUserId(long value) {
+
+        ensureUserIdIsMutable();
+        userId_.addLong(value);
+        bitField0_ |= 0x00000001;
+        onChanged();
+        return this;
+      }
+      /**
+       * <code>repeated int64 userId = 1;</code>
+       * @param values The userId to add.
+       * @return This builder for chaining.
+       */
+      public Builder addAllUserId(
+          java.lang.Iterable<? extends java.lang.Long> values) {
+        ensureUserIdIsMutable();
+        com.google.protobuf.AbstractMessageLite.Builder.addAll(
+            values, userId_);
+        bitField0_ |= 0x00000001;
+        onChanged();
+        return this;
+      }
+      /**
+       * <code>repeated int64 userId = 1;</code>
+       * @return This builder for chaining.
+       */
+      public Builder clearUserId() {
+        userId_ = emptyLongList();
+        bitField0_ = (bitField0_ & ~0x00000001);
+        onChanged();
+        return this;
+      }
+      @java.lang.Override
+      public final Builder setUnknownFields(
+          final com.google.protobuf.UnknownFieldSet unknownFields) {
+        return super.setUnknownFields(unknownFields);
+      }
+
+      @java.lang.Override
+      public final Builder mergeUnknownFields(
+          final com.google.protobuf.UnknownFieldSet unknownFields) {
+        return super.mergeUnknownFields(unknownFields);
+      }
+
+
+      // @@protoc_insertion_point(builder_scope:group_chat.GetAllGroupChatMembersResponse)
+    }
+
+    // @@protoc_insertion_point(class_scope:group_chat.GetAllGroupChatMembersResponse)
+    private static final group_chat.GroupChat.GetAllGroupChatMembersResponse DEFAULT_INSTANCE;
+    static {
+      DEFAULT_INSTANCE = new group_chat.GroupChat.GetAllGroupChatMembersResponse();
+    }
+
+    public static group_chat.GroupChat.GetAllGroupChatMembersResponse getDefaultInstance() {
+      return DEFAULT_INSTANCE;
+    }
+
+    private static final com.google.protobuf.Parser<GetAllGroupChatMembersResponse>
+        PARSER = new com.google.protobuf.AbstractParser<GetAllGroupChatMembersResponse>() {
+      @java.lang.Override
+      public GetAllGroupChatMembersResponse parsePartialFrom(
+          com.google.protobuf.CodedInputStream input,
+          com.google.protobuf.ExtensionRegistryLite extensionRegistry)
+          throws com.google.protobuf.InvalidProtocolBufferException {
+        Builder builder = newBuilder();
+        try {
+          builder.mergeFrom(input, extensionRegistry);
+        } catch (com.google.protobuf.InvalidProtocolBufferException e) {
+          throw e.setUnfinishedMessage(builder.buildPartial());
+        } catch (com.google.protobuf.UninitializedMessageException e) {
+          throw e.asInvalidProtocolBufferException().setUnfinishedMessage(builder.buildPartial());
+        } catch (java.io.IOException e) {
+          throw new com.google.protobuf.InvalidProtocolBufferException(e)
+              .setUnfinishedMessage(builder.buildPartial());
+        }
+        return builder.buildPartial();
+      }
+    };
+
+    public static com.google.protobuf.Parser<GetAllGroupChatMembersResponse> parser() {
+      return PARSER;
+    }
+
+    @java.lang.Override
+    public com.google.protobuf.Parser<GetAllGroupChatMembersResponse> getParserForType() {
+      return PARSER;
+    }
+
+    @java.lang.Override
+    public group_chat.GroupChat.GetAllGroupChatMembersResponse getDefaultInstanceForType() {
+      return DEFAULT_INSTANCE;
+    }
+
+  }
+
   private static final com.google.protobuf.Descriptors.Descriptor
     internal_static_group_chat_ValidateMemberRightsInGroupChatRequest_descriptor;
   private static final 
@@ -1271,6 +2344,16 @@ public final class GroupChat {
   private static final 
     com.google.protobuf.GeneratedMessageV3.FieldAccessorTable
       internal_static_group_chat_ValidateMemberRightsInGroupChatRequestResponse_fieldAccessorTable;
+  private static final com.google.protobuf.Descriptors.Descriptor
+    internal_static_group_chat_GetAllGroupChatMembersRequest_descriptor;
+  private static final 
+    com.google.protobuf.GeneratedMessageV3.FieldAccessorTable
+      internal_static_group_chat_GetAllGroupChatMembersRequest_fieldAccessorTable;
+  private static final com.google.protobuf.Descriptors.Descriptor
+    internal_static_group_chat_GetAllGroupChatMembersResponse_descriptor;
+  private static final 
+    com.google.protobuf.GeneratedMessageV3.FieldAccessorTable
+      internal_static_group_chat_GetAllGroupChatMembersResponse_fieldAccessorTable;
 
   public static com.google.protobuf.Descriptors.FileDescriptor
       getDescriptor() {
@@ -1285,12 +2368,17 @@ public final class GroupChat {
       "Id\030\001 \001(\003\022\016\n\006chatId\030\002 \001(\003\"\177\n.ValidateMemb" +
       "erRightsInGroupChatRequestResponse\022\016\n\006us" +
       "erId\030\001 \001(\003\022\016\n\006chatId\030\002 \001(\003\022\026\n\016canSendMes" +
-      "sage\030\003 \001(\010\022\025\n\rcanGetMessage\030\004 \001(\0102\246\001\n\020Gr" +
-      "oupChatService\022\221\001\n\037ValidateMemberRightsI" +
-      "nGroupChat\0222.group_chat.ValidateMemberRi" +
-      "ghtsInGroupChatRequest\032:.group_chat.Vali" +
-      "dateMemberRightsInGroupChatRequestRespon" +
-      "seb\006proto3"
+      "sage\030\003 \001(\010\022\025\n\rcanGetMessage\030\004 \001(\010\"/\n\035Get" +
+      "AllGroupChatMembersRequest\022\016\n\006chatId\030\001 \001" +
+      "(\003\"0\n\036GetAllGroupChatMembersResponse\022\016\n\006" +
+      "userId\030\001 \003(\0032\227\002\n\020GroupChatService\022\221\001\n\037Va" +
+      "lidateMemberRightsInGroupChat\0222.group_ch" +
+      "at.ValidateMemberRightsInGroupChatReques" +
+      "t\032:.group_chat.ValidateMemberRightsInGro" +
+      "upChatRequestResponse\022o\n\026GetAllGroupChat" +
+      "Members\022).group_chat.GetAllGroupChatMemb" +
+      "ersRequest\032*.group_chat.GetAllGroupChatM" +
+      "embersResponseb\006proto3"
     };
     descriptor = com.google.protobuf.Descriptors.FileDescriptor
       .internalBuildGeneratedFileFrom(descriptorData,
@@ -1308,6 +2396,18 @@ public final class GroupChat {
       com.google.protobuf.GeneratedMessageV3.FieldAccessorTable(
         internal_static_group_chat_ValidateMemberRightsInGroupChatRequestResponse_descriptor,
         new java.lang.String[] { "UserId", "ChatId", "CanSendMessage", "CanGetMessage", });
+    internal_static_group_chat_GetAllGroupChatMembersRequest_descriptor =
+      getDescriptor().getMessageTypes().get(2);
+    internal_static_group_chat_GetAllGroupChatMembersRequest_fieldAccessorTable = new
+      com.google.protobuf.GeneratedMessageV3.FieldAccessorTable(
+        internal_static_group_chat_GetAllGroupChatMembersRequest_descriptor,
+        new java.lang.String[] { "ChatId", });
+    internal_static_group_chat_GetAllGroupChatMembersResponse_descriptor =
+      getDescriptor().getMessageTypes().get(3);
+    internal_static_group_chat_GetAllGroupChatMembersResponse_fieldAccessorTable = new
+      com.google.protobuf.GeneratedMessageV3.FieldAccessorTable(
+        internal_static_group_chat_GetAllGroupChatMembersResponse_descriptor,
+        new java.lang.String[] { "UserId", });
   }
 
   // @@protoc_insertion_point(outer_class_scope)

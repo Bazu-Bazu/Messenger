@@ -1,10 +1,12 @@
-package messenger.message.service.entity;
+package messenger.message.service.domain.entity;
 
 import jakarta.persistence.*;
 import lombok.AllArgsConstructor;
 import lombok.Builder;
 import lombok.Data;
 import lombok.NoArgsConstructor;
+import messenger.message.service.domain.enums.ChatType;
+import messenger.message.service.domain.enums.MessageType;
 
 import java.time.Instant;
 
@@ -23,6 +25,10 @@ public class Message {
     @Column(nullable = false)
     private Long chatId;
 
+    @Enumerated(EnumType.STRING)
+    @Column(nullable = false)
+    private ChatType chatType;
+
     @Column(nullable = false)
     private String content;
 
@@ -31,7 +37,7 @@ public class Message {
 
     @Enumerated(EnumType.STRING)
     @Column(nullable = false)
-    private MessageType type;
+    private MessageType messageType;
 
     @Column(nullable = false)
     private Instant createdAt;

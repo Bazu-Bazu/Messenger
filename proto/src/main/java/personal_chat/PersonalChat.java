@@ -1188,6 +1188,1079 @@ public final class PersonalChat {
 
   }
 
+  public interface GetAllPersonalChatMembersRequestOrBuilder extends
+      // @@protoc_insertion_point(interface_extends:personal_chat.GetAllPersonalChatMembersRequest)
+      com.google.protobuf.MessageOrBuilder {
+
+    /**
+     * <code>int64 chatId = 1;</code>
+     * @return The chatId.
+     */
+    long getChatId();
+  }
+  /**
+   * Protobuf type {@code personal_chat.GetAllPersonalChatMembersRequest}
+   */
+  public static final class GetAllPersonalChatMembersRequest extends
+      com.google.protobuf.GeneratedMessageV3 implements
+      // @@protoc_insertion_point(message_implements:personal_chat.GetAllPersonalChatMembersRequest)
+      GetAllPersonalChatMembersRequestOrBuilder {
+  private static final long serialVersionUID = 0L;
+    // Use GetAllPersonalChatMembersRequest.newBuilder() to construct.
+    private GetAllPersonalChatMembersRequest(com.google.protobuf.GeneratedMessageV3.Builder<?> builder) {
+      super(builder);
+    }
+    private GetAllPersonalChatMembersRequest() {
+    }
+
+    @java.lang.Override
+    @SuppressWarnings({"unused"})
+    protected java.lang.Object newInstance(
+        UnusedPrivateParameter unused) {
+      return new GetAllPersonalChatMembersRequest();
+    }
+
+    public static final com.google.protobuf.Descriptors.Descriptor
+        getDescriptor() {
+      return personal_chat.PersonalChat.internal_static_personal_chat_GetAllPersonalChatMembersRequest_descriptor;
+    }
+
+    @java.lang.Override
+    protected com.google.protobuf.GeneratedMessageV3.FieldAccessorTable
+        internalGetFieldAccessorTable() {
+      return personal_chat.PersonalChat.internal_static_personal_chat_GetAllPersonalChatMembersRequest_fieldAccessorTable
+          .ensureFieldAccessorsInitialized(
+              personal_chat.PersonalChat.GetAllPersonalChatMembersRequest.class, personal_chat.PersonalChat.GetAllPersonalChatMembersRequest.Builder.class);
+    }
+
+    public static final int CHATID_FIELD_NUMBER = 1;
+    private long chatId_ = 0L;
+    /**
+     * <code>int64 chatId = 1;</code>
+     * @return The chatId.
+     */
+    @java.lang.Override
+    public long getChatId() {
+      return chatId_;
+    }
+
+    private byte memoizedIsInitialized = -1;
+    @java.lang.Override
+    public final boolean isInitialized() {
+      byte isInitialized = memoizedIsInitialized;
+      if (isInitialized == 1) return true;
+      if (isInitialized == 0) return false;
+
+      memoizedIsInitialized = 1;
+      return true;
+    }
+
+    @java.lang.Override
+    public void writeTo(com.google.protobuf.CodedOutputStream output)
+                        throws java.io.IOException {
+      if (chatId_ != 0L) {
+        output.writeInt64(1, chatId_);
+      }
+      getUnknownFields().writeTo(output);
+    }
+
+    @java.lang.Override
+    public int getSerializedSize() {
+      int size = memoizedSize;
+      if (size != -1) return size;
+
+      size = 0;
+      if (chatId_ != 0L) {
+        size += com.google.protobuf.CodedOutputStream
+          .computeInt64Size(1, chatId_);
+      }
+      size += getUnknownFields().getSerializedSize();
+      memoizedSize = size;
+      return size;
+    }
+
+    @java.lang.Override
+    public boolean equals(final java.lang.Object obj) {
+      if (obj == this) {
+       return true;
+      }
+      if (!(obj instanceof personal_chat.PersonalChat.GetAllPersonalChatMembersRequest)) {
+        return super.equals(obj);
+      }
+      personal_chat.PersonalChat.GetAllPersonalChatMembersRequest other = (personal_chat.PersonalChat.GetAllPersonalChatMembersRequest) obj;
+
+      if (getChatId()
+          != other.getChatId()) return false;
+      if (!getUnknownFields().equals(other.getUnknownFields())) return false;
+      return true;
+    }
+
+    @java.lang.Override
+    public int hashCode() {
+      if (memoizedHashCode != 0) {
+        return memoizedHashCode;
+      }
+      int hash = 41;
+      hash = (19 * hash) + getDescriptor().hashCode();
+      hash = (37 * hash) + CHATID_FIELD_NUMBER;
+      hash = (53 * hash) + com.google.protobuf.Internal.hashLong(
+          getChatId());
+      hash = (29 * hash) + getUnknownFields().hashCode();
+      memoizedHashCode = hash;
+      return hash;
+    }
+
+    public static personal_chat.PersonalChat.GetAllPersonalChatMembersRequest parseFrom(
+        java.nio.ByteBuffer data)
+        throws com.google.protobuf.InvalidProtocolBufferException {
+      return PARSER.parseFrom(data);
+    }
+    public static personal_chat.PersonalChat.GetAllPersonalChatMembersRequest parseFrom(
+        java.nio.ByteBuffer data,
+        com.google.protobuf.ExtensionRegistryLite extensionRegistry)
+        throws com.google.protobuf.InvalidProtocolBufferException {
+      return PARSER.parseFrom(data, extensionRegistry);
+    }
+    public static personal_chat.PersonalChat.GetAllPersonalChatMembersRequest parseFrom(
+        com.google.protobuf.ByteString data)
+        throws com.google.protobuf.InvalidProtocolBufferException {
+      return PARSER.parseFrom(data);
+    }
+    public static personal_chat.PersonalChat.GetAllPersonalChatMembersRequest parseFrom(
+        com.google.protobuf.ByteString data,
+        com.google.protobuf.ExtensionRegistryLite extensionRegistry)
+        throws com.google.protobuf.InvalidProtocolBufferException {
+      return PARSER.parseFrom(data, extensionRegistry);
+    }
+    public static personal_chat.PersonalChat.GetAllPersonalChatMembersRequest parseFrom(byte[] data)
+        throws com.google.protobuf.InvalidProtocolBufferException {
+      return PARSER.parseFrom(data);
+    }
+    public static personal_chat.PersonalChat.GetAllPersonalChatMembersRequest parseFrom(
+        byte[] data,
+        com.google.protobuf.ExtensionRegistryLite extensionRegistry)
+        throws com.google.protobuf.InvalidProtocolBufferException {
+      return PARSER.parseFrom(data, extensionRegistry);
+    }
+    public static personal_chat.PersonalChat.GetAllPersonalChatMembersRequest parseFrom(java.io.InputStream input)
+        throws java.io.IOException {
+      return com.google.protobuf.GeneratedMessageV3
+          .parseWithIOException(PARSER, input);
+    }
+    public static personal_chat.PersonalChat.GetAllPersonalChatMembersRequest parseFrom(
+        java.io.InputStream input,
+        com.google.protobuf.ExtensionRegistryLite extensionRegistry)
+        throws java.io.IOException {
+      return com.google.protobuf.GeneratedMessageV3
+          .parseWithIOException(PARSER, input, extensionRegistry);
+    }
+
+    public static personal_chat.PersonalChat.GetAllPersonalChatMembersRequest parseDelimitedFrom(java.io.InputStream input)
+        throws java.io.IOException {
+      return com.google.protobuf.GeneratedMessageV3
+          .parseDelimitedWithIOException(PARSER, input);
+    }
+
+    public static personal_chat.PersonalChat.GetAllPersonalChatMembersRequest parseDelimitedFrom(
+        java.io.InputStream input,
+        com.google.protobuf.ExtensionRegistryLite extensionRegistry)
+        throws java.io.IOException {
+      return com.google.protobuf.GeneratedMessageV3
+          .parseDelimitedWithIOException(PARSER, input, extensionRegistry);
+    }
+    public static personal_chat.PersonalChat.GetAllPersonalChatMembersRequest parseFrom(
+        com.google.protobuf.CodedInputStream input)
+        throws java.io.IOException {
+      return com.google.protobuf.GeneratedMessageV3
+          .parseWithIOException(PARSER, input);
+    }
+    public static personal_chat.PersonalChat.GetAllPersonalChatMembersRequest parseFrom(
+        com.google.protobuf.CodedInputStream input,
+        com.google.protobuf.ExtensionRegistryLite extensionRegistry)
+        throws java.io.IOException {
+      return com.google.protobuf.GeneratedMessageV3
+          .parseWithIOException(PARSER, input, extensionRegistry);
+    }
+
+    @java.lang.Override
+    public Builder newBuilderForType() { return newBuilder(); }
+    public static Builder newBuilder() {
+      return DEFAULT_INSTANCE.toBuilder();
+    }
+    public static Builder newBuilder(personal_chat.PersonalChat.GetAllPersonalChatMembersRequest prototype) {
+      return DEFAULT_INSTANCE.toBuilder().mergeFrom(prototype);
+    }
+    @java.lang.Override
+    public Builder toBuilder() {
+      return this == DEFAULT_INSTANCE
+          ? new Builder() : new Builder().mergeFrom(this);
+    }
+
+    @java.lang.Override
+    protected Builder newBuilderForType(
+        com.google.protobuf.GeneratedMessageV3.BuilderParent parent) {
+      Builder builder = new Builder(parent);
+      return builder;
+    }
+    /**
+     * Protobuf type {@code personal_chat.GetAllPersonalChatMembersRequest}
+     */
+    public static final class Builder extends
+        com.google.protobuf.GeneratedMessageV3.Builder<Builder> implements
+        // @@protoc_insertion_point(builder_implements:personal_chat.GetAllPersonalChatMembersRequest)
+        personal_chat.PersonalChat.GetAllPersonalChatMembersRequestOrBuilder {
+      public static final com.google.protobuf.Descriptors.Descriptor
+          getDescriptor() {
+        return personal_chat.PersonalChat.internal_static_personal_chat_GetAllPersonalChatMembersRequest_descriptor;
+      }
+
+      @java.lang.Override
+      protected com.google.protobuf.GeneratedMessageV3.FieldAccessorTable
+          internalGetFieldAccessorTable() {
+        return personal_chat.PersonalChat.internal_static_personal_chat_GetAllPersonalChatMembersRequest_fieldAccessorTable
+            .ensureFieldAccessorsInitialized(
+                personal_chat.PersonalChat.GetAllPersonalChatMembersRequest.class, personal_chat.PersonalChat.GetAllPersonalChatMembersRequest.Builder.class);
+      }
+
+      // Construct using personal_chat.PersonalChat.GetAllPersonalChatMembersRequest.newBuilder()
+      private Builder() {
+
+      }
+
+      private Builder(
+          com.google.protobuf.GeneratedMessageV3.BuilderParent parent) {
+        super(parent);
+
+      }
+      @java.lang.Override
+      public Builder clear() {
+        super.clear();
+        bitField0_ = 0;
+        chatId_ = 0L;
+        return this;
+      }
+
+      @java.lang.Override
+      public com.google.protobuf.Descriptors.Descriptor
+          getDescriptorForType() {
+        return personal_chat.PersonalChat.internal_static_personal_chat_GetAllPersonalChatMembersRequest_descriptor;
+      }
+
+      @java.lang.Override
+      public personal_chat.PersonalChat.GetAllPersonalChatMembersRequest getDefaultInstanceForType() {
+        return personal_chat.PersonalChat.GetAllPersonalChatMembersRequest.getDefaultInstance();
+      }
+
+      @java.lang.Override
+      public personal_chat.PersonalChat.GetAllPersonalChatMembersRequest build() {
+        personal_chat.PersonalChat.GetAllPersonalChatMembersRequest result = buildPartial();
+        if (!result.isInitialized()) {
+          throw newUninitializedMessageException(result);
+        }
+        return result;
+      }
+
+      @java.lang.Override
+      public personal_chat.PersonalChat.GetAllPersonalChatMembersRequest buildPartial() {
+        personal_chat.PersonalChat.GetAllPersonalChatMembersRequest result = new personal_chat.PersonalChat.GetAllPersonalChatMembersRequest(this);
+        if (bitField0_ != 0) { buildPartial0(result); }
+        onBuilt();
+        return result;
+      }
+
+      private void buildPartial0(personal_chat.PersonalChat.GetAllPersonalChatMembersRequest result) {
+        int from_bitField0_ = bitField0_;
+        if (((from_bitField0_ & 0x00000001) != 0)) {
+          result.chatId_ = chatId_;
+        }
+      }
+
+      @java.lang.Override
+      public Builder clone() {
+        return super.clone();
+      }
+      @java.lang.Override
+      public Builder setField(
+          com.google.protobuf.Descriptors.FieldDescriptor field,
+          java.lang.Object value) {
+        return super.setField(field, value);
+      }
+      @java.lang.Override
+      public Builder clearField(
+          com.google.protobuf.Descriptors.FieldDescriptor field) {
+        return super.clearField(field);
+      }
+      @java.lang.Override
+      public Builder clearOneof(
+          com.google.protobuf.Descriptors.OneofDescriptor oneof) {
+        return super.clearOneof(oneof);
+      }
+      @java.lang.Override
+      public Builder setRepeatedField(
+          com.google.protobuf.Descriptors.FieldDescriptor field,
+          int index, java.lang.Object value) {
+        return super.setRepeatedField(field, index, value);
+      }
+      @java.lang.Override
+      public Builder addRepeatedField(
+          com.google.protobuf.Descriptors.FieldDescriptor field,
+          java.lang.Object value) {
+        return super.addRepeatedField(field, value);
+      }
+      @java.lang.Override
+      public Builder mergeFrom(com.google.protobuf.Message other) {
+        if (other instanceof personal_chat.PersonalChat.GetAllPersonalChatMembersRequest) {
+          return mergeFrom((personal_chat.PersonalChat.GetAllPersonalChatMembersRequest)other);
+        } else {
+          super.mergeFrom(other);
+          return this;
+        }
+      }
+
+      public Builder mergeFrom(personal_chat.PersonalChat.GetAllPersonalChatMembersRequest other) {
+        if (other == personal_chat.PersonalChat.GetAllPersonalChatMembersRequest.getDefaultInstance()) return this;
+        if (other.getChatId() != 0L) {
+          setChatId(other.getChatId());
+        }
+        this.mergeUnknownFields(other.getUnknownFields());
+        onChanged();
+        return this;
+      }
+
+      @java.lang.Override
+      public final boolean isInitialized() {
+        return true;
+      }
+
+      @java.lang.Override
+      public Builder mergeFrom(
+          com.google.protobuf.CodedInputStream input,
+          com.google.protobuf.ExtensionRegistryLite extensionRegistry)
+          throws java.io.IOException {
+        if (extensionRegistry == null) {
+          throw new java.lang.NullPointerException();
+        }
+        try {
+          boolean done = false;
+          while (!done) {
+            int tag = input.readTag();
+            switch (tag) {
+              case 0:
+                done = true;
+                break;
+              case 8: {
+                chatId_ = input.readInt64();
+                bitField0_ |= 0x00000001;
+                break;
+              } // case 8
+              default: {
+                if (!super.parseUnknownField(input, extensionRegistry, tag)) {
+                  done = true; // was an endgroup tag
+                }
+                break;
+              } // default:
+            } // switch (tag)
+          } // while (!done)
+        } catch (com.google.protobuf.InvalidProtocolBufferException e) {
+          throw e.unwrapIOException();
+        } finally {
+          onChanged();
+        } // finally
+        return this;
+      }
+      private int bitField0_;
+
+      private long chatId_ ;
+      /**
+       * <code>int64 chatId = 1;</code>
+       * @return The chatId.
+       */
+      @java.lang.Override
+      public long getChatId() {
+        return chatId_;
+      }
+      /**
+       * <code>int64 chatId = 1;</code>
+       * @param value The chatId to set.
+       * @return This builder for chaining.
+       */
+      public Builder setChatId(long value) {
+
+        chatId_ = value;
+        bitField0_ |= 0x00000001;
+        onChanged();
+        return this;
+      }
+      /**
+       * <code>int64 chatId = 1;</code>
+       * @return This builder for chaining.
+       */
+      public Builder clearChatId() {
+        bitField0_ = (bitField0_ & ~0x00000001);
+        chatId_ = 0L;
+        onChanged();
+        return this;
+      }
+      @java.lang.Override
+      public final Builder setUnknownFields(
+          final com.google.protobuf.UnknownFieldSet unknownFields) {
+        return super.setUnknownFields(unknownFields);
+      }
+
+      @java.lang.Override
+      public final Builder mergeUnknownFields(
+          final com.google.protobuf.UnknownFieldSet unknownFields) {
+        return super.mergeUnknownFields(unknownFields);
+      }
+
+
+      // @@protoc_insertion_point(builder_scope:personal_chat.GetAllPersonalChatMembersRequest)
+    }
+
+    // @@protoc_insertion_point(class_scope:personal_chat.GetAllPersonalChatMembersRequest)
+    private static final personal_chat.PersonalChat.GetAllPersonalChatMembersRequest DEFAULT_INSTANCE;
+    static {
+      DEFAULT_INSTANCE = new personal_chat.PersonalChat.GetAllPersonalChatMembersRequest();
+    }
+
+    public static personal_chat.PersonalChat.GetAllPersonalChatMembersRequest getDefaultInstance() {
+      return DEFAULT_INSTANCE;
+    }
+
+    private static final com.google.protobuf.Parser<GetAllPersonalChatMembersRequest>
+        PARSER = new com.google.protobuf.AbstractParser<GetAllPersonalChatMembersRequest>() {
+      @java.lang.Override
+      public GetAllPersonalChatMembersRequest parsePartialFrom(
+          com.google.protobuf.CodedInputStream input,
+          com.google.protobuf.ExtensionRegistryLite extensionRegistry)
+          throws com.google.protobuf.InvalidProtocolBufferException {
+        Builder builder = newBuilder();
+        try {
+          builder.mergeFrom(input, extensionRegistry);
+        } catch (com.google.protobuf.InvalidProtocolBufferException e) {
+          throw e.setUnfinishedMessage(builder.buildPartial());
+        } catch (com.google.protobuf.UninitializedMessageException e) {
+          throw e.asInvalidProtocolBufferException().setUnfinishedMessage(builder.buildPartial());
+        } catch (java.io.IOException e) {
+          throw new com.google.protobuf.InvalidProtocolBufferException(e)
+              .setUnfinishedMessage(builder.buildPartial());
+        }
+        return builder.buildPartial();
+      }
+    };
+
+    public static com.google.protobuf.Parser<GetAllPersonalChatMembersRequest> parser() {
+      return PARSER;
+    }
+
+    @java.lang.Override
+    public com.google.protobuf.Parser<GetAllPersonalChatMembersRequest> getParserForType() {
+      return PARSER;
+    }
+
+    @java.lang.Override
+    public personal_chat.PersonalChat.GetAllPersonalChatMembersRequest getDefaultInstanceForType() {
+      return DEFAULT_INSTANCE;
+    }
+
+  }
+
+  public interface GetAllPersonalChatMembersResponseOrBuilder extends
+      // @@protoc_insertion_point(interface_extends:personal_chat.GetAllPersonalChatMembersResponse)
+      com.google.protobuf.MessageOrBuilder {
+
+    /**
+     * <code>repeated int64 userId = 1;</code>
+     * @return A list containing the userId.
+     */
+    java.util.List<java.lang.Long> getUserIdList();
+    /**
+     * <code>repeated int64 userId = 1;</code>
+     * @return The count of userId.
+     */
+    int getUserIdCount();
+    /**
+     * <code>repeated int64 userId = 1;</code>
+     * @param index The index of the element to return.
+     * @return The userId at the given index.
+     */
+    long getUserId(int index);
+  }
+  /**
+   * Protobuf type {@code personal_chat.GetAllPersonalChatMembersResponse}
+   */
+  public static final class GetAllPersonalChatMembersResponse extends
+      com.google.protobuf.GeneratedMessageV3 implements
+      // @@protoc_insertion_point(message_implements:personal_chat.GetAllPersonalChatMembersResponse)
+      GetAllPersonalChatMembersResponseOrBuilder {
+  private static final long serialVersionUID = 0L;
+    // Use GetAllPersonalChatMembersResponse.newBuilder() to construct.
+    private GetAllPersonalChatMembersResponse(com.google.protobuf.GeneratedMessageV3.Builder<?> builder) {
+      super(builder);
+    }
+    private GetAllPersonalChatMembersResponse() {
+      userId_ = emptyLongList();
+    }
+
+    @java.lang.Override
+    @SuppressWarnings({"unused"})
+    protected java.lang.Object newInstance(
+        UnusedPrivateParameter unused) {
+      return new GetAllPersonalChatMembersResponse();
+    }
+
+    public static final com.google.protobuf.Descriptors.Descriptor
+        getDescriptor() {
+      return personal_chat.PersonalChat.internal_static_personal_chat_GetAllPersonalChatMembersResponse_descriptor;
+    }
+
+    @java.lang.Override
+    protected com.google.protobuf.GeneratedMessageV3.FieldAccessorTable
+        internalGetFieldAccessorTable() {
+      return personal_chat.PersonalChat.internal_static_personal_chat_GetAllPersonalChatMembersResponse_fieldAccessorTable
+          .ensureFieldAccessorsInitialized(
+              personal_chat.PersonalChat.GetAllPersonalChatMembersResponse.class, personal_chat.PersonalChat.GetAllPersonalChatMembersResponse.Builder.class);
+    }
+
+    public static final int USERID_FIELD_NUMBER = 1;
+    @SuppressWarnings("serial")
+    private com.google.protobuf.Internal.LongList userId_ =
+        emptyLongList();
+    /**
+     * <code>repeated int64 userId = 1;</code>
+     * @return A list containing the userId.
+     */
+    @java.lang.Override
+    public java.util.List<java.lang.Long>
+        getUserIdList() {
+      return userId_;
+    }
+    /**
+     * <code>repeated int64 userId = 1;</code>
+     * @return The count of userId.
+     */
+    public int getUserIdCount() {
+      return userId_.size();
+    }
+    /**
+     * <code>repeated int64 userId = 1;</code>
+     * @param index The index of the element to return.
+     * @return The userId at the given index.
+     */
+    public long getUserId(int index) {
+      return userId_.getLong(index);
+    }
+    private int userIdMemoizedSerializedSize = -1;
+
+    private byte memoizedIsInitialized = -1;
+    @java.lang.Override
+    public final boolean isInitialized() {
+      byte isInitialized = memoizedIsInitialized;
+      if (isInitialized == 1) return true;
+      if (isInitialized == 0) return false;
+
+      memoizedIsInitialized = 1;
+      return true;
+    }
+
+    @java.lang.Override
+    public void writeTo(com.google.protobuf.CodedOutputStream output)
+                        throws java.io.IOException {
+      getSerializedSize();
+      if (getUserIdList().size() > 0) {
+        output.writeUInt32NoTag(10);
+        output.writeUInt32NoTag(userIdMemoizedSerializedSize);
+      }
+      for (int i = 0; i < userId_.size(); i++) {
+        output.writeInt64NoTag(userId_.getLong(i));
+      }
+      getUnknownFields().writeTo(output);
+    }
+
+    @java.lang.Override
+    public int getSerializedSize() {
+      int size = memoizedSize;
+      if (size != -1) return size;
+
+      size = 0;
+      {
+        int dataSize = 0;
+        for (int i = 0; i < userId_.size(); i++) {
+          dataSize += com.google.protobuf.CodedOutputStream
+            .computeInt64SizeNoTag(userId_.getLong(i));
+        }
+        size += dataSize;
+        if (!getUserIdList().isEmpty()) {
+          size += 1;
+          size += com.google.protobuf.CodedOutputStream
+              .computeInt32SizeNoTag(dataSize);
+        }
+        userIdMemoizedSerializedSize = dataSize;
+      }
+      size += getUnknownFields().getSerializedSize();
+      memoizedSize = size;
+      return size;
+    }
+
+    @java.lang.Override
+    public boolean equals(final java.lang.Object obj) {
+      if (obj == this) {
+       return true;
+      }
+      if (!(obj instanceof personal_chat.PersonalChat.GetAllPersonalChatMembersResponse)) {
+        return super.equals(obj);
+      }
+      personal_chat.PersonalChat.GetAllPersonalChatMembersResponse other = (personal_chat.PersonalChat.GetAllPersonalChatMembersResponse) obj;
+
+      if (!getUserIdList()
+          .equals(other.getUserIdList())) return false;
+      if (!getUnknownFields().equals(other.getUnknownFields())) return false;
+      return true;
+    }
+
+    @java.lang.Override
+    public int hashCode() {
+      if (memoizedHashCode != 0) {
+        return memoizedHashCode;
+      }
+      int hash = 41;
+      hash = (19 * hash) + getDescriptor().hashCode();
+      if (getUserIdCount() > 0) {
+        hash = (37 * hash) + USERID_FIELD_NUMBER;
+        hash = (53 * hash) + getUserIdList().hashCode();
+      }
+      hash = (29 * hash) + getUnknownFields().hashCode();
+      memoizedHashCode = hash;
+      return hash;
+    }
+
+    public static personal_chat.PersonalChat.GetAllPersonalChatMembersResponse parseFrom(
+        java.nio.ByteBuffer data)
+        throws com.google.protobuf.InvalidProtocolBufferException {
+      return PARSER.parseFrom(data);
+    }
+    public static personal_chat.PersonalChat.GetAllPersonalChatMembersResponse parseFrom(
+        java.nio.ByteBuffer data,
+        com.google.protobuf.ExtensionRegistryLite extensionRegistry)
+        throws com.google.protobuf.InvalidProtocolBufferException {
+      return PARSER.parseFrom(data, extensionRegistry);
+    }
+    public static personal_chat.PersonalChat.GetAllPersonalChatMembersResponse parseFrom(
+        com.google.protobuf.ByteString data)
+        throws com.google.protobuf.InvalidProtocolBufferException {
+      return PARSER.parseFrom(data);
+    }
+    public static personal_chat.PersonalChat.GetAllPersonalChatMembersResponse parseFrom(
+        com.google.protobuf.ByteString data,
+        com.google.protobuf.ExtensionRegistryLite extensionRegistry)
+        throws com.google.protobuf.InvalidProtocolBufferException {
+      return PARSER.parseFrom(data, extensionRegistry);
+    }
+    public static personal_chat.PersonalChat.GetAllPersonalChatMembersResponse parseFrom(byte[] data)
+        throws com.google.protobuf.InvalidProtocolBufferException {
+      return PARSER.parseFrom(data);
+    }
+    public static personal_chat.PersonalChat.GetAllPersonalChatMembersResponse parseFrom(
+        byte[] data,
+        com.google.protobuf.ExtensionRegistryLite extensionRegistry)
+        throws com.google.protobuf.InvalidProtocolBufferException {
+      return PARSER.parseFrom(data, extensionRegistry);
+    }
+    public static personal_chat.PersonalChat.GetAllPersonalChatMembersResponse parseFrom(java.io.InputStream input)
+        throws java.io.IOException {
+      return com.google.protobuf.GeneratedMessageV3
+          .parseWithIOException(PARSER, input);
+    }
+    public static personal_chat.PersonalChat.GetAllPersonalChatMembersResponse parseFrom(
+        java.io.InputStream input,
+        com.google.protobuf.ExtensionRegistryLite extensionRegistry)
+        throws java.io.IOException {
+      return com.google.protobuf.GeneratedMessageV3
+          .parseWithIOException(PARSER, input, extensionRegistry);
+    }
+
+    public static personal_chat.PersonalChat.GetAllPersonalChatMembersResponse parseDelimitedFrom(java.io.InputStream input)
+        throws java.io.IOException {
+      return com.google.protobuf.GeneratedMessageV3
+          .parseDelimitedWithIOException(PARSER, input);
+    }
+
+    public static personal_chat.PersonalChat.GetAllPersonalChatMembersResponse parseDelimitedFrom(
+        java.io.InputStream input,
+        com.google.protobuf.ExtensionRegistryLite extensionRegistry)
+        throws java.io.IOException {
+      return com.google.protobuf.GeneratedMessageV3
+          .parseDelimitedWithIOException(PARSER, input, extensionRegistry);
+    }
+    public static personal_chat.PersonalChat.GetAllPersonalChatMembersResponse parseFrom(
+        com.google.protobuf.CodedInputStream input)
+        throws java.io.IOException {
+      return com.google.protobuf.GeneratedMessageV3
+          .parseWithIOException(PARSER, input);
+    }
+    public static personal_chat.PersonalChat.GetAllPersonalChatMembersResponse parseFrom(
+        com.google.protobuf.CodedInputStream input,
+        com.google.protobuf.ExtensionRegistryLite extensionRegistry)
+        throws java.io.IOException {
+      return com.google.protobuf.GeneratedMessageV3
+          .parseWithIOException(PARSER, input, extensionRegistry);
+    }
+
+    @java.lang.Override
+    public Builder newBuilderForType() { return newBuilder(); }
+    public static Builder newBuilder() {
+      return DEFAULT_INSTANCE.toBuilder();
+    }
+    public static Builder newBuilder(personal_chat.PersonalChat.GetAllPersonalChatMembersResponse prototype) {
+      return DEFAULT_INSTANCE.toBuilder().mergeFrom(prototype);
+    }
+    @java.lang.Override
+    public Builder toBuilder() {
+      return this == DEFAULT_INSTANCE
+          ? new Builder() : new Builder().mergeFrom(this);
+    }
+
+    @java.lang.Override
+    protected Builder newBuilderForType(
+        com.google.protobuf.GeneratedMessageV3.BuilderParent parent) {
+      Builder builder = new Builder(parent);
+      return builder;
+    }
+    /**
+     * Protobuf type {@code personal_chat.GetAllPersonalChatMembersResponse}
+     */
+    public static final class Builder extends
+        com.google.protobuf.GeneratedMessageV3.Builder<Builder> implements
+        // @@protoc_insertion_point(builder_implements:personal_chat.GetAllPersonalChatMembersResponse)
+        personal_chat.PersonalChat.GetAllPersonalChatMembersResponseOrBuilder {
+      public static final com.google.protobuf.Descriptors.Descriptor
+          getDescriptor() {
+        return personal_chat.PersonalChat.internal_static_personal_chat_GetAllPersonalChatMembersResponse_descriptor;
+      }
+
+      @java.lang.Override
+      protected com.google.protobuf.GeneratedMessageV3.FieldAccessorTable
+          internalGetFieldAccessorTable() {
+        return personal_chat.PersonalChat.internal_static_personal_chat_GetAllPersonalChatMembersResponse_fieldAccessorTable
+            .ensureFieldAccessorsInitialized(
+                personal_chat.PersonalChat.GetAllPersonalChatMembersResponse.class, personal_chat.PersonalChat.GetAllPersonalChatMembersResponse.Builder.class);
+      }
+
+      // Construct using personal_chat.PersonalChat.GetAllPersonalChatMembersResponse.newBuilder()
+      private Builder() {
+
+      }
+
+      private Builder(
+          com.google.protobuf.GeneratedMessageV3.BuilderParent parent) {
+        super(parent);
+
+      }
+      @java.lang.Override
+      public Builder clear() {
+        super.clear();
+        bitField0_ = 0;
+        userId_ = emptyLongList();
+        return this;
+      }
+
+      @java.lang.Override
+      public com.google.protobuf.Descriptors.Descriptor
+          getDescriptorForType() {
+        return personal_chat.PersonalChat.internal_static_personal_chat_GetAllPersonalChatMembersResponse_descriptor;
+      }
+
+      @java.lang.Override
+      public personal_chat.PersonalChat.GetAllPersonalChatMembersResponse getDefaultInstanceForType() {
+        return personal_chat.PersonalChat.GetAllPersonalChatMembersResponse.getDefaultInstance();
+      }
+
+      @java.lang.Override
+      public personal_chat.PersonalChat.GetAllPersonalChatMembersResponse build() {
+        personal_chat.PersonalChat.GetAllPersonalChatMembersResponse result = buildPartial();
+        if (!result.isInitialized()) {
+          throw newUninitializedMessageException(result);
+        }
+        return result;
+      }
+
+      @java.lang.Override
+      public personal_chat.PersonalChat.GetAllPersonalChatMembersResponse buildPartial() {
+        personal_chat.PersonalChat.GetAllPersonalChatMembersResponse result = new personal_chat.PersonalChat.GetAllPersonalChatMembersResponse(this);
+        if (bitField0_ != 0) { buildPartial0(result); }
+        onBuilt();
+        return result;
+      }
+
+      private void buildPartial0(personal_chat.PersonalChat.GetAllPersonalChatMembersResponse result) {
+        int from_bitField0_ = bitField0_;
+        if (((from_bitField0_ & 0x00000001) != 0)) {
+          userId_.makeImmutable();
+          result.userId_ = userId_;
+        }
+      }
+
+      @java.lang.Override
+      public Builder clone() {
+        return super.clone();
+      }
+      @java.lang.Override
+      public Builder setField(
+          com.google.protobuf.Descriptors.FieldDescriptor field,
+          java.lang.Object value) {
+        return super.setField(field, value);
+      }
+      @java.lang.Override
+      public Builder clearField(
+          com.google.protobuf.Descriptors.FieldDescriptor field) {
+        return super.clearField(field);
+      }
+      @java.lang.Override
+      public Builder clearOneof(
+          com.google.protobuf.Descriptors.OneofDescriptor oneof) {
+        return super.clearOneof(oneof);
+      }
+      @java.lang.Override
+      public Builder setRepeatedField(
+          com.google.protobuf.Descriptors.FieldDescriptor field,
+          int index, java.lang.Object value) {
+        return super.setRepeatedField(field, index, value);
+      }
+      @java.lang.Override
+      public Builder addRepeatedField(
+          com.google.protobuf.Descriptors.FieldDescriptor field,
+          java.lang.Object value) {
+        return super.addRepeatedField(field, value);
+      }
+      @java.lang.Override
+      public Builder mergeFrom(com.google.protobuf.Message other) {
+        if (other instanceof personal_chat.PersonalChat.GetAllPersonalChatMembersResponse) {
+          return mergeFrom((personal_chat.PersonalChat.GetAllPersonalChatMembersResponse)other);
+        } else {
+          super.mergeFrom(other);
+          return this;
+        }
+      }
+
+      public Builder mergeFrom(personal_chat.PersonalChat.GetAllPersonalChatMembersResponse other) {
+        if (other == personal_chat.PersonalChat.GetAllPersonalChatMembersResponse.getDefaultInstance()) return this;
+        if (!other.userId_.isEmpty()) {
+          if (userId_.isEmpty()) {
+            userId_ = other.userId_;
+            userId_.makeImmutable();
+            bitField0_ |= 0x00000001;
+          } else {
+            ensureUserIdIsMutable();
+            userId_.addAll(other.userId_);
+          }
+          onChanged();
+        }
+        this.mergeUnknownFields(other.getUnknownFields());
+        onChanged();
+        return this;
+      }
+
+      @java.lang.Override
+      public final boolean isInitialized() {
+        return true;
+      }
+
+      @java.lang.Override
+      public Builder mergeFrom(
+          com.google.protobuf.CodedInputStream input,
+          com.google.protobuf.ExtensionRegistryLite extensionRegistry)
+          throws java.io.IOException {
+        if (extensionRegistry == null) {
+          throw new java.lang.NullPointerException();
+        }
+        try {
+          boolean done = false;
+          while (!done) {
+            int tag = input.readTag();
+            switch (tag) {
+              case 0:
+                done = true;
+                break;
+              case 8: {
+                long v = input.readInt64();
+                ensureUserIdIsMutable();
+                userId_.addLong(v);
+                break;
+              } // case 8
+              case 10: {
+                int length = input.readRawVarint32();
+                int limit = input.pushLimit(length);
+                ensureUserIdIsMutable();
+                while (input.getBytesUntilLimit() > 0) {
+                  userId_.addLong(input.readInt64());
+                }
+                input.popLimit(limit);
+                break;
+              } // case 10
+              default: {
+                if (!super.parseUnknownField(input, extensionRegistry, tag)) {
+                  done = true; // was an endgroup tag
+                }
+                break;
+              } // default:
+            } // switch (tag)
+          } // while (!done)
+        } catch (com.google.protobuf.InvalidProtocolBufferException e) {
+          throw e.unwrapIOException();
+        } finally {
+          onChanged();
+        } // finally
+        return this;
+      }
+      private int bitField0_;
+
+      private com.google.protobuf.Internal.LongList userId_ = emptyLongList();
+      private void ensureUserIdIsMutable() {
+        if (!userId_.isModifiable()) {
+          userId_ = makeMutableCopy(userId_);
+        }
+        bitField0_ |= 0x00000001;
+      }
+      /**
+       * <code>repeated int64 userId = 1;</code>
+       * @return A list containing the userId.
+       */
+      public java.util.List<java.lang.Long>
+          getUserIdList() {
+        userId_.makeImmutable();
+        return userId_;
+      }
+      /**
+       * <code>repeated int64 userId = 1;</code>
+       * @return The count of userId.
+       */
+      public int getUserIdCount() {
+        return userId_.size();
+      }
+      /**
+       * <code>repeated int64 userId = 1;</code>
+       * @param index The index of the element to return.
+       * @return The userId at the given index.
+       */
+      public long getUserId(int index) {
+        return userId_.getLong(index);
+      }
+      /**
+       * <code>repeated int64 userId = 1;</code>
+       * @param index The index to set the value at.
+       * @param value The userId to set.
+       * @return This builder for chaining.
+       */
+      public Builder setUserId(
+          int index, long value) {
+
+        ensureUserIdIsMutable();
+        userId_.setLong(index, value);
+        bitField0_ |= 0x00000001;
+        onChanged();
+        return this;
+      }
+      /**
+       * <code>repeated int64 userId = 1;</code>
+       * @param value The userId to add.
+       * @return This builder for chaining.
+       */
+      public Builder addUserId(long value) {
+
+        ensureUserIdIsMutable();
+        userId_.addLong(value);
+        bitField0_ |= 0x00000001;
+        onChanged();
+        return this;
+      }
+      /**
+       * <code>repeated int64 userId = 1;</code>
+       * @param values The userId to add.
+       * @return This builder for chaining.
+       */
+      public Builder addAllUserId(
+          java.lang.Iterable<? extends java.lang.Long> values) {
+        ensureUserIdIsMutable();
+        com.google.protobuf.AbstractMessageLite.Builder.addAll(
+            values, userId_);
+        bitField0_ |= 0x00000001;
+        onChanged();
+        return this;
+      }
+      /**
+       * <code>repeated int64 userId = 1;</code>
+       * @return This builder for chaining.
+       */
+      public Builder clearUserId() {
+        userId_ = emptyLongList();
+        bitField0_ = (bitField0_ & ~0x00000001);
+        onChanged();
+        return this;
+      }
+      @java.lang.Override
+      public final Builder setUnknownFields(
+          final com.google.protobuf.UnknownFieldSet unknownFields) {
+        return super.setUnknownFields(unknownFields);
+      }
+
+      @java.lang.Override
+      public final Builder mergeUnknownFields(
+          final com.google.protobuf.UnknownFieldSet unknownFields) {
+        return super.mergeUnknownFields(unknownFields);
+      }
+
+
+      // @@protoc_insertion_point(builder_scope:personal_chat.GetAllPersonalChatMembersResponse)
+    }
+
+    // @@protoc_insertion_point(class_scope:personal_chat.GetAllPersonalChatMembersResponse)
+    private static final personal_chat.PersonalChat.GetAllPersonalChatMembersResponse DEFAULT_INSTANCE;
+    static {
+      DEFAULT_INSTANCE = new personal_chat.PersonalChat.GetAllPersonalChatMembersResponse();
+    }
+
+    public static personal_chat.PersonalChat.GetAllPersonalChatMembersResponse getDefaultInstance() {
+      return DEFAULT_INSTANCE;
+    }
+
+    private static final com.google.protobuf.Parser<GetAllPersonalChatMembersResponse>
+        PARSER = new com.google.protobuf.AbstractParser<GetAllPersonalChatMembersResponse>() {
+      @java.lang.Override
+      public GetAllPersonalChatMembersResponse parsePartialFrom(
+          com.google.protobuf.CodedInputStream input,
+          com.google.protobuf.ExtensionRegistryLite extensionRegistry)
+          throws com.google.protobuf.InvalidProtocolBufferException {
+        Builder builder = newBuilder();
+        try {
+          builder.mergeFrom(input, extensionRegistry);
+        } catch (com.google.protobuf.InvalidProtocolBufferException e) {
+          throw e.setUnfinishedMessage(builder.buildPartial());
+        } catch (com.google.protobuf.UninitializedMessageException e) {
+          throw e.asInvalidProtocolBufferException().setUnfinishedMessage(builder.buildPartial());
+        } catch (java.io.IOException e) {
+          throw new com.google.protobuf.InvalidProtocolBufferException(e)
+              .setUnfinishedMessage(builder.buildPartial());
+        }
+        return builder.buildPartial();
+      }
+    };
+
+    public static com.google.protobuf.Parser<GetAllPersonalChatMembersResponse> parser() {
+      return PARSER;
+    }
+
+    @java.lang.Override
+    public com.google.protobuf.Parser<GetAllPersonalChatMembersResponse> getParserForType() {
+      return PARSER;
+    }
+
+    @java.lang.Override
+    public personal_chat.PersonalChat.GetAllPersonalChatMembersResponse getDefaultInstanceForType() {
+      return DEFAULT_INSTANCE;
+    }
+
+  }
+
   private static final com.google.protobuf.Descriptors.Descriptor
     internal_static_personal_chat_ValidateUserIsMemberOfPersonalChatRequest_descriptor;
   private static final 
@@ -1198,6 +2271,16 @@ public final class PersonalChat {
   private static final 
     com.google.protobuf.GeneratedMessageV3.FieldAccessorTable
       internal_static_personal_chat_ValidateUserIsMemberOfPersonalChatResponse_fieldAccessorTable;
+  private static final com.google.protobuf.Descriptors.Descriptor
+    internal_static_personal_chat_GetAllPersonalChatMembersRequest_descriptor;
+  private static final 
+    com.google.protobuf.GeneratedMessageV3.FieldAccessorTable
+      internal_static_personal_chat_GetAllPersonalChatMembersRequest_fieldAccessorTable;
+  private static final com.google.protobuf.Descriptors.Descriptor
+    internal_static_personal_chat_GetAllPersonalChatMembersResponse_descriptor;
+  private static final 
+    com.google.protobuf.GeneratedMessageV3.FieldAccessorTable
+      internal_static_personal_chat_GetAllPersonalChatMembersResponse_fieldAccessorTable;
 
   public static com.google.protobuf.Descriptors.FileDescriptor
       getDescriptor() {
@@ -1212,11 +2295,17 @@ public final class PersonalChat {
       "t\022\016\n\006userId\030\001 \001(\003\022\016\n\006chatId\030\002 \001(\003\"^\n*Val" +
       "idateUserIsMemberOfPersonalChatResponse\022" +
       "\016\n\006userId\030\001 \001(\003\022\016\n\006chatId\030\002 \001(\003\022\020\n\010isMem" +
-      "ber\030\003 \001(\0102\261\001\n\023PersonalChatService\022\231\001\n\"Va" +
-      "lidateUserIsMemberOfPersonalChat\0228.perso" +
-      "nal_chat.ValidateUserIsMemberOfPersonalC" +
-      "hatRequest\0329.personal_chat.ValidateUserI" +
-      "sMemberOfPersonalChatResponseb\006proto3"
+      "ber\030\003 \001(\010\"2\n GetAllPersonalChatMembersRe" +
+      "quest\022\016\n\006chatId\030\001 \001(\003\"3\n!GetAllPersonalC" +
+      "hatMembersResponse\022\016\n\006userId\030\001 \003(\0032\261\002\n\023P" +
+      "ersonalChatService\022\231\001\n\"ValidateUserIsMem" +
+      "berOfPersonalChat\0228.personal_chat.Valida" +
+      "teUserIsMemberOfPersonalChatRequest\0329.pe" +
+      "rsonal_chat.ValidateUserIsMemberOfPerson" +
+      "alChatResponse\022~\n\031GetAllPersonalChatMemb" +
+      "ers\022/.personal_chat.GetAllPersonalChatMe" +
+      "mbersRequest\0320.personal_chat.GetAllPerso" +
+      "nalChatMembersResponseb\006proto3"
     };
     descriptor = com.google.protobuf.Descriptors.FileDescriptor
       .internalBuildGeneratedFileFrom(descriptorData,
@@ -1234,6 +2323,18 @@ public final class PersonalChat {
       com.google.protobuf.GeneratedMessageV3.FieldAccessorTable(
         internal_static_personal_chat_ValidateUserIsMemberOfPersonalChatResponse_descriptor,
         new java.lang.String[] { "UserId", "ChatId", "IsMember", });
+    internal_static_personal_chat_GetAllPersonalChatMembersRequest_descriptor =
+      getDescriptor().getMessageTypes().get(2);
+    internal_static_personal_chat_GetAllPersonalChatMembersRequest_fieldAccessorTable = new
+      com.google.protobuf.GeneratedMessageV3.FieldAccessorTable(
+        internal_static_personal_chat_GetAllPersonalChatMembersRequest_descriptor,
+        new java.lang.String[] { "ChatId", });
+    internal_static_personal_chat_GetAllPersonalChatMembersResponse_descriptor =
+      getDescriptor().getMessageTypes().get(3);
+    internal_static_personal_chat_GetAllPersonalChatMembersResponse_fieldAccessorTable = new
+      com.google.protobuf.GeneratedMessageV3.FieldAccessorTable(
+        internal_static_personal_chat_GetAllPersonalChatMembersResponse_descriptor,
+        new java.lang.String[] { "UserId", });
   }
 
   // @@protoc_insertion_point(outer_class_scope)
