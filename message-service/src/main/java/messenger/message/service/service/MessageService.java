@@ -4,6 +4,7 @@ import lombok.RequiredArgsConstructor;
 import messenger.message.service.client.grpc.GroupChatServiceClient;
 import messenger.message.service.domain.enums.ChatType;
 import messenger.message.service.dto.request.EditMessageRequest;
+import messenger.message.service.dto.request.GetMessagesRequest;
 import messenger.message.service.dto.request.SendMessageRequest;
 import messenger.message.service.dto.response.MessageResponse;
 import messenger.message.service.domain.entity.Message;
@@ -11,11 +12,6 @@ import messenger.message.service.exception.MessageException;
 import messenger.message.service.domain.repository.MessageRepository;
 import messenger.message.service.client.kafka.MessageEventProducer;
 import messenger.message.service.client.grpc.PersonalChatServiceClient;
-import org.springframework.cache.annotation.CacheEvict;
-import org.springframework.cache.annotation.Cacheable;
-import org.springframework.data.domain.PageRequest;
-import org.springframework.data.domain.Pageable;
-import org.springframework.data.domain.Sort;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
@@ -33,6 +29,7 @@ public class MessageService {
     private final ValidationMemberService validationMemberService;
     private final GroupChatServiceClient groupChatServiceClient;
     private final PersonalChatServiceClient personalChatServiceClient;
+    private final MessageCacheService messageCacheService;
 
     @Transactional
     public MessageResponse sendMessage(SendMessageRequest request, Long senderId) {
@@ -47,14 +44,12 @@ public class MessageService {
         return createMessageResponse(newMessage);
     }
 
-//    @Cacheable(value = "chatMessages", key = "#chatId + ':' + #page")
-//    public List<MessageResponse> getChatMessages(Long chatId, int page, int size) {
-//        Pageable pageable = PageRequest.of(page, size, Sort.by("created_at").descending());
-//        return messageRepository.findByChatId(chatId, pageable).stream()
-//                .map(this::createMessageResponse)
-//                .toList();
-//    }
-//
+    public List<MessageResponse> getChatMessages(Long getterId, GetMessagesRequest request) {
+        validationMemberService.validateOfGetting(getterId, request.chatId(), request.chatType());
+
+        return messageCacheService.getCachedMessages(request.chatId(), request.chatType(), request.page());
+    }
+
 //    @CacheEvict(value = "chatMessages", key = "#request.chatId()")
 //    public MessageResponse editMessage(EditMessageRequest request, Long senderId) {
 //        Message message = messageRepository.findById(request.messageId())

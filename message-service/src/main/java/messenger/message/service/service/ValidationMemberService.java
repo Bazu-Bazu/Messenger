@@ -34,4 +34,20 @@ public class ValidationMemberService {
         CompletableFuture.allOf(userValidation, chatValidation).join();
     }
 
+    public void validateOfGetting(Long userId, Long chatId, ChatType chatType) {
+        CompletableFuture<Void> userValidation = CompletableFuture.runAsync(() ->
+                userGrpcClient.validateUsersExist(List.of(userId))
+        );
+
+        CompletableFuture<Void> chatValidation = CompletableFuture.runAsync(() -> {
+            if (chatType.equals(ChatType.PERSONAL)) {
+                personalChatServiceClient.validateUserIsPersonalChatMember(userId, chatId);
+            } else {
+                groupChatServiceClient.validateUserCanGetMessages(userId, chatId);
+            }
+        });
+
+        CompletableFuture.allOf(userValidation, chatValidation).join();
+    }
+
 }

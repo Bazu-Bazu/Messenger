@@ -3,11 +3,14 @@ package messenger.message.service.controller.api;
 import jakarta.validation.Valid;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.log4j.Log4j2;
+import messenger.message.service.dto.request.GetMessagesRequest;
 import messenger.message.service.dto.request.SendMessageRequest;
 import messenger.message.service.dto.response.MessageResponse;
 import messenger.message.service.service.MessageService;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
+
+import java.util.List;
 
 @RestController
 @RequestMapping("/message")
@@ -22,33 +25,32 @@ public class MessageController {
             @RequestParam("senderId") @Valid Long senderId,
             @RequestBody @Valid SendMessageRequest request
     ) {
-        log.info("Sending message attempt by user {} and chat {} type {}",
-                senderId, request.chatId(), request.chatType());
+        log.info("Sending message attempt by user {} and {} chat {}",
+                senderId, request.chatType(), request.chatId());
 
         MessageResponse response = messageService.sendMessage(request, senderId);
 
-        log.info("User with id {} sent message to chat {} successfully", senderId, request.chatId());
+        log.info("User {} sent message to {} chat {}", senderId, request.chatType(), request.chatId());
 
-        return ResponseEntity.status(200).body(response);
+        return ResponseEntity.status(201).body(response);
     }
 
-//    @GetMapping("/chat/{chatId}")
-//    public ResponseEntity<?> getMessages(
-//            @PathVariable @Valid Long chatId,
-//            @RequestParam(defaultValue = "0") @Valid int page,
-//            @RequestParam(defaultValue = "100") @Valid int size,
-//            @RequestParam @Valid Long userId
-//    ) {
-//        log.info("Getting messages attempt for userId {} and chatId {}", userId, chatId);
-//
-//        chatServiceClient.validateUserIsChatMember(chatId, userId);
-//        List<MessageResponse> responses = messageService.getChatMessages(chatId, page, size);
-//
-//        log.info("User with id {} got messages from chat {} successfully", userId, chatId);
-//
-//        return ResponseEntity.status(200).body(responses);
-//    }
-//
+    @GetMapping("/get")
+    public ResponseEntity<?> getMessages(
+            @RequestParam("getterId") @Valid Long getterId,
+            @RequestBody @Valid GetMessagesRequest request
+    ) {
+        log.info("Getting messages attempt by user {} and {} chat {}",
+                getterId, request.chatType(), request.chatId());
+
+        List<MessageResponse> responses = messageService.getChatMessages(getterId, request);
+
+        log.info("User {} got messages from {} chat {} successfully",
+                getterId, request.chatType(), request.chatId());
+
+        return ResponseEntity.status(200).body(responses);
+    }
+
 //    @PatchMapping("/edit")
 //    public ResponseEntity<?> editMessage(
 //            @RequestParam @Valid Long userId,
