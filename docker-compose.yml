@@ -132,6 +132,7 @@ services:
       GRPC_CLIENT_USER_SERVICE_ADDRESS: static://user-service:6565
     ports:
       - "8083:8083"
+      - "6567:6567"
 
   group-chat-service:
     build:
@@ -155,6 +156,7 @@ services:
       GRPC_CLIENT_USER_SERVICE_ADDRESS: static://user-service:6565
     ports:
       - "8084:8084"
+      - "6566:6566"
 
 volumes:
   postgres_user:
