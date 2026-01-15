@@ -1,12 +1,12 @@
 server:
-  port: 8083
+  port: 8085
 
 spring:
   application:
-    name: personal-chat-service
+    name: message-service
 
   datasource:
-    url: jdbc:postgresql://localhost:5434/postgres
+    url: jdbc:postgresql://localhost:5436/postgres
     username: postgres
     password: postgres
 
@@ -28,6 +28,9 @@ spring:
       hibernate:
         dialect: org.hibernate.dialect.PostgreSQLDialect
 
+  kafka:
+    bootstrap-servers: localhost:9093
+
   cache:
     type: redis
     redis:
@@ -39,19 +42,16 @@ spring:
       host: localhost
       port: 6379
 
-  kafka:
-    bootstrap-servers: localhost:9093
-    consumer:
-      group-id: personal-chat-service-group
-      auto-offset-reset: earliest
-
 grpc:
-  server:
-    port: 6567
-
   client:
     user-service:
       address: static://localhost:6565
+      negotiation-type: plaintext
+    group-chat-service:
+      address: static://localhost:6566
+      negotiation-type: plaintext
+    personal-chat-service:
+      address: static://localhost:6567
       negotiation-type: plaintext
 
 redis:

@@ -46,7 +46,7 @@ public class UserController {
     }
 
     @GetMapping("/my-tools")
-    public ResponseEntity<?> getMyTools(@RequestParam Long userId) {
+    public ResponseEntity<?> getMyTools(@RequestParam("userId") Long userId) {
         try {
             log.info("Getting tools attempt for user with id {}", userId);
 
@@ -69,7 +69,7 @@ public class UserController {
 
     @PatchMapping("/update/phone")
     public ResponseEntity<?> updatePhone(
-            @RequestParam @Valid Long userId,
+            @RequestParam("userId") @Valid Long userId,
             @RequestBody @Valid UpdatePhoneRequest request
     ) {
         try {
@@ -99,7 +99,7 @@ public class UserController {
 
     @PatchMapping("/update/password")
     public ResponseEntity<?> updatePassword(
-            @RequestParam @Valid Long userId,
+            @RequestParam("userId") @Valid Long userId,
             @RequestBody @Valid UpdatePasswordRequest request
     ) {
         try {
@@ -129,7 +129,7 @@ public class UserController {
 
     @PatchMapping("/update/username")
     public ResponseEntity<?> updateUsername(
-            @RequestParam @Valid Long userId,
+            @RequestParam("userId") @Valid Long userId,
             @RequestBody @Valid UpdateUsernameRequest request
     ) {
         try {
@@ -159,7 +159,7 @@ public class UserController {
 
     @PatchMapping("/update/email")
     public ResponseEntity<?> updateEmail(
-            @RequestParam @Valid Long userId,
+            @RequestParam("userId") @Valid Long userId,
             @RequestBody @Valid UpdateEmailRequest request
     ) {
         try {

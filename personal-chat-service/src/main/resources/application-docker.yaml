@@ -44,7 +44,7 @@ spring:
 
 grpc:
   server:
-    port: 6566
+    port: 6567
 
   client:
     user-service:

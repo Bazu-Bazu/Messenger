@@ -1,4 +1,4 @@
-package messenger.personal.chat.service.client.grpc;
+package messenger.message.service.client.grpc;
 
 import exception.UserIsNotActive;
 import exception.UserNotFoundException;
@@ -16,11 +16,11 @@ public class UserGrpcClient {
     private UserServiceGrpc.UserServiceBlockingStub blockingStub;
 
     public void validateUsersExist(List<Long> userIds) {
-        User.ValidateUsersExistRequest request =  User.ValidateUsersExistRequest.newBuilder()
+        var request = User.ValidateUsersExistRequest.newBuilder()
                 .addAllUserIds(userIds)
                 .build();
 
-        User.UsersExistResponse response = blockingStub.validateUsersExist(request);
+        var response = blockingStub.validateUsersExist(request);
 
         response.getResultsList()
                 .forEach(result -> {

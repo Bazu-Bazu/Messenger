@@ -1,12 +1,12 @@
 package messenger.group.chat.service.client.grpc;
 
-import com.messenger.grpc.User;
-import com.messenger.grpc.UserServiceGrpc;
 import dto.response.UserInfo;
 import exception.UserIsNotActive;
 import exception.UserNotFoundException;
 import net.devh.boot.grpc.client.inject.GrpcClient;
 import org.springframework.stereotype.Component;
+import user.User;
+import user.UserServiceGrpc;
 
 import java.util.HashMap;
 import java.util.List;

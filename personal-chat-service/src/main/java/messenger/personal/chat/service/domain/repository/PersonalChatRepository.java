@@ -33,4 +33,14 @@ public interface PersonalChatRepository extends JpaRepository<PersonalChat, Long
     )
     void updateLastActivity(@Param("chatId") Long chatId, @Param("lastActivityAt") Instant lastActivityAt);
 
+    @Query("SELECT COUNT(pc) > 0 FROM PersonalChat pc " +
+           "WHERE (pc.user1Id = :userId OR pc.user2Id = :userId) " +
+           "AND pc.id = :chatId")
+    boolean existsMemberByChatIdAndUserId(@Param("chatId") Long chatId, @Param("userId") Long userId);
+
+    @Query("SELECT pc.user1Id FROM PersonalChat pc WHERE pc.id = :chatId " +
+           "UNION ALL " +
+           "SELECT pc.user2Id FROM PersonalChat pc WHERE pc.id = :chatId")
+    List<Long> findUserIdsByChatId(@Param("chatId") Long chatId);
+
 }

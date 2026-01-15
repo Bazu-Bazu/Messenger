@@ -55,6 +55,18 @@ services:
     volumes:
       - postgres_group-chat:/var/lib/postgresql/data
 
+  postgres_message:
+    image: postgres:16
+    container_name: postgres_message
+    environment:
+      POSTGRES_USER: postgres
+      POSTGRES_PASSWORD: postgres
+      POSTGRES_DB: message_db
+    ports:
+      - "5436:5432"
+    volumes:
+      - postgres_message:/var/lib/postgresql/data
+
   zookeeper:
     image: wurstmeister/zookeeper:latest
     container_name: zookeeper_z
@@ -120,6 +132,7 @@ services:
       GRPC_CLIENT_USER_SERVICE_ADDRESS: static://user-service:6565
     ports:
       - "8083:8083"
+      - "6567:6567"
 
   group-chat-service:
     build:
@@ -143,10 +156,12 @@ services:
       GRPC_CLIENT_USER_SERVICE_ADDRESS: static://user-service:6565
     ports:
       - "8084:8084"
+      - "6566:6566"
 
 volumes:
   postgres_user:
   postgres_sso:
   postgres_personal-chat:
   postgres_group-chat:
+  postgres_message:
   redis:
