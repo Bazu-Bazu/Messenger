@@ -19,5 +19,5 @@ public record EditMessageRequest (
         String content,
 
         @NotNull
-        MessageType type
+        MessageType messageType
 ) {}

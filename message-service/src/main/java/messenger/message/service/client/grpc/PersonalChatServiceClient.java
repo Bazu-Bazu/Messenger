@@ -25,7 +25,7 @@ public class PersonalChatServiceClient {
 
         if (!response.getIsMember()) {
             throw new AuthorizationException(
-                    String.format("User %d can not send message to personal chat %d", userId, chatId)
+                    String.format("User %d not member of personal chat %d", userId, chatId)
             );
         }
     }

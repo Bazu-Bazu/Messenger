@@ -5,6 +5,7 @@ import messenger.message.service.client.grpc.GroupChatServiceClient;
 import messenger.message.service.domain.enums.ChatType;
 import messenger.message.service.dto.request.EditMessageRequest;
 import messenger.message.service.dto.request.GetMessagesRequest;
+import messenger.message.service.dto.request.MarkMessageAsReadRequest;
 import messenger.message.service.dto.request.SendMessageRequest;
 import messenger.message.service.dto.response.MessageResponse;
 import messenger.message.service.domain.entity.Message;
@@ -41,50 +42,64 @@ public class MessageService {
             notifyChatMembers(newMessage);
         });
 
+        CompletableFuture.runAsync(() -> {
+            messageCacheService.evictChatMessages(request.chatId(), request.chatType());
+        });
+
         return createMessageResponse(newMessage);
     }
 
     public List<MessageResponse> getChatMessages(Long getterId, GetMessagesRequest request) {
-        validationMemberService.validateOfGetting(getterId, request.chatId(), request.chatType());
+        validationMemberService.validateOfGettingOrReading(getterId, request.chatId(), request.chatType());
 
         return messageCacheService.getCachedMessages(request.chatId(), request.chatType(), request.page());
     }
 
-//    @CacheEvict(value = "chatMessages", key = "#request.chatId()")
-//    public MessageResponse editMessage(EditMessageRequest request, Long senderId) {
-//        Message message = messageRepository.findById(request.messageId())
-//                .orElseThrow(() -> new MessageException(
-//                        String.format("Message with id %d not found", request.messageId())
-//                ));
-//
-//        if (!message.getSenderId().equals(senderId)) {
-//            throw new RightsException("User cannot edit this message");
-//        }
-//
-//        message.setContent(request.content());
-//        message.setType(request.type());
-//        message.setEditedAt(Instant.now());
-//
-//        Message updatedMessage = messageRepository.save(message);
-//
-//        CompletableFuture.runAsync(() -> {
-//            messageEventProducer.publishMessageEdited(updatedMessage);
-//        });
-//
-//        return createMessageResponse(updatedMessage);
-//    }
-//
-//    public void markMessageAsRead(Long messageId) {
-//        Message message = messageRepository.findById(messageId)
-//                .orElseThrow(() -> new MessageException(
-//                        String.format("Message with id %d not found", messageId)
-//                ));
-//
-//        message.setReadAt(Instant.now());
-//        Message updatedMessage = messageRepository.save(message);
-//
-//        messageEventProducer.publishMessageRead(updatedMessage);
-//    }
+    @Transactional
+    public MessageResponse editMessage(EditMessageRequest request, Long editorId) {
+        Message message = messageRepository.findById(request.messageId())
+                .orElseThrow(() -> new MessageException(
+                        String.format("Message with id %d not found", request.messageId())
+                ));
+
+        validationMemberService.validateOfEditing(editorId, request.chatId(), request.chatType(), message);
+
+        message.setContent(request.content());
+        message.setMessageType(request.messageType());
+        message.setEditedAt(Instant.now());
+        Message updatedMessage = messageRepository.save(message);
+
+        CompletableFuture.runAsync(() -> {
+            messageCacheService.evictChatMessages(request.chatId(), request.chatType());
+        });
+
+        return createMessageResponse(updatedMessage);
+    }
+
+    @Transactional
+    public MessageResponse markMessageAsRead(Long readerId, MarkMessageAsReadRequest request) {
+        Message message = messageRepository.findByIdAndChatIdAndChatType(
+                request.messageId(), request.chatId(), request.chatType()
+                )
+                .orElseThrow(() -> new MessageException(
+                        String.format("Message with id %d and %s chat %d not found",
+                                request.messageId(), request.chatType(), request.chatId())
+                ));
+
+        validationMemberService.validateOfGettingOrReading(readerId, request.chatId(), request.chatType());
+
+        if (message.getReadAt() == null && !message.getSenderId().equals(readerId)) {
+            message.setReadAt(Instant.now());
+            Message updatedMessage = messageRepository.save(message);
+            CompletableFuture.runAsync(() -> {
+                messageCacheService.evictChatMessages(request.chatId(), request.chatType());
+            });
+
+            return createMessageResponse(updatedMessage);
+        }
+
+        return createMessageResponse(message);
+    }
 
     private Message createAndSaveMessage(SendMessageRequest request, Long senderId) {
         Message message = Message.builder()

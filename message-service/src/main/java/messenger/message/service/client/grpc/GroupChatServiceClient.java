@@ -32,17 +32,17 @@ public class GroupChatServiceClient {
 
         if (!response.getCanSendMessage()) {
             throw new AuthorizationException(
-                    String.format("User %d can not send message in group chat %d", userId, chatId)
+                    String.format("User %d cannot send message in group chat %d", userId, chatId)
             );
         }
     }
 
-    public void validateUserCanGetMessages(Long userId, Long chatId) {
+    public void validateUserCanGetAndReadMessages(Long userId, Long chatId) {
         var response = validateMemberRightsInGroupChat(userId, chatId);
 
         if (!response.getCanGetMessage()) {
             throw new AuthorizationException(
-                    String.format("User %d can not get messages from group chat %d", userId, chatId)
+                    String.format("User %d cannot get and read messages from group chat %d", userId, chatId)
             );
         }
     }

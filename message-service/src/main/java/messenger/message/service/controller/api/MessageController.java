@@ -3,7 +3,9 @@ package messenger.message.service.controller.api;
 import jakarta.validation.Valid;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.log4j.Log4j2;
+import messenger.message.service.dto.request.EditMessageRequest;
 import messenger.message.service.dto.request.GetMessagesRequest;
+import messenger.message.service.dto.request.MarkMessageAsReadRequest;
 import messenger.message.service.dto.request.SendMessageRequest;
 import messenger.message.service.dto.response.MessageResponse;
 import messenger.message.service.service.MessageService;
@@ -51,32 +53,34 @@ public class MessageController {
         return ResponseEntity.status(200).body(responses);
     }
 
-//    @PatchMapping("/edit")
-//    public ResponseEntity<?> editMessage(
-//            @RequestParam @Valid Long userId,
-//            @RequestBody @Valid EditMessageRequest request
-//    ) {
-//        log.info("Editing message attempt for userId {} and messageId {}", userId, request.messageId());
-//
-//        chatServiceClient.validateUserCanSendMessage(request.chatId(), userId);
-//        MessageResponse response = messageService.editMessage(request, userId);
-//
-//
-//
-//        log.info("User with id {} edited message with id {} successfully", userId, request.messageId());
-//
-//        return ResponseEntity.status(200).body(response);
-//    }
-//
-//    @PatchMapping("/read/{messageId}")
-//    public ResponseEntity<?> markMessageAsRead(@PathVariable @Valid Long messageId) {
-//        log.info("Mark message with id {} as read attempt", messageId);
-//
-//        messageService.markMessageAsRead(messageId);
-//
-//        log.info("Message with id {} marked as read successfully", messageId);
-//
-//        return ResponseEntity.status(200).body(null);
-//    }
+    @PatchMapping("/edit")
+    public ResponseEntity<?> editMessage(
+            @RequestParam("editorId") @Valid Long editorId,
+            @RequestBody @Valid EditMessageRequest request
+    ) {
+        log.info("Editing message attempt by user {} and message {} in {} chat {}",
+                editorId, request.messageId(), request.chatType(), request.chatId());
+
+        MessageResponse response = messageService.editMessage(request, editorId);
+
+        log.info("User {} edited message {} in {} chat {} successfully",
+                editorId, request.messageId(), request.chatType(), request.chatId());
+
+        return ResponseEntity.status(200).body(response);
+    }
+
+    @PatchMapping("/read")
+    public ResponseEntity<?> markMessageAsRead(
+            @RequestParam("readerId") @Valid Long readerId,
+            @RequestBody @Valid MarkMessageAsReadRequest request
+    ) {
+        log.info("Mark message {} as read attempt bu user {}", request.messageId(), readerId);
+
+        MessageResponse response = messageService.markMessageAsRead(readerId, request);
+
+        log.info("Message {} marked as read by user {} successfully", request.messageId(), readerId);
+
+        return ResponseEntity.status(200).body(response);
+    }
 
 }
