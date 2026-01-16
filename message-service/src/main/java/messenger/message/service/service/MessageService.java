@@ -11,7 +11,7 @@ import messenger.message.service.dto.response.MessageResponse;
 import messenger.message.service.domain.entity.Message;
 import messenger.message.service.exception.MessageException;
 import messenger.message.service.domain.repository.MessageRepository;
-import messenger.message.service.client.kafka.MessageEventProducer;
+import messenger.message.service.controller.kafka.MessageEventProducer;
 import messenger.message.service.client.grpc.PersonalChatServiceClient;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
@@ -137,8 +137,7 @@ public class MessageService {
         }
         memberIds.remove(message.getSenderId());
 
-        MessageResponse messageResponse = createMessageResponse(message);
-        messageEventProducer.publishMessageNotification(messageResponse, memberIds);
+        messageEventProducer.publishMessageNotification(message, memberIds);
     }
 
 }
