@@ -137,8 +137,7 @@ public class MessageService {
         }
         memberIds.remove(message.getSenderId());
 
-        MessageResponse messageResponse = createMessageResponse(message);
-        messageEventProducer.publishMessageNotification(messageResponse, memberIds);
+        messageEventProducer.publishMessageNotification(message, memberIds);
     }
 
 }

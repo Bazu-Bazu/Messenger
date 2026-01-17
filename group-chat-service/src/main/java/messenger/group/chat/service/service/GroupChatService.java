@@ -13,6 +13,7 @@ import org.springframework.cache.annotation.Cacheable;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
+import java.time.Instant;
 import java.util.List;
 import java.util.Set;
 
@@ -130,6 +131,11 @@ public class GroupChatService {
         return groupIds.stream()
                 .map(this::createGroupChatResponse)
                 .toList();
+    }
+
+    @Transactional
+    public void updateLastActivity(Long groupId, Instant lastActivity) {
+        groupChatRepository.updateLastActivity(groupId, lastActivity);
     }
 
     public List<GroupMemberResponse> setRoles(Long setterId, SetRolesRequest request) {

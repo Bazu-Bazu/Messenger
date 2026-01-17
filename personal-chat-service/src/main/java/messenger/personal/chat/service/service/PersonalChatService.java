@@ -14,6 +14,7 @@ import org.springframework.cache.annotation.Cacheable;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
+import java.time.Instant;
 import java.util.List;
 import java.util.Optional;
 
@@ -92,6 +93,11 @@ public class PersonalChatService {
                     String.format("User %d has no rights to the chat %d", userId, chat.getId())
             );
         }
+    }
+
+    @Transactional
+    public void updateLastActivity(Long chatId, Instant lastActivity) {
+        personalChatRepository.updateLastActivity(chatId, lastActivity);
     }
 
     private PersonalChatResponse createPersonalChatResponse(PersonalChat chat) {

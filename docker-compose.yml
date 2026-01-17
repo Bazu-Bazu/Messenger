@@ -158,6 +158,33 @@ services:
       - "8084:8084"
       - "6566:6566"
 
+  message-service:
+    build:
+      context: ./message-service
+      dockerfile: Dockerfile
+    container_name: message-service
+    depends_on:
+      - postgres_message
+      - redis
+      - kafka
+      - user-service
+      - personal-chat-service
+      - group-chat-service
+    environment:
+      SPRING_PROFILES_ACTIVE: docker
+      SPRING_DATASOURCE_URL: jdbc:postgresql://postgres_message:5432/postgres
+      SPRING_DATASOURCE_USERNAME: postgres
+      SPRING_DATASOURCE_PASSWORD: postgres
+      SPRING_KAFKA_BOOTSTRAP_SERVERS: kafka:9093
+      SPRING_REDIS_HOST: redis
+      SPRING_REDIS_PORT: 6379
+      SERVER_PORT: 8085
+      GRPC_CLIENT_USER_SERVICE_ADDRESS: static://user-service:6565
+      GRPC_CLIENT_PERSONAL_CHAT_SERVICE_ADDRESS: static://personal-chat-service:6567
+      GRPC_CLIENT_GROUP_CHAT_SERVICE_ADDRESS: static://group-chat-service:6566
+    ports:
+      - "8085:8085"
+
 volumes:
   postgres_user:
   postgres_sso:
