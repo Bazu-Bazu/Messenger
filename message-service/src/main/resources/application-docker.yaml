@@ -1,12 +1,12 @@
 server:
-  port: ${SERVER_PORT:8084}
+  port: ${SERVER_PORT:8085}
 
 spring:
   application:
-    name: group-chat-service
+    name: message-service
 
   datasource:
-    url: ${SPRING_DATASOURCE_URL:jdbc:postgresql://postgres_group-chat:5432/postgres}
+    url: ${SPRING_DATASOURCE_URL:jdbc:postgresql://postgres_message:5432/postgres}
     username: ${SPRING_DATASOURCE_USERNAME:postgres}
     password: ${SPRING_DATASOURCE_PASSWORD:postgres}
     hikari:
@@ -25,6 +25,9 @@ spring:
       hibernate:
         dialect: org.hibernate.dialect.PostgreSQLDialect
 
+  kafka:
+    bootstrap-servers: ${SPRING_KAFKA_BOOTSTRAP_SERVERS:kafka:9093}
+
   cache:
     type: redis
     redis:
@@ -36,25 +39,16 @@ spring:
       host: ${SPRING_REDIS_HOST:redis}
       port: ${SPRING_REDIS_PORT:6379}
 
-  kafka:
-    bootstrap-servers: ${SPRING_KAFKA_BOOTSTRAP_SERVERS:kafka:9093}
-    consumer:
-      group-id: group-chat-service-group
-      auto-offset-reset: earliest
-      key-deserializer: org.apache.kafka.common.serialization.StringDeserializer
-      value-deserializer: org.springframework.kafka.support.serializer.JsonDeserializer
-      properties:
-        spring.json.trusted.packages: "dto.event,*"
-        spring.json.value.default.type: "dto.event.MessageShortEvent"
-        spring.json.use.type.headers: false
-
 grpc:
-  server:
-    port: 6566
-
   client:
     user-service:
       address: ${GRPC_CLIENT_USER_SERVICE_ADDRESS:static://user-service:6565}
+      negotiation-type: plaintext
+    group-chat-service:
+      address: ${GRPC_CLIENT_GROUP_CHAT_SERVICE_ADDRESS:static://group-chat-service:6566}
+      negotiation-type: plaintext
+    personal-chat-service:
+      address: ${GRPC_CLIENT_PERSONAL_CHAT_SERVICE_ADDRESS:static://personal-chat-service:6567}
       negotiation-type: plaintext
 
 redis:

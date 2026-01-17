@@ -1,4 +1,4 @@
-package messenger.message.service.controller.kafka;
+package messenger.message.service.client.kafka;
 
 import dto.event.MessageDetailEvent;
 import dto.event.MessageShortEvent;
