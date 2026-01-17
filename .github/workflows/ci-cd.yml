@@ -70,6 +70,7 @@ jobs:
           - user-service
           - personal-chat-service
           - group-chat-service
+          - message-service
 
     steps:
       - name: Checkout code
@@ -108,7 +109,7 @@ jobs:
       - name: Validate Dockerfiles syntax
         run: |
           echo "🔍 Проверяем Dockerfiles..."
-          for service in user-service personal-chat-service group-chat-service; do
+          for service in user-service personal-chat-service group-chat-service message-service; do
             if [ -f "$service/Dockerfile" ]; then
               echo "✅ $service/Dockerfile существует"
               if grep -q "FROM " "$service/Dockerfile"; then
@@ -141,6 +142,9 @@ jobs:
           - name: group-chat-service
             dockerfile: group-chat-service/Dockerfile
             context: group-chat-service
+          - name: message-service
+            dockerfile: message-service/Dockerfile
+            context: message-service
 
     steps:
       - name: Checkout code
@@ -261,9 +265,10 @@ jobs:
             [user-service]="8082"
             [personal-chat-service]="8083"
             [group-chat-service]="8084"
+            [message-service]="8085"
           )
           
-          for service in user-service personal-chat-service group-chat-service; do
+          for service in user-service personal-chat-service group-chat-service message-service; do
             echo "🔄 Deploying $service..."
           
             docker stop messenger-$service 2>/dev/null || true
