@@ -4,7 +4,7 @@ import dto.event.MessageDetailEvent;
 import dto.event.MessageShortEvent;
 import lombok.RequiredArgsConstructor;
 import messenger.message.service.domain.entity.Message;
-import messenger.message.service.domain.enums.ChatType;
+import enums.ChatType;
 import org.springframework.kafka.core.KafkaTemplate;
 import org.springframework.stereotype.Service;
 

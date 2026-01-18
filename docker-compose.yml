@@ -184,6 +184,7 @@ services:
       GRPC_CLIENT_GROUP_CHAT_SERVICE_ADDRESS: static://group-chat-service:6566
     ports:
       - "8085:8085"
+      - "6568:6568"
 
 volumes:
   postgres_user:

@@ -9,7 +9,7 @@ import dto.result.MessageResult;
 import lombok.RequiredArgsConstructor;
 import message.Message;
 import message.MessageServiceGrpc;
-import messenger.web.socket.service.converter.MessageConverter;
+import converter.MessageConverter;
 import net.devh.boot.grpc.client.inject.GrpcClient;
 import org.springframework.stereotype.Component;
 

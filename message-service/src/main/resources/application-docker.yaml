@@ -51,5 +51,8 @@ grpc:
       address: ${GRPC_CLIENT_PERSONAL_CHAT_SERVICE_ADDRESS:static://personal-chat-service:6567}
       negotiation-type: plaintext
 
+  server:
+    port: 6568
+
 redis:
   ttl: 2

@@ -54,5 +54,8 @@ grpc:
       address: static://localhost:6567
       negotiation-type: plaintext
 
+  server:
+    port: 6568
+
 redis:
   ttl: 2

@@ -5,8 +5,8 @@ import lombok.AllArgsConstructor;
 import lombok.Builder;
 import lombok.Data;
 import lombok.NoArgsConstructor;
-import messenger.message.service.domain.enums.ChatType;
-import messenger.message.service.domain.enums.MessageType;
+import enums.ChatType;
+import enums.MessageType;
 
 import java.time.Instant;
 

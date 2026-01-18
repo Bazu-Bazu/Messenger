@@ -5,7 +5,7 @@ import exception.AuthorizationException;
 import exception.UserIsNotActive;
 import exception.UserNotFoundException;
 import lombok.extern.log4j.Log4j2;
-import messenger.message.service.exception.MessageException;
+import exception.MessageException;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.ExceptionHandler;
 import org.springframework.web.bind.annotation.RestControllerAdvice;
