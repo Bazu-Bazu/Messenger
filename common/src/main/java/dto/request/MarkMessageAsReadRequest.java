@@ -1,7 +1,7 @@
-package messenger.message.service.dto.request;
+package dto.request;
 
 import jakarta.validation.constraints.NotNull;
-import messenger.message.service.domain.enums.ChatType;
+import enums.ChatType;
 
 public record MarkMessageAsReadRequest(
         @NotNull

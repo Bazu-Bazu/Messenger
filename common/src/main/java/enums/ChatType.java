@@ -1,4 +1,4 @@
-package messenger.message.service.domain.enums;
+package enums;
 
 public enum ChatType {
 

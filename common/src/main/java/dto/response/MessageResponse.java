@@ -1,8 +1,8 @@
-package messenger.message.service.dto.response;
+package dto.response;
 
+import enums.ChatType;
+import enums.MessageType;
 import lombok.Builder;
-import messenger.message.service.domain.enums.ChatType;
-import messenger.message.service.domain.enums.MessageType;
 
 import java.time.Instant;
 

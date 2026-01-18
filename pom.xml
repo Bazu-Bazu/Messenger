@@ -18,6 +18,7 @@
         <module>group-chat-service</module>
         <module>common</module>
         <module>proto</module>
+        <module>web-socket-service</module>
     </modules>
 
     <properties>

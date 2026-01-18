@@ -9,6 +9,7 @@ import java.time.Instant;
 @Builder
 public class ErrorResponse {
 
+    private Integer errorCode;
     private String error;
     private String message;
     private Instant timestamp;
