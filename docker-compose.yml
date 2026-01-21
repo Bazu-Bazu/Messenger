@@ -186,6 +186,25 @@ services:
       - "8085:8085"
       - "6568:6568"
 
+  web-socket-service:
+    build:
+      context: ./web-socket-service
+      dockerfile: Dockerfile
+    container_name: web-socket-service
+    depends_on:
+      - redis
+      - kafka
+      - message-service
+    environment:
+      SPRING_PROFILES_ACTIVE: docker
+      SPRING_KAFKA_BOOTSTRAP_SERVERS: kafka:9093
+      SPRING_REDIS_HOST: redis
+      SPRING_REDIS_PORT: 6379
+      SERVER_PORT: 8086
+      GRPC_CLIENT_USER_SERVICE_ADDRESS: static://message-service:6568
+    ports:
+      - "8086:8086"
+
 volumes:
   postgres_user:
   postgres_sso:

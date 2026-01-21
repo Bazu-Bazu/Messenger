@@ -5,6 +5,23 @@ spring:
   application:
     name: web-socket-service
 
+  data:
+    redis:
+      host: ${SPRING_REDIS_HOST:redis}
+      port: ${SPRING_REDIS_PORT:6379}
+
+  kafka:
+    bootstrap-servers: ${SPRING_KAFKA_BOOTSTRAP_SERVERS:kafka:9093}
+    consumer:
+      group-id: web-socket-service-group
+      auto-offset-reset: earliest
+      key-deserializer: org.apache.kafka.common.serialization.StringDeserializer
+      value-deserializer: org.springframework.kafka.support.serializer.JsonDeserializer
+      properties:
+        spring.json.trusted.packages: "dto.event,*"
+        spring.json.value.default.type: "dto.event.MessageDetailEvent"
+        spring.json.use.type.headers: false
+
 frontend:
   port: "http://localhost:8000"
 
@@ -13,3 +30,6 @@ grpc:
     message-service:
       address: ${GRPC_CLIENT_MESSAGE_SERVICE_ADDRESS:static://message-service:6568}
       negotiation-type: plaintext
+
+redis:
+  ttl: 30

@@ -13,3 +13,6 @@ grpc:
     message-service:
       address: static://localhost:6568
       negotiation-type: plaintext
+
+redis:
+  ttl: 30
