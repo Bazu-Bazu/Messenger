@@ -32,6 +32,8 @@ common/target
 
 group-chat-service/target
 
+web-socket-service/target
+
 proto/target
 
 /for-develop

@@ -1,8 +1,10 @@
-package messenger.message.service.dto.request;
+package dto.request;
 
 import jakarta.validation.constraints.NotNull;
-import messenger.message.service.domain.enums.ChatType;
+import enums.ChatType;
+import lombok.Builder;
 
+@Builder
 public record MarkMessageAsReadRequest(
         @NotNull
         Long messageId,

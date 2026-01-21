@@ -6,7 +6,7 @@ import messenger.message.service.client.grpc.GroupChatServiceClient;
 import messenger.message.service.client.grpc.PersonalChatServiceClient;
 import messenger.message.service.client.grpc.UserGrpcClient;
 import messenger.message.service.domain.entity.Message;
-import messenger.message.service.domain.enums.ChatType;
+import enums.ChatType;
 import org.springframework.stereotype.Service;
 
 import java.util.List;

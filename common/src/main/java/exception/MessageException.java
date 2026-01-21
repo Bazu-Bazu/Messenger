@@ -1,4 +1,4 @@
-package messenger.message.service.exception;
+package exception;
 
 public class MessageException extends RuntimeException {
 

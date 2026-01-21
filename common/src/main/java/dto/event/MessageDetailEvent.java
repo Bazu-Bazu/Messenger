@@ -1,16 +1,22 @@
 package dto.event;
 
+import enums.ChatType;
+import enums.MessageType;
 import lombok.Builder;
 
 import java.time.Instant;
+import java.util.Set;
 
 @Builder
 public record MessageDetailEvent(
         Long id,
         Long chatId,
-        String chatType,
+        ChatType chatType,
         String content,
         Long senderId,
-        String messageType,
-        Instant createdAt
+        MessageType messageType,
+        Instant createdAt,
+        Instant editedAt,
+        Instant readAt,
+        Set<Long> memberIds
 ) {}

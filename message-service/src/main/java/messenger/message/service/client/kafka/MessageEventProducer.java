@@ -4,7 +4,7 @@ import dto.event.MessageDetailEvent;
 import dto.event.MessageShortEvent;
 import lombok.RequiredArgsConstructor;
 import messenger.message.service.domain.entity.Message;
-import messenger.message.service.domain.enums.ChatType;
+import enums.ChatType;
 import org.springframework.kafka.core.KafkaTemplate;
 import org.springframework.stereotype.Service;
 
@@ -32,19 +32,22 @@ public class MessageEventProducer {
     }
 
     private void publishToNotificationService(Message message, Set<Long> memberIds) {
-        MessageDetailEvent event = createMessageDetailEvent(message);
+        MessageDetailEvent event = createMessageDetailEvent(message, memberIds);
 
         kafkaTemplate.send("message_sending", event.id().toString(), event);
     }
 
-    private MessageDetailEvent createMessageDetailEvent(Message message) {
+    private MessageDetailEvent createMessageDetailEvent(Message message, Set<Long> memberIds) {
         return MessageDetailEvent.builder()
                 .id(message.getId())
                 .content(message.getContent())
-                .messageType(message.getMessageType().name())
+                .messageType(message.getMessageType())
                 .chatId(message.getChatId())
-                .chatType(message.getChatType().name())
+                .chatType(message.getChatType())
                 .createdAt(message.getCreatedAt())
+                .editedAt(message.getEditedAt())
+                .readAt(message.getReadAt())
+                .memberIds(memberIds)
                 .build();
     }
 
@@ -64,7 +67,7 @@ public class MessageEventProducer {
         return MessageShortEvent.builder()
                 .id(message.getId())
                 .chatId(message.getChatId())
-                .chatType(message.getChatType().name())
+                .chatType(message.getChatType())
                 .createdAt(message.getCreatedAt())
                 .build();
     }

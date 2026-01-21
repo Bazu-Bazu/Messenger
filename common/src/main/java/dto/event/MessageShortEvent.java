@@ -1,5 +1,6 @@
 package dto.event;
 
+import enums.ChatType;
 import lombok.Builder;
 
 import java.time.Instant;
@@ -8,6 +9,6 @@ import java.time.Instant;
 public record MessageShortEvent(
         Long id,
         Long chatId,
-        String chatType,
+        ChatType chatType,
         Instant createdAt
 ) {}
