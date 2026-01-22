@@ -1,10 +1,11 @@
-package messenger.user.service.entity;
+package messenger.user.service.domain.entity;
 
 import jakarta.persistence.Column;
 import jakarta.persistence.Embeddable;
 import jakarta.persistence.EnumType;
 import jakarta.persistence.Enumerated;
 import lombok.Data;
+import messenger.user.service.domain.enums.Gender;
 import messenger.user.service.dto.request.UpdateProfileRequest;
 
 import java.time.LocalDate;

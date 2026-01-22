@@ -1,7 +1,7 @@
 package messenger.user.service.dto.request;
 
 import lombok.Builder;
-import messenger.user.service.entity.Gender;
+import messenger.user.service.domain.enums.Gender;
 
 import java.time.LocalDate;
 

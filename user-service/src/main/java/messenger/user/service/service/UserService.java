@@ -3,18 +3,14 @@ package messenger.user.service.service;
 import lombok.RequiredArgsConstructor;
 import messenger.user.service.dto.request.CreateUserRequest;
 import messenger.user.service.dto.response.UserResponse;
-import messenger.user.service.entity.User;
+import messenger.user.service.domain.entity.User;
 import messenger.user.service.exception.UserException;
-import messenger.user.service.repository.UserRepository;
-import messenger.user.service.service.event.UserEventPublisher;
+import messenger.user.service.domain.repository.UserRepository;
+import messenger.user.service.client.kafka.UserEventPublisher;
 import messenger.user.service.validation.UserUpdateType;
-import messenger.user.service.validation.ValidationResult;
-import messenger.user.service.validation.ValidationType;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
-
-import java.time.Instant;
 
 @Service
 @RequiredArgsConstructor

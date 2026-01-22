@@ -1,9 +1,9 @@
-package messenger.user.service.service.event;
+package messenger.user.service.client.kafka;
 
 import lombok.RequiredArgsConstructor;
 import messenger.user.service.dto.event.UserRegistrationEvent;
 import messenger.user.service.dto.event.UserUpdatingEvent;
-import messenger.user.service.entity.User;
+import messenger.user.service.domain.entity.User;
 import messenger.user.service.validation.UserUpdateType;
 import org.springframework.kafka.core.KafkaTemplate;
 import org.springframework.stereotype.Service;

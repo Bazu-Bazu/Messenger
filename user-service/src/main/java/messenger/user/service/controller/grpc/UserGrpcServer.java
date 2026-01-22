@@ -1,9 +1,9 @@
-package messenger.user.service.service.grpc;
+package messenger.user.service.controller.grpc;
 
 import io.grpc.stub.StreamObserver;
 import lombok.RequiredArgsConstructor;
-import messenger.user.service.entity.UserStatus;
-import messenger.user.service.repository.UserRepository;
+import messenger.user.service.domain.enums.UserStatus;
+import messenger.user.service.domain.repository.UserRepository;
 import net.devh.boot.grpc.server.service.GrpcService;
 import user.User;
 import user.UserServiceGrpc;
@@ -37,17 +37,17 @@ public class UserGrpcServer extends UserServiceGrpc.UserServiceImplBase {
     }
 
     private List<User.UsersExistResponse.UserExistence> checkUsersExistence(List<Long> userIds) {
-        List<messenger.user.service.entity.User> users = userRepository.findAllById(userIds);
+        List<messenger.user.service.domain.entity.User> users = userRepository.findAllById(userIds);
 
-        Map<Long, messenger.user.service.entity.User> userMap = users.stream()
+        Map<Long, messenger.user.service.domain.entity.User> userMap = users.stream()
                 .collect(Collectors.toMap(
-                        messenger.user.service.entity.User::getId,
+                        messenger.user.service.domain.entity.User::getId,
                         Function.identity()
                 ));
 
         return userIds.stream()
                 .map(userId -> {
-                    messenger.user.service.entity.User user = userMap.get(userId);
+                    messenger.user.service.domain.entity.User user = userMap.get(userId);
 
                     if (user == null) {
                         return User.UsersExistResponse.UserExistence.newBuilder()
@@ -81,7 +81,7 @@ public class UserGrpcServer extends UserServiceGrpc.UserServiceImplBase {
     }
 
     private List<User.UsersInfoResponse.UserInfo> getUsersInfo(List<Long> userIds) {
-        List<messenger.user.service.entity.User> users = userRepository.findAllById(userIds);
+        List<messenger.user.service.domain.entity.User> users = userRepository.findAllById(userIds);
 
         return users.stream()
                 .map(user -> User.UsersInfoResponse.UserInfo.newBuilder()

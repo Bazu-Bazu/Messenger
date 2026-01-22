@@ -1,7 +1,7 @@
 package messenger.user.service.validation;
 
 import lombok.RequiredArgsConstructor;
-import messenger.user.service.repository.UserRepository;
+import messenger.user.service.domain.repository.UserRepository;
 import org.springframework.stereotype.Component;
 
 @Component
