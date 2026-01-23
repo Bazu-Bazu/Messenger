@@ -19,7 +19,7 @@ public class ProfileService {
     private final UserRepository userRepository;
 
     @Transactional
-    @CacheEvict(value = "userProfiles", key = "#userId")
+    @CacheEvict(value = "userProfiles", key = "#p0")
     public ProfileResponse updateProfile(Long userId, UpdateProfileRequest request) {
         User user = userRepository.findById(userId)
                 .orElseThrow(() -> new UserException(
@@ -58,7 +58,7 @@ public class ProfileService {
         return createProfileResponse(userId, user.getProfile());
     }
 
-    @Cacheable(value = "userProfiles", key = "#userId")
+    @Cacheable(value = "userProfiles", key = "#p0")
     public ProfileResponse getProfile(Long userId) {
         User user = userRepository.findById(userId)
                 .orElseThrow(() -> new UserException(
