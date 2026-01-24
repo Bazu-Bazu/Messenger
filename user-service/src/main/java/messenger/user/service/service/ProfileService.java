@@ -3,10 +3,10 @@ package messenger.user.service.service;
 import lombok.RequiredArgsConstructor;
 import messenger.user.service.dto.request.UpdateProfileRequest;
 import messenger.user.service.dto.response.ProfileResponse;
-import messenger.user.service.entity.Profile;
-import messenger.user.service.entity.User;
+import messenger.user.service.domain.entity.Profile;
+import messenger.user.service.domain.entity.User;
 import messenger.user.service.exception.UserException;
-import messenger.user.service.repository.UserRepository;
+import messenger.user.service.domain.repository.UserRepository;
 import org.springframework.cache.annotation.CacheEvict;
 import org.springframework.cache.annotation.Cacheable;
 import org.springframework.stereotype.Service;
@@ -19,7 +19,7 @@ public class ProfileService {
     private final UserRepository userRepository;
 
     @Transactional
-    @CacheEvict(value = "userProfiles", key = "#userId")
+    @CacheEvict(value = "userProfiles", key = "#p0")
     public ProfileResponse updateProfile(Long userId, UpdateProfileRequest request) {
         User user = userRepository.findById(userId)
                 .orElseThrow(() -> new UserException(
@@ -58,7 +58,7 @@ public class ProfileService {
         return createProfileResponse(userId, user.getProfile());
     }
 
-    @Cacheable(value = "userProfiles", key = "#userId")
+    @Cacheable(value = "userProfiles", key = "#p0")
     public ProfileResponse getProfile(Long userId) {
         User user = userRepository.findById(userId)
                 .orElseThrow(() -> new UserException(

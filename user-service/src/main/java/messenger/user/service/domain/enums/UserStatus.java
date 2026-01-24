@@ -1,4 +1,4 @@
-package messenger.user.service.entity;
+package messenger.user.service.domain.enums;
 
 public enum UserStatus {
 
