@@ -9,7 +9,6 @@ import jakarta.validation.Valid;
 import lombok.RequiredArgsConstructor;
 import messenger.web.socket.service.client.grpc.MessageGrpcClient;
 import org.springframework.messaging.handler.annotation.*;
-import org.springframework.messaging.simp.SimpMessageSendingOperations;
 import org.springframework.stereotype.Controller;
 
 import java.time.Instant;
@@ -19,7 +18,6 @@ import java.time.Instant;
 public class MessageController {
 
     private final MessageGrpcClient messageGrpcClient;
-    private final SimpMessageSendingOperations messagingTemplate;
 
     @MessageMapping("/chat.send")
     public MessageResult processSendMessage(
@@ -27,17 +25,7 @@ public class MessageController {
             @Header("simpSessionId") String sessionId,
             @Header("userId") Long senderId
     ) {
-        MessageResult result = messageGrpcClient.sendMessage(request, senderId);
-
-        if (result.isSuccess()) {
-            String destination = String.format("/topic/chat.%s.%s",
-                    request.chatType().toString().toLowerCase(),
-                    request.chatId());
-
-            messagingTemplate.convertAndSend(destination, result);
-        }
-
-        return result;
+        return messageGrpcClient.sendMessage(request, senderId);
     }
 
     @MessageMapping("/chat.edit")
@@ -46,17 +34,7 @@ public class MessageController {
             @Header("simpSessionId") String sessionId,
             @Header("userId") Long editorId
     ) {
-        MessageResult result = messageGrpcClient.editMessage(request, editorId);
-
-        if (result.isSuccess()) {
-            String destination = String.format("/topic/chat.%s.%s",
-                    request.chatType().toString().toLowerCase(),
-                    request.chatId());
-
-            messagingTemplate.convertAndSend(destination, result);
-        }
-
-        return result;
+        return messageGrpcClient.editMessage(request, editorId);
     }
 
     @MessageMapping("/chat.read")
@@ -65,17 +43,7 @@ public class MessageController {
             @Header("simpSessionId") String sessionId,
             @Header("userId") Long readerId
     ) {
-        MessageResult result = messageGrpcClient.markAsRead(request, readerId);
-
-        if (result.isSuccess()) {
-            String destination = String.format("/topic/chat.%s.%s",
-                    request.chatType().toString().toLowerCase(),
-                    request.chatId());
-
-            messagingTemplate.convertAndSend(destination, result);
-        }
-
-        return result;
+        return messageGrpcClient.markAsRead(request, readerId);
     }
 
     @MessageExceptionHandler
