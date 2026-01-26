@@ -1,11 +1,11 @@
 package messenger.sso.service.service;
 
+import dto.event.UserUpdatingEvent;
 import lombok.RequiredArgsConstructor;
-import messenger.sso.service.dto.event.UserRegistrationEvent;
-import messenger.sso.service.dto.event.UserUpdatingEvent;
-import messenger.sso.service.entity.SsoUser;
+import dto.event.UserRegistrationEvent;
+import messenger.sso.service.domain.entity.SsoUser;
 import messenger.sso.service.exception.UserException;
-import messenger.sso.service.repository.SsoUserRepository;
+import messenger.sso.service.domain.repository.SsoUserRepository;
 import org.springframework.stereotype.Service;
 
 @Service

@@ -1,12 +1,12 @@
 package messenger.user.service.controller.api;
 
+import enums.UserUpdateType;
 import jakarta.validation.Valid;
 import lombok.RequiredArgsConstructor;
 import messenger.user.service.dto.request.*;
 import messenger.user.service.dto.response.UserResponse;
 import messenger.user.service.service.UserService;
 import messenger.user.service.service.UserValidationService;
-import messenger.user.service.validation.UserUpdateType;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 

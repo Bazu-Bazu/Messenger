@@ -1,7 +1,7 @@
-package messenger.user.service.dto.event;
+package dto.event;
 
+import enums.UserUpdateType;
 import lombok.Builder;
-import messenger.user.service.validation.UserUpdateType;
 
 @Builder
 public record UserUpdatingEvent (

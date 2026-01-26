@@ -1,9 +1,8 @@
-package messenger.sso.service.service;
+package messenger.sso.service.jwt;
 
-import messenger.sso.service.dto.CustomUserDetails;
-import messenger.sso.service.entity.SsoUser;
+import messenger.sso.service.domain.entity.SsoUser;
 import messenger.sso.service.exception.UserException;
-import messenger.sso.service.repository.SsoUserRepository;
+import messenger.sso.service.domain.repository.SsoUserRepository;
 import org.springframework.stereotype.Service;
 import lombok.RequiredArgsConstructor;
 import org.springframework.security.authentication.DisabledException;

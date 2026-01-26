@@ -1,6 +1,6 @@
-package messenger.sso.service.repository;
+package messenger.sso.service.domain.repository;
 
-import messenger.sso.service.entity.RefreshToken;
+import messenger.sso.service.domain.entity.RefreshToken;
 import org.springframework.data.jpa.repository.JpaRepository;
 import org.springframework.stereotype.Repository;
 

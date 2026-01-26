@@ -1,6 +1,6 @@
-package messenger.sso.service.dto;
+package messenger.sso.service.jwt;
 
-import messenger.sso.service.entity.SsoUser;
+import messenger.sso.service.domain.entity.SsoUser;
 import org.springframework.security.core.GrantedAuthority;
 import org.springframework.security.core.userdetails.UserDetails;
 

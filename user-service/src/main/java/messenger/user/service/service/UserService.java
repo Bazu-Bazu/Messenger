@@ -1,5 +1,6 @@
 package messenger.user.service.service;
 
+import enums.UserUpdateType;
 import lombok.RequiredArgsConstructor;
 import messenger.user.service.dto.request.CreateUserRequest;
 import messenger.user.service.dto.response.UserResponse;
@@ -7,7 +8,6 @@ import messenger.user.service.domain.entity.User;
 import messenger.user.service.exception.UserException;
 import messenger.user.service.domain.repository.UserRepository;
 import messenger.user.service.client.kafka.UserEventPublisher;
-import messenger.user.service.validation.UserUpdateType;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;

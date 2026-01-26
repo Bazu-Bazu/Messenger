@@ -1,10 +1,10 @@
-package messenger.sso.service.service.handler;
+package messenger.sso.service.controller.kafka;
 
 import com.fasterxml.jackson.core.JsonProcessingException;
 import com.fasterxml.jackson.databind.ObjectMapper;
+import dto.event.UserUpdatingEvent;
 import lombok.RequiredArgsConstructor;
-import messenger.sso.service.dto.event.UserRegistrationEvent;
-import messenger.sso.service.dto.event.UserUpdatingEvent;
+import dto.event.UserRegistrationEvent;
 import messenger.sso.service.service.SsoUserService;
 import org.springframework.kafka.annotation.KafkaListener;
 import org.springframework.stereotype.Service;
