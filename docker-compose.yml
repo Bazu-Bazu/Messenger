@@ -205,6 +205,24 @@ services:
     ports:
       - "8086:8086"
 
+  sso-service:
+    build:
+      context: ./sso-service
+      dockerfile: Dockerfile
+    container_name: sso-service
+    depends_on:
+      - kafka
+      - postgres_sso
+    environment:
+      SPRING_PROFILES_ACTIVE: docker
+      SPRING_DATASOURCE_URL: jdbc:postgresql://postgres_sso:5432/postgres
+      SPRING_DATASOURCE_USERNAME: postgres
+      SPRING_DATASOURCE_PASSWORD: postgres
+      SPRING_KAFKA_BOOTSTRAP_SERVERS: kafka:9093
+      SERVER_PORT: 8081
+    ports:
+      - "8081:8081"
+
 volumes:
   postgres_user:
   postgres_sso:
