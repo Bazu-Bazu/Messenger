@@ -136,8 +136,8 @@ jobs:
       matrix:
         service:
           - name: sso-service
-          - dockerfile: sso-service/Dockerfile
-          - context: sso-service
+            dockerfile: sso-service/Dockerfile
+            context: sso-service
           - name: user-service
             dockerfile: user-service/Dockerfile
             context: user-service
