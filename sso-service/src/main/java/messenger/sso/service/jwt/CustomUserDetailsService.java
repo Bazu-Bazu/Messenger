@@ -1,8 +1,7 @@
 package messenger.sso.service.jwt;
 
 import messenger.sso.service.domain.entity.SsoUser;
-import messenger.sso.service.exception.UserException;
-import messenger.sso.service.domain.repository.SsoUserRepository;
+import messenger.sso.service.service.SsoUserService;
 import org.springframework.stereotype.Service;
 import lombok.RequiredArgsConstructor;
 import org.springframework.security.authentication.DisabledException;
@@ -14,14 +13,11 @@ import org.springframework.security.core.userdetails.UsernameNotFoundException;
 @RequiredArgsConstructor
 public class CustomUserDetailsService implements UserDetailsService {
 
-    private final SsoUserRepository ssoUserRepository;
+    private final SsoUserService ssoUserService;
 
     @Override
     public UserDetails loadUserByUsername(String phone) throws UsernameNotFoundException {
-        SsoUser user = ssoUserRepository.findByPhone(phone)
-                .orElseThrow(() -> new UserException(
-                        String.format("User with phone %s not found", phone)
-                ));
+        SsoUser user = ssoUserService.findSsoUserByPhone(phone);
 
         if (!user.isEnabled()) {
             throw new DisabledException("Phone not verified");

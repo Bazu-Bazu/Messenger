@@ -4,6 +4,7 @@ import dto.event.UserUpdatingEvent;
 import lombok.RequiredArgsConstructor;
 import dto.event.UserRegistrationEvent;
 import messenger.sso.service.domain.entity.SsoUser;
+import messenger.sso.service.exception.SsoUserException;
 import messenger.sso.service.exception.UserException;
 import messenger.sso.service.domain.repository.SsoUserRepository;
 import org.springframework.stereotype.Service;
@@ -40,6 +41,13 @@ public class SsoUserService {
         }
 
         ssoUserRepository.save(user);
+    }
+
+    public SsoUser findSsoUserByPhone(String phone) {
+        return ssoUserRepository.findByPhone(phone)
+                .orElseThrow(() -> new SsoUserException(
+                        String.format("User with phone %s not found", phone)
+                ));
     }
 
 }
