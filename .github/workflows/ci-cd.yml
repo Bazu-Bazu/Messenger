@@ -113,8 +113,8 @@ jobs:
           echo "🔍 Проверяем Dockerfiles..."
           for service in sso-service user-service personal-chat-service group-chat-service message-service web-socket-service; do
             if [ -f "services/$service/Dockerfile" ]; then
-              echo "✅ $service/Dockerfile существует"
-              if grep -q "FROM " "$service/Dockerfile"; then
+              echo "✅ services/$service/Dockerfile" существует"
+              if grep -q "FROM " services/$service/Dockerfile"; then
                 echo "   ✅ Корректный FROM"
               else
                 echo "   ❌ Ошибка: нет FROM"
