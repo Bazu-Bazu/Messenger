@@ -112,7 +112,7 @@ jobs:
         run: |
           echo "🔍 Проверяем Dockerfiles..."
           for service in sso-service user-service personal-chat-service group-chat-service message-service web-socket-service; do
-            if [ -f "$service/Dockerfile" ]; then
+            if [ -f "services/$service/Dockerfile" ]; then
               echo "✅ $service/Dockerfile существует"
               if grep -q "FROM " "$service/Dockerfile"; then
                 echo "   ✅ Корректный FROM"
@@ -136,23 +136,23 @@ jobs:
       matrix:
         service:
           - name: sso-service
-            dockerfile: sso-service/Dockerfile
-            context: sso-service
+            dockerfile: services/sso-service/Dockerfile
+            context: services/sso-service
           - name: user-service
-            dockerfile: user-service/Dockerfile
-            context: user-service
+            dockerfile: services/user-service/Dockerfile
+            context: services/user-service
           - name: personal-chat-service
-            dockerfile: personal-chat-service/Dockerfile
-            context: personal-chat-service
+            dockerfile: services/personal-chat-service/Dockerfile
+            context: services/personal-chat-service
           - name: group-chat-service
-            dockerfile: group-chat-service/Dockerfile
-            context: group-chat-service
+            dockerfile: services/group-chat-service/Dockerfile
+            context: services/group-chat-service
           - name: message-service
-            dockerfile: message-service/Dockerfile
-            context: message-service
+            dockerfile: services/message-service/Dockerfile
+            context: services/message-service
           - name: web-socket-service
-            dockerfile: web-socket-service/Dockerfile
-            context: web-socket-service
+            dockerfile: services/web-socket-service/Dockerfile
+            context: services/web-socket-service
 
     steps:
       - name: Checkout code
