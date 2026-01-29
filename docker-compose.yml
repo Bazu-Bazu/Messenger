@@ -88,9 +88,27 @@ services:
     depends_on:
       - zookeeper
 
+  sso-service:
+    build:
+      context: ./services/sso-service
+      dockerfile: Dockerfile
+    container_name: sso-service
+    depends_on:
+      - kafka
+      - postgres_sso
+    environment:
+      SPRING_PROFILES_ACTIVE: docker
+      SPRING_DATASOURCE_URL: jdbc:postgresql://postgres_sso:5432/postgres
+      SPRING_DATASOURCE_USERNAME: postgres
+      SPRING_DATASOURCE_PASSWORD: postgres
+      SPRING_KAFKA_BOOTSTRAP_SERVERS: kafka:9093
+      SERVER_PORT: 8081
+    ports:
+      - "8081:8081"
+
   user-service:
     build:
-      context: ./user-service
+      context: ./services/user-service
       dockerfile: Dockerfile
     container_name: user-service
     depends_on:
@@ -112,7 +130,7 @@ services:
 
   personal-chat-service:
     build:
-      context: ./personal-chat-service
+      context: ./services/personal-chat-service
       dockerfile: Dockerfile
     container_name: personal-chat-service
     depends_on:
@@ -136,7 +154,7 @@ services:
 
   group-chat-service:
     build:
-      context: ./group-chat-service
+      context: ./services/group-chat-service
       dockerfile: Dockerfile
     container_name: group-chat-service
     depends_on:
@@ -160,7 +178,7 @@ services:
 
   message-service:
     build:
-      context: ./message-service
+      context: ./services/message-service
       dockerfile: Dockerfile
     container_name: message-service
     depends_on:
@@ -188,7 +206,7 @@ services:
 
   web-socket-service:
     build:
-      context: ./web-socket-service
+      context: ./services/web-socket-service
       dockerfile: Dockerfile
     container_name: web-socket-service
     depends_on:
@@ -204,24 +222,6 @@ services:
       GRPC_CLIENT_USER_SERVICE_ADDRESS: static://message-service:6568
     ports:
       - "8086:8086"
-
-  sso-service:
-    build:
-      context: ./sso-service
-      dockerfile: Dockerfile
-    container_name: sso-service
-    depends_on:
-      - kafka
-      - postgres_sso
-    environment:
-      SPRING_PROFILES_ACTIVE: docker
-      SPRING_DATASOURCE_URL: jdbc:postgresql://postgres_sso:5432/postgres
-      SPRING_DATASOURCE_USERNAME: postgres
-      SPRING_DATASOURCE_PASSWORD: postgres
-      SPRING_KAFKA_BOOTSTRAP_SERVERS: kafka:9093
-      SERVER_PORT: 8081
-    ports:
-      - "8081:8081"
 
 volumes:
   postgres_user:
