@@ -1,10 +1,10 @@
 package messenger.user.service.client.kafka;
 
+import dto.event.UserRegistrationEvent;
+import enums.UserUpdateType;
 import lombok.RequiredArgsConstructor;
-import messenger.user.service.dto.event.UserRegistrationEvent;
-import messenger.user.service.dto.event.UserUpdatingEvent;
+import dto.event.UserUpdatingEvent;
 import messenger.user.service.domain.entity.User;
-import messenger.user.service.validation.UserUpdateType;
 import org.springframework.kafka.core.KafkaTemplate;
 import org.springframework.stereotype.Service;
 
@@ -23,7 +23,7 @@ public class UserEventPublisher {
     private UserRegistrationEvent createUserRegistrationEvent(User user) {
         return UserRegistrationEvent.builder()
                 .id(user.getId())
-                .userName(user.getUsername())
+                .username(user.getUsername())
                 .phone(user.getPhone())
                 .email(user.getEmail())
                 .password(user.getPassword())

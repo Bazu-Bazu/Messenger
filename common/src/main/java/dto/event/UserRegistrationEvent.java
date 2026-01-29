@@ -1,14 +1,12 @@
-package messenger.user.service.dto.event;
+package dto.event;
 
 import lombok.Builder;
 
 @Builder
 public record UserRegistrationEvent(
         Long id,
-        String userName,
+        String username,
         String phone,
         String email,
         String password
 ) {}
-
-

@@ -1,4 +1,4 @@
-package messenger.user.service.validation;
+package enums;
 
 public enum UserUpdateType {
 
