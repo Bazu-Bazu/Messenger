@@ -1,5 +1,27 @@
+server:
+  port: 8080
+
 spring:
-  config:
-    import:
-      - application-config.yaml
-      - application-variables.yaml
+  main:
+    web-application-type: reactive
+
+  cloud:
+    gateway:
+      routes:
+        - id: sso-service
+          uri: http://localhost:8081
+          predicates:
+            - Path=/auth/**
+
+#        - id: user-service
+#          uri: http://localhost:8082
+#          predicates:
+#            - Path=/users/**
+#            - Path=/profile/**
+
+logging:
+  level:
+    org.springframework.cloud.gateway: DEBUG
+
+jwt:
+  secret-key: i3mOlQItCJ7wSbkiMAUaVBk8NZz4LjOlvIMMGXpwFeUHKMrdMpWygKWLxuFs9NVV
