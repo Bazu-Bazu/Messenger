@@ -39,6 +39,7 @@ public class JwtService {
                 .toList();
 
         claims.put("authorities", authorities);
+        claims.put("token_type", "ACCESS");
 
         addRoleSpecificId(claims, userDetails);
 
@@ -53,9 +54,13 @@ public class JwtService {
     }
 
     public String generateRefreshToken(UserDetails userDetails) {
+        Map<String, Object> claims = new HashMap<>();
+        claims.put("token_type", "REFRESH");
+
         Date date = createExpirationDate(refreshTokenExpiration);
 
         return Jwts.builder()
+                .claims(claims)
                 .subject(userDetails.getUsername())
                 .expiration(date)
                 .signWith(getSignInKey())
@@ -88,11 +93,9 @@ public class JwtService {
     }
 
     public boolean isRefreshToken(String token) {
-        Date expiration = extractExpiration(token);
-        Date now = new Date();
-        long tokenLifeTime = expiration.getTime() - now.getTime();
-
-        return tokenLifeTime > accessTokenExpiration;
+        return "REFRESH".equals(
+                extractClaim(token, c -> c.get("token_type", String.class))
+        );
     }
 
     public <T> T extractClaim(String token, Function<Claims, T> claimsResolver) {
