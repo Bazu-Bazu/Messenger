@@ -1,6 +1,6 @@
 package com.messenger.api.gateway.jwt;
 
-import io.jsonwebtoken.ExpiredJwtException;
+import io.jsonwebtoken.JwtException;
 import lombok.RequiredArgsConstructor;
 import org.springframework.cloud.gateway.filter.GatewayFilterChain;
 import org.springframework.cloud.gateway.filter.GlobalFilter;
@@ -41,7 +41,8 @@ public class JwtFilter implements GlobalFilter {
 
         try {
             if (!jwtService.isTokenValid(jwt)) {
-                throw new RuntimeException("Invalid token");
+                exchange.getResponse().setStatusCode(HttpStatus.UNAUTHORIZED);
+                return exchange.getResponse().setComplete();
             }
 
             String userId = jwtService.extractUserId(jwt);
@@ -57,7 +58,7 @@ public class JwtFilter implements GlobalFilter {
 
             return chain.filter(exchange.mutate().request(mutatedRequest).build());
 
-        } catch (ExpiredJwtException e) {
+        } catch (JwtException | IllegalArgumentException e) {
             exchange.getResponse().setStatusCode(HttpStatus.UNAUTHORIZED);
             return exchange.getResponse().setComplete();
         }
