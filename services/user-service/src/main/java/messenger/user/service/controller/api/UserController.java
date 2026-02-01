@@ -18,7 +18,7 @@ public class UserController {
     private final UserService userService;
     private final UserValidationService userValidationService;
 
-    @PostMapping("/register")
+    @PostMapping
     public ResponseEntity<?> register(@RequestBody @Valid CreateUserRequest request) {
         userValidationService.validateUserRegistration(request.username(), request.phone(), request.password());
         UserResponse response = userService.registerUser(request);
@@ -26,8 +26,8 @@ public class UserController {
         return ResponseEntity.status(201).body(response);
     }
 
-    @GetMapping("/my-tools")
-    public ResponseEntity<?> getMyTools(@RequestParam("userId") Long userId) {
+    @GetMapping("/me")
+    public ResponseEntity<?> getMyTools(@RequestHeader("X-User-Id") Long userId) {
         UserResponse response = userService.getUser(userId);
 
         return ResponseEntity.status(200).body(response);
@@ -35,7 +35,7 @@ public class UserController {
 
     @PatchMapping("/update/phone")
     public ResponseEntity<?> updatePhone(
-            @RequestParam("userId") @Valid Long userId,
+            @RequestHeader("X-User-Id") Long userId,
             @RequestBody @Valid UpdatePhoneRequest request
     ) {
         userValidationService.validatePhone(request.phone());
@@ -46,7 +46,7 @@ public class UserController {
 
     @PatchMapping("/update/password")
     public ResponseEntity<?> updatePassword(
-            @RequestParam("userId") @Valid Long userId,
+            @RequestHeader("X-User-Id") Long userId,
             @RequestBody @Valid UpdatePasswordRequest request
     ) {
         userValidationService.validatePassword(request.password());
@@ -57,7 +57,7 @@ public class UserController {
 
     @PatchMapping("/update/username")
     public ResponseEntity<?> updateUsername(
-            @RequestParam("userId") @Valid Long userId,
+            @RequestHeader("X-User-Id") Long userId,
             @RequestBody @Valid UpdateUsernameRequest request
     ) {
         userValidationService.validateUsername(request.username());
@@ -68,7 +68,7 @@ public class UserController {
 
     @PatchMapping("/update/email")
     public ResponseEntity<?> updateEmail(
-            @RequestParam("userId") @Valid Long userId,
+            @RequestHeader("X-User-Id") Long userId,
             @RequestBody @Valid UpdateEmailRequest request
     ) {
         userValidationService.validateEmail(request.email());

@@ -2,7 +2,7 @@ package messenger.user.service.dto.request;
 
 import jakarta.validation.constraints.NotBlank;
 
-public record UpdatePhoneRequest(
+public record AddAvatarRequest(
         @NotBlank
-        String phone
+        String url
 ) {}
