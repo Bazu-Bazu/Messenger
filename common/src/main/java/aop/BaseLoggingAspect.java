@@ -1,7 +1,9 @@
 package aop;
 
+import jakarta.persistence.Entity;
 import lombok.extern.log4j.Log4j2;
 import org.aspectj.lang.JoinPoint;
+import org.hibernate.proxy.HibernateProxy;
 
 import java.util.Collection;
 import java.util.stream.Collectors;
@@ -40,6 +42,17 @@ public class BaseLoggingAspect {
                 .map(arg -> {
                     if (arg == null) return "null";
                     if (arg instanceof String) return "\"" + arg + "\"";
+
+                    if (arg instanceof HibernateProxy proxy) {
+                        return proxy.getHibernateLazyInitializer()
+                                .getPersistentClass()
+                                .getSimpleName();
+                    }
+
+                    if (arg.getClass().isAnnotationPresent(Entity.class)) {
+                        return arg.getClass().getSimpleName();
+                    }
+
                     return arg.toString();
                 })
                 .collect(Collectors.joining(", ", "[", "]"));
