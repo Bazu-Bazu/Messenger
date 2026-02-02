@@ -28,6 +28,16 @@ spring:
           predicates:
             - Path=/chats/personal/**
 
+        - id: group-chat-service-chats
+          uri: http://localhost:8084
+          predicates:
+            - Path=/chats/group/**
+
+        - id: group-chat-service-members
+          uri: http://localhost:8084
+          predicates:
+            - Path=/chats/group/members/**
+
 logging:
   level:
     org.springframework.cloud.gateway: DEBUG

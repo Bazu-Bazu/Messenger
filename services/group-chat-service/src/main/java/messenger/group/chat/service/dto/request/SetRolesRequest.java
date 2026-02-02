@@ -1,6 +1,7 @@
 package messenger.group.chat.service.dto.request;
 
 import jakarta.validation.constraints.NotEmpty;
+import jakarta.validation.constraints.NotNull;
 import jakarta.validation.constraints.Size;
 import messenger.group.chat.service.domain.enums.GroupMemberRole;
 
@@ -11,6 +12,6 @@ public record SetRolesRequest(
         @Size(max = 50)
         List<Long> userIds,
 
-        Long groupId,
+        @NotNull
         GroupMemberRole role
 ) {}

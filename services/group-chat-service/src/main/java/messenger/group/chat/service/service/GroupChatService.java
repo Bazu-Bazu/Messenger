@@ -46,10 +46,9 @@ public class GroupChatService {
     }
 
     @Transactional
-    public void addNewMembers(Long invitorId, AddNewMembersRequest request) {
+    public void addNewMembers(Long invitorId, Long groupId, AddNewMembersRequest request) {
         userGrpcClient.validateUsersExist(List.of(invitorId));
 
-        Long groupId = request.groupId();
         GroupChat group = groupChatRepository.findById(groupId)
                 .orElseThrow(() -> new GroupChatException(
                         String.format("Group with id %d not found", groupId)
@@ -61,10 +60,9 @@ public class GroupChatService {
     }
 
     @Transactional
-    public void removeMembers(Long removerId, RemoveMembersRequest request) {
+    public void removeMembers(Long removerId, Long groupId, RemoveMembersRequest request) {
         userGrpcClient.validateUsersExist(List.of(removerId));
 
-        Long groupId = request.groupId();
         GroupChat group = groupChatRepository.findById(groupId)
                 .orElseThrow(() -> new GroupChatException(
                         String.format("Group with id %d not found", groupId)
@@ -101,10 +99,9 @@ public class GroupChatService {
     }
 
     @Transactional
-    public GroupChatResponse changeGroupInfo(Long changerId, ChangeGroupInfoRequest request) {
+    public GroupChatResponse changeGroupInfo(Long changerId, Long groupId, ChangeGroupInfoRequest request) {
         userGrpcClient.validateUsersExist(List.of(changerId));
 
-        Long groupId = request.groupId();
         validationMemberRightsService.validateCanChangeGroupInfo(groupId, changerId);
 
         GroupChat group = groupChatRepository.findById(groupId)
@@ -138,12 +135,12 @@ public class GroupChatService {
         groupChatRepository.updateLastActivity(groupId, lastActivity);
     }
 
-    public List<GroupMemberResponse> setRoles(Long setterId, SetRolesRequest request) {
+    public List<GroupMemberResponse> setRoles(Long setterId, Long groupId, SetRolesRequest request) {
         userGrpcClient.validateUsersExist(List.of(setterId));
 
-        validationMemberRightsService.validateCanSetRole(request.groupId(), setterId, request.userIds(), request.role());
+        validationMemberRightsService.validateCanSetRole(groupId, setterId, request.userIds(), request.role());
 
-        return memberAdditionService.setRoles(request.groupId(), request.userIds(), request.role());
+        return memberAdditionService.setRoles(groupId, request.userIds(), request.role());
     }
 
     private GroupChatResponse createGroupChatResponse(GroupChat group) {

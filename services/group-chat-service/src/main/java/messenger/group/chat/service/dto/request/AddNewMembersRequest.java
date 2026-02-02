@@ -8,7 +8,5 @@ import java.util.List;
 public record AddNewMembersRequest(
         @NotEmpty
         @Size(max = 50)
-        List<Long> userIds,
-
-        Long groupId
+        List<Long> userIds
 ) {}
