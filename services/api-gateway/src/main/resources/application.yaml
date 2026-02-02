@@ -23,6 +23,11 @@ spring:
           predicates:
             - Path=/profile/**
 
+        - id: personal-chat-service
+          uri: http://localhost:8083
+          predicates:
+            - Path=/chats/personal/**
+
 logging:
   level:
     org.springframework.cloud.gateway: DEBUG

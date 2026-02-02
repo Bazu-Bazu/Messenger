@@ -5,6 +5,7 @@ import lombok.RequiredArgsConstructor;
 import messenger.personal.chat.service.client.grpc.UserGrpcClient;
 import messenger.personal.chat.service.domain.entity.PersonalChat;
 import messenger.personal.chat.service.domain.repository.PersonalChatRepository;
+import messenger.personal.chat.service.dto.request.CreatePersonalChatRequest;
 import messenger.personal.chat.service.dto.response.PersonalChatResponse;
 import messenger.personal.chat.service.exception.PersonalChatNotFoundException;
 import org.springframework.cache.Cache;
@@ -27,7 +28,9 @@ public class PersonalChatService {
     private final CacheManager cacheManager;
 
     @Transactional
-    public PersonalChatResponse getOrCreatePersonalChat(Long user1Id, Long user2Id) {
+    public PersonalChatResponse getOrCreatePersonalChat(Long user1Id, CreatePersonalChatRequest request) {
+        Long user2Id = request.userId();
+
         Optional<PersonalChat> existingChat = personalChatRepository.findPersonalChatByUsers(user1Id, user2Id);
 
         if (existingChat.isPresent()) {
@@ -61,7 +64,7 @@ public class PersonalChatService {
         }
     }
 
-    @Cacheable(value = "userPersonalChats", key = "#userId")
+    @Cacheable(value = "userPersonalChats", key = "#p0")
     public List<PersonalChatResponse> getAllUserPersonalChats(Long userId) {
         userGrpcClient.validateUsersExist(List.of(userId));
 
@@ -73,7 +76,7 @@ public class PersonalChatService {
     }
 
     @Transactional
-    @CacheEvict(value = "userPersonalChats", key = "#userId")
+    @CacheEvict(value = "userPersonalChats", key = "#p0")
     public void deletePersonalChat(Long userId, Long chatId) {
         userGrpcClient.validateUsersExist(List.of(userId));
 
