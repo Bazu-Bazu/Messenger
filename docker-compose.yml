@@ -88,6 +88,22 @@ services:
     depends_on:
       - zookeeper
 
+  api-gateway:
+    build:
+      context: ./services/api-gateway
+      dockerfile: Dockerfile
+    container_name: api-gateway
+    depends_on:
+      - sso-service
+      - user-service
+      - personal-chat-service
+      - group-chat-service
+    environment:
+      SPRING_PROFILES_ACTIVE: docker
+      SERVER_PORT: 8080
+    ports:
+      - "8080:8080"
+
   sso-service:
     build:
       context: ./services/sso-service

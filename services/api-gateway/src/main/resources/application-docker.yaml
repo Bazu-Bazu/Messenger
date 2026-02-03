@@ -1,5 +1,5 @@
 server:
-  port: 8080
+  port: ${SERVER_PORT:8080}
 
 spring:
   application:
@@ -12,32 +12,32 @@ spring:
     gateway:
       routes:
         - id: sso-service
-          uri: http://localhost:8081
+          uri: http://sso-service:8081
           predicates:
             - Path=/auth/**
 
         - id: user-service-users
-          uri: http://localhost:8082
+          uri: http://user-service:8082
           predicates:
             - Path=/users/**
 
         - id: user-service-profile
-          uri: http://localhost:8082
+          uri: http://user-service:8082
           predicates:
             - Path=/profile/**
 
         - id: personal-chat-service
-          uri: http://localhost:8083
+          uri: http://personal-chat-service:8083
           predicates:
             - Path=/chats/personal/**
 
         - id: group-chat-service-chats
-          uri: http://localhost:8084
+          uri: http://group-chat-service:8084
           predicates:
             - Path=/chats/group/**
 
         - id: group-chat-service-members
-          uri: http://localhost:8084
+          uri: http://group-chat-service:8084
           predicates:
             - Path=/chats/group/members/**
 
