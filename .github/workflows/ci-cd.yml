@@ -67,6 +67,7 @@ jobs:
     strategy:
       matrix:
         service:
+          - api-gateway
           - sso-service
           - user-service
           - personal-chat-service
@@ -111,7 +112,7 @@ jobs:
       - name: Validate Dockerfiles syntax
         run: |
           echo "🔍 Проверяем Dockerfiles..."
-          for service in sso-service user-service personal-chat-service group-chat-service message-service web-socket-service; do
+          for service in api-gateway sso-service user-service personal-chat-service group-chat-service message-service web-socket-service; do
             if [ -f "services/$service/Dockerfile" ]; then
               echo "✅ services/$service/Dockerfile существует"
               if grep -q "FROM " "services/$service/Dockerfile"; then
@@ -135,6 +136,9 @@ jobs:
     strategy:
       matrix:
         service:
+          - name: api-gateway
+            dockerfile: services/api-gateway/Dockerfile
+            context: services/api-gateway
           - name: sso-service
             dockerfile: services/sso-service/Dockerfile
             context: services/sso-service
@@ -271,6 +275,7 @@ jobs:
           
           # Деплой
           declare -A ports=(
+            [api-gateway]="8080"
             [sso-service]="8081"
             [user-service]="8082"
             [personal-chat-service]="8083"
@@ -279,7 +284,7 @@ jobs:
             [web-socket-service]="8086"
           )
           
-          for service in sso-service user-service personal-chat-service group-chat-service message-service web-socket-service; do
+          for service in api-gateway sso-service user-service personal-chat-service group-chat-service message-service web-socket-service; do
             echo "🔄 Deploying $service..."
           
             docker stop messenger-$service 2>/dev/null || true

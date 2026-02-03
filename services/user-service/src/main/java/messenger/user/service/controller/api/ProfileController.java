@@ -2,6 +2,7 @@ package messenger.user.service.controller.api;
 
 import jakarta.validation.Valid;
 import lombok.RequiredArgsConstructor;
+import messenger.user.service.dto.request.AddAvatarRequest;
 import messenger.user.service.dto.request.UpdateProfileRequest;
 import messenger.user.service.dto.response.ProfileResponse;
 import messenger.user.service.service.ProfileService;
@@ -17,9 +18,9 @@ public class ProfileController {
     private final ProfileService profileService;
     private final ProfileValidationService profileValidationService;
 
-    @PatchMapping("/update")
+    @PatchMapping
     public ResponseEntity<?> updateProfile(
-            @RequestParam("userId") @Valid Long userId,
+            @RequestHeader("X-User-Id") Long userId,
             @RequestBody @Valid UpdateProfileRequest request
     ) {
         profileValidationService.validateProfileUpdating(request.firstName(), request.lastName(), request.bio());
@@ -28,18 +29,18 @@ public class ProfileController {
         return ResponseEntity.status(200).body(response);
     }
 
-    @PostMapping("/avatar_url")
+    @PatchMapping("/avatar")
     public ResponseEntity<?> addAvatarUrl(
-            @RequestParam("userId") @Valid Long userId,
-            @RequestParam("url") @Valid String url
+            @RequestHeader("X-User-Id") Long userId,
+            @RequestBody @Valid AddAvatarRequest request
     ) {
-        ProfileResponse response = profileService.addAvatarUrl(userId, url);
+        ProfileResponse response = profileService.addAvatarUrl(userId, request);
 
         return ResponseEntity.status(200).body(response);
     }
 
-    @GetMapping("/get")
-    public ResponseEntity<?> getProfile(@RequestParam("userId") @Valid Long userId) {
+    @GetMapping("/{userId}")
+    public ResponseEntity<?> getProfile(@PathVariable("userId") @Valid Long userId) {
         ProfileResponse response = profileService.getProfile(userId);
 
         return ResponseEntity.status(200).body(response);
