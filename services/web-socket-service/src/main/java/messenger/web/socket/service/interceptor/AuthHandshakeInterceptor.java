@@ -32,7 +32,8 @@ public class AuthHandshakeInterceptor implements HandshakeInterceptor {
         }
 
         HttpServletRequest httpRequest = servletRequest.getServletRequest();
-        String token = resolveToken(httpRequest);
+
+        String token = httpRequest.getParameter("token");
 
         if (!jwtService.isTokenValid(token)) {
             response.setStatusCode(HttpStatus.UNAUTHORIZED);
@@ -47,12 +48,6 @@ public class AuthHandshakeInterceptor implements HandshakeInterceptor {
 
         attributes.put("USER_ID", Long.parseLong(userIdStr));
         return true;
-    }
-
-    private String resolveToken(HttpServletRequest request) {
-        String header = request.getHeader("Authorization");
-        if (header != null && header.startsWith("Bearer ")) return header.substring(7);
-        return request.getParameter("token");
     }
 
     @Override

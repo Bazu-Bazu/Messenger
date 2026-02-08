@@ -98,6 +98,7 @@ services:
       - user-service
       - personal-chat-service
       - group-chat-service
+      - web-socket-service
     environment:
       SPRING_PROFILES_ACTIVE: docker
       SERVER_PORT: 8080

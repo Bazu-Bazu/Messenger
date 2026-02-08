@@ -5,12 +5,14 @@ import lombok.RequiredArgsConstructor;
 import org.springframework.cloud.gateway.filter.GatewayFilterChain;
 import org.springframework.cloud.gateway.filter.GlobalFilter;
 import org.springframework.http.HttpHeaders;
+import org.springframework.http.HttpMethod;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.server.reactive.ServerHttpRequest;
 import org.springframework.stereotype.Component;
 import org.springframework.web.server.ServerWebExchange;
 import reactor.core.publisher.Mono;
 
+import java.awt.*;
 import java.util.List;
 
 @Component
@@ -21,10 +23,7 @@ public class JwtFilter implements GlobalFilter {
 
     @Override
     public Mono<Void> filter(ServerWebExchange exchange, GatewayFilterChain chain) {
-
-        String path = exchange.getRequest().getURI().getPath();
-
-        if (path.startsWith("/auth")) {
+        if (isPublicPath(exchange)) {
             return chain.filter(exchange);
         }
 
@@ -62,6 +61,15 @@ public class JwtFilter implements GlobalFilter {
             exchange.getResponse().setStatusCode(HttpStatus.UNAUTHORIZED);
             return exchange.getResponse().setComplete();
         }
+    }
+
+    private boolean isPublicPath(ServerWebExchange exchange) {
+        String path = exchange.getRequest().getURI().getPath();
+        HttpMethod method = exchange.getRequest().getMethod();
+
+        return path.startsWith("/auth")
+                || path.startsWith("/ws")
+                || (path.startsWith("/users") && HttpMethod.POST.equals(method));
     }
 
 }

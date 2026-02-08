@@ -40,6 +40,11 @@ spring:
           uri: http://localhost:8084
           predicates:
             - Path=/chats/group/members/**
+            -
+        - id: web-socket-service
+          uri: ws://localhost:8086
+          predicates:
+            - Path=/ws/chat/**
 
 logging:
   level:
