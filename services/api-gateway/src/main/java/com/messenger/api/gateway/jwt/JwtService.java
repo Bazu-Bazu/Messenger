@@ -41,12 +41,6 @@ public class JwtService {
         );
     }
 
-    public boolean isRefreshToken(String token) {
-        return "REFRESH".equals(
-                extractClaim(token, c -> c.get("token_type", String.class))
-        );
-    }
-
     private boolean isTokenExpired(String token) {
         return extractExpiration(token).before(new Date());
     }

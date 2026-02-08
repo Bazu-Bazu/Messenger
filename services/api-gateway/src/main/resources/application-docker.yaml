@@ -41,6 +41,11 @@ spring:
           predicates:
             - Path=/chats/group/members/**
 
+        - id: web-socket-service
+          uri: ws://web-socket-service:8086
+          predicates:
+            - Path=/ws/chat/**
+
 logging:
   level:
     org.springframework.cloud.gateway: DEBUG
