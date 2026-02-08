@@ -5,6 +5,11 @@ spring:
   application:
     name: web-socket-service
 
+  autoconfigure:
+    exclude:
+      - org.springframework.boot.autoconfigure.jdbc.DataSourceAutoConfiguration
+      - org.springframework.boot.autoconfigure.orm.jpa.HibernateJpaAutoConfiguration
+
   data:
     redis:
       host: ${SPRING_REDIS_HOST:redis}
@@ -33,3 +38,6 @@ grpc:
 
 redis:
   ttl: 30
+
+jwt:
+  secret-key: i3mOlQItCJ7wSbkiMAUaVBk8NZz4LjOlvIMMGXpwFeUHKMrdMpWygKWLxuFs9NVV

@@ -13,6 +13,7 @@
     <artifactId>web-socket-service</artifactId>
 
     <properties>
+        <jjwt.version>0.12.4</jjwt.version>
         <grpc-spring.version>2.15.0.RELEASE</grpc-spring.version>
     </properties>
 
@@ -56,6 +57,26 @@
         </dependency>
 
         <dependency>
+            <groupId>io.jsonwebtoken</groupId>
+            <artifactId>jjwt-api</artifactId>
+            <version>${jjwt.version}</version>
+        </dependency>
+
+        <dependency>
+            <groupId>io.jsonwebtoken</groupId>
+            <artifactId>jjwt-impl</artifactId>
+            <version>${jjwt.version}</version>
+            <scope>runtime</scope>
+        </dependency>
+
+        <dependency>
+            <groupId>io.jsonwebtoken</groupId>
+            <artifactId>jjwt-jackson</artifactId>
+            <version>${jjwt.version}</version>
+            <scope>runtime</scope>
+        </dependency>
+
+        <dependency>
             <groupId>Messenger</groupId>
             <artifactId>common</artifactId>
             <version>1.0.0</version>
@@ -73,11 +94,6 @@
             <artifactId>proto</artifactId>
             <version>1.0.0</version>
             <scope>compile</scope>
-        </dependency>
-
-        <dependency>
-            <groupId>org.springframework.boot</groupId>
-            <artifactId>spring-boot-starter-security</artifactId>
         </dependency>
     </dependencies>
 

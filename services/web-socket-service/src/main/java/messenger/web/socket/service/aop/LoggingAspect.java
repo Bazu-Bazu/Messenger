@@ -17,7 +17,8 @@ public class LoggingAspect extends BaseLoggingAspect {
     @Before(
             "execution(public * messenger.web.socket.service.client.*.*.*(..)) || " +
             "execution(public * messenger.web.socket.service.controller.*.*.*(..)) || " +
-            "execution(public * messenger.web.socket.service.service.*.*(..))"
+            "execution(public * messenger.web.socket.service.service.*.*(..)) || " +
+            "execution(public * messenger.web.socket.service.handler.*.*(..))"
     )
     public void before(JoinPoint joinPoint) {
         logBefore(joinPoint);
@@ -27,7 +28,8 @@ public class LoggingAspect extends BaseLoggingAspect {
             pointcut =
             "execution(public * messenger.web.socket.service.client.*.*.*(..)) || " +
             "execution(public * messenger.web.socket.service.controller.*.*.*(..)) || " +
-            "execution(public * messenger.web.socket.service.service.*.*(..))",
+            "execution(public * messenger.web.socket.service.service.*.*(..)) || " +
+            "execution(public * messenger.web.socket.service.handler.*.*(..))",
             returning = "result"
     )
     public void afterReturning(JoinPoint joinPoint, Object result) {
@@ -38,7 +40,8 @@ public class LoggingAspect extends BaseLoggingAspect {
             pointcut =
             "execution(public * messenger.web.socket.service.client.*.*.*(..)) || " +
             "execution(public * messenger.web.socket.service.controller.*.*.*(..)) || " +
-            "execution(public * messenger.web.socket.service.service.*.*(..))",
+            "execution(public * messenger.web.socket.service.service.*.*(..)) || " +
+            "execution(public * messenger.web.socket.service.handler.*.*(..))",
             throwing = "exception"
     )
     public void afterTrowing(JoinPoint joinPoint, Exception exception) {
