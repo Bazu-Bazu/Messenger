@@ -1,7 +1,9 @@
 package messenger.web.socket.service.interceptor;
 
 import jakarta.servlet.http.HttpServletRequest;
-import lombok.extern.log4j.Log4j2;
+import lombok.RequiredArgsConstructor;
+import messenger.web.socket.service.jwt.JwtService;
+import org.springframework.http.HttpStatus;
 import org.springframework.http.server.ServerHttpRequest;
 import org.springframework.http.server.ServerHttpResponse;
 import org.springframework.http.server.ServletServerHttpRequest;
@@ -12,8 +14,10 @@ import org.springframework.web.socket.server.HandshakeInterceptor;
 import java.util.Map;
 
 @Component
-@Log4j2
+@RequiredArgsConstructor
 public class AuthHandshakeInterceptor implements HandshakeInterceptor {
+
+    private final JwtService jwtService;
 
     @Override
     public boolean beforeHandshake(
@@ -21,38 +25,34 @@ public class AuthHandshakeInterceptor implements HandshakeInterceptor {
             ServerHttpResponse response,
             WebSocketHandler wsHandler,
             Map<String, Object> attributes
-    ) throws Exception {
-        if (request instanceof ServletServerHttpRequest) {
-            ServletServerHttpRequest servletRequest = (ServletServerHttpRequest) request;
-            HttpServletRequest httpRequest = servletRequest.getServletRequest();
-
-            String userIdParam = httpRequest.getParameter("userId");
-            if (userIdParam != null) {
-                try {
-                    Long userId = Long.parseLong(userIdParam);
-                    attributes.put("USER_ID", userId);
-                    log.info("UserId from query param: {}", userId);
-                    return true;
-                } catch (NumberFormatException e) {
-                    log.error("Invalid userId in query: {}", userIdParam);
-                }
-            }
-
-            String userIdHeader = httpRequest.getHeader("X-User-Id");
-            if (userIdHeader != null) {
-                try {
-                    Long userId = Long.parseLong(userIdHeader);
-                    attributes.put("USER_ID", userId);
-                    log.info("UserId from header: {}", userId);
-                    return true;
-                } catch (NumberFormatException e) {
-                    log.error("Invalid userId in header: {}", userIdHeader);
-                }
-            }
+    ) {
+        if (!(request instanceof ServletServerHttpRequest servletRequest)) {
+            response.setStatusCode(HttpStatus.UNAUTHORIZED);
+            return false;
         }
 
-        log.warn("⚠️ No userId provided in handshake");
+        HttpServletRequest httpRequest = servletRequest.getServletRequest();
+        String token = resolveToken(httpRequest);
+
+        if (!jwtService.isTokenValid(token)) {
+            response.setStatusCode(HttpStatus.UNAUTHORIZED);
+            return false;
+        }
+
+        String userIdStr = jwtService.extractUserId(token);
+        if (userIdStr == null) {
+            response.setStatusCode(HttpStatus.UNAUTHORIZED);
+            return false;
+        }
+
+        attributes.put("USER_ID", Long.parseLong(userIdStr));
         return true;
+    }
+
+    private String resolveToken(HttpServletRequest request) {
+        String header = request.getHeader("Authorization");
+        if (header != null && header.startsWith("Bearer ")) return header.substring(7);
+        return request.getParameter("token");
     }
 
     @Override
@@ -61,12 +61,6 @@ public class AuthHandshakeInterceptor implements HandshakeInterceptor {
             ServerHttpResponse response,
             WebSocketHandler wsHandler,
             Exception exception
-    ) {
-        if (exception != null) {
-            log.error("Handshake error: ", exception);
-        } else {
-            log.info("Handshake completed successfully");
-        }
-    }
+    ) {}
 
 }

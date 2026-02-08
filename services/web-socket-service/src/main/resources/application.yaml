@@ -16,3 +16,6 @@ grpc:
 
 redis:
   ttl: 30
+
+jwt:
+  secret-key: i3mOlQItCJ7wSbkiMAUaVBk8NZz4LjOlvIMMGXpwFeUHKMrdMpWygKWLxuFs9NVV
