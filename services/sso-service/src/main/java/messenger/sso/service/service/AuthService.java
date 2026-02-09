@@ -2,6 +2,7 @@ package messenger.sso.service.service;
 
 import exception.AuthorizationException;
 import lombok.RequiredArgsConstructor;
+import messenger.sso.service.domain.entity.RefreshToken;
 import messenger.sso.service.domain.entity.SsoUser;
 import messenger.sso.service.dto.request.RefreshTokenRequest;
 import messenger.sso.service.dto.request.SignInRequest;
@@ -13,6 +14,7 @@ import org.springframework.security.authentication.AuthenticationManager;
 import org.springframework.security.authentication.UsernamePasswordAuthenticationToken;
 import org.springframework.security.core.userdetails.UserDetails;
 import org.springframework.stereotype.Service;
+import org.springframework.transaction.annotation.Transactional;
 
 @Service
 @RequiredArgsConstructor
@@ -42,18 +44,25 @@ public class AuthService {
         return generateTokens(ssoUser, deviceInfo, ipAddress);
     }
 
+    @Transactional
     public AuthResponse refresh(RefreshTokenRequest request, String deviceInfo, String ipAddress) {
-        String refreshToken = request.refreshToken();
-        if (!jwtService.isRefreshToken(refreshToken)) {
+        String token = request.refreshToken();
+        if (!jwtService.isRefreshToken(token)) {
             throw new RefreshTokenException(
-                    String.format("Provided token %s is not a refresh token", refreshToken)
+                    String.format("Provided token %s is not a refresh token", token)
             );
         }
 
-        refreshTokenService.verifyActivity(refreshToken);
-        refreshTokenService.revokeToken(refreshToken);
+        RefreshToken refreshToken = refreshTokenService.findRefreshToken(token);
+        if (!refreshToken.isActive()) {
+            refreshTokenService.deleteTokenInNewTx(token);
+            throw new RefreshTokenException(
+                    String.format("Refresh token %s was expired", token)
+            );
+        }
+        refreshTokenService.deleteToken(token);
 
-        String phone = jwtService.extractUsername(refreshToken);
+        String phone = jwtService.extractUsername(token);
         SsoUser ssoUser = ssoUserService.findSsoUserByPhone(phone);
 
         return generateTokens(ssoUser, deviceInfo, ipAddress);
@@ -69,8 +78,9 @@ public class AuthService {
         return createAuthResponse(ssoUser.getId(), newAccessToken, newRefreshToken);
     }
 
+    @Transactional
     public void logout(RefreshTokenRequest request) {
-        refreshTokenService.revokeToken(request.refreshToken());
+        refreshTokenService.deleteToken(request.refreshToken());
     }
 
     private AuthResponse createAuthResponse(Long userId, String accessToken, String refreshToken) {

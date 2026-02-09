@@ -8,6 +8,7 @@ import messenger.sso.service.exception.SsoUserException;
 import messenger.sso.service.exception.UserException;
 import messenger.sso.service.domain.repository.SsoUserRepository;
 import org.springframework.stereotype.Service;
+import org.springframework.transaction.annotation.Transactional;
 
 @Service
 @RequiredArgsConstructor
@@ -15,6 +16,7 @@ public class SsoUserService {
 
     private final SsoUserRepository ssoUserRepository;
 
+    @Transactional
     public void createSsoUser(UserRegistrationEvent event) {
         SsoUser newUser = SsoUser.builder()
                 .id(event.id())
@@ -27,6 +29,7 @@ public class SsoUserService {
         ssoUserRepository.save(newUser);
     }
 
+    @Transactional
     public void updateSsoUser(UserUpdatingEvent event) {
         SsoUser user = ssoUserRepository.findById(event.id())
                 .orElseThrow(() -> new UserException(

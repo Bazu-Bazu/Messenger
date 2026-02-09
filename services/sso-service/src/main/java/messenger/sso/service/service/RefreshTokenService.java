@@ -7,6 +7,7 @@ import messenger.sso.service.domain.repository.RefreshTokenRepository;
 import messenger.sso.service.exception.RefreshTokenException;
 import messenger.sso.service.jwt.JwtService;
 import org.springframework.stereotype.Service;
+import org.springframework.transaction.annotation.Propagation;
 import org.springframework.transaction.annotation.Transactional;
 
 import java.time.Instant;
@@ -40,20 +41,14 @@ public class RefreshTokenService {
                 ));
     }
 
-    public void verifyActivity(String token) {
-        RefreshToken refreshToken = findRefreshToken(token);
-
-        if (!refreshToken.isActive()) {
-            refreshTokenRepository.delete(refreshToken);
-            throw new RefreshTokenException(
-                    String.format("Refresh token %s was expired", token)
-            );
-        }
+    @Transactional(propagation = Propagation.REQUIRES_NEW)
+    public void deleteTokenInNewTx(String token) {
+        refreshTokenRepository.deleteToken(token);
     }
 
     @Transactional
-    public void revokeToken(String token) {
-        refreshTokenRepository.revokeToken(token, Instant.now());
+    public void deleteToken(String token) {
+        refreshTokenRepository.deleteToken(token);
     }
 
 }

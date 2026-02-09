@@ -39,14 +39,8 @@ public class RefreshToken {
     @Column(nullable = false)
     private String ipAddress;
 
-    private Instant revokedAt;
-
-    public boolean isExpired() {
-        return Instant.now().isAfter(expiresAt);
-    }
-
     public boolean isActive() {
-        return revokedAt == null && !isExpired();
+        return !Instant.now().isAfter(expiresAt);
     }
 
 }
