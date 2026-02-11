@@ -48,12 +48,33 @@ spring:
 
 
 
+        - id: sso-service-docs
+          uri: http://sso-service:8081
+          predicates:
+            - Path=/sso-service/v3/api-docs
+          filters:
+            - RewritePath=/sso-service/(?<segment>.*), /$\{segment}
+
         - id: user-service-docs
           uri: http://user-service:8082
           predicates:
             - Path=/user-service/v3/api-docs
           filters:
             - RewritePath=/user-service/(?<segment>.*), /$\{segment}
+
+        - id: personal-chat-service-docs
+          uri: http://personal-chat-service:8083
+          predicates:
+            - Path=/personal-chat-service/v3/api-docs
+          filters:
+            - RewritePath=/personal-chat-service/(?<segment>.*), /$\{segment}
+
+        - id: group-chat-service-docs
+          uri: http://group-chat-service:8084
+          predicates:
+            - Path=/group-chat-service/v3/api-docs
+          filters:
+            - RewritePath=/group-chat-service/(?<segment>.*), /$\{segment}
 
 springdoc:
   api-docs:
@@ -65,6 +86,12 @@ springdoc:
     urls:
       - name: user-service
         url: /user-service/v3/api-docs
+      - name: sso-service
+        url: /sso-service/v3/api-docs
+      - name: personal-chat-service
+        url: /personal-chat-service/v3/api-docs
+      - name: group-chat-service
+        url: /group-chat-service/v3/api-docs
 
 logging:
   level:

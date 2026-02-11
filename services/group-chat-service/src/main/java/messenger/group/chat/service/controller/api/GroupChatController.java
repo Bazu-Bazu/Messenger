@@ -1,5 +1,7 @@
 package messenger.group.chat.service.controller.api;
 
+import io.swagger.v3.oas.annotations.Parameter;
+import io.swagger.v3.oas.annotations.security.SecurityRequirement;
 import jakarta.validation.Valid;
 import lombok.RequiredArgsConstructor;
 import messenger.group.chat.service.dto.request.*;
@@ -12,6 +14,7 @@ import java.util.List;
 
 @RestController
 @RequestMapping("/chats/group")
+@SecurityRequirement(name = "bearerAuth")
 @RequiredArgsConstructor
 public class GroupChatController {
 
@@ -19,6 +22,7 @@ public class GroupChatController {
 
     @PostMapping
     public ResponseEntity<?> createGroupChat(
+            @Parameter(hidden = true)
             @RequestHeader("X-User-Id") Long creatorId,
             @RequestBody @Valid CreateGroupChatRequest request
     ) {
@@ -29,6 +33,7 @@ public class GroupChatController {
 
     @PatchMapping("/{groupId}")
     public ResponseEntity<?> changeGroupInfo(
+            @Parameter(hidden = true)
             @RequestHeader("X-User-Id") Long changerId,
             @PathVariable("groupId") Long groupId,
             @RequestBody @Valid ChangeGroupInfoRequest request
@@ -39,7 +44,10 @@ public class GroupChatController {
     }
 
     @GetMapping
-    public ResponseEntity<?> getAllUserGroupChats(@RequestHeader("X-User-Id") Long userId) {
+    public ResponseEntity<?> getAllUserGroupChats(
+            @Parameter(hidden = true)
+            @RequestHeader("X-User-Id") Long userId
+    ) {
         List<GroupChatResponse> responses = groupChatService.getAllUserGroupChat(userId);
 
         return ResponseEntity.status(200).body(responses);
@@ -47,6 +55,7 @@ public class GroupChatController {
 
     @DeleteMapping("/{groupId}")
     public ResponseEntity<?> deleteGroupChat(
+            @Parameter(hidden = true)
             @RequestHeader("X-User-Id") Long ownerId,
             @PathVariable("groupId") Long groupId
     ) {
