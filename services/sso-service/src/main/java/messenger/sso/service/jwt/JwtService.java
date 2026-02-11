@@ -106,7 +106,7 @@ public class JwtService {
 
     private void addRoleSpecificId(Map<String, Object> claims, UserDetails userDetails) {
         if (userDetails instanceof CustomUserDetails customUserDetails) {
-            claims.put("user_id", customUserDetails.getUserId());
+            claims.put("user_id", customUserDetails.getUserId().toString());
         }
     }
 
