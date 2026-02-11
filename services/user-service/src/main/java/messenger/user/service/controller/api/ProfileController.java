@@ -1,5 +1,7 @@
 package messenger.user.service.controller.api;
 
+import io.swagger.v3.oas.annotations.Parameter;
+import io.swagger.v3.oas.annotations.security.SecurityRequirement;
 import jakarta.validation.Valid;
 import lombok.RequiredArgsConstructor;
 import messenger.user.service.dto.request.AddAvatarRequest;
@@ -12,6 +14,7 @@ import org.springframework.web.bind.annotation.*;
 
 @RestController
 @RequestMapping("/profile")
+@SecurityRequirement(name = "bearerAuth")
 @RequiredArgsConstructor
 public class ProfileController {
 
@@ -20,6 +23,7 @@ public class ProfileController {
 
     @PatchMapping
     public ResponseEntity<?> updateProfile(
+            @Parameter(hidden = true)
             @RequestHeader("X-User-Id") Long userId,
             @RequestBody @Valid UpdateProfileRequest request
     ) {
@@ -31,6 +35,7 @@ public class ProfileController {
 
     @PatchMapping("/avatar")
     public ResponseEntity<?> addAvatarUrl(
+            @Parameter(hidden = true)
             @RequestHeader("X-User-Id") Long userId,
             @RequestBody @Valid AddAvatarRequest request
     ) {

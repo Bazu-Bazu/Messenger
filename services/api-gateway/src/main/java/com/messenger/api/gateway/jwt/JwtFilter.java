@@ -69,7 +69,9 @@ public class JwtFilter implements GlobalFilter {
 
         return path.startsWith("/auth")
                 || path.startsWith("/ws")
-                || (path.startsWith("/users") && HttpMethod.POST.equals(method));
+                || (path.startsWith("/users") && HttpMethod.POST.equals(method))
+                || path.contains("/swagger-ui")
+                || path.contains("/v3/api-docs");
     }
 
 }
