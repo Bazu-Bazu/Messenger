@@ -1,6 +1,8 @@
 package messenger.user.service.controller.api;
 
 import enums.UserUpdateType;
+import io.swagger.v3.oas.annotations.Parameter;
+import io.swagger.v3.oas.annotations.security.SecurityRequirement;
 import jakarta.validation.Valid;
 import lombok.RequiredArgsConstructor;
 import messenger.user.service.dto.request.*;
@@ -26,15 +28,21 @@ public class UserController {
         return ResponseEntity.status(201).body(response);
     }
 
+    @SecurityRequirement(name = "bearerAuth")
     @GetMapping("/me")
-    public ResponseEntity<?> getMyTools(@RequestHeader("X-User-Id") Long userId) {
+    public ResponseEntity<?> getMyTools(
+            @Parameter(hidden = true)
+            @RequestHeader("X-User-Id") Long userId
+    ) {
         UserResponse response = userService.getUser(userId);
 
         return ResponseEntity.status(200).body(response);
     }
 
+    @SecurityRequirement(name = "bearerAuth")
     @PatchMapping("/update/phone")
     public ResponseEntity<?> updatePhone(
+            @Parameter(hidden = true)
             @RequestHeader("X-User-Id") Long userId,
             @RequestBody @Valid UpdatePhoneRequest request
     ) {
@@ -44,8 +52,10 @@ public class UserController {
         return ResponseEntity.status(200).body(response);
     }
 
+    @SecurityRequirement(name = "bearerAuth")
     @PatchMapping("/update/password")
     public ResponseEntity<?> updatePassword(
+            @Parameter(hidden = true)
             @RequestHeader("X-User-Id") Long userId,
             @RequestBody @Valid UpdatePasswordRequest request
     ) {
@@ -55,8 +65,10 @@ public class UserController {
         return ResponseEntity.status(200).body(response);
     }
 
+    @SecurityRequirement(name = "bearerAuth")
     @PatchMapping("/update/username")
     public ResponseEntity<?> updateUsername(
+            @Parameter(hidden = true)
             @RequestHeader("X-User-Id") Long userId,
             @RequestBody @Valid UpdateUsernameRequest request
     ) {
@@ -66,8 +78,10 @@ public class UserController {
         return ResponseEntity.status(200).body(response);
     }
 
+    @SecurityRequirement(name = "bearerAuth")
     @PatchMapping("/update/email")
     public ResponseEntity<?> updateEmail(
+            @Parameter(hidden = true)
             @RequestHeader("X-User-Id") Long userId,
             @RequestBody @Valid UpdateEmailRequest request
     ) {
