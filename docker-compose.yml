@@ -95,7 +95,6 @@ services:
     container_name: api-gateway
     depends_on:
       - web-socket-service
-      - discovery-service
     environment:
       SPRING_PROFILES_ACTIVE: docker
       SERVER_PORT: 8080
@@ -239,6 +238,7 @@ services:
       dockerfile: Dockerfile
     container_name: web-socket-service
     depends_on:
+      - discovery-service
       - redis
       - kafka
       - message-service

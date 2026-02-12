@@ -42,7 +42,7 @@ spring:
             - Path=/chats/group/members/**
 
         - id: web-socket-service
-          uri: ws://web-socket-service:8086
+          uri: lb:ws://web-socket-service
           predicates:
             - Path=/ws/chat/**
 
