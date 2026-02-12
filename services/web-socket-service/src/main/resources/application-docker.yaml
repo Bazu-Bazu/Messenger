@@ -27,6 +27,11 @@ spring:
         spring.json.value.default.type: "dto.event.MessageDetailEvent"
         spring.json.use.type.headers: false
 
+eureka:
+  client:
+    service-url:
+      defaultZone: http://discovery-service:8761/eureka
+
 frontend:
   port: "http://localhost:8000"
 

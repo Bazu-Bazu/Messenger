@@ -12,65 +12,65 @@ spring:
     gateway:
       routes:
         - id: sso-service
-          uri: http://sso-service:8081
+          uri: lb://sso-service
           predicates:
             - Path=/auth/**
 
         - id: user-service-users
-          uri: http://user-service:8082
+          uri: lb://user-service
           predicates:
             - Path=/users/**
 
         - id: user-service-profile
-          uri: http://user-service:8082
+          uri: lb://user-service
           predicates:
             - Path=/profile/**
 
         - id: personal-chat-service
-          uri: http://personal-chat-service:8083
+          uri: lb://personal-chat-service
           predicates:
             - Path=/chats/personal/**
 
         - id: group-chat-service-chats
-          uri: http://group-chat-service:8084
+          uri: lb://group-chat-service
           predicates:
             - Path=/chats/group/**
 
         - id: group-chat-service-members
-          uri: http://group-chat-service:8084
+          uri: lb://group-chat-service
           predicates:
             - Path=/chats/group/members/**
 
         - id: web-socket-service
-          uri: ws://web-socket-service:8086
+          uri: lb:ws://web-socket-service
           predicates:
             - Path=/ws/chat/**
 
 
 
         - id: sso-service-docs
-          uri: http://sso-service:8081
+          uri: lb://sso-service
           predicates:
             - Path=/sso-service/v3/api-docs
           filters:
             - RewritePath=/sso-service/(?<segment>.*), /$\{segment}
 
         - id: user-service-docs
-          uri: http://user-service:8082
+          uri: lb://user-service
           predicates:
             - Path=/user-service/v3/api-docs
           filters:
             - RewritePath=/user-service/(?<segment>.*), /$\{segment}
 
         - id: personal-chat-service-docs
-          uri: http://personal-chat-service:8083
+          uri: lb://personal-chat-service
           predicates:
             - Path=/personal-chat-service/v3/api-docs
           filters:
             - RewritePath=/personal-chat-service/(?<segment>.*), /$\{segment}
 
         - id: group-chat-service-docs
-          uri: http://group-chat-service:8084
+          uri: lb://group-chat-service
           predicates:
             - Path=/group-chat-service/v3/api-docs
           filters:
@@ -92,6 +92,11 @@ springdoc:
         url: /personal-chat-service/v3/api-docs
       - name: group-chat-service
         url: /group-chat-service/v3/api-docs
+
+eureka:
+  client:
+    service-url:
+      defaultZone: http://discovery-service:8761/eureka
 
 logging:
   level:
