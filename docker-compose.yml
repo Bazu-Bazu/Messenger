@@ -94,9 +94,6 @@ services:
       dockerfile: Dockerfile
     container_name: api-gateway
     depends_on:
-      - sso-service
-      - personal-chat-service
-      - group-chat-service
       - web-socket-service
       - discovery-service
     environment:
@@ -122,6 +119,7 @@ services:
       dockerfile: Dockerfile
     container_name: sso-service
     depends_on:
+      - discovery-service
       - kafka
       - postgres_sso
     environment:
@@ -163,6 +161,7 @@ services:
       dockerfile: Dockerfile
     container_name: personal-chat-service
     depends_on:
+      - discovery-service
       - postgres_personal-chat
       - redis
       - kafka
@@ -187,6 +186,7 @@ services:
       dockerfile: Dockerfile
     container_name: group-chat-service
     depends_on:
+      - discovery-service
       - postgres_group-chat
       - redis
       - kafka
