@@ -17,6 +17,7 @@
         <module>services/personal-chat-service</module>
         <module>services/group-chat-service</module>
         <module>services/web-socket-service</module>
+        <module>services/discovery-service</module>
         <module>common</module>
         <module>proto</module>
     </modules>

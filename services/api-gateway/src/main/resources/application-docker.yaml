@@ -17,12 +17,12 @@ spring:
             - Path=/auth/**
 
         - id: user-service-users
-          uri: http://user-service:8082
+          uri: lb://user-service
           predicates:
             - Path=/users/**
 
         - id: user-service-profile
-          uri: http://user-service:8082
+          uri: lb://user-service
           predicates:
             - Path=/profile/**
 
@@ -92,6 +92,11 @@ springdoc:
         url: /personal-chat-service/v3/api-docs
       - name: group-chat-service
         url: /group-chat-service/v3/api-docs
+
+eureka:
+  client:
+    service-url:
+      defaultZone: http://discovery-service:8761/eureka
 
 logging:
   level:

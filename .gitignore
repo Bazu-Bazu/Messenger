@@ -1,6 +1,7 @@
 .idea
 
 services/api-gateway/target
+services/discovery-service/target
 services/sso-service/target
 services/user-service/target
 services/message-service/target

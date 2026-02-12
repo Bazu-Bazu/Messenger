@@ -95,15 +95,26 @@ services:
     container_name: api-gateway
     depends_on:
       - sso-service
-      - user-service
       - personal-chat-service
       - group-chat-service
       - web-socket-service
+      - discovery-service
     environment:
       SPRING_PROFILES_ACTIVE: docker
       SERVER_PORT: 8080
     ports:
       - "8080:8080"
+
+  discovery-service:
+    build:
+      context: ./services/discovery-service
+      dockerfile: Dockerfile
+    container_name: discovery-service
+    environment:
+      SPRING_PROFILES_ACTIVE: docker
+      SERVER_PORT: 8761
+    ports:
+      - "8761:8761"
 
   sso-service:
     build:
@@ -129,6 +140,7 @@ services:
       dockerfile: Dockerfile
     container_name: user-service
     depends_on:
+      - discovery-service
       - postgres_user
       - redis
       - kafka
