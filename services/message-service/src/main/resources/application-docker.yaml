@@ -42,17 +42,22 @@ spring:
 grpc:
   client:
     user-service:
-      address: ${GRPC_CLIENT_USER_SERVICE_ADDRESS:static://user-service:6565}
+      address: discovery:///user-service
       negotiation-type: plaintext
     group-chat-service:
-      address: ${GRPC_CLIENT_GROUP_CHAT_SERVICE_ADDRESS:static://group-chat-service:6566}
+      address: discovery:///group-chat-service
       negotiation-type: plaintext
     personal-chat-service:
-      address: ${GRPC_CLIENT_PERSONAL_CHAT_SERVICE_ADDRESS:static://personal-chat-service:6567}
+      address: discovery:///personal-chat-service
       negotiation-type: plaintext
 
   server:
-    port: 6568
+    port: ${GRPC_SERVER_PORT:6568}
+
+eureka:
+  client:
+    service-url:
+      defaultZone: http://discovery-service:8761/eureka
 
 redis:
   ttl: 2

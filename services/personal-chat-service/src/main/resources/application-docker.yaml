@@ -62,11 +62,11 @@ eureka:
 
 grpc:
   server:
-    port: 6567
+    port: ${GRPC_SERVER_PORT:6567}
 
   client:
     user-service:
-      address: ${GRPC_CLIENT_USER_SERVICE_ADDRESS:static://user-service:6565}
+      address: discovery:///user-service
       negotiation-type: plaintext
 
 redis:
