@@ -38,7 +38,7 @@ frontend:
 grpc:
   client:
     message-service:
-      address: ${GRPC_CLIENT_MESSAGE_SERVICE_ADDRESS:static://message-service:6568}
+      address: discovery:///message-service
       negotiation-type: plaintext
 
 redis:
