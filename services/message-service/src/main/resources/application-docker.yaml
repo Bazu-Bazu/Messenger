@@ -42,14 +42,17 @@ spring:
 grpc:
   client:
     user-service:
-      address: discovery:///user-service
+      address: dns:///user-service:6565
       negotiation-type: plaintext
+      default-load-balancing-policy: round_robin
     group-chat-service:
-      address: discovery:///group-chat-service
+      address: dns:///group-chat-service:6566
       negotiation-type: plaintext
+      default-load-balancing-policy: round_robin
     personal-chat-service:
-      address: discovery:///personal-chat-service
+      address: dns:///personal-chat-service:6567
       negotiation-type: plaintext
+      default-load-balancing-policy: round_robin
 
   server:
     port: ${GRPC_SERVER_PORT:6568}
@@ -58,6 +61,8 @@ eureka:
   client:
     service-url:
       defaultZone: http://discovery-service:8761/eureka
+  instance:
+    prefer-ip-address: true
 
 redis:
   ttl: 2

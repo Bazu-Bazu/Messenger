@@ -59,6 +59,8 @@ eureka:
   client:
     service-url:
       defaultZone: http://discovery-service:8761/eureka
+  instance:
+    prefer-ip-address: true
 
 grpc:
   server:
@@ -66,8 +68,9 @@ grpc:
 
   client:
     user-service:
-      address: discovery:///user-service
+      address: dns:///user-service:6565
       negotiation-type: plaintext
+      default-load-balancing-policy: round_robin
 
 redis:
   ttl: 2
