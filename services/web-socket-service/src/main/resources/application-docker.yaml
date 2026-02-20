@@ -31,6 +31,8 @@ eureka:
   client:
     service-url:
       defaultZone: http://discovery-service:8761/eureka
+  instance:
+    prefer-ip-address: true
 
 frontend:
   port: "http://localhost:8000"
@@ -38,8 +40,9 @@ frontend:
 grpc:
   client:
     message-service:
-      address: discovery:///message-service
+      address: dns:///user-service:6568
       negotiation-type: plaintext
+      default-load-balancing-policy: round_robin
 
 redis:
   ttl: 30
