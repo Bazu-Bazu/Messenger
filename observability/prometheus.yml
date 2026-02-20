@@ -1,0 +1,132 @@
+global:
+  scrape_interval: 5s
+
+scrape_configs:
+
+  # =============================
+  # API GATEWAY
+  # =============================
+  - job_name: 'api-gateway'
+    metrics_path: '/actuator/prometheus'
+    docker_sd_configs:
+      - host: unix:///var/run/docker.sock
+        refresh_interval: 5s
+    relabel_configs:
+      - source_labels: [__meta_docker_container_name]
+        regex: '.*api-gateway.*'
+        action: keep
+      - source_labels: [__meta_docker_container_network_ip]
+        target_label: __address__
+        replacement: '$1:8080'
+
+
+  # =============================
+  # DISCOVERY SERVICE
+  # =============================
+  - job_name: 'discovery-service'
+    metrics_path: '/actuator/prometheus'
+    docker_sd_configs:
+      - host: unix:///var/run/docker.sock
+    relabel_configs:
+      - source_labels: [__meta_docker_container_name]
+        regex: '.*discovery-service.*'
+        action: keep
+      - source_labels: [__meta_docker_container_network_ip]
+        target_label: __address__
+        replacement: '$1:8761'
+
+
+  # =============================
+  # SSO SERVICE (replicas)
+  # =============================
+  - job_name: 'sso-service'
+    metrics_path: '/actuator/prometheus'
+    docker_sd_configs:
+      - host: unix:///var/run/docker.sock
+    relabel_configs:
+      - source_labels: [__meta_docker_container_name]
+        regex: '.*sso-service.*'
+        action: keep
+      - source_labels: [__meta_docker_container_network_ip]
+        target_label: __address__
+        replacement: '$1:8081'
+
+
+  # =============================
+  # USER SERVICE (replicas)
+  # =============================
+  - job_name: 'user-service'
+    metrics_path: '/actuator/prometheus'
+    docker_sd_configs:
+      - host: unix:///var/run/docker.sock
+    relabel_configs:
+      - source_labels: [__meta_docker_container_name]
+        regex: '.*user-service.*'
+        action: keep
+      - source_labels: [__meta_docker_container_network_ip]
+        target_label: __address__
+        replacement: '$1:8082'
+
+
+  # =============================
+  # PERSONAL CHAT SERVICE
+  # =============================
+  - job_name: 'personal-chat-service'
+    metrics_path: '/actuator/prometheus'
+    docker_sd_configs:
+      - host: unix:///var/run/docker.sock
+    relabel_configs:
+      - source_labels: [__meta_docker_container_name]
+        regex: '.*personal-chat-service.*'
+        action: keep
+      - source_labels: [__meta_docker_container_network_ip]
+        target_label: __address__
+        replacement: '$1:8083'
+
+
+  # =============================
+  # GROUP CHAT SERVICE
+  # =============================
+  - job_name: 'group-chat-service'
+    metrics_path: '/actuator/prometheus'
+    docker_sd_configs:
+      - host: unix:///var/run/docker.sock
+    relabel_configs:
+      - source_labels: [__meta_docker_container_name]
+        regex: '.*group-chat-service.*'
+        action: keep
+      - source_labels: [__meta_docker_container_network_ip]
+        target_label: __address__
+        replacement: '$1:8084'
+
+
+  # =============================
+  # MESSAGE SERVICE
+  # =============================
+  - job_name: 'message-service'
+    metrics_path: '/actuator/prometheus'
+    docker_sd_configs:
+      - host: unix:///var/run/docker.sock
+    relabel_configs:
+      - source_labels: [__meta_docker_container_name]
+        regex: '.*message-service.*'
+        action: keep
+      - source_labels: [__meta_docker_container_network_ip]
+        target_label: __address__
+        replacement: '$1:8085'
+
+
+  # =============================
+  # WEB SOCKET SERVICE
+  # =============================
+  - job_name: 'web-socket-service'
+    metrics_path: '/actuator/prometheus'
+    docker_sd_configs:
+      - host: unix:///var/run/docker.sock
+    relabel_configs:
+      - source_labels: [__meta_docker_container_name]
+        regex: '.*web-socket-service.*'
+        action: keep
+      - source_labels: [__meta_docker_container_network_ip]
+        target_label: __address__
+        replacement: '$1:8086'
