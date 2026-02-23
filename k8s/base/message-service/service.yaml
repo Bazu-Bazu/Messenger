@@ -1,0 +1,15 @@
+apiVersion: v1
+kind: Service
+metadata:
+  name: message-service
+  namespace: messenger
+spec:
+  selector:
+    app: message-service
+  ports:
+    - name: http
+      port: 8085
+      targetPort: 8085
+    - name: grpc
+      port: 6568
+      targetPort: 6568

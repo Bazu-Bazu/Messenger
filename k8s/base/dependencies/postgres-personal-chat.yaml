@@ -1,0 +1,39 @@
+apiVersion: v1
+kind: Service
+metadata:
+  name: postgres-personal-chat
+  namespace: messenger
+spec:
+  type: ClusterIP
+  ports:
+    - port: 5432
+  selector:
+    app: postgres-personal-chat
+---
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: postgres-personal-chat
+  namespace: messenger
+spec:
+  replicas: 1
+  selector:
+    matchLabels:
+      app: postgres-personal-chat
+  template:
+    metadata:
+      labels:
+        app: postgres-personal-chat
+    spec:
+      containers:
+        - name: postgres-personal-chat
+          image: postgres:16
+          env:
+            - name: POSTGRES_PERSONAL_CHAT
+              value: "postgres"
+            - name: POSTGRES_PASSWORD
+              value: "postgres"
+            - name: POSTGRES_DB
+              value: "personal-chat_db"
+          ports:
+            - containerPort: 5432
