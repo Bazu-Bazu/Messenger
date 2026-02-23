@@ -1,0 +1,3 @@
+databaseChangeLog:
+  - include:
+      file: db.migrations/V1_Created_personal_chats_table.sql

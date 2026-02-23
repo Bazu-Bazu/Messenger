@@ -1,0 +1,24 @@
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: sso-service
+  namespace: messenger
+spec:
+  replicas: 2
+  selector:
+    matchLabels:
+      app: sso-service
+  template:
+    metadata:
+      labels:
+        app: sso-service
+    spec:
+      containers:
+        - name: sso-service
+          image: bazubazu/sso-service:latest
+          imagePullPolicy: Always
+          ports:
+            - containerPort: 8081
+          envFrom:
+            - configMapRef:
+                name: sso-service-config

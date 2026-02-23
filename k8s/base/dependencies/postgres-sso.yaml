@@ -1,0 +1,39 @@
+apiVersion: v1
+kind: Service
+metadata:
+  name: postgres-sso
+  namespace: messenger
+spec:
+  type: ClusterIP
+  ports:
+    - port: 5432
+  selector:
+    app: postgres-sso
+---
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: postgres-sso
+  namespace: messenger
+spec:
+  replicas: 1
+  selector:
+    matchLabels:
+      app: postgres-sso
+  template:
+    metadata:
+      labels:
+        app: postgres-sso
+    spec:
+      containers:
+        - name: postgres-sso
+          image: postgres:16
+          env:
+            - name: POSTGRES_SSO
+              value: "postgres"
+            - name: POSTGRES_PASSWORD
+              value: "postgres"
+            - name: POSTGRES_DB
+              value: "sso_db"
+          ports:
+            - containerPort: 5432

@@ -1,15 +1,14 @@
 server:
-  port: 8084
+  port: ${SERVER_PORT:8084}
 
 spring:
   application:
     name: group-chat-service
 
   datasource:
-    url: jdbc:postgresql://localhost:5435/postgres
-    username: postgres
-    password: postgres
-
+    url: ${SPRING_DATASOURCE_URL:jdbc:postgresql://postgres_group-chat:5432/postgres}
+    username: ${SPRING_DATASOURCE_USERNAME:postgres}
+    password: ${SPRING_DATASOURCE_PASSWORD:postgres}
     hikari:
       maximum-pool-size: 50
       minimum-idle: 10
@@ -21,12 +20,13 @@ spring:
   jpa:
     hibernate:
       ddl-auto: validate
-
     show-sql: true
-
     properties:
       hibernate:
         dialect: org.hibernate.dialect.PostgreSQLDialect
+
+  liquibase:
+    change-log: classpath:db.migrations/db.migrations.yaml
 
   cache:
     type: redis
@@ -36,23 +36,44 @@ spring:
 
   data:
     redis:
-      host: localhost
-      port: 6379
+      host: ${SPRING_REDIS_HOST:redis}
+      port: ${SPRING_REDIS_PORT:6379}
 
   kafka:
-    bootstrap-servers: localhost:9093
+    bootstrap-servers: ${SPRING_KAFKA_BOOTSTRAP_SERVERS:kafka:9093}
     consumer:
       group-id: group-chat-service-group
       auto-offset-reset: earliest
+      key-deserializer: org.apache.kafka.common.serialization.StringDeserializer
+      value-deserializer: org.springframework.kafka.support.serializer.JsonDeserializer
+      properties:
+        spring.json.trusted.packages: "dto.event,*"
+        spring.json.value.default.type: "dto.event.MessageShortEvent"
+        spring.json.use.type.headers: false
+
+springdoc:
+  api-docs:
+    path: /v3/api-docs
+  swagger-ui:
+    path: /swagger-ui.html
+    disable-swagger-default-url: true
+
+eureka:
+  client:
+    service-url:
+      defaultZone: http://discovery-service:8761/eureka
+  instance:
+    prefer-ip-address: true
 
 grpc:
   server:
-    port: 6566
+    port: ${GRPC_SERVER_PORT:6566}
 
   client:
     user-service:
-      address: static://localhost:6565
+      address: dns:///user-service:6565
       negotiation-type: plaintext
+      default-load-balancing-policy: round_robin
 
 redis:
   ttl: 2

@@ -1,0 +1,25 @@
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: user-service
+  namespace: messenger
+spec:
+  replicas: 2
+  selector:
+    matchLabels:
+      app: user-service
+  template:
+    metadata:
+      labels:
+        app: user-service
+    spec:
+      containers:
+        - name: user-service
+          image: bazubazu/user-service:latest
+          imagePullPolicy: Always
+          ports:
+            - containerPort: 8082
+            - containerPort: 6565
+          envFrom:
+            - configMapRef:
+                name: user-service-config
