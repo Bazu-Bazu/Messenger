@@ -1,5 +1,5 @@
 server:
-  port: 8080
+  port: ${SERVER_PORT:8080}
 
 spring:
   application:
@@ -12,39 +12,91 @@ spring:
     gateway:
       routes:
         - id: sso-service
-          uri: http://localhost:8081
+          uri: lb://sso-service
           predicates:
             - Path=/auth/**
 
         - id: user-service-users
-          uri: http://localhost:8082
+          uri: lb://user-service
           predicates:
             - Path=/users/**
 
         - id: user-service-profile
-          uri: http://localhost:8082
+          uri: lb://user-service
           predicates:
             - Path=/profile/**
 
         - id: personal-chat-service
-          uri: http://localhost:8083
+          uri: lb://personal-chat-service
           predicates:
             - Path=/chats/personal/**
 
         - id: group-chat-service-chats
-          uri: http://localhost:8084
+          uri: lb://group-chat-service
           predicates:
             - Path=/chats/group/**
 
         - id: group-chat-service-members
-          uri: http://localhost:8084
+          uri: lb://group-chat-service
           predicates:
             - Path=/chats/group/members/**
-            -
+
         - id: web-socket-service
-          uri: ws://localhost:8086
+          uri: lb:ws://web-socket-service
           predicates:
             - Path=/ws/chat/**
+
+
+
+        - id: sso-service-docs
+          uri: lb://sso-service
+          predicates:
+            - Path=/sso-service/v3/api-docs
+          filters:
+            - RewritePath=/sso-service/(?<segment>.*), /$\{segment}
+
+        - id: user-service-docs
+          uri: lb://user-service
+          predicates:
+            - Path=/user-service/v3/api-docs
+          filters:
+            - RewritePath=/user-service/(?<segment>.*), /$\{segment}
+
+        - id: personal-chat-service-docs
+          uri: lb://personal-chat-service
+          predicates:
+            - Path=/personal-chat-service/v3/api-docs
+          filters:
+            - RewritePath=/personal-chat-service/(?<segment>.*), /$\{segment}
+
+        - id: group-chat-service-docs
+          uri: lb://group-chat-service
+          predicates:
+            - Path=/group-chat-service/v3/api-docs
+          filters:
+            - RewritePath=/group-chat-service/(?<segment>.*), /$\{segment}
+
+springdoc:
+  api-docs:
+    enabled: true
+  swagger-ui:
+    enabled: true
+    path: /swagger-ui.html
+    config-url: /v3/api-docs/swagger-config
+    urls:
+      - name: user-service
+        url: /user-service/v3/api-docs
+      - name: sso-service
+        url: /sso-service/v3/api-docs
+      - name: personal-chat-service
+        url: /personal-chat-service/v3/api-docs
+      - name: group-chat-service
+        url: /group-chat-service/v3/api-docs
+
+eureka:
+  client:
+    service-url:
+      defaultZone: http://discovery-service:8761/eureka
 
 logging:
   level:
@@ -52,3 +104,12 @@ logging:
 
 jwt:
   secret-key: i3mOlQItCJ7wSbkiMAUaVBk8NZz4LjOlvIMMGXpwFeUHKMrdMpWygKWLxuFs9NVV
+
+management:
+  endpoints:
+    web:
+      exposure:
+        include: health,info,prometheus
+  endpoint:
+    prometheus:
+      enabled: true

@@ -1,0 +1,5 @@
+databaseChangeLog:
+  - include:
+      file: db.migrations/V1_Created_group_chats_table.sql
+  - include:
+      file: db.migrations/V2_Created_group_chat_members_table.sql
