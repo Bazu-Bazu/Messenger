@@ -4,18 +4,20 @@ metadata:
   name: zookeeper
   namespace: messenger
 spec:
-  type: ClusterIP
   ports:
     - port: 2181
+      name: client
+  clusterIP: None
   selector:
     app: zookeeper
 ---
 apiVersion: apps/v1
-kind: Deployment
+kind: StatefulSet
 metadata:
   name: zookeeper
   namespace: messenger
 spec:
+  serviceName: "zookeeper"
   replicas: 1
   selector:
     matchLabels:
@@ -30,3 +32,14 @@ spec:
           image: wurstmeister/zookeeper:latest
           ports:
             - containerPort: 2181
+          volumeMounts:
+            - name: data
+              mountPath: /data
+  volumeClaimTemplates:
+    - metadata:
+        name: data
+      spec:
+        accessModes: ["ReadWriteOnce"]
+        resources:
+          requests:
+            storage: 5Gi

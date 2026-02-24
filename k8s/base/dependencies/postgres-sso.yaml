@@ -4,18 +4,20 @@ metadata:
   name: postgres-sso
   namespace: messenger
 spec:
-  type: ClusterIP
+  clusterIP: None
   ports:
     - port: 5432
+      name: postgres
   selector:
     app: postgres-sso
 ---
 apiVersion: apps/v1
-kind: Deployment
+kind: StatefulSet
 metadata:
   name: postgres-sso
   namespace: messenger
 spec:
+  serviceName: "postgres-sso"
   replicas: 1
   selector:
     matchLabels:
@@ -26,14 +28,26 @@ spec:
         app: postgres-sso
     spec:
       containers:
-        - name: postgres-sso
+        - name: postgres
           image: postgres:16
+          ports:
+            - containerPort: 5432
+              name: postgres
           env:
-            - name: POSTGRES_SSO
+            - name: POSTGRES_USER
               value: "postgres"
             - name: POSTGRES_PASSWORD
               value: "postgres"
             - name: POSTGRES_DB
               value: "sso_db"
-          ports:
-            - containerPort: 5432
+          volumeMounts:
+            - name: postgres-data
+              mountPath: /var/lib/postgresql/data
+  volumeClaimTemplates:
+    - metadata:
+        name: postgres-data
+      spec:
+        accessModes: ["ReadWriteOnce"]
+        resources:
+          requests:
+            storage: 5Gi

@@ -4,18 +4,20 @@ metadata:
   name: redis
   namespace: messenger
 spec:
-  type: ClusterIP
+  clusterIP: None
   ports:
     - port: 6379
+      name: redis
   selector:
     app: redis
 ---
 apiVersion: apps/v1
-kind: Deployment
+kind: StatefulSet
 metadata:
   name: redis
   namespace: messenger
 spec:
+  serviceName: "redis"
   replicas: 1
   selector:
     matchLabels:
@@ -30,3 +32,15 @@ spec:
           image: redis:alpine
           ports:
             - containerPort: 6379
+              name: redis
+          volumeMounts:
+            - name: redis-data
+              mountPath: /data
+  volumeClaimTemplates:
+    - metadata:
+        name: redis-data
+      spec:
+        accessModes: ["ReadWriteOnce"]
+        resources:
+          requests:
+            storage: 2Gi

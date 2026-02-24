@@ -4,18 +4,20 @@ metadata:
   name: postgres-message
   namespace: messenger
 spec:
-  type: ClusterIP
+  clusterIP: None
   ports:
     - port: 5432
+      name: postgres
   selector:
     app: postgres-message
 ---
 apiVersion: apps/v1
-kind: Deployment
+kind: StatefulSet
 metadata:
   name: postgres-message
   namespace: messenger
 spec:
+  serviceName: "postgres-message"
   replicas: 1
   selector:
     matchLabels:
@@ -26,14 +28,26 @@ spec:
         app: postgres-message
     spec:
       containers:
-        - name: postgres-message
+        - name: postgres
           image: postgres:16
+          ports:
+            - containerPort: 5432
+              name: postgres
           env:
-            - name: POSTGRES_MESSAGE
+            - name: POSTGRES_USER
               value: "postgres"
             - name: POSTGRES_PASSWORD
               value: "postgres"
             - name: POSTGRES_DB
               value: "message_db"
-          ports:
-            - containerPort: 5432
+          volumeMounts:
+            - name: postgres-data
+              mountPath: /var/lib/postgresql/data
+  volumeClaimTemplates:
+    - metadata:
+        name: postgres-data
+      spec:
+        accessModes: ["ReadWriteOnce"]
+        resources:
+          requests:
+            storage: 5Gi

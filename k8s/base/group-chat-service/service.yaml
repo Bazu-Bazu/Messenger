@@ -8,7 +8,7 @@ spec:
     app: group-chat-service
   ports:
     - name: http
-      port: 8084
+      port: 80
       targetPort: 8084
     - name: grpc
       port: 6566

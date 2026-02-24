@@ -8,5 +8,5 @@ spec:
   selector:
     app: web-socket-service
   ports:
-    - port: 8086
+    - port: 80
       targetPort: 8086

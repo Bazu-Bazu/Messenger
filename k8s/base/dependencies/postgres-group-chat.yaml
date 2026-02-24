@@ -4,18 +4,20 @@ metadata:
   name: postgres-group-chat
   namespace: messenger
 spec:
-  type: ClusterIP
+  clusterIP: None
   ports:
     - port: 5432
+      name: postgres
   selector:
     app: postgres-group-chat
 ---
 apiVersion: apps/v1
-kind: Deployment
+kind: StatefulSet
 metadata:
   name: postgres-group-chat
   namespace: messenger
 spec:
+  serviceName: "postgres-group-chat"
   replicas: 1
   selector:
     matchLabels:
@@ -26,14 +28,26 @@ spec:
         app: postgres-group-chat
     spec:
       containers:
-        - name: postgres-group-chat
+        - name: postgres
           image: postgres:16
+          ports:
+            - containerPort: 5432
+              name: postgres
           env:
-            - name: POSTGRES_GROUP_CHAT
+            - name: POSTGRES_USER
               value: "postgres"
             - name: POSTGRES_PASSWORD
               value: "postgres"
             - name: POSTGRES_DB
               value: "group-chat_db"
-          ports:
-            - containerPort: 5432
+          volumeMounts:
+            - name: postgres-data
+              mountPath: /var/lib/postgresql/data
+  volumeClaimTemplates:
+    - metadata:
+        name: postgres-data
+      spec:
+        accessModes: ["ReadWriteOnce"]
+        resources:
+          requests:
+            storage: 5Gi

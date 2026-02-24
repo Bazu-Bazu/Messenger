@@ -8,7 +8,7 @@ spec:
     app: message-service
   ports:
     - name: http
-      port: 8085
+      port: 80
       targetPort: 8085
     - name: grpc
       port: 6568
