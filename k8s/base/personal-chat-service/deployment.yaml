@@ -23,3 +23,5 @@ spec:
           envFrom:
             - configMapRef:
                 name: personal-chat-service-config
+            - secretRef:
+                name: personal-chat-service-secret

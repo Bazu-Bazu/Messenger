@@ -23,3 +23,5 @@ spec:
           envFrom:
             - configMapRef:
                 name: user-service-config
+            - secretRef:
+                name: user-service-secret

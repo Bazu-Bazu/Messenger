@@ -22,3 +22,5 @@ spec:
           envFrom:
             - configMapRef:
                 name: sso-service-config
+            - secretRef:
+                name: sso-service-secret
