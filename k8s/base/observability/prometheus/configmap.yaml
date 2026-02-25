@@ -1,0 +1,194 @@
+apiVersion: v1
+kind: ConfigMap
+metadata:
+  name: prometheus-config
+  namespace: messenger
+data:
+  prometheus.yml: |
+    global:
+      scrape_interval: 5s
+
+    scrape_configs:
+
+      - job_name: 'kubernetes-pods'
+        kubernetes_sd_configs:
+          - role: pod
+            namespaces:
+              names:
+                - messenger
+        relabel_configs:
+          - source_labels: [__meta_kubernetes_pod_annotation_prometheus_io_scrape]
+            action: keep
+            regex: true
+          - source_labels: [__meta_kubernetes_pod_annotation_prometheus_io_path]
+            action: replace
+            target_label: __metrics_path__
+            regex: (.+)
+          - source_labels: [__address__, __meta_kubernetes_pod_annotation_prometheus_io_port]
+            action: replace
+            regex: ([^:]+)(?::\d+)?;(\d+)
+            replacement: $1:$2
+            target_label: __address__
+          - action: labelmap
+            regex: __meta_kubernetes_pod_label_(.+)
+            
+      - job_name: 'api-gateway'
+        kubernetes_sd_configs:
+          - role: service
+            namespaces:
+              names:
+                - messenger
+        relabel_configs:
+          - source_labels: [__meta_kubernetes_service_annotation_prometheus_io_scrape]
+            action: keep
+            regex: true
+          - source_labels: [__meta_kubernetes_service_name]
+            action: keep
+            regex: api-gateway
+          - source_labels: [__meta_kubernetes_service_annotation_prometheus_io_path]
+            action: replace
+            target_label: __metrics_path__
+            regex: (.+)
+          - source_labels: [__address__, __meta_kubernetes_service_annotation_prometheus_io_port]
+            action: replace
+            regex: ([^:]+)(?::\d+)?;(\d+)
+            replacement: $1:$2
+            target_label: __address__
+            
+      - job_name: 'sso-service'
+        kubernetes_sd_configs:
+          - role: service
+            namespaces:
+              names:
+                - messenger
+        relabel_configs:
+          - source_labels: [__meta_kubernetes_service_annotation_prometheus_io_scrape]
+            action: keep
+            regex: true
+          - source_labels: [__meta_kubernetes_service_name]
+            action: keep
+            regex: sso-service
+          - source_labels: [__meta_kubernetes_service_annotation_prometheus_io_path]
+            action: replace
+            target_label: __metrics_path__
+            regex: (.+)
+          - source_labels: [__address__, __meta_kubernetes_service_annotation_prometheus_io_port]
+            action: replace
+            regex: ([^:]+)(?::\d+)?;(\d+)
+            replacement: $1:$2
+            target_label: __address__
+            
+      - job_name: 'user-service'
+        kubernetes_sd_configs:
+          - role: service
+            namespaces:
+              names:
+                - messenger
+        relabel_configs:
+          - source_labels: [__meta_kubernetes_service_annotation_prometheus_io_scrape]
+            action: keep
+            regex: true
+          - source_labels: [__meta_kubernetes_service_name]
+            action: keep
+            regex: user-service
+          - source_labels: [__meta_kubernetes_service_annotation_prometheus_io_path]
+            action: replace
+            target_label: __metrics_path__
+            regex: (.+)
+          - source_labels: [__address__, __meta_kubernetes_service_annotation_prometheus_io_port]
+            action: replace
+            regex: ([^:]+)(?::\d+)?;(\d+)
+            replacement: $1:$2
+            target_label: __address__
+            
+      - job_name: 'group-chat-service'
+        kubernetes_sd_configs:
+          - role: service
+            namespaces:
+              names:
+                - messenger
+        relabel_configs:
+          - source_labels: [__meta_kubernetes_service_annotation_prometheus_io_scrape]
+            action: keep
+            regex: true
+          - source_labels: [__meta_kubernetes_service_name]
+            action: keep
+            regex: group-chat-service
+          - source_labels: [__meta_kubernetes_service_annotation_prometheus_io_path]
+            action: replace
+            target_label: __metrics_path__
+            regex: (.+)
+          - source_labels: [__address__, __meta_kubernetes_service_annotation_prometheus_io_port]
+            action: replace
+            regex: ([^:]+)(?::\d+)?;(\d+)
+            replacement: $1:$2
+            target_label: __address__
+            
+      - job_name: 'personal-chat-service'
+        kubernetes_sd_configs:
+          - role: service
+            namespaces:
+              names:
+                - messenger
+        relabel_configs:
+          - source_labels: [ __meta_kubernetes_service_annotation_prometheus_io_scrape ]
+            action: keep
+            regex: true
+          - source_labels: [ __meta_kubernetes_service_name ]
+            action: keep
+            regex: personal-chat-service
+          - source_labels: [ __meta_kubernetes_service_annotation_prometheus_io_path ]
+            action: replace
+            target_label: __metrics_path__
+            regex: (.+)
+          - source_labels: [ __address__, __meta_kubernetes_service_annotation_prometheus_io_port ]
+            action: replace
+            regex: ([^:]+)(?::\d+)?;(\d+)
+            replacement: $1:$2
+            target_label: __address__
+            
+      - job_name: 'message-service'
+        kubernetes_sd_configs:
+          - role: service
+            namespaces:
+              names:
+                - messenger
+        relabel_configs:
+          - source_labels: [ __meta_kubernetes_service_annotation_prometheus_io_scrape ]
+            action: keep
+            regex: true
+          - source_labels: [ __meta_kubernetes_service_name ]
+            action: keep
+            regex: message-service
+          - source_labels: [ __meta_kubernetes_service_annotation_prometheus_io_path ]
+            action: replace
+            target_label: __metrics_path__
+            regex: (.+)
+          - source_labels: [ __address__, __meta_kubernetes_service_annotation_prometheus_io_port ]
+            action: replace
+            regex: ([^:]+)(?::\d+)?;(\d+)
+            replacement: $1:$2
+            target_label: __address__
+            
+      - job_name: 'web-socket-service'
+        kubernetes_sd_configs:
+          - role: service
+            namespaces:
+              names:
+                - messenger
+        relabel_configs:
+          - source_labels: [ __meta_kubernetes_service_annotation_prometheus_io_scrape ]
+            action: keep
+            regex: true
+          - source_labels: [ __meta_kubernetes_service_name ]
+            action: keep
+            regex: web-socket-service
+          - source_labels: [ __meta_kubernetes_service_annotation_prometheus_io_path ]
+            action: replace
+            target_label: __metrics_path__
+            regex: (.+)
+          - source_labels: [ __address__, __meta_kubernetes_service_annotation_prometheus_io_port ]
+            action: replace
+            regex: ([^:]+)(?::\d+)?;(\d+)
+            replacement: $1:$2
+            target_label: __address__
