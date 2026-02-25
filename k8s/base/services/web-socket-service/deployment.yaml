@@ -12,6 +12,10 @@ spec:
     metadata:
       labels:
         app: web-socket-service
+      annotations:
+        prometheus.io/scrape: "true"
+        prometheus.io/port: "8086"
+        prometheus.io/path: "/actuator/prometheus"
     spec:
       containers:
         - name: web-socket-service

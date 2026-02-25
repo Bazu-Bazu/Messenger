@@ -12,6 +12,10 @@ spec:
     metadata:
       labels:
         app: sso-service
+      annotations:
+        prometheus.io/scrape: "true"
+        prometheus.io/port: "8081"
+        prometheus.io/path: "/actuator/prometheus"
     spec:
       containers:
         - name: sso-service
