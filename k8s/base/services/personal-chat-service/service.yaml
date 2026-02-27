@@ -3,10 +3,8 @@ kind: Service
 metadata:
   name: personal-chat-service
   namespace: messenger
-  annotations:
-    prometheus.io/scrape: "true"
-    prometheus.io/port: "80"
-    prometheus.io/path: "/actuator/prometheus"
+  labels:
+    app: personal-chat-service
 spec:
   selector:
     app: personal-chat-service

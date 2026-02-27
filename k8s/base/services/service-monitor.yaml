@@ -1,0 +1,18 @@
+apiVersion: monitoring.coreos.com/v1
+kind: ServiceMonitor
+metadata:
+  name: messenger-services
+  namespace: default
+  labels:
+    release: monitoring
+spec:
+  selector:
+    matchExpressions:
+      - { key: app, operator: In, values: [api-gateway, sso-service, user-service, message-service, web-socket-service, group-chat-service, personal-chat-service] }
+  namespaceSelector:
+    matchNames:
+      - messenger
+  endpoints:
+    - port: http
+      path: /actuator/prometheus
+      interval: 15s

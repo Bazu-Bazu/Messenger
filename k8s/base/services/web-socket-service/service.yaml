@@ -3,14 +3,13 @@ kind: Service
 metadata:
   name: web-socket-service
   namespace: messenger
-  annotations:
-    prometheus.io/scrape: "true"
-    prometheus.io/port: "80"
-    prometheus.io/path: "/actuator/prometheus"
+  labels:
+    app: web-socket-service
 spec:
   type: ClusterIP
   selector:
     app: web-socket-service
   ports:
-    - port: 80
+    - name: http
+      port: 80
       targetPort: 8086
