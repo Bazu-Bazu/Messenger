@@ -60,13 +60,6 @@ grpc:
   server:
     port: ${GRPC_SERVER_PORT:6568}
 
-eureka:
-  client:
-    service-url:
-      defaultZone: http://discovery-service:8761/eureka
-  instance:
-    prefer-ip-address: true
-
 redis:
   ttl: 2
 
@@ -78,3 +71,7 @@ management:
   endpoint:
     prometheus:
       enabled: true
+  metrics:
+    distribution:
+      percentiles-histogram:
+        http.server.requests: true

@@ -1,0 +1,28 @@
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: web-socket-service
+  namespace: messenger
+spec:
+  replicas: 2
+  selector:
+    matchLabels:
+      app: web-socket-service
+  template:
+    metadata:
+      labels:
+        app: web-socket-service
+      annotations:
+        prometheus.io/scrape: "true"
+        prometheus.io/port: "8086"
+        prometheus.io/path: "/actuator/prometheus"
+    spec:
+      containers:
+        - name: web-socket-service
+          image: bazubazu/web-socket-service:latest
+          imagePullPolicy: Always
+          ports:
+            - containerPort: 8086
+          envFrom:
+            - configMapRef:
+                name: web-socket-service-config

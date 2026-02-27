@@ -1,0 +1,31 @@
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: group-chat-service
+  namespace: messenger
+spec:
+  replicas: 2
+  selector:
+    matchLabels:
+      app: group-chat-service
+  template:
+    metadata:
+      labels:
+        app: group-chat-service
+      annotations:
+        prometheus.io/scrape: "true"
+        prometheus.io/port: "8084"
+        prometheus.io/path: "/actuator/prometheus"
+    spec:
+      containers:
+        - name: group-chat-service
+          image: bazubazu/group-chat-service:latest
+          imagePullPolicy: Always
+          ports:
+            - containerPort: 8084
+            - containerPort: 6566
+          envFrom:
+            - configMapRef:
+                name: group-chat-service-config
+            - secretRef:
+                name: group-chat-service-secret

@@ -41,13 +41,6 @@ springdoc:
     path: /swagger-ui.html
     disable-swagger-default-url: true
 
-eureka:
-  client:
-    service-url:
-      defaultZone: http://discovery-service:8761/eureka
-  instance:
-    prefer-ip-address: true
-
 jwt:
   secret-key: i3mOlQItCJ7wSbkiMAUaVBk8NZz4LjOlvIMMGXpwFeUHKMrdMpWygKWLxuFs9NVV
 
@@ -65,3 +58,7 @@ management:
   endpoint:
     prometheus:
       enabled: true
+  metrics:
+    distribution:
+      percentiles-histogram:
+        http.server.requests: true

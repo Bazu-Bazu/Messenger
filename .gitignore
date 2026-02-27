@@ -13,4 +13,6 @@ proto/target
 
 /for-develop
 
+k8s/**/secret.yaml
+
 Messenger.iml

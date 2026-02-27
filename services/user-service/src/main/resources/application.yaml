@@ -49,13 +49,6 @@ springdoc:
     path: /swagger-ui.html
     disable-swagger-default-url: true
 
-eureka:
-  client:
-    service-url:
-      defaultZone: http://discovery-service:8761/eureka
-  instance:
-    prefer-ip-address: true
-
 grpc:
   server:
     port: ${GRPC_SERVER_PORT:6565}
@@ -71,3 +64,7 @@ management:
   endpoint:
     prometheus:
       enabled: true
+  metrics:
+    distribution:
+      percentiles-histogram:
+        http.server.requests: true

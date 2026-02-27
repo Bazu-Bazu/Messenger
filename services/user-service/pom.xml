@@ -126,11 +126,6 @@
         </dependency>
 
         <dependency>
-            <groupId>org.springframework.cloud</groupId>
-            <artifactId>spring-cloud-starter-netflix-eureka-client</artifactId>
-        </dependency>
-
-        <dependency>
             <groupId>Messenger</groupId>
             <artifactId>proto</artifactId>
             <version>1.0.0</version>

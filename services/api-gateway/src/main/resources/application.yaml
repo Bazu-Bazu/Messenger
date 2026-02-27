@@ -12,65 +12,65 @@ spring:
     gateway:
       routes:
         - id: sso-service
-          uri: lb://sso-service
+          uri: http://sso-service
           predicates:
             - Path=/auth/**
 
         - id: user-service-users
-          uri: lb://user-service
+          uri: http://user-service
           predicates:
             - Path=/users/**
 
         - id: user-service-profile
-          uri: lb://user-service
+          uri: http://user-service
           predicates:
             - Path=/profile/**
 
         - id: personal-chat-service
-          uri: lb://personal-chat-service
+          uri: http://personal-chat-service
           predicates:
             - Path=/chats/personal/**
 
         - id: group-chat-service-chats
-          uri: lb://group-chat-service
+          uri: http://group-chat-service
           predicates:
             - Path=/chats/group/**
 
         - id: group-chat-service-members
-          uri: lb://group-chat-service
+          uri: http://group-chat-service
           predicates:
             - Path=/chats/group/members/**
 
         - id: web-socket-service
-          uri: lb:ws://web-socket-service
+          uri: ws://web-socket-service
           predicates:
             - Path=/ws/chat/**
 
 
 
         - id: sso-service-docs
-          uri: lb://sso-service
+          uri: http://sso-service
           predicates:
             - Path=/sso-service/v3/api-docs
           filters:
             - RewritePath=/sso-service/(?<segment>.*), /$\{segment}
 
         - id: user-service-docs
-          uri: lb://user-service
+          uri: http://user-service
           predicates:
             - Path=/user-service/v3/api-docs
           filters:
             - RewritePath=/user-service/(?<segment>.*), /$\{segment}
 
         - id: personal-chat-service-docs
-          uri: lb://personal-chat-service
+          uri: http://personal-chat-service
           predicates:
             - Path=/personal-chat-service/v3/api-docs
           filters:
             - RewritePath=/personal-chat-service/(?<segment>.*), /$\{segment}
 
         - id: group-chat-service-docs
-          uri: lb://group-chat-service
+          uri: http://group-chat-service
           predicates:
             - Path=/group-chat-service/v3/api-docs
           filters:
@@ -93,11 +93,6 @@ springdoc:
       - name: group-chat-service
         url: /group-chat-service/v3/api-docs
 
-eureka:
-  client:
-    service-url:
-      defaultZone: http://discovery-service:8761/eureka
-
 logging:
   level:
     org.springframework.cloud.gateway: DEBUG
@@ -113,3 +108,7 @@ management:
   endpoint:
     prometheus:
       enabled: true
+  metrics:
+    distribution:
+      percentiles-histogram:
+        http.server.requests: true

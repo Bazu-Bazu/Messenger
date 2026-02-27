@@ -1,0 +1,14 @@
+apiVersion: v1
+kind: Service
+metadata:
+  name: sso-service
+  namespace: messenger
+  labels:
+    app: sso-service
+spec:
+  selector:
+    app: sso-service
+  ports:
+    - name: http
+      port: 80
+      targetPort: 8081
