@@ -1,14 +1,14 @@
 server:
-  port: ${SERVER_PORT:8081}
+  port: ${SERVER_PORT}
 
 spring:
   application:
     name: sso-service
 
   datasource:
-    url: ${SPRING_DATASOURCE_URL:jdbc:postgresql://postgres_message:5432/postgres}
-    username: ${SPRING_DATASOURCE_USERNAME:postgres}
-    password: ${SPRING_DATASOURCE_PASSWORD:postgres}
+    url: ${SPRING_DATASOURCE_URL}
+    username: ${SPRING_DATASOURCE_USERNAME}
+    password: ${SPRING_DATASOURCE_PASSWORD}
     hikari:
       maximum-pool-size: 50
       minimum-idle: 10
@@ -29,7 +29,7 @@ spring:
     change-log: classpath:db.migrations/db.migrations.yaml
 
   kafka:
-    bootstrap-servers: ${SPRING_KAFKA_BOOTSTRAP_SERVERS:kafka:9093}
+    bootstrap-servers: ${SPRING_KAFKA_BOOTSTRAP_SERVERS}
     consumer:
       group-id: sso-service-group
       auto-offset-reset: earliest
@@ -42,7 +42,7 @@ springdoc:
     disable-swagger-default-url: true
 
 jwt:
-  secret-key: i3mOlQItCJ7wSbkiMAUaVBk8NZz4LjOlvIMMGXpwFeUHKMrdMpWygKWLxuFs9NVV
+  secret-key: ${JWT_SECRET}
 
   access-token:
     expiration: 3600000
@@ -62,3 +62,6 @@ management:
     distribution:
       percentiles-histogram:
         http.server.requests: true
+
+api-gateway:
+  url: "http://localhost"

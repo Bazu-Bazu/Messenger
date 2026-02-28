@@ -4,7 +4,7 @@ metadata:
   name: message-service-config
   namespace: messenger
 data:
-  SPRING_PROFILES_ACTIVE: docker
+  SPRING_PROFILES_ACTIVE: k8s
   SPRING_DATASOURCE_URL: jdbc:postgresql://postgres-message:5432/postgres
   SPRING_KAFKA_BOOTSTRAP_SERVERS: kafka:9093
   SPRING_REDIS_HOST: redis

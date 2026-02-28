@@ -1,5 +1,5 @@
 server:
-  port: ${SERVER_PORT:8086}
+  port: ${SERVER_PORT}
 
 spring:
   application:
@@ -12,11 +12,11 @@ spring:
 
   data:
     redis:
-      host: ${SPRING_REDIS_HOST:redis}
-      port: ${SPRING_REDIS_PORT:6379}
+      host: ${SPRING_REDIS_HOST}
+      port: ${SPRING_REDIS_PORT}
 
   kafka:
-    bootstrap-servers: ${SPRING_KAFKA_BOOTSTRAP_SERVERS:kafka:9093}
+    bootstrap-servers: ${SPRING_KAFKA_BOOTSTRAP_SERVERS}
     consumer:
       group-id: web-socket-service-group
       auto-offset-reset: earliest
@@ -26,9 +26,6 @@ spring:
         spring.json.trusted.packages: "dto.event,*"
         spring.json.value.default.type: "dto.event.MessageDetailEvent"
         spring.json.use.type.headers: false
-
-frontend:
-  port: "http://localhost:8000"
 
 grpc:
   client:
@@ -41,7 +38,7 @@ redis:
   ttl: 30
 
 jwt:
-  secret-key: i3mOlQItCJ7wSbkiMAUaVBk8NZz4LjOlvIMMGXpwFeUHKMrdMpWygKWLxuFs9NVV
+  secret-key: ${JWT_SECRET}
 
 management:
   endpoints:

@@ -8,6 +8,7 @@ services/personal-chat-service/target
 services/group-chat-service/target
 services/web-socket-service/target
 services/discovery-service/
+services/**/application-dev.yaml
 common/target
 proto/target
 
