@@ -68,5 +68,4 @@ public class ProfileService {
 
         return createProfileResponse(userId, user.getProfile());
     }
-
 }

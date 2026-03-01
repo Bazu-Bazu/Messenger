@@ -1,4 +1,4 @@
-package messenger.user.service.client.kafka;
+package messenger.user.service.kafka.producer;
 
 import dto.event.UserRegistrationEvent;
 import enums.UserUpdateType;

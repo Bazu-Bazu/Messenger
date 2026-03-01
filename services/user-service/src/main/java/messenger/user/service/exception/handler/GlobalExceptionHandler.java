@@ -1,33 +1,37 @@
 package messenger.user.service.exception.handler;
 
 import dto.response.ErrorResponse;
-import lombok.extern.log4j.Log4j2;
-import messenger.user.service.exception.UserException;
-import messenger.user.service.exception.ValidationException;
+import lombok.RequiredArgsConstructor;
+import messenger.user.service.exception.mapper.ErrorMapper;
 import org.springframework.http.ResponseEntity;
+import org.springframework.web.bind.MethodArgumentNotValidException;
 import org.springframework.web.bind.annotation.ExceptionHandler;
 import org.springframework.web.bind.annotation.RestControllerAdvice;
 
+import java.time.Instant;
+import java.util.stream.Collectors;
+
 @RestControllerAdvice
-@Log4j2
+@RequiredArgsConstructor
 public class GlobalExceptionHandler {
 
-    @ExceptionHandler(ValidationException.class)
-    public ResponseEntity<ErrorResponse> handleValidation(ValidationException e) {
-        log.warn("Validated error: {}", e.getMessage());
-        return ResponseEntity.status(400).body(ErrorResponse.from(e));
-    }
+    private final ErrorMapper errorMapper;
 
-    @ExceptionHandler(UserException.class)
-    public ResponseEntity<ErrorResponse> handleUser(UserException e) {
-        log.warn("User not found {}", e.getMessage());
-        return ResponseEntity.status(500).body(ErrorResponse.from(e));
-    }
+    @ExceptionHandler(MethodArgumentNotValidException.class)
+    public ResponseEntity<?> handleValidation(MethodArgumentNotValidException e) {
+        String message = e.getBindingResult()
+                .getFieldErrors()
+                .stream()
+                .map(error -> error.getField() + ": " + error.getDefaultMessage())
+                .collect(Collectors.joining("; "));
 
-    @ExceptionHandler(Exception.class)
-    public ResponseEntity<ErrorResponse> handleUnknown(Exception e) {
-        log.warn("Unexpected error {}", e.getMessage());
-        return ResponseEntity.status(500).body(ErrorResponse.from(e));
-    }
+        ErrorResponse response = ErrorResponse.builder()
+                .errorCode(400)
+                .error("ValidationError")
+                .message(message)
+                .timestamp(Instant.now())
+                .build();
 
+        return ResponseEntity.badRequest().body(response);
+    }
 }

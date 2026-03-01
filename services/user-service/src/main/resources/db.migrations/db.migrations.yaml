@@ -2,8 +2,4 @@ databaseChangeLog:
   - include:
       file: db.migrations/V1_Create_users_table.sql
   - include:
-      file: db.migrations/V2_Deleted_preferences_from_users_table.sql
-  - include:
-      file: db.migrations/V3_Deleted_age_from_users_table.sql
-  - include:
-      file: db.migrations/V4_changed_updated_at_column_in_users_table.sql
+      file: db.migrations/V2_changed_updated_at_column_in_users_table.sql

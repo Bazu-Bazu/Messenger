@@ -1,7 +1,6 @@
 ALTER TABLE users
 ALTER COLUMN updated_at SET DEFAULT CURRENT_TIMESTAMP;
 
--- Создаем функцию для обновления updated_at
 CREATE OR REPLACE FUNCTION update_updated_at_column()
     RETURNS TRIGGER AS $$
 BEGIN
@@ -10,7 +9,6 @@ BEGIN
 END;
 $$ language 'plpgsql';
 
--- Создаем триггер для таблицы users
 CREATE TRIGGER update_users_updated_at
     BEFORE UPDATE ON users
     FOR EACH ROW

@@ -8,7 +8,7 @@ import lombok.RequiredArgsConstructor;
 import messenger.user.service.dto.request.*;
 import messenger.user.service.dto.response.UserResponse;
 import messenger.user.service.service.UserService;
-import messenger.user.service.service.UserValidationService;
+import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
@@ -18,19 +18,17 @@ import org.springframework.web.bind.annotation.*;
 public class UserController {
 
     private final UserService userService;
-    private final UserValidationService userValidationService;
 
     @PostMapping
-    public ResponseEntity<?> register(@RequestBody @Valid CreateUserRequest request) {
-        userValidationService.validateUserRegistration(request.username(), request.phone(), request.password());
+    public ResponseEntity<UserResponse> register(@RequestBody @Valid CreateUserRequest request) {
         UserResponse response = userService.registerUser(request);
 
-        return ResponseEntity.status(201).body(response);
+        return ResponseEntity.status(HttpStatus.CREATED).body(response);
     }
 
     @SecurityRequirement(name = "bearerAuth")
     @GetMapping("/me")
-    public ResponseEntity<?> getMyTools(
+    public ResponseEntity<UserResponse> getMyTools(
             @Parameter(hidden = true)
             @RequestHeader("X-User-Id") Long userId
     ) {
@@ -41,12 +39,11 @@ public class UserController {
 
     @SecurityRequirement(name = "bearerAuth")
     @PatchMapping("/update/phone")
-    public ResponseEntity<?> updatePhone(
+    public ResponseEntity<UserResponse> updatePhone(
             @Parameter(hidden = true)
             @RequestHeader("X-User-Id") Long userId,
             @RequestBody @Valid UpdatePhoneRequest request
     ) {
-        userValidationService.validatePhone(request.phone());
         UserResponse response = userService.updateUser(userId, request.phone(), UserUpdateType.PHONE);
 
         return ResponseEntity.status(200).body(response);
@@ -54,12 +51,11 @@ public class UserController {
 
     @SecurityRequirement(name = "bearerAuth")
     @PatchMapping("/update/password")
-    public ResponseEntity<?> updatePassword(
+    public ResponseEntity<UserResponse> updatePassword(
             @Parameter(hidden = true)
             @RequestHeader("X-User-Id") Long userId,
             @RequestBody @Valid UpdatePasswordRequest request
     ) {
-        userValidationService.validatePassword(request.password());
         UserResponse response = userService.updateUser(userId, request.password(), UserUpdateType.PASSWORD);
 
         return ResponseEntity.status(200).body(response);
@@ -67,12 +63,11 @@ public class UserController {
 
     @SecurityRequirement(name = "bearerAuth")
     @PatchMapping("/update/username")
-    public ResponseEntity<?> updateUsername(
+    public ResponseEntity<UserResponse> updateUsername(
             @Parameter(hidden = true)
             @RequestHeader("X-User-Id") Long userId,
             @RequestBody @Valid UpdateUsernameRequest request
     ) {
-        userValidationService.validateUsername(request.username());
         UserResponse response = userService.updateUser(userId, request.username(), UserUpdateType.USERNAME);
 
         return ResponseEntity.status(200).body(response);
@@ -80,15 +75,13 @@ public class UserController {
 
     @SecurityRequirement(name = "bearerAuth")
     @PatchMapping("/update/email")
-    public ResponseEntity<?> updateEmail(
+    public ResponseEntity<UserResponse> updateEmail(
             @Parameter(hidden = true)
             @RequestHeader("X-User-Id") Long userId,
             @RequestBody @Valid UpdateEmailRequest request
     ) {
-        userValidationService.validateEmail(request.email());
         UserResponse response = userService.updateUser(userId, request.email(), UserUpdateType.EMAIL);
 
         return ResponseEntity.status(200).body(response);
     }
-
 }

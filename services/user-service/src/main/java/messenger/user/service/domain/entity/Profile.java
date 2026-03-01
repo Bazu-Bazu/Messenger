@@ -4,7 +4,8 @@ import jakarta.persistence.Column;
 import jakarta.persistence.Embeddable;
 import jakarta.persistence.EnumType;
 import jakarta.persistence.Enumerated;
-import lombok.Data;
+import lombok.Getter;
+import lombok.Setter;
 import messenger.user.service.domain.enums.Gender;
 import messenger.user.service.dto.request.UpdateProfileRequest;
 
@@ -12,7 +13,8 @@ import java.time.LocalDate;
 import java.time.Period;
 
 @Embeddable
-@Data
+@Getter
+@Setter
 public class Profile {
 
     @Column(length = 25)
@@ -24,11 +26,12 @@ public class Profile {
     @Column(length = 500)
     private String bio;
 
+    @Column(length = 255)
     private String avatarUrl;
+
     private LocalDate birthDate;
 
     @Enumerated(EnumType.STRING)
-    @Column(length = 6)
     private Gender gender;
 
     public void updateFrom(UpdateProfileRequest request) {
@@ -54,5 +57,4 @@ public class Profile {
 
         return Period.between(this.birthDate, LocalDate.now()).getYears();
     }
-
 }
