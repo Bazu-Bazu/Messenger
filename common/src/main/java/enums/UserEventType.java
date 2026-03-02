@@ -1,0 +1,10 @@
+package enums;
+
+public enum UserEventType {
+
+    USER_REGISTERED,
+    USER_EMAIL_UPDATED,
+    USER_PHONE_UPDATED,
+    USER_PASSWORD_UPDATED,
+    USER_USERNAME_UPDATED
+}

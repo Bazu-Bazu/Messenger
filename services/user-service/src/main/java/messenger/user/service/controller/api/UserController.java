@@ -1,6 +1,5 @@
 package messenger.user.service.controller.api;
 
-import enums.UserUpdateType;
 import io.swagger.v3.oas.annotations.Parameter;
 import io.swagger.v3.oas.annotations.security.SecurityRequirement;
 import jakarta.validation.Valid;
@@ -27,14 +26,14 @@ public class UserController {
     }
 
     @SecurityRequirement(name = "bearerAuth")
-    @GetMapping("/me")
-    public ResponseEntity<UserResponse> getMyTools(
+    @GetMapping
+    public ResponseEntity<UserResponse> getUser(
             @Parameter(hidden = true)
             @RequestHeader("X-User-Id") Long userId
     ) {
         UserResponse response = userService.getUser(userId);
 
-        return ResponseEntity.status(200).body(response);
+        return ResponseEntity.status(HttpStatus.OK).body(response);
     }
 
     @SecurityRequirement(name = "bearerAuth")
@@ -44,9 +43,9 @@ public class UserController {
             @RequestHeader("X-User-Id") Long userId,
             @RequestBody @Valid UpdatePhoneRequest request
     ) {
-        UserResponse response = userService.updateUser(userId, request.phone(), UserUpdateType.PHONE);
+        UserResponse response = userService.updatePhone(userId, request);
 
-        return ResponseEntity.status(200).body(response);
+        return ResponseEntity.status(HttpStatus.OK).body(response);
     }
 
     @SecurityRequirement(name = "bearerAuth")
@@ -56,9 +55,9 @@ public class UserController {
             @RequestHeader("X-User-Id") Long userId,
             @RequestBody @Valid UpdatePasswordRequest request
     ) {
-        UserResponse response = userService.updateUser(userId, request.password(), UserUpdateType.PASSWORD);
+        UserResponse response = userService.updatePassword(userId, request);
 
-        return ResponseEntity.status(200).body(response);
+        return ResponseEntity.status(HttpStatus.OK).body(response);
     }
 
     @SecurityRequirement(name = "bearerAuth")
@@ -68,9 +67,9 @@ public class UserController {
             @RequestHeader("X-User-Id") Long userId,
             @RequestBody @Valid UpdateUsernameRequest request
     ) {
-        UserResponse response = userService.updateUser(userId, request.username(), UserUpdateType.USERNAME);
+        UserResponse response = userService.updateUsername(userId, request);
 
-        return ResponseEntity.status(200).body(response);
+        return ResponseEntity.status(HttpStatus.OK).body(response);
     }
 
     @SecurityRequirement(name = "bearerAuth")
@@ -80,8 +79,8 @@ public class UserController {
             @RequestHeader("X-User-Id") Long userId,
             @RequestBody @Valid UpdateEmailRequest request
     ) {
-        UserResponse response = userService.updateUser(userId, request.email(), UserUpdateType.EMAIL);
+        UserResponse response = userService.updateEmail(userId, request);
 
-        return ResponseEntity.status(200).body(response);
+        return ResponseEntity.status(HttpStatus.OK).body(response);
     }
 }

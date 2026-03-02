@@ -1,7 +1,6 @@
 package messenger.sso.service.config;
 
 import dto.event.UserRegistrationEvent;
-import dto.event.UserUpdatingEvent;
 import org.apache.kafka.clients.consumer.ConsumerConfig;
 import org.apache.kafka.common.serialization.StringDeserializer;
 import org.springframework.beans.factory.annotation.Value;

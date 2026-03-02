@@ -6,7 +6,7 @@ import messenger.user.service.dto.request.UpdateProfileRequest;
 import messenger.user.service.dto.response.ProfileResponse;
 import messenger.user.service.domain.entity.Profile;
 import messenger.user.service.domain.entity.User;
-import messenger.user.service.exception.UserException;
+import messenger.user.service.exception.UserNotFoundException;
 import messenger.user.service.domain.repository.UserRepository;
 import org.springframework.cache.annotation.CacheEvict;
 import org.springframework.cache.annotation.Cacheable;
@@ -23,7 +23,7 @@ public class ProfileService {
     @CacheEvict(value = "userProfiles", key = "#p0")
     public ProfileResponse updateProfile(Long userId, UpdateProfileRequest request) {
         User user = userRepository.findById(userId)
-                .orElseThrow(() -> new UserException(
+                .orElseThrow(() -> new UserNotFoundException(
                         String.format("User with id %d not found", userId)
                 ));
 
@@ -49,7 +49,7 @@ public class ProfileService {
     @Transactional
     public ProfileResponse addAvatarUrl(Long userId, AddAvatarRequest request) {
         User user = userRepository.findById(userId)
-                .orElseThrow(() -> new UserException(
+                .orElseThrow(() -> new UserNotFoundException(
                         String.format("User with id %d not found", userId)
                 ));
 
@@ -62,7 +62,7 @@ public class ProfileService {
     @Cacheable(value = "userProfiles", key = "#p0")
     public ProfileResponse getProfile(Long userId) {
         User user = userRepository.findById(userId)
-                .orElseThrow(() -> new UserException(
+                .orElseThrow(() -> new UserNotFoundException(
                         String.format("User with id %d not found", userId)
                 ));
 
