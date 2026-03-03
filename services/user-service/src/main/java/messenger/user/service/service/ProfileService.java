@@ -6,8 +6,6 @@ import messenger.user.service.dto.request.UpdateProfileRequest;
 import messenger.user.service.dto.response.ProfileResponse;
 import messenger.user.service.domain.entity.Profile;
 import messenger.user.service.domain.entity.User;
-import messenger.user.service.exception.UserNotFoundException;
-import messenger.user.service.domain.repository.UserRepository;
 import org.springframework.cache.annotation.CacheEvict;
 import org.springframework.cache.annotation.Cacheable;
 import org.springframework.stereotype.Service;
@@ -17,25 +15,42 @@ import org.springframework.transaction.annotation.Transactional;
 @RequiredArgsConstructor
 public class ProfileService {
 
-    private final UserRepository userRepository;
+    private final UserService userService;
 
     @Transactional
     @CacheEvict(value = "userProfiles", key = "#p0")
     public ProfileResponse updateProfile(Long userId, UpdateProfileRequest request) {
-        User user = userRepository.findById(userId)
-                .orElseThrow(() -> new UserNotFoundException(
-                        String.format("User with id %d not found", userId)
-                ));
+        User user = userService.findUserById(userId);
 
         user.getProfile().updateFrom(request);
-        User savedUser = userRepository.save(user);
 
-        return createProfileResponse(userId, savedUser.getProfile());
+        return createProfileResponse(userId, user);
     }
 
-    private ProfileResponse createProfileResponse(Long userId, Profile profile) {
+    @Transactional
+    @CacheEvict(value = "userProfiles", key = "#p0")
+    public ProfileResponse addAvatarUrl(Long userId, AddAvatarRequest request) {
+        User user = userService.findUserById(userId);
+
+        user.getProfile().setAvatarUrl(request.url());
+
+        return createProfileResponse(userId, user);
+    }
+
+    @Transactional(readOnly = true)
+    @Cacheable(value = "userProfiles", key = "#p0")
+    public ProfileResponse getProfile(Long userId) {
+        User user = userService.findUserById(userId);
+
+        return createProfileResponse(userId, user);
+    }
+
+    private ProfileResponse createProfileResponse(Long userId, User user) {
+        Profile profile = user.getProfile();
+
         return ProfileResponse.builder()
                 .userId(userId)
+                .username(user.getUsername())
                 .firstName(profile.getFirstName())
                 .lastName(profile.getLastName())
                 .birthDate(profile.getBirthDate())
@@ -44,28 +59,5 @@ public class ProfileService {
                 .avatarUrl(profile.getAvatarUrl())
                 .bio(profile.getBio())
                 .build();
-    }
-
-    @Transactional
-    public ProfileResponse addAvatarUrl(Long userId, AddAvatarRequest request) {
-        User user = userRepository.findById(userId)
-                .orElseThrow(() -> new UserNotFoundException(
-                        String.format("User with id %d not found", userId)
-                ));
-
-        user.getProfile().setAvatarUrl(request.url());
-        userRepository.save(user);
-
-        return createProfileResponse(userId, user.getProfile());
-    }
-
-    @Cacheable(value = "userProfiles", key = "#p0")
-    public ProfileResponse getProfile(Long userId) {
-        User user = userRepository.findById(userId)
-                .orElseThrow(() -> new UserNotFoundException(
-                        String.format("User with id %d not found", userId)
-                ));
-
-        return createProfileResponse(userId, user.getProfile());
     }
 }

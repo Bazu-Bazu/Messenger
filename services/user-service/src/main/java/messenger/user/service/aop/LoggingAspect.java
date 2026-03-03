@@ -1,51 +1,37 @@
 package messenger.user.service.aop;
 
 import aop.BaseLoggingAspect;
-import lombok.extern.log4j.Log4j2;
 import org.aspectj.lang.JoinPoint;
-import org.aspectj.lang.annotation.AfterReturning;
-import org.aspectj.lang.annotation.AfterThrowing;
-import org.aspectj.lang.annotation.Aspect;
-import org.aspectj.lang.annotation.Before;
+import org.aspectj.lang.annotation.*;
 import org.springframework.stereotype.Component;
 
 @Component
 @Aspect
-@Log4j2
 public class LoggingAspect extends BaseLoggingAspect {
 
-    @Before(
-            "execution(public * messenger.user.service.client.*.*.*(..)) || " +
-            "execution(public * messenger.user.service.controller.*.*.*(..)) || " +
-            "execution(public * messenger.user.service.service.*.*(..)) || " +
-            "execution(public * messenger.user.service.validation.*.*(..))"
-    )
+    @Before("applicationPackage()")
     public void before(JoinPoint joinPoint) {
         logBefore(joinPoint);
     }
 
-    @AfterReturning(
-            pointcut =
-            "execution(public * messenger.user.service.client.*.*.*(..)) || " +
-            "execution(public * messenger.user.service.controller.*.*.*(..)) || " +
-            "execution(public * messenger.user.service.service.*.*(..)) || " +
-            "execution(public * messenger.user.service.validation.*.*(..))",
-            returning = "result"
-    )
+    @AfterReturning(pointcut = "applicationPackage()", returning = "result")
     public void afterReturning(JoinPoint joinPoint, Object result) {
         logAfterReturning(joinPoint, result);
     }
 
-    @AfterThrowing(
-            pointcut =
-            "execution(public * messenger.user.service.client.*.*.*(..)) || " +
-            "execution(public * messenger.user.service.controller.*.*.*(..)) || " +
-            "execution(public * messenger.user.service.service.*.*(..)) || " +
-            "execution(public * messenger.user.service.validation.*.*(..))",
-            throwing = "exception"
-    )
+    @AfterThrowing(pointcut = "applicationPackage()", throwing = "exception")
     public void afterTrowing(JoinPoint joinPoint, Exception exception) {
         logAfterTrowing(joinPoint, exception);
     }
 
+    @Pointcut(
+            "execution(public * messenger.user.service.controller.api.*.*(..)) || " +
+            "execution(public * messenger.user.service.controller.grpc.UserGrpcServer.*(..)) || " +
+            "execution(public * messenger.user.service.service.event.*.*(..)) || " +
+            "execution(public * messenger.user.service.service.outbox.OutboxEventService.*(..)) || " +
+            "execution(public * messenger.user.service.service.*.*(..)) || " +
+            "execution(public * messenger.user.service.validation.validator.*.*(..)) || " +
+            "execution(public * messenger.user.service.kafka..*(..))"
+    )
+    public void applicationPackage() {}
 }

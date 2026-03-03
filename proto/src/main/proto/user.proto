@@ -28,8 +28,6 @@ message UsersInfoResponse {
     int64 userId = 1;
     string username = 2;
     string avatarUrl = 3;
-    string status = 4;
-    string bio = 5;
   }
   repeated UserInfo results = 1;
 }

@@ -2709,30 +2709,6 @@ public final class User {
        */
       com.google.protobuf.ByteString
           getAvatarUrlBytes();
-
-      /**
-       * <code>string status = 4;</code>
-       * @return The status.
-       */
-      java.lang.String getStatus();
-      /**
-       * <code>string status = 4;</code>
-       * @return The bytes for status.
-       */
-      com.google.protobuf.ByteString
-          getStatusBytes();
-
-      /**
-       * <code>string bio = 5;</code>
-       * @return The bio.
-       */
-      java.lang.String getBio();
-      /**
-       * <code>string bio = 5;</code>
-       * @return The bytes for bio.
-       */
-      com.google.protobuf.ByteString
-          getBioBytes();
     }
     /**
      * Protobuf type {@code user.UsersInfoResponse.UserInfo}
@@ -2749,8 +2725,6 @@ public final class User {
       private UserInfo() {
         username_ = "";
         avatarUrl_ = "";
-        status_ = "";
-        bio_ = "";
       }
 
       @java.lang.Override
@@ -2862,84 +2836,6 @@ public final class User {
         }
       }
 
-      public static final int STATUS_FIELD_NUMBER = 4;
-      @SuppressWarnings("serial")
-      private volatile java.lang.Object status_ = "";
-      /**
-       * <code>string status = 4;</code>
-       * @return The status.
-       */
-      @java.lang.Override
-      public java.lang.String getStatus() {
-        java.lang.Object ref = status_;
-        if (ref instanceof java.lang.String) {
-          return (java.lang.String) ref;
-        } else {
-          com.google.protobuf.ByteString bs = 
-              (com.google.protobuf.ByteString) ref;
-          java.lang.String s = bs.toStringUtf8();
-          status_ = s;
-          return s;
-        }
-      }
-      /**
-       * <code>string status = 4;</code>
-       * @return The bytes for status.
-       */
-      @java.lang.Override
-      public com.google.protobuf.ByteString
-          getStatusBytes() {
-        java.lang.Object ref = status_;
-        if (ref instanceof java.lang.String) {
-          com.google.protobuf.ByteString b = 
-              com.google.protobuf.ByteString.copyFromUtf8(
-                  (java.lang.String) ref);
-          status_ = b;
-          return b;
-        } else {
-          return (com.google.protobuf.ByteString) ref;
-        }
-      }
-
-      public static final int BIO_FIELD_NUMBER = 5;
-      @SuppressWarnings("serial")
-      private volatile java.lang.Object bio_ = "";
-      /**
-       * <code>string bio = 5;</code>
-       * @return The bio.
-       */
-      @java.lang.Override
-      public java.lang.String getBio() {
-        java.lang.Object ref = bio_;
-        if (ref instanceof java.lang.String) {
-          return (java.lang.String) ref;
-        } else {
-          com.google.protobuf.ByteString bs = 
-              (com.google.protobuf.ByteString) ref;
-          java.lang.String s = bs.toStringUtf8();
-          bio_ = s;
-          return s;
-        }
-      }
-      /**
-       * <code>string bio = 5;</code>
-       * @return The bytes for bio.
-       */
-      @java.lang.Override
-      public com.google.protobuf.ByteString
-          getBioBytes() {
-        java.lang.Object ref = bio_;
-        if (ref instanceof java.lang.String) {
-          com.google.protobuf.ByteString b = 
-              com.google.protobuf.ByteString.copyFromUtf8(
-                  (java.lang.String) ref);
-          bio_ = b;
-          return b;
-        } else {
-          return (com.google.protobuf.ByteString) ref;
-        }
-      }
-
       private byte memoizedIsInitialized = -1;
       @java.lang.Override
       public final boolean isInitialized() {
@@ -2963,12 +2859,6 @@ public final class User {
         if (!com.google.protobuf.GeneratedMessageV3.isStringEmpty(avatarUrl_)) {
           com.google.protobuf.GeneratedMessageV3.writeString(output, 3, avatarUrl_);
         }
-        if (!com.google.protobuf.GeneratedMessageV3.isStringEmpty(status_)) {
-          com.google.protobuf.GeneratedMessageV3.writeString(output, 4, status_);
-        }
-        if (!com.google.protobuf.GeneratedMessageV3.isStringEmpty(bio_)) {
-          com.google.protobuf.GeneratedMessageV3.writeString(output, 5, bio_);
-        }
         getUnknownFields().writeTo(output);
       }
 
@@ -2987,12 +2877,6 @@ public final class User {
         }
         if (!com.google.protobuf.GeneratedMessageV3.isStringEmpty(avatarUrl_)) {
           size += com.google.protobuf.GeneratedMessageV3.computeStringSize(3, avatarUrl_);
-        }
-        if (!com.google.protobuf.GeneratedMessageV3.isStringEmpty(status_)) {
-          size += com.google.protobuf.GeneratedMessageV3.computeStringSize(4, status_);
-        }
-        if (!com.google.protobuf.GeneratedMessageV3.isStringEmpty(bio_)) {
-          size += com.google.protobuf.GeneratedMessageV3.computeStringSize(5, bio_);
         }
         size += getUnknownFields().getSerializedSize();
         memoizedSize = size;
@@ -3015,10 +2899,6 @@ public final class User {
             .equals(other.getUsername())) return false;
         if (!getAvatarUrl()
             .equals(other.getAvatarUrl())) return false;
-        if (!getStatus()
-            .equals(other.getStatus())) return false;
-        if (!getBio()
-            .equals(other.getBio())) return false;
         if (!getUnknownFields().equals(other.getUnknownFields())) return false;
         return true;
       }
@@ -3037,10 +2917,6 @@ public final class User {
         hash = (53 * hash) + getUsername().hashCode();
         hash = (37 * hash) + AVATARURL_FIELD_NUMBER;
         hash = (53 * hash) + getAvatarUrl().hashCode();
-        hash = (37 * hash) + STATUS_FIELD_NUMBER;
-        hash = (53 * hash) + getStatus().hashCode();
-        hash = (37 * hash) + BIO_FIELD_NUMBER;
-        hash = (53 * hash) + getBio().hashCode();
         hash = (29 * hash) + getUnknownFields().hashCode();
         memoizedHashCode = hash;
         return hash;
@@ -3175,8 +3051,6 @@ public final class User {
           userId_ = 0L;
           username_ = "";
           avatarUrl_ = "";
-          status_ = "";
-          bio_ = "";
           return this;
         }
 
@@ -3218,12 +3092,6 @@ public final class User {
           }
           if (((from_bitField0_ & 0x00000004) != 0)) {
             result.avatarUrl_ = avatarUrl_;
-          }
-          if (((from_bitField0_ & 0x00000008) != 0)) {
-            result.status_ = status_;
-          }
-          if (((from_bitField0_ & 0x00000010) != 0)) {
-            result.bio_ = bio_;
           }
         }
 
@@ -3284,16 +3152,6 @@ public final class User {
             bitField0_ |= 0x00000004;
             onChanged();
           }
-          if (!other.getStatus().isEmpty()) {
-            status_ = other.status_;
-            bitField0_ |= 0x00000008;
-            onChanged();
-          }
-          if (!other.getBio().isEmpty()) {
-            bio_ = other.bio_;
-            bitField0_ |= 0x00000010;
-            onChanged();
-          }
           this.mergeUnknownFields(other.getUnknownFields());
           onChanged();
           return this;
@@ -3335,16 +3193,6 @@ public final class User {
                   bitField0_ |= 0x00000004;
                   break;
                 } // case 26
-                case 34: {
-                  status_ = input.readStringRequireUtf8();
-                  bitField0_ |= 0x00000008;
-                  break;
-                } // case 34
-                case 42: {
-                  bio_ = input.readStringRequireUtf8();
-                  bitField0_ |= 0x00000010;
-                  break;
-                } // case 42
                 default: {
                   if (!super.parseUnknownField(input, extensionRegistry, tag)) {
                     done = true; // was an endgroup tag
@@ -3534,150 +3382,6 @@ public final class User {
           checkByteStringIsUtf8(value);
           avatarUrl_ = value;
           bitField0_ |= 0x00000004;
-          onChanged();
-          return this;
-        }
-
-        private java.lang.Object status_ = "";
-        /**
-         * <code>string status = 4;</code>
-         * @return The status.
-         */
-        public java.lang.String getStatus() {
-          java.lang.Object ref = status_;
-          if (!(ref instanceof java.lang.String)) {
-            com.google.protobuf.ByteString bs =
-                (com.google.protobuf.ByteString) ref;
-            java.lang.String s = bs.toStringUtf8();
-            status_ = s;
-            return s;
-          } else {
-            return (java.lang.String) ref;
-          }
-        }
-        /**
-         * <code>string status = 4;</code>
-         * @return The bytes for status.
-         */
-        public com.google.protobuf.ByteString
-            getStatusBytes() {
-          java.lang.Object ref = status_;
-          if (ref instanceof String) {
-            com.google.protobuf.ByteString b = 
-                com.google.protobuf.ByteString.copyFromUtf8(
-                    (java.lang.String) ref);
-            status_ = b;
-            return b;
-          } else {
-            return (com.google.protobuf.ByteString) ref;
-          }
-        }
-        /**
-         * <code>string status = 4;</code>
-         * @param value The status to set.
-         * @return This builder for chaining.
-         */
-        public Builder setStatus(
-            java.lang.String value) {
-          if (value == null) { throw new NullPointerException(); }
-          status_ = value;
-          bitField0_ |= 0x00000008;
-          onChanged();
-          return this;
-        }
-        /**
-         * <code>string status = 4;</code>
-         * @return This builder for chaining.
-         */
-        public Builder clearStatus() {
-          status_ = getDefaultInstance().getStatus();
-          bitField0_ = (bitField0_ & ~0x00000008);
-          onChanged();
-          return this;
-        }
-        /**
-         * <code>string status = 4;</code>
-         * @param value The bytes for status to set.
-         * @return This builder for chaining.
-         */
-        public Builder setStatusBytes(
-            com.google.protobuf.ByteString value) {
-          if (value == null) { throw new NullPointerException(); }
-          checkByteStringIsUtf8(value);
-          status_ = value;
-          bitField0_ |= 0x00000008;
-          onChanged();
-          return this;
-        }
-
-        private java.lang.Object bio_ = "";
-        /**
-         * <code>string bio = 5;</code>
-         * @return The bio.
-         */
-        public java.lang.String getBio() {
-          java.lang.Object ref = bio_;
-          if (!(ref instanceof java.lang.String)) {
-            com.google.protobuf.ByteString bs =
-                (com.google.protobuf.ByteString) ref;
-            java.lang.String s = bs.toStringUtf8();
-            bio_ = s;
-            return s;
-          } else {
-            return (java.lang.String) ref;
-          }
-        }
-        /**
-         * <code>string bio = 5;</code>
-         * @return The bytes for bio.
-         */
-        public com.google.protobuf.ByteString
-            getBioBytes() {
-          java.lang.Object ref = bio_;
-          if (ref instanceof String) {
-            com.google.protobuf.ByteString b = 
-                com.google.protobuf.ByteString.copyFromUtf8(
-                    (java.lang.String) ref);
-            bio_ = b;
-            return b;
-          } else {
-            return (com.google.protobuf.ByteString) ref;
-          }
-        }
-        /**
-         * <code>string bio = 5;</code>
-         * @param value The bio to set.
-         * @return This builder for chaining.
-         */
-        public Builder setBio(
-            java.lang.String value) {
-          if (value == null) { throw new NullPointerException(); }
-          bio_ = value;
-          bitField0_ |= 0x00000010;
-          onChanged();
-          return this;
-        }
-        /**
-         * <code>string bio = 5;</code>
-         * @return This builder for chaining.
-         */
-        public Builder clearBio() {
-          bio_ = getDefaultInstance().getBio();
-          bitField0_ = (bitField0_ & ~0x00000010);
-          onChanged();
-          return this;
-        }
-        /**
-         * <code>string bio = 5;</code>
-         * @param value The bytes for bio to set.
-         * @return This builder for chaining.
-         */
-        public Builder setBioBytes(
-            com.google.protobuf.ByteString value) {
-          if (value == null) { throw new NullPointerException(); }
-          checkByteStringIsUtf8(value);
-          bio_ = value;
-          bitField0_ |= 0x00000010;
           onChanged();
           return this;
         }
@@ -4508,15 +4212,14 @@ public final class User {
       "stResponse.UserExistence\032A\n\rUserExistenc" +
       "e\022\016\n\006userId\030\001 \001(\003\022\016\n\006exists\030\002 \001(\010\022\020\n\010isA" +
       "ctive\030\003 \001(\010\"#\n\020UsersInfoRequest\022\017\n\007userI" +
-      "ds\030\001 \003(\003\"\244\001\n\021UsersInfoResponse\0221\n\007result" +
+      "ds\030\001 \003(\003\"\207\001\n\021UsersInfoResponse\0221\n\007result" +
       "s\030\001 \003(\0132 .user.UsersInfoResponse.UserInf" +
-      "o\032\\\n\010UserInfo\022\016\n\006userId\030\001 \001(\003\022\020\n\010usernam" +
-      "e\030\002 \001(\t\022\021\n\tavatarUrl\030\003 \001(\t\022\016\n\006status\030\004 \001" +
-      "(\t\022\013\n\003bio\030\005 \001(\t2\234\001\n\013UserService\022O\n\022Valid" +
-      "ateUsersExist\022\037.user.ValidateUsersExistR" +
-      "equest\032\030.user.UsersExistResponse\022<\n\tUser" +
-      "sInfo\022\026.user.UsersInfoRequest\032\027.user.Use" +
-      "rsInfoResponseb\006proto3"
+      "o\032?\n\010UserInfo\022\016\n\006userId\030\001 \001(\003\022\020\n\010usernam" +
+      "e\030\002 \001(\t\022\021\n\tavatarUrl\030\003 \001(\t2\234\001\n\013UserServi" +
+      "ce\022O\n\022ValidateUsersExist\022\037.user.Validate" +
+      "UsersExistRequest\032\030.user.UsersExistRespo" +
+      "nse\022<\n\tUsersInfo\022\026.user.UsersInfoRequest" +
+      "\032\027.user.UsersInfoResponseb\006proto3"
     };
     descriptor = com.google.protobuf.Descriptors.FileDescriptor
       .internalBuildGeneratedFileFrom(descriptorData,
@@ -4557,7 +4260,7 @@ public final class User {
     internal_static_user_UsersInfoResponse_UserInfo_fieldAccessorTable = new
       com.google.protobuf.GeneratedMessageV3.FieldAccessorTable(
         internal_static_user_UsersInfoResponse_UserInfo_descriptor,
-        new java.lang.String[] { "UserId", "Username", "AvatarUrl", "Status", "Bio", });
+        new java.lang.String[] { "UserId", "Username", "AvatarUrl", });
   }
 
   // @@protoc_insertion_point(outer_class_scope)

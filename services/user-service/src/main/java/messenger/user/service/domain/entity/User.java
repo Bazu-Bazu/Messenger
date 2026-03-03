@@ -37,10 +37,12 @@ public class User {
     private boolean enabled = true;
 
     @CreatedDate
-    private Instant createdAt;
+    @Builder.Default
+    private Instant createdAt = Instant.now();
 
     @LastModifiedDate
-    private Instant updatedAt;
+    @Builder.Default
+    private Instant updatedAt = Instant.now();
 
     @Builder.Default
     @Enumerated(EnumType.STRING)

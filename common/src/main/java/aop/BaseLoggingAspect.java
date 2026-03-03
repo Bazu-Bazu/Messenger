@@ -80,5 +80,4 @@ public class BaseLoggingAspect {
     private String getClassName(JoinPoint joinPoint) {
         return joinPoint.getTarget().getClass().getSimpleName();
     }
-
 }
