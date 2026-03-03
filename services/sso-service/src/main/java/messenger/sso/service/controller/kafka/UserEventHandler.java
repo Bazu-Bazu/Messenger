@@ -2,7 +2,6 @@ package messenger.sso.service.controller.kafka;
 
 import com.fasterxml.jackson.core.JsonProcessingException;
 import com.fasterxml.jackson.databind.ObjectMapper;
-import dto.event.UserUpdatingEvent;
 import lombok.RequiredArgsConstructor;
 import dto.event.UserRegistrationEvent;
 import messenger.sso.service.service.SsoUserService;

@@ -26,3 +26,5 @@ spec:
           envFrom:
             - configMapRef:
                 name: api-gateway-config
+            - secretRef:
+                name: api-gateway-secret

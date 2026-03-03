@@ -1,0 +1,114 @@
+server:
+  port: ${SERVER_PORT}
+
+spring:
+  application:
+    name: api-gateway
+
+  main:
+    web-application-type: reactive
+
+  cloud:
+    gateway:
+      routes:
+        - id: sso-service
+          uri: http://sso-service
+          predicates:
+            - Path=/auth/**
+
+        - id: user-service-users
+          uri: http://user-service
+          predicates:
+            - Path=/users/**
+
+        - id: user-service-profile
+          uri: http://user-service
+          predicates:
+            - Path=/profile/**
+
+        - id: personal-chat-service
+          uri: http://personal-chat-service
+          predicates:
+            - Path=/chats/personal/**
+
+        - id: group-chat-service-chats
+          uri: http://group-chat-service
+          predicates:
+            - Path=/chats/group/**
+
+        - id: group-chat-service-members
+          uri: http://group-chat-service
+          predicates:
+            - Path=/chats/group/members/**
+
+        - id: web-socket-service
+          uri: ws://web-socket-service
+          predicates:
+            - Path=/ws/chat/**
+
+
+
+        - id: sso-service-docs
+          uri: http://sso-service
+          predicates:
+            - Path=/sso-service/v3/api-docs
+          filters:
+            - RewritePath=/sso-service/(?<segment>.*), /$\{segment}
+
+        - id: user-service-docs
+          uri: http://user-service
+          predicates:
+            - Path=/user-service/v3/api-docs
+          filters:
+            - RewritePath=/user-service/(?<segment>.*), /$\{segment}
+
+        - id: personal-chat-service-docs
+          uri: http://personal-chat-service
+          predicates:
+            - Path=/personal-chat-service/v3/api-docs
+          filters:
+            - RewritePath=/personal-chat-service/(?<segment>.*), /$\{segment}
+
+        - id: group-chat-service-docs
+          uri: http://group-chat-service
+          predicates:
+            - Path=/group-chat-service/v3/api-docs
+          filters:
+            - RewritePath=/group-chat-service/(?<segment>.*), /$\{segment}
+
+springdoc:
+  api-docs:
+    enabled: true
+  swagger-ui:
+    enabled: true
+    path: /swagger-ui.html
+    config-url: /v3/api-docs/swagger-config
+    urls:
+      - name: user-service
+        url: /user-service/v3/api-docs
+      - name: sso-service
+        url: /sso-service/v3/api-docs
+      - name: personal-chat-service
+        url: /personal-chat-service/v3/api-docs
+      - name: group-chat-service
+        url: /group-chat-service/v3/api-docs
+
+logging:
+  level:
+    org.springframework.cloud.gateway: DEBUG
+
+jwt:
+  secret-key: ${JWT_SECRET}
+
+management:
+  endpoints:
+    web:
+      exposure:
+        include: health,info,prometheus
+  endpoint:
+    prometheus:
+      enabled: true
+  metrics:
+    distribution:
+      percentiles-histogram:
+        http.server.requests: true

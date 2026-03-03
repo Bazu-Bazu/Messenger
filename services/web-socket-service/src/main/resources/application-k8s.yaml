@@ -1,0 +1,54 @@
+server:
+  port: ${SERVER_PORT}
+
+spring:
+  application:
+    name: web-socket-service
+
+  autoconfigure:
+    exclude:
+      - org.springframework.boot.autoconfigure.jdbc.DataSourceAutoConfiguration
+      - org.springframework.boot.autoconfigure.orm.jpa.HibernateJpaAutoConfiguration
+
+  data:
+    redis:
+      host: ${SPRING_REDIS_HOST}
+      port: ${SPRING_REDIS_PORT}
+
+  kafka:
+    bootstrap-servers: ${SPRING_KAFKA_BOOTSTRAP_SERVERS}
+    consumer:
+      group-id: web-socket-service-group
+      auto-offset-reset: earliest
+      key-deserializer: org.apache.kafka.common.serialization.StringDeserializer
+      value-deserializer: org.springframework.kafka.support.serializer.JsonDeserializer
+      properties:
+        spring.json.trusted.packages: "dto.event,*"
+        spring.json.value.default.type: "dto.event.MessageDetailEvent"
+        spring.json.use.type.headers: false
+
+grpc:
+  client:
+    message-service:
+      address: dns:///user-service:6568
+      negotiation-type: plaintext
+      default-load-balancing-policy: round_robin
+
+redis:
+  ttl: 30
+
+jwt:
+  secret-key: ${JWT_SECRET}
+
+management:
+  endpoints:
+    web:
+      exposure:
+        include: health,info,prometheus
+  endpoint:
+    prometheus:
+      enabled: true
+  metrics:
+    distribution:
+      percentiles-histogram:
+        http.server.requests: true

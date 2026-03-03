@@ -5,5 +5,4 @@ public enum UserStatus {
     ACTIVE,
     INACTIVE,
     DELETED
-
 }

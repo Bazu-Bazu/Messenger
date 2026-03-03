@@ -1,13 +1,14 @@
 .idea
 
 services/api-gateway/target
-services/discovery-service/target
 services/sso-service/target
 services/user-service/target
 services/message-service/target
 services/personal-chat-service/target
 services/group-chat-service/target
 services/web-socket-service/target
+services/discovery-service/
+services/**/application-dev.yaml
 common/target
 proto/target
 

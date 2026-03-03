@@ -26,3 +26,5 @@ spec:
           envFrom:
             - configMapRef:
                 name: web-socket-service-config
+            - secretRef:
+                name: web-socket-service-secret

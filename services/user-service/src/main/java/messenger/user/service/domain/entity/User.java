@@ -1,10 +1,7 @@
 package messenger.user.service.domain.entity;
 
 import jakarta.persistence.*;
-import lombok.AllArgsConstructor;
-import lombok.Builder;
-import lombok.Data;
-import lombok.NoArgsConstructor;
+import lombok.*;
 import messenger.user.service.domain.enums.UserStatus;
 import org.springframework.data.annotation.CreatedDate;
 import org.springframework.data.annotation.LastModifiedDate;
@@ -13,8 +10,9 @@ import java.time.Instant;
 
 @Entity
 @Table(name = "users")
-@Data
 @Builder
+@Getter
+@Setter
 @NoArgsConstructor
 @AllArgsConstructor
 public class User {
@@ -26,7 +24,7 @@ public class User {
     @Column(nullable = false, unique = true, length = 25)
     private String username;
 
-    @Column(unique = true, nullable = false, length = 15)
+    @Column(nullable = false, unique = true, length = 15)
     private String phone;
 
     @Column(unique = true)
@@ -39,10 +37,12 @@ public class User {
     private boolean enabled = true;
 
     @CreatedDate
-    private Instant createdAt;
+    @Builder.Default
+    private Instant createdAt = Instant.now();
 
     @LastModifiedDate
-    private Instant updatedAt;
+    @Builder.Default
+    private Instant updatedAt = Instant.now();
 
     @Builder.Default
     @Enumerated(EnumType.STRING)
@@ -57,5 +57,4 @@ public class User {
             profile = new Profile();
         }
     }
-
 }

@@ -8,7 +8,7 @@ import messenger.user.service.dto.request.AddAvatarRequest;
 import messenger.user.service.dto.request.UpdateProfileRequest;
 import messenger.user.service.dto.response.ProfileResponse;
 import messenger.user.service.service.ProfileService;
-import messenger.user.service.service.ProfileValidationService;
+import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
@@ -19,36 +19,43 @@ import org.springframework.web.bind.annotation.*;
 public class ProfileController {
 
     private final ProfileService profileService;
-    private final ProfileValidationService profileValidationService;
 
     @PatchMapping
-    public ResponseEntity<?> updateProfile(
+    public ResponseEntity<ProfileResponse> updateProfile(
             @Parameter(hidden = true)
             @RequestHeader("X-User-Id") Long userId,
             @RequestBody @Valid UpdateProfileRequest request
     ) {
-        profileValidationService.validateProfileUpdating(request.firstName(), request.lastName(), request.bio());
         ProfileResponse response = profileService.updateProfile(userId, request);
 
-        return ResponseEntity.status(200).body(response);
+        return ResponseEntity.status(HttpStatus.OK).body(response);
     }
 
     @PatchMapping("/avatar")
-    public ResponseEntity<?> addAvatarUrl(
+    public ResponseEntity<ProfileResponse> addAvatarUrl(
             @Parameter(hidden = true)
             @RequestHeader("X-User-Id") Long userId,
             @RequestBody @Valid AddAvatarRequest request
     ) {
         ProfileResponse response = profileService.addAvatarUrl(userId, request);
 
-        return ResponseEntity.status(200).body(response);
+        return ResponseEntity.status(HttpStatus.OK).body(response);
     }
 
     @GetMapping("/{userId}")
-    public ResponseEntity<?> getProfile(@PathVariable("userId") @Valid Long userId) {
+    public ResponseEntity<ProfileResponse> getProfile(@PathVariable("userId") Long userId) {
         ProfileResponse response = profileService.getProfile(userId);
 
-        return ResponseEntity.status(200).body(response);
+        return ResponseEntity.status(HttpStatus.OK).body(response);
     }
 
+    @GetMapping
+    public ResponseEntity<ProfileResponse> getMyProfile(
+            @Parameter(hidden = true)
+            @RequestHeader("X-User-Id") Long userId
+    ) {
+        ProfileResponse response = profileService.getProfile(userId);
+
+        return ResponseEntity.status(HttpStatus.OK).body(response);
+    }
 }

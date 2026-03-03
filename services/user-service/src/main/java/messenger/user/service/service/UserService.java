@@ -1,16 +1,25 @@
 package messenger.user.service.service;
 
-import enums.UserUpdateType;
 import lombok.RequiredArgsConstructor;
-import messenger.user.service.dto.request.CreateUserRequest;
+import messenger.user.service.domain.enums.UserStatus;
+import messenger.user.service.dto.UserExistenceDto;
+import messenger.user.service.dto.UserInfoDto;
+import messenger.user.service.dto.request.*;
 import messenger.user.service.dto.response.UserResponse;
 import messenger.user.service.domain.entity.User;
-import messenger.user.service.exception.UserException;
+import messenger.user.service.exception.UserNotFoundException;
 import messenger.user.service.domain.repository.UserRepository;
-import messenger.user.service.client.kafka.UserEventPublisher;
+import messenger.user.service.service.event.UserEventPublisher;
+import org.springframework.cache.annotation.CacheEvict;
+import org.springframework.cache.annotation.Cacheable;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
+
+import java.util.List;
+import java.util.Map;
+import java.util.function.Function;
+import java.util.stream.Collectors;
 
 @Service
 @RequiredArgsConstructor
@@ -24,7 +33,8 @@ public class UserService {
     public UserResponse registerUser(CreateUserRequest request) {
         User newUser = createUser(request);
         User savedUser = userRepository.save(newUser);
-        userEventPublisher.sendUserRegistrationToKafka(savedUser);
+
+        userEventPublisher.publishUserRegistration(savedUser);
 
         return createUserResponse(savedUser);
     }
@@ -35,6 +45,65 @@ public class UserService {
                 .phone(request.phone())
                 .password(passwordEncoder.encode(request.password()))
                 .build();
+    }
+
+    @Transactional(readOnly = true)
+    @Cacheable(value = "users", key = "#p0")
+    public UserResponse getUser(Long userId) {
+        User user = findUserById(userId);
+
+        return createUserResponse(user);
+    }
+
+    @Transactional
+    @CacheEvict(value = "users", key = "#p0")
+    public UserResponse updatePhone(Long userId, UpdatePhoneRequest request) {
+        User user = findUserById(userId);
+        user.setPhone(request.phone());
+
+        userEventPublisher.publishUserPhoneChanged(user);
+
+        return createUserResponse(user);
+    }
+
+    @Transactional
+    @CacheEvict(value = "users", key = "#p0")
+    public UserResponse updatePassword(Long userId, UpdatePasswordRequest request) {
+        User user = findUserById(userId);
+        user.setPassword(passwordEncoder.encode(request.password()));
+
+        userEventPublisher.publishUserPasswordChanged(user);
+
+        return createUserResponse(user);
+    }
+
+    @Transactional
+    @CacheEvict(value = "users", key = "#p0")
+    public UserResponse updateUsername(Long userId, UpdateUsernameRequest request) {
+        User user = findUserById(userId);
+        user.setUsername(request.username());
+
+        userEventPublisher.publishUserUsernameChanged(user);
+
+        return createUserResponse(user);
+    }
+
+    @Transactional
+    @CacheEvict(value = "users", key = "#p0")
+    public UserResponse updateEmail(Long userId, UpdateEmailRequest request) {
+        User user = findUserById(userId);
+        user.setEmail(request.email());
+
+        userEventPublisher.publishUserEmailChanged(user);
+
+        return createUserResponse(user);
+    }
+
+    public User findUserById(Long userId) {
+        return userRepository.findById(userId)
+                .orElseThrow(() -> new UserNotFoundException(
+                        String.format("User %d not found", userId)
+                ));
     }
 
     private UserResponse createUserResponse(User user) {
@@ -50,31 +119,43 @@ public class UserService {
                 .build();
     }
 
-    public UserResponse getUser(Long userId) {
-        User user = userRepository.findById(userId)
-                .orElseThrow(() -> new UserException(
-                        String.format("User with id %d not found", userId)
+    @Transactional(readOnly = true)
+    public List<UserExistenceDto> validateUserExist(List<Long> userIds) {
+        List<User> users = userRepository.findAllById(userIds);
+
+        Map<Long, User> userMap = users.stream()
+                .collect(Collectors.toMap(
+                        User::getId,
+                        Function.identity()
                 ));
 
-        return createUserResponse(user);
+        return userIds.stream()
+                .map(userId -> {
+                    User user = userMap.get(userId);
+
+                    boolean exists = user != null;
+                    boolean isActive = exists && user.getStatus().equals(UserStatus.ACTIVE);
+
+                    return UserExistenceDto.builder()
+                            .userId(userId)
+                            .exists(exists)
+                            .isActive(isActive)
+                            .build();
+                })
+                .toList();
     }
 
-    public UserResponse updateUser(Long userId, String updatedField, UserUpdateType type) {
-        User user = userRepository.findById(userId)
-                .orElseThrow(() -> new UserException(
-                        String.format("User with id %d not found", userId)
-                ));
+    @Transactional(readOnly = true)
+    public List<UserInfoDto> getUsersInfo(List<Long> userIds) {
+        List<User> users = userRepository.findAllById(userIds);
 
-        switch (type) {
-            case EMAIL -> user.setEmail(updatedField);
-            case PASSWORD -> user.setPassword(passwordEncoder.encode(updatedField));
-            case USERNAME -> user.setUsername(updatedField);
-            case PHONE -> user.setPhone(updatedField);
-        }
-
-        User savedUser = userRepository.save(user);
-        userEventPublisher.sendUserUpdatingToKafka(savedUser, type);
-        return createUserResponse(savedUser);
+        return users.stream()
+                .map(user -> UserInfoDto.builder()
+                        .userId(user.getId())
+                        .username(user.getUsername())
+                        .avatarUrl(user.getProfile().getAvatarUrl() != null ? user.getProfile().getAvatarUrl() : "")
+                        .build()
+                )
+                .toList();
     }
-
 }

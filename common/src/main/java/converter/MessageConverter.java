@@ -121,12 +121,12 @@ public class MessageConverter {
 
     public Message.ErrorResponse toGrpcResponse(ErrorResponse response) {
         Message.ErrorResponse.Builder builder = Message.ErrorResponse.newBuilder()
-                .setErrorCode(response.getErrorCode())
-                .setError(response.getError())
-                .setMessage(response.getError());
+                .setErrorCode(response.errorCode())
+                .setError(response.error())
+                .setMessage(response.error());
 
-        if (response.getTimestamp() != null) {
-            builder.setTimestamp(toTimestamp(response.getTimestamp()));
+        if (response.timestamp() != null) {
+            builder.setTimestamp(toTimestamp(response.timestamp()));
         }
 
         return builder.build();
@@ -158,5 +158,4 @@ public class MessageConverter {
                 .setNanos(instant.getNano())
                 .build();
     }
-
 }

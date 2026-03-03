@@ -1,6 +1,5 @@
 package messenger.sso.service.service;
 
-import dto.event.UserUpdatingEvent;
 import lombok.RequiredArgsConstructor;
 import dto.event.UserRegistrationEvent;
 import messenger.sso.service.domain.entity.SsoUser;
