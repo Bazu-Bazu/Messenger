@@ -10,5 +10,4 @@ import java.util.Optional;
 public interface SsoUserRepository extends JpaRepository<SsoUser, Long> {
 
     Optional<SsoUser> findByPhone(String phone);
-
 }

@@ -1,10 +1,11 @@
-package messenger.sso.service.jwt;
+package messenger.sso.service.security.jwt;
 
 import io.jsonwebtoken.Claims;
 import io.jsonwebtoken.Jwts;
 import io.jsonwebtoken.io.Decoders;
 import io.jsonwebtoken.security.Keys;
 import lombok.Getter;
+import messenger.sso.service.security.userDetails.CustomUserDetails;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.security.core.GrantedAuthority;
 import org.springframework.security.core.authority.SimpleGrantedAuthority;
@@ -140,5 +141,4 @@ public class JwtService {
 
         return Keys.hmacShaKeyFor(keyBytes);
     }
-
 }

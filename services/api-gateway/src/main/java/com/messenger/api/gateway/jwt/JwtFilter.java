@@ -67,7 +67,8 @@ public class JwtFilter implements GlobalFilter {
         String path = exchange.getRequest().getURI().getPath();
         HttpMethod method = exchange.getRequest().getMethod();
 
-        return path.startsWith("/auth")
+        return path.equals("/auth/login")
+                || path.equals("/auth/refresh")
                 || path.startsWith("/ws")
                 || (path.startsWith("/users") && HttpMethod.POST.equals(method))
                 || path.contains("/swagger-ui")

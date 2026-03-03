@@ -5,3 +5,5 @@ databaseChangeLog:
       file: db.migrations/V2_Create_refresh_tokens_table.sql
   - include:
       file: db.migrations/V3_Delete_revoke_at_column_in_refresh_tokens.sql
+  - include:
+      file: db.migrations/V4_Add_used_column_in_refresh_tokens.sql

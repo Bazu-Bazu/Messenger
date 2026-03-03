@@ -1,7 +1,7 @@
 package messenger.sso.service.config;
 
 import lombok.RequiredArgsConstructor;
-import messenger.sso.service.jwt.JwtFilter;
+import messenger.sso.service.security.jwt.JwtFilter;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
 import org.springframework.security.authentication.AuthenticationManager;
@@ -59,5 +59,4 @@ public class SecurityConfig {
     public AuthenticationManager authenticationManager(AuthenticationConfiguration configuration) throws Exception {
         return configuration.getAuthenticationManager();
     }
-
 }

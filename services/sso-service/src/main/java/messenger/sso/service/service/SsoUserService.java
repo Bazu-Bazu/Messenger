@@ -1,10 +1,9 @@
 package messenger.sso.service.service;
 
+import dto.event.UserEvent;
 import lombok.RequiredArgsConstructor;
-import dto.event.UserRegistrationEvent;
 import messenger.sso.service.domain.entity.SsoUser;
-import messenger.sso.service.exception.SsoUserException;
-import messenger.sso.service.exception.UserException;
+import messenger.sso.service.exception.SsoUserNotFoundException;
 import messenger.sso.service.domain.repository.SsoUserRepository;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
@@ -14,9 +13,10 @@ import org.springframework.transaction.annotation.Transactional;
 public class SsoUserService {
 
     private final SsoUserRepository ssoUserRepository;
+    private final RefreshTokenService refreshTokenService;
 
     @Transactional
-    public void createSsoUser(UserRegistrationEvent event) {
+    public void createSsoUser(UserEvent event) {
         SsoUser newUser = SsoUser.builder()
                 .id(event.id())
                 .username(event.username())
@@ -29,27 +29,50 @@ public class SsoUserService {
     }
 
     @Transactional
-    public void updateSsoUser(UserUpdatingEvent event) {
-        SsoUser user = ssoUserRepository.findById(event.id())
-                .orElseThrow(() -> new UserException(
-                        String.format("User with id %d not found", event.id())
-                ));
+    public void updatePhone(UserEvent event) {
+        SsoUser user = findSsoUserById(event.id());
 
-        switch (event.type()) {
-            case EMAIL -> user.setEmail(event.updatedField());
-            case PASSWORD -> user.setPassword(event.updatedField());
-            case USERNAME -> user.setUsername(event.updatedField());
-            case PHONE -> user.setPhone(event.updatedField());
-        }
+        user.setPhone(event.phone());
 
-        ssoUserRepository.save(user);
+        refreshTokenService.deleteAllByUserId(event.id());
     }
 
+    @Transactional
+    public void updatePassword(UserEvent event) {
+        SsoUser user = findSsoUserById(event.id());
+
+        user.setPassword(event.password());
+
+        refreshTokenService.deleteAllByUserId(event.id());
+    }
+
+    @Transactional
+    public void updateEmail(UserEvent event) {
+        SsoUser user = findSsoUserById(event.id());
+
+        user.setEmail(event.email());
+    }
+
+    @Transactional
+    public void updateUsername(UserEvent event) {
+        SsoUser user = findSsoUserById(event.id());
+
+        user.setUsername(event.username());
+    }
+
+    @Transactional(readOnly = true)
+    public SsoUser findSsoUserById(Long userId) {
+        return ssoUserRepository.findById(userId)
+                .orElseThrow(() -> new SsoUserNotFoundException(
+                        String.format("User %d not found", userId)
+                ));
+    }
+
+    @Transactional(readOnly = true)
     public SsoUser findSsoUserByPhone(String phone) {
         return ssoUserRepository.findByPhone(phone)
-                .orElseThrow(() -> new SsoUserException(
+                .orElseThrow(() -> new SsoUserNotFoundException(
                         String.format("User with phone %s not found", phone)
                 ));
     }
-
 }
