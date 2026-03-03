@@ -4,15 +4,13 @@ import jakarta.persistence.Column;
 import jakarta.persistence.Entity;
 import jakarta.persistence.Id;
 import jakarta.persistence.Table;
-import lombok.AllArgsConstructor;
-import lombok.Builder;
-import lombok.Data;
-import lombok.NoArgsConstructor;
+import lombok.*;
 
 @Entity
 @Table(name = "sso_users")
-@Data
 @Builder
+@Getter
+@Setter
 @NoArgsConstructor
 @AllArgsConstructor
 public class SsoUser {
@@ -23,7 +21,7 @@ public class SsoUser {
     @Column(nullable = false, unique = true, length = 25)
     private String username;
 
-    @Column(unique = true, nullable = false, length = 15)
+    @Column(nullable = false, unique = true, length = 15)
     private String phone;
 
     @Column(unique = true)
@@ -34,5 +32,4 @@ public class SsoUser {
 
     @Builder.Default
     private boolean enabled = true;
-
 }

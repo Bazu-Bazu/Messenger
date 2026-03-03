@@ -33,6 +33,12 @@ spring:
     consumer:
       group-id: sso-service-group
       auto-offset-reset: earliest
+      key-deserializer: org.apache.kafka.common.serialization.StringDeserializer
+      value-deserializer: org.springframework.kafka.support.serializer.JsonDeserializer
+      properties:
+        spring.json.trusted.packages: "dto.event,*"
+        spring.json.value.default.type: "dto.event.UserEvent"
+        spring.json.use.type.headers: false
 
 springdoc:
   api-docs:

@@ -1,4 +1,4 @@
-package messenger.sso.service.jwt;
+package messenger.sso.service.security.userDetails;
 
 import messenger.sso.service.domain.entity.SsoUser;
 import org.springframework.security.core.GrantedAuthority;
@@ -47,5 +47,4 @@ public record CustomUserDetails(SsoUser user) implements UserDetails {
     public boolean isEnabled() {
         return user.isEnabled();
     }
-
 }

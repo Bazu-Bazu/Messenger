@@ -1,17 +1,15 @@
 package messenger.sso.service.domain.entity;
 
 import jakarta.persistence.*;
-import lombok.AllArgsConstructor;
-import lombok.Builder;
-import lombok.Data;
-import lombok.NoArgsConstructor;
+import lombok.*;
 
 import java.time.Instant;
 
 @Entity
 @Table(name = "refresh_tokens")
-@Data
 @Builder
+@Getter
+@Setter
 @NoArgsConstructor
 @AllArgsConstructor
 public class RefreshToken {
@@ -31,7 +29,8 @@ public class RefreshToken {
     private Instant expiresAt;
 
     @Column(nullable = false)
-    private Instant createdAt;
+    @Builder.Default
+    private Instant createdAt = Instant.now();
 
     @Column(nullable = false)
     private String deviceInfo;
@@ -39,8 +38,11 @@ public class RefreshToken {
     @Column(nullable = false)
     private String ipAddress;
 
+    @Column(nullable = false)
+    @Builder.Default
+    private boolean used = false;
+
     public boolean isActive() {
         return !Instant.now().isAfter(expiresAt);
     }
-
 }
