@@ -17,5 +17,4 @@ public class PersonalChatServiceApplication {
     public static void main(String[] args) {
         SpringApplication.run(PersonalChatServiceApplication.class, args);
     }
-
 }

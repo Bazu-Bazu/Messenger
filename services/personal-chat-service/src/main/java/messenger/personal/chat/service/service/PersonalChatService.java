@@ -1,16 +1,12 @@
 package messenger.personal.chat.service.service;
 
-import exception.AuthorizationException;
 import lombok.RequiredArgsConstructor;
-import messenger.personal.chat.service.client.grpc.UserGrpcClient;
 import messenger.personal.chat.service.domain.entity.PersonalChat;
 import messenger.personal.chat.service.domain.repository.PersonalChatRepository;
 import messenger.personal.chat.service.dto.request.CreatePersonalChatRequest;
 import messenger.personal.chat.service.dto.response.PersonalChatResponse;
 import messenger.personal.chat.service.exception.PersonalChatNotFoundException;
-import org.springframework.cache.Cache;
-import org.springframework.cache.CacheManager;
-import org.springframework.cache.annotation.CacheEvict;
+import messenger.personal.chat.service.service.validator.UserValidator;
 import org.springframework.cache.annotation.Cacheable;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
@@ -24,8 +20,10 @@ import java.util.Optional;
 public class PersonalChatService {
 
     private final PersonalChatRepository personalChatRepository;
-    private final UserGrpcClient userGrpcClient;
-    private final CacheManager cacheManager;
+    private final PersonalChatCacheService personalChatCacheService;
+    private final UserValidator userValidator;
+
+    private static final String CACHE_VALUE = "userPersonalChats";
 
     @Transactional
     public PersonalChatResponse getOrCreatePersonalChat(Long user1Id, CreatePersonalChatRequest request) {
@@ -42,7 +40,7 @@ public class PersonalChatService {
 
     @Transactional
     public PersonalChatResponse createPersonalChat(Long user1Id, Long user2Id) {
-        userGrpcClient.validateUsersExist(List.of(user1Id, user2Id));
+        userValidator.validateUsersExist(List.of(user2Id));
 
         PersonalChat newChat = PersonalChat.builder()
                 .user1Id(user1Id)
@@ -51,23 +49,14 @@ public class PersonalChatService {
 
         PersonalChat savedChat = personalChatRepository.save(newChat);
 
-        evictUserChatsCache(user1Id);
-        evictUserChatsCache(user2Id);
+        personalChatCacheService.evictUsersChats(user1Id, user2Id);
 
         return createPersonalChatResponse(savedChat);
     }
 
-    private void evictUserChatsCache(Long userId) {
-        Cache cache = cacheManager.getCache("userPersonalChats");
-        if (cache != null) {
-            cache.evict(userId);
-        }
-    }
-
-    @Cacheable(value = "userPersonalChats", key = "#p0")
+    @Transactional(readOnly = true)
+    @Cacheable(value = CACHE_VALUE, key = "#p0")
     public List<PersonalChatResponse> getAllUserPersonalChats(Long userId) {
-        userGrpcClient.validateUsersExist(List.of(userId));
-
         List<PersonalChat> personalChats = personalChatRepository.findAllUserChats(userId);
 
         return personalChats.stream()
@@ -76,31 +65,46 @@ public class PersonalChatService {
     }
 
     @Transactional
-    @CacheEvict(value = "userPersonalChats", key = "#p0")
     public void deletePersonalChat(Long userId, Long chatId) {
-        userGrpcClient.validateUsersExist(List.of(userId));
+        PersonalChat chat = findPersonalChatById(chatId);
 
-        PersonalChat chat = personalChatRepository.findById(chatId)
-                .orElseThrow(() -> new PersonalChatNotFoundException(
-                        String.format("Personal chat with id %d not found", chatId)
-                ));
+        userValidator.validateUserHasRightsToTheChat(chat, userId);
 
-        validateUserHasRightsToTheChat(chat, userId);
+        Long user1Id = chat.getUser1Id();
+        Long user2Id = chat.getUser2Id();
 
         personalChatRepository.delete(chat);
+
+        personalChatCacheService.evictUsersChats(user1Id, user2Id);
     }
 
-    private void validateUserHasRightsToTheChat(PersonalChat chat, Long userId) {
-        if (!chat.getUser1Id().equals(userId) && !chat.getUser2Id().equals(userId)) {
-            throw new AuthorizationException(
-                    String.format("User %d has no rights to the chat %d", userId, chat.getId())
-            );
-        }
+    @Transactional(readOnly = true)
+    public PersonalChat findPersonalChatById(Long chatId) {
+        return personalChatRepository.findById(chatId)
+                .orElseThrow(() -> new PersonalChatNotFoundException(
+                        String.format("Personal %d not found", chatId)
+                ));
     }
 
     @Transactional
     public void updateLastActivity(Long chatId, Instant lastActivity) {
-        personalChatRepository.updateLastActivity(chatId, lastActivity);
+        PersonalChat chat = findPersonalChatById(chatId);
+        chat.setLastActivityAt(lastActivity);
+
+        Long user1Id = chat.getUser1Id();
+        Long user2Id = chat.getUser2Id();
+
+        personalChatCacheService.evictUsersChats(user1Id, user2Id);
+    }
+
+    @Transactional(readOnly = true)
+    public boolean isUserMember(Long chatId, Long userId) {
+        return personalChatRepository.existsMemberByChatIdAndUserId(chatId, userId);
+    }
+
+    @Transactional(readOnly = true)
+    public List<Long> getAllMembers(Long chatId) {
+        return personalChatRepository.findUserIdsByChatId(chatId);
     }
 
     private PersonalChatResponse createPersonalChatResponse(PersonalChat chat) {
@@ -112,5 +116,4 @@ public class PersonalChatService {
                 .createdAt(chat.getCreatedAt())
                 .build();
     }
-
 }

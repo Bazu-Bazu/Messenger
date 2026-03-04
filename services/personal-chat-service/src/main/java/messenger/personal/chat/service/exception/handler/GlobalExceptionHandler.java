@@ -1,48 +1,67 @@
 package messenger.personal.chat.service.exception.handler;
 
 import dto.response.ErrorResponse;
-import exception.AuthorizationException;
-import exception.UserIsNotActive;
-import exception.UserNotFoundException;
+import lombok.RequiredArgsConstructor;
+import messenger.personal.chat.service.exception.AuthorizationException;
+import messenger.personal.chat.service.exception.UserIsNotActive;
+import messenger.personal.chat.service.exception.UserNotFoundException;
 
-import lombok.extern.log4j.Log4j2;
 import messenger.personal.chat.service.exception.PersonalChatNotFoundException;
+import messenger.personal.chat.service.exception.mapper.ErrorMapper;
+import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
+import org.springframework.web.bind.MethodArgumentNotValidException;
 import org.springframework.web.bind.annotation.ExceptionHandler;
 import org.springframework.web.bind.annotation.RestControllerAdvice;
 
+import java.time.Instant;
+import java.util.stream.Collectors;
+
 @RestControllerAdvice
-@Log4j2
+@RequiredArgsConstructor
 public class GlobalExceptionHandler {
 
-    @ExceptionHandler(UserNotFoundException.class)
-    public ResponseEntity<ErrorResponse> handleUserNotFound(UserNotFoundException e) {
-        log.warn("User not found. Error: {}", e.getMessage());
-        return ResponseEntity.status(404).body(ErrorResponse.from(e));
+    private final ErrorMapper errorMapper;
+
+    @ExceptionHandler(MethodArgumentNotValidException.class)
+    public ResponseEntity<?> handleValidation(MethodArgumentNotValidException e) {
+        String message = e.getBindingResult()
+                .getFieldErrors()
+                .stream()
+                .map(error -> error.getField() + ": " + error.getDefaultMessage())
+                .collect(Collectors.joining("; "));
+
+        ErrorResponse response = ErrorResponse.builder()
+                .errorCode(400)
+                .error("ValidationError")
+                .message(message)
+                .timestamp(Instant.now())
+                .build();
+
+        return ResponseEntity.status(HttpStatus.BAD_REQUEST).body(response);
+    }
+
+    @ExceptionHandler({
+            PersonalChatNotFoundException.class,
+            UserNotFoundException.class
+    })
+    public ResponseEntity<ErrorResponse> handleNotFound(RuntimeException e) {
+        ErrorResponse response = errorMapper.from(e);
+
+        return ResponseEntity.status(HttpStatus.NOT_FOUND).body(response);
     }
 
     @ExceptionHandler(UserIsNotActive.class)
-    public ResponseEntity<ErrorResponse> handleUserIsNotActive(UserIsNotActive e) {
-        log.warn("User is not active. Error: {}", e.getMessage());
-        return ResponseEntity.status(409).body(ErrorResponse.from(e));
-    }
+    public ResponseEntity<ErrorResponse> handleFailedPrecondition(UserIsNotActive e) {
+        ErrorResponse response = errorMapper.from(e);
 
-    @ExceptionHandler(PersonalChatNotFoundException.class)
-    public ResponseEntity<ErrorResponse> handlePersonalChatNotFound(PersonalChatNotFoundException e) {
-        log.warn("Personal chat not found. Error: {}", e.getMessage());
-        return ResponseEntity.status(404).body(ErrorResponse.from(e));
+        return ResponseEntity.status(HttpStatus.NOT_FOUND).body(response);
     }
 
     @ExceptionHandler(AuthorizationException.class)
-    public ResponseEntity<ErrorResponse> handleAuthorization(AuthorizationException e) {
-        log.warn("The user doesn't have enough rights. Error: {}", e.getMessage());
-        return ResponseEntity.status(403).body(ErrorResponse.from(e));
-    }
+    public ResponseEntity<ErrorResponse> handleUnauthorized(AuthorizationException e) {
+        ErrorResponse response = errorMapper.from(e);
 
-    @ExceptionHandler(Exception.class)
-    public ResponseEntity<ErrorResponse> handleUnknown(Exception e) {
-        log.warn("Unexpected error {}", e.getMessage());
-        return ResponseEntity.status(500).body(ErrorResponse.from(e));
+        return ResponseEntity.status(HttpStatus.UNAUTHORIZED).body(response);
     }
-
 }
