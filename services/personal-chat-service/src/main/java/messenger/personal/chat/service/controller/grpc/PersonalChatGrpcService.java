@@ -2,7 +2,7 @@ package messenger.personal.chat.service.controller.grpc;
 
 import io.grpc.stub.StreamObserver;
 import lombok.RequiredArgsConstructor;
-import messenger.personal.chat.service.domain.repository.PersonalChatRepository;
+import messenger.personal.chat.service.service.PersonalChatService;
 import net.devh.boot.grpc.server.service.GrpcService;
 import personal_chat.PersonalChat;
 import personal_chat.PersonalChatServiceGrpc;
@@ -13,14 +13,14 @@ import java.util.List;
 @RequiredArgsConstructor
 public class PersonalChatGrpcService extends PersonalChatServiceGrpc.PersonalChatServiceImplBase {
 
-    private final PersonalChatRepository personalChatRepository;
+    private final PersonalChatService personalChatService;
 
     @Override
     public void validateUserIsMemberOfPersonalChat(
             PersonalChat.ValidateUserIsMemberOfPersonalChatRequest request,
             StreamObserver<PersonalChat.ValidateUserIsMemberOfPersonalChatResponse> responseObserver
     ) {
-        boolean memberExists = personalChatRepository.existsMemberByChatIdAndUserId(
+        boolean memberExists = personalChatService.isUserMember(
                 request.getChatId(),
                 request.getUserId()
         );
@@ -40,7 +40,7 @@ public class PersonalChatGrpcService extends PersonalChatServiceGrpc.PersonalCha
             PersonalChat.GetAllPersonalChatMembersRequest request,
             StreamObserver<PersonalChat.GetAllPersonalChatMembersResponse> responseObserver
     ) {
-        List<Long> memberIds = personalChatRepository.findUserIdsByChatId(request.getChatId());
+        List<Long> memberIds = personalChatService.getAllMembers(request.getChatId());
 
         var response = PersonalChat.GetAllPersonalChatMembersResponse.newBuilder()
                 .addAllUserId(memberIds)
@@ -49,5 +49,4 @@ public class PersonalChatGrpcService extends PersonalChatServiceGrpc.PersonalCha
         responseObserver.onNext(response);
         responseObserver.onCompleted();
     }
-
 }

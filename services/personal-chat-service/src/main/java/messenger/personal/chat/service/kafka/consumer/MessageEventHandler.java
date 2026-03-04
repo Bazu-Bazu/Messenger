@@ -1,4 +1,4 @@
-package messenger.personal.chat.service.controller.kafka;
+package messenger.personal.chat.service.kafka.consumer;
 
 import dto.event.MessageShortEvent;
 import lombok.RequiredArgsConstructor;
@@ -8,7 +8,7 @@ import org.springframework.stereotype.Component;
 
 @Component
 @RequiredArgsConstructor
-public class MessageEventConsumer {
+public class MessageEventHandler {
 
     private final PersonalChatService personalChatService;
 
@@ -16,5 +16,4 @@ public class MessageEventConsumer {
     public void updatePersonalChatLastActivity(MessageShortEvent event) {
         personalChatService.updateLastActivity(event.chatId(), event.createdAt());
     }
-
 }

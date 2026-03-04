@@ -1,18 +1,15 @@
 package messenger.personal.chat.service.domain.entity;
 
 import jakarta.persistence.*;
-import lombok.AllArgsConstructor;
-import lombok.Builder;
-import lombok.Data;
-import lombok.NoArgsConstructor;
-import org.hibernate.annotations.CreationTimestamp;
+import lombok.*;
 
 import java.time.Instant;
 
 @Entity
 @Table(name = "personal_chats")
-@Data
 @Builder
+@Getter
+@Setter
 @NoArgsConstructor
 @AllArgsConstructor
 public class PersonalChat {
@@ -27,12 +24,11 @@ public class PersonalChat {
     @Column(nullable = false)
     Long user2Id;
 
-    @CreationTimestamp
     @Column(nullable = false)
-    private Instant createdAt;
+    @Builder.Default
+    private Instant createdAt = Instant.now();
 
     @Column(nullable = false)
     @Builder.Default
     private Instant lastActivityAt = Instant.now();
-
 }
