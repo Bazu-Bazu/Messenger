@@ -1,0 +1,65 @@
+pipeline {
+    agent any
+
+    environment {
+        DOCKER_REGISTRY = "docker.io/bazubazu"
+    }
+
+    stages {
+        stage('Checkout') {
+            steps {
+                echo "Checkout repository"
+                checkout scm
+            }
+        }
+
+        stage('Build proto & common') {
+            steps {
+                dir('proto') {
+                    sh 'mvn clean install -DskipTests'
+                }
+                dir('common') {
+                    sh 'mvn clean install -DskipTests'
+                }
+            }
+        }
+
+        stage('Build Services') {
+            steps {
+                script {
+                    def services = ['api-gateway', 'personal-chat-service', 'sso-service', 'user-service']
+
+                    for (service in services) {
+                        echo "Building service: ${service}"
+                        dir("services/${service}") {
+                            sh 'mvn clean install'
+                        }
+                    }
+                }
+            }
+        }
+
+        stage('Build Docker Images') {
+            steps {
+                script {
+                    def services = ['api-gateway', 'personal-chat-service', 'sso-service', 'user-service']
+
+                    withCredentials([usernamePassword(credentialsId: 'docker-hub-credentials',
+                                                      usernameVariable: 'DOCKER_USER',
+                                                      passwordVariable: 'DOCKER_PASS')]) {
+
+                        sh "echo $DOCKER_PASS | docker login docker.io -u $DOCKER_USER --password-stdin"
+
+                        for (service in services) {
+                            echo "Building Docker image for: ${service}"
+                            dir("services/${service}") {
+                                sh "docker build -t ${DOCKER_REGISTRY}/${service}:latest ."
+                                sh "docker push ${DOCKER_REGISTRY}/${service}:latest"
+                            }
+                        }
+                    }
+                }
+            }
+        }
+    }
+}
