@@ -245,6 +245,20 @@ services:
     ports:
       - "8086:8086"
 
+  jenkins:
+    build:
+      context: ./jenkins
+      dockerfile: Dockerfile
+    container_name: jenkins
+    restart: unless-stopped
+    user: root
+    ports:
+      - "8888:8080"
+      - "50000:50000"
+    volumes:
+      - ./jenkins/jenkins_home:/var/jenkins_home
+      - /var/run/docker.sock:/var/run/docker.sock
+
 volumes:
   postgres_user:
   postgres_sso:
@@ -252,3 +266,4 @@ volumes:
   postgres_group-chat:
   postgres_message:
   redis:
+  jenkins_home:
