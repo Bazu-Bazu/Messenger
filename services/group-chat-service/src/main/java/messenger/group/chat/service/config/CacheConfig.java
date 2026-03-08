@@ -1,6 +1,7 @@
 package messenger.group.chat.service.config;
 
 import com.fasterxml.jackson.databind.ObjectMapper;
+import com.fasterxml.jackson.databind.SerializationFeature;
 import com.fasterxml.jackson.datatype.jsr310.JavaTimeModule;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.cache.annotation.EnableCaching;
@@ -22,20 +23,22 @@ public class CacheConfig {
     private int redisTtl;
 
     @Bean
-    public RedisCacheManager cacheManager(RedisConnectionFactory connectionFactory, ObjectMapper objectMapper) {
-        ObjectMapper redisMapper = objectMapper.copy();
-        redisMapper.registerModule(new JavaTimeModule());
-        redisMapper.disable(com.fasterxml.jackson.databind.SerializationFeature.WRITE_DATES_AS_TIMESTAMPS);
+    public RedisCacheManager cacheManager(RedisConnectionFactory connectionFactory) {
+        ObjectMapper objectMapper = new ObjectMapper();
+        objectMapper.registerModule(new JavaTimeModule());
+        objectMapper.disable(SerializationFeature.WRITE_DATES_AS_TIMESTAMPS);
+
+        GenericJackson2JsonRedisSerializer serializer =
+                new GenericJackson2JsonRedisSerializer(objectMapper);
 
         RedisCacheConfiguration config = RedisCacheConfiguration.defaultCacheConfig()
-                .entryTtl(Duration.ofMinutes(redisTtl))
-                .disableCachingNullValues()
-                .serializeValuesWith(RedisSerializationContext.SerializationPair
-                        .fromSerializer(new GenericJackson2JsonRedisSerializer(redisMapper)));
+                .serializeValuesWith(
+                        RedisSerializationContext.SerializationPair.fromSerializer(serializer)
+                )
+                .entryTtl(Duration.ofMinutes(redisTtl));
 
         return RedisCacheManager.builder(connectionFactory)
                 .cacheDefaults(config)
                 .build();
     }
-
 }

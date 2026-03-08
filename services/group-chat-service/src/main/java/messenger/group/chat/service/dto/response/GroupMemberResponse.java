@@ -1,13 +1,16 @@
 package messenger.group.chat.service.dto.response;
 
-import dto.response.UserInfo;
-import lombok.Builder;
+import lombok.*;
 import messenger.group.chat.service.domain.enums.GroupMemberRole;
+import messenger.group.chat.service.dto.UserInfoDto;
 
 @Builder
-public record GroupMemberResponse(
-        Long id,
-        String customNickname,
-        GroupMemberRole role,
-        UserInfo userInfo
-) {}
+@Data
+@NoArgsConstructor
+@AllArgsConstructor
+public class GroupMemberResponse {
+
+    private Long id;
+    private GroupMemberRole role;
+    private UserInfoDto userInfo;
+}

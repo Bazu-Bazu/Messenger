@@ -2,6 +2,7 @@ package messenger.group.chat.service.domain.repository;
 
 import messenger.group.chat.service.domain.entity.GroupChatMember;
 import messenger.group.chat.service.domain.enums.GroupMemberRole;
+import org.springframework.data.domain.Pageable;
 import org.springframework.data.jpa.repository.JpaRepository;
 import org.springframework.data.jpa.repository.Modifying;
 import org.springframework.data.jpa.repository.Query;
@@ -13,7 +14,7 @@ import java.util.Optional;
 import java.util.Set;
 
 @Repository
-public interface GroupChatMemberRepository extends JpaRepository<GroupChatMember, Long> {
+public interface GroupMemberRepository extends JpaRepository<GroupChatMember, Long> {
 
     @Query("SELECT DISTINCT gm.userId " +
            "FROM GroupChatMember gm " +
@@ -23,26 +24,15 @@ public interface GroupChatMemberRepository extends JpaRepository<GroupChatMember
 
     Optional<GroupChatMember> findByGroupIdAndUserId(Long groupId, Long userId);
 
-    @Query("SELECT gm.role " +
-           "FROM GroupChatMember gm " +
-           "WHERE gm.userId IN :userIds " +
-           "AND gm.group.id = :groupId")
-    Set<GroupMemberRole> findRolesByUserIdsAndGroupId(
-            @Param("userIds") List<Long> userIds,
-            @Param("groupId") Long groupId
-    );
-
-    @Modifying
+    @Modifying(clearAutomatically = true, flushAutomatically = true)
     @Query("DELETE FROM GroupChatMember gm " +
            "WHERE gm.group.id = :groupId " +
            "AND gm.userId IN :userIds")
     void deleteByUserIdsAndGroupId(@Param("userIds") List<Long> userIds, @Param("groupId") Long groupId);
 
-    List<GroupChatMember> findAllByGroupId(Long groupId);
+    List<GroupChatMember> findAllByGroupId(Long groupId, Pageable pageable);
 
-    boolean existsByGroupIdAndUserId(Long groupId, Long userId);
-
-    @Modifying
+    @Modifying(clearAutomatically = true, flushAutomatically = true)
     @Query("UPDATE GroupChatMember gm " +
            "SET gm.role = :role " +
            "WHERE gm.group.id = :groupId " +
@@ -60,5 +50,4 @@ public interface GroupChatMemberRepository extends JpaRepository<GroupChatMember
             @Param("userIds") List<Long> userIds,
             @Param("groupId") Long groupId
     );
-
 }

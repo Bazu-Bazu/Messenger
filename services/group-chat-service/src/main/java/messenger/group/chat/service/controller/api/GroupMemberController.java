@@ -8,7 +8,9 @@ import messenger.group.chat.service.dto.request.AddNewMembersRequest;
 import messenger.group.chat.service.dto.request.RemoveMembersRequest;
 import messenger.group.chat.service.dto.request.SetRolesRequest;
 import messenger.group.chat.service.dto.response.GroupMemberResponse;
-import messenger.group.chat.service.service.GroupChatService;
+import messenger.group.chat.service.service.GroupService;
+import org.springframework.data.domain.Pageable;
+import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
@@ -18,24 +20,24 @@ import java.util.List;
 @RequestMapping("/chats/group/member")
 @SecurityRequirement(name = "bearerAuth")
 @RequiredArgsConstructor
-public class GroupChatMemberController {
+public class GroupMemberController {
 
-    private final GroupChatService groupChatService;
+    private final GroupService groupChatService;
 
     @PostMapping("/{groupId}")
-    public ResponseEntity<?> addNewMembers(
+    public ResponseEntity<List<GroupMemberResponse>> addNewMembers(
             @Parameter(hidden = true)
             @RequestHeader("X-User-Id") Long invitorId,
             @PathVariable("groupId") Long groupId,
             @RequestBody @Valid AddNewMembersRequest request
     ) {
-        groupChatService.addNewMembers(invitorId, groupId, request);
+        List<GroupMemberResponse> responses = groupChatService.addNewMembers(invitorId, groupId, request);
 
-        return ResponseEntity.status(200).body(null);
+        return ResponseEntity.status(HttpStatus.CREATED).body(responses);
     }
 
     @DeleteMapping("/{groupId}")
-    public ResponseEntity<?> removeMembers(
+    public ResponseEntity<Void> removeMembers(
             @Parameter(hidden = true)
             @RequestHeader("X-User-Id") Long removerId,
             @PathVariable("groupId") Long groupId,
@@ -43,18 +45,19 @@ public class GroupChatMemberController {
     ) {
         groupChatService.removeMembers(removerId, groupId, request);
 
-        return ResponseEntity.status(200).body(null);
+        return ResponseEntity.noContent().build();
     }
 
     @GetMapping("/{groupId}")
-    public ResponseEntity<?> getMembers(
+    public ResponseEntity<List<GroupMemberResponse>> getMembers(
             @Parameter(hidden = true)
             @RequestHeader("X-User-Id") Long userId,
-            @PathVariable("groupId") Long groupId
+            @PathVariable("groupId") Long groupId,
+            Pageable pageable
     ) {
-        List<GroupMemberResponse> responses = groupChatService.getGroupMembers(userId, groupId);
+        List<GroupMemberResponse> responses = groupChatService.getGroupMembers(userId, groupId, pageable);
 
-        return ResponseEntity.status(200).body(responses);
+        return ResponseEntity.status(HttpStatus.OK).body(responses);
     }
 
     @PatchMapping("/{groupId}")
@@ -66,7 +69,6 @@ public class GroupChatMemberController {
     {
         List<GroupMemberResponse> responses = groupChatService.setRoles(setterId, groupId, request);
 
-        return ResponseEntity.status(200).body(responses);
+        return ResponseEntity.status(HttpStatus.OK).body(responses);
     }
-
 }

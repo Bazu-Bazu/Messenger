@@ -11,18 +11,17 @@ import java.time.Instant;
 import java.util.List;
 
 @Repository
-public interface GroupChatRepository extends JpaRepository<GroupChat, Long> {
+public interface GroupRepository extends JpaRepository<GroupChat, Long> {
 
     @Query("SELECT gc FROM GroupChat gc " +
            "JOIN gc.members gm " +
            "WHERE gm.userId = :userId")
     List<GroupChat> findAllUserChatIds(@Param("userId") Long userId);
 
-    @Modifying
+    @Modifying(clearAutomatically = true, flushAutomatically = true)
     @Query("UPDATE GroupChat gc " +
             "SET gc.lastActivityAt = :lastActivityAt " +
             "WHERE gc.id = :chatId"
     )
     void updateLastActivity(@Param("chatId") Long chatId, @Param("lastActivityAt") Instant lastActivityAt);
-
 }

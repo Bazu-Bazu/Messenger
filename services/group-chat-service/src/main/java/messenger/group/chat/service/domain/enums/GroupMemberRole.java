@@ -25,16 +25,19 @@ public enum GroupMemberRole {
         return this.priority >= ADMIN.priority;
     }
 
-    public boolean canSetRole() {
-        return this.priority >= ADMIN.priority;
+    public boolean canSetRole(GroupMemberRole other) {
+        return this.priority >= ADMIN.priority && this.priority > other.priority;
     }
 
     public boolean canSendMessage() {
         return this.priority >= MEMBER.priority;
     }
 
+    public boolean canDeleteGroup() {
+        return this.priority >= OWNER.priority;
+    }
+
     public boolean canManage(GroupMemberRole other) {
         return this.priority > other.priority;
     }
-
 }

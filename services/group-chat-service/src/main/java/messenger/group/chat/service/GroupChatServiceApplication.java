@@ -17,5 +17,4 @@ public class GroupChatServiceApplication {
     public static void main(String[] args) {
         SpringApplication.run(GroupChatServiceApplication.class, args);
     }
-
 }
