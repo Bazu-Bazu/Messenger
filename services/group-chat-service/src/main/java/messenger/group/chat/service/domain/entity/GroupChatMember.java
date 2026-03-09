@@ -1,19 +1,16 @@
 package messenger.group.chat.service.domain.entity;
 
 import jakarta.persistence.*;
-import lombok.AllArgsConstructor;
-import lombok.Builder;
-import lombok.Data;
-import lombok.NoArgsConstructor;
+import lombok.*;
 import messenger.group.chat.service.domain.enums.GroupMemberRole;
-import org.hibernate.annotations.CreationTimestamp;
 
 import java.time.LocalDateTime;
 
 @Entity
 @Table(name = "group_chat_members")
-@Data
 @Builder
+@Getter
+@Setter
 @NoArgsConstructor
 @AllArgsConstructor
 public class GroupChatMember {
@@ -31,13 +28,12 @@ public class GroupChatMember {
 
     @Enumerated(EnumType.STRING)
     @Column(nullable = false)
-    private GroupMemberRole role;
+    @Builder.Default
+    private GroupMemberRole role = GroupMemberRole.MEMBER;
 
-    @CreationTimestamp
-    private LocalDateTime joinedAt;
-
-    @Column(length = 25)
-    private String customNickname;
+    @Column(nullable = false)
+    @Builder.Default
+    private LocalDateTime joinedAt = LocalDateTime.now();
 
     public boolean canSendMessage() {
         return role.canSendMessage();
@@ -55,12 +51,15 @@ public class GroupChatMember {
         return role.canChangeGroupInfo();
     }
 
-    public boolean canSetRole() {
-        return role.canSetRole();
+    public boolean canSetRole(GroupMemberRole role) {
+        return this.role.canSetRole(role);
+    }
+
+    public boolean canDeleteGroup() {
+        return role.canDeleteGroup();
     }
 
     public boolean canManage(GroupMemberRole role) {
         return this.role.canManage(role);
     }
-
 }

@@ -1,0 +1,2 @@
+ALTER TABLE group_chat_members
+DROP COLUMN custom_nickname;
