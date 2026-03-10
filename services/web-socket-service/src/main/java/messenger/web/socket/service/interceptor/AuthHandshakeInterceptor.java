@@ -57,5 +57,4 @@ public class AuthHandshakeInterceptor implements HandshakeInterceptor {
             WebSocketHandler wsHandler,
             Exception exception
     ) {}
-
 }

@@ -5,6 +5,7 @@ import jakarta.validation.constraints.NotNull;
 import enums.ChatType;
 
 public record GetMessagesRequest(
+
         @NotNull
         Long chatId,
 

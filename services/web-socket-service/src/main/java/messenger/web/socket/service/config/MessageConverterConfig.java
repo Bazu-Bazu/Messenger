@@ -11,5 +11,4 @@ public class MessageConverterConfig {
     public MessageConverter getMessageConverter() {
         return new MessageConverter();
     }
-
 }

@@ -2,14 +2,14 @@ package messenger.web.socket.service.handler;
 
 import com.fasterxml.jackson.databind.JsonNode;
 import com.fasterxml.jackson.databind.ObjectMapper;
-import dto.request.EditMessageRequest;
 import dto.request.MarkMessageAsReadRequest;
 import dto.request.SendMessageRequest;
 import dto.response.ErrorResponse;
 import dto.result.MessageResult;
-import exception.AuthorizationException;
 import lombok.RequiredArgsConstructor;
 import messenger.web.socket.service.client.grpc.MessageGrpcClient;
+import messenger.web.socket.service.exception.AuthorizationException;
+import messenger.web.socket.service.exception.mapper.ErrorMapper;
 import messenger.web.socket.service.service.SessionManagerService;
 import org.springframework.stereotype.Component;
 import org.springframework.web.socket.CloseStatus;
@@ -27,6 +27,7 @@ public class ChatWebSocketHandler extends TextWebSocketHandler {
     private final SessionManagerService sessionManagerService;
     private final MessageGrpcClient messageGrpcClient;
     private final ObjectMapper objectMapper;
+    private final ErrorMapper errorMapper;
 
     @Override
     public void afterConnectionEstablished(WebSocketSession session) {
@@ -49,7 +50,6 @@ public class ChatWebSocketHandler extends TextWebSocketHandler {
 
         MessageResult result = switch (action) {
             case "send" -> handleSend(root, userId);
-            case "edit" -> handleEdit(root, userId);
             case "read" -> handleRead(root, userId);
             default -> MessageResult.error(
                     ErrorResponse.builder()
@@ -71,18 +71,13 @@ public class ChatWebSocketHandler extends TextWebSocketHandler {
         return messageGrpcClient.sendMessage(request, userId);
     }
 
-    private MessageResult handleEdit(JsonNode payload, Long userId) {
-        EditMessageRequest request = objectMapper.convertValue(payload, EditMessageRequest.class);
-        return messageGrpcClient.editMessage(request, userId);
-    }
-
     private MessageResult handleRead(JsonNode payload, Long userId) {
         MarkMessageAsReadRequest request = objectMapper.convertValue(payload, MarkMessageAsReadRequest.class);
         return messageGrpcClient.markAsRead(request, userId);
     }
 
     private void sendError(WebSocketSession session, Exception e) throws IOException {
-        MessageResult error = MessageResult.error(ErrorResponse.from(e));
+        MessageResult error = MessageResult.error(errorMapper.from(e));
         session.sendMessage(
                 new TextMessage(objectMapper.writeValueAsString(error))
         );
@@ -92,5 +87,4 @@ public class ChatWebSocketHandler extends TextWebSocketHandler {
     public void afterConnectionClosed(WebSocketSession session, CloseStatus status) {
         sessionManagerService.removeSession(session.getId());
     }
-
 }

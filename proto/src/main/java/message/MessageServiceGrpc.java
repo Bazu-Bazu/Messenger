@@ -46,37 +46,6 @@ public final class MessageServiceGrpc {
     return getSendMessageMethod;
   }
 
-  private static volatile io.grpc.MethodDescriptor<message.Message.EditMessageRequest,
-      message.Message.MessageResult> getEditMessageMethod;
-
-  @io.grpc.stub.annotations.RpcMethod(
-      fullMethodName = SERVICE_NAME + '/' + "EditMessage",
-      requestType = message.Message.EditMessageRequest.class,
-      responseType = message.Message.MessageResult.class,
-      methodType = io.grpc.MethodDescriptor.MethodType.UNARY)
-  public static io.grpc.MethodDescriptor<message.Message.EditMessageRequest,
-      message.Message.MessageResult> getEditMessageMethod() {
-    io.grpc.MethodDescriptor<message.Message.EditMessageRequest, message.Message.MessageResult> getEditMessageMethod;
-    if ((getEditMessageMethod = MessageServiceGrpc.getEditMessageMethod) == null) {
-      synchronized (MessageServiceGrpc.class) {
-        if ((getEditMessageMethod = MessageServiceGrpc.getEditMessageMethod) == null) {
-          MessageServiceGrpc.getEditMessageMethod = getEditMessageMethod =
-              io.grpc.MethodDescriptor.<message.Message.EditMessageRequest, message.Message.MessageResult>newBuilder()
-              .setType(io.grpc.MethodDescriptor.MethodType.UNARY)
-              .setFullMethodName(generateFullMethodName(SERVICE_NAME, "EditMessage"))
-              .setSampledToLocalTracing(true)
-              .setRequestMarshaller(io.grpc.protobuf.ProtoUtils.marshaller(
-                  message.Message.EditMessageRequest.getDefaultInstance()))
-              .setResponseMarshaller(io.grpc.protobuf.ProtoUtils.marshaller(
-                  message.Message.MessageResult.getDefaultInstance()))
-              .setSchemaDescriptor(new MessageServiceMethodDescriptorSupplier("EditMessage"))
-              .build();
-        }
-      }
-    }
-    return getEditMessageMethod;
-  }
-
   private static volatile io.grpc.MethodDescriptor<message.Message.MarkAsReadRequest,
       message.Message.MessageResult> getMarkAsReadMethod;
 
@@ -165,13 +134,6 @@ public final class MessageServiceGrpc {
 
     /**
      */
-    default void editMessage(message.Message.EditMessageRequest request,
-        io.grpc.stub.StreamObserver<message.Message.MessageResult> responseObserver) {
-      io.grpc.stub.ServerCalls.asyncUnimplementedUnaryCall(getEditMessageMethod(), responseObserver);
-    }
-
-    /**
-     */
     default void markAsRead(message.Message.MarkAsReadRequest request,
         io.grpc.stub.StreamObserver<message.Message.MessageResult> responseObserver) {
       io.grpc.stub.ServerCalls.asyncUnimplementedUnaryCall(getMarkAsReadMethod(), responseObserver);
@@ -215,14 +177,6 @@ public final class MessageServiceGrpc {
 
     /**
      */
-    public void editMessage(message.Message.EditMessageRequest request,
-        io.grpc.stub.StreamObserver<message.Message.MessageResult> responseObserver) {
-      io.grpc.stub.ClientCalls.asyncUnaryCall(
-          getChannel().newCall(getEditMessageMethod(), getCallOptions()), request, responseObserver);
-    }
-
-    /**
-     */
     public void markAsRead(message.Message.MarkAsReadRequest request,
         io.grpc.stub.StreamObserver<message.Message.MessageResult> responseObserver) {
       io.grpc.stub.ClientCalls.asyncUnaryCall(
@@ -251,13 +205,6 @@ public final class MessageServiceGrpc {
     public message.Message.MessageResult sendMessage(message.Message.SendMessageRequest request) {
       return io.grpc.stub.ClientCalls.blockingUnaryCall(
           getChannel(), getSendMessageMethod(), getCallOptions(), request);
-    }
-
-    /**
-     */
-    public message.Message.MessageResult editMessage(message.Message.EditMessageRequest request) {
-      return io.grpc.stub.ClientCalls.blockingUnaryCall(
-          getChannel(), getEditMessageMethod(), getCallOptions(), request);
     }
 
     /**
@@ -294,14 +241,6 @@ public final class MessageServiceGrpc {
 
     /**
      */
-    public com.google.common.util.concurrent.ListenableFuture<message.Message.MessageResult> editMessage(
-        message.Message.EditMessageRequest request) {
-      return io.grpc.stub.ClientCalls.futureUnaryCall(
-          getChannel().newCall(getEditMessageMethod(), getCallOptions()), request);
-    }
-
-    /**
-     */
     public com.google.common.util.concurrent.ListenableFuture<message.Message.MessageResult> markAsRead(
         message.Message.MarkAsReadRequest request) {
       return io.grpc.stub.ClientCalls.futureUnaryCall(
@@ -310,8 +249,7 @@ public final class MessageServiceGrpc {
   }
 
   private static final int METHODID_SEND_MESSAGE = 0;
-  private static final int METHODID_EDIT_MESSAGE = 1;
-  private static final int METHODID_MARK_AS_READ = 2;
+  private static final int METHODID_MARK_AS_READ = 1;
 
   private static final class MethodHandlers<Req, Resp> implements
       io.grpc.stub.ServerCalls.UnaryMethod<Req, Resp>,
@@ -332,10 +270,6 @@ public final class MessageServiceGrpc {
       switch (methodId) {
         case METHODID_SEND_MESSAGE:
           serviceImpl.sendMessage((message.Message.SendMessageRequest) request,
-              (io.grpc.stub.StreamObserver<message.Message.MessageResult>) responseObserver);
-          break;
-        case METHODID_EDIT_MESSAGE:
-          serviceImpl.editMessage((message.Message.EditMessageRequest) request,
               (io.grpc.stub.StreamObserver<message.Message.MessageResult>) responseObserver);
           break;
         case METHODID_MARK_AS_READ:
@@ -367,13 +301,6 @@ public final class MessageServiceGrpc {
               message.Message.SendMessageRequest,
               message.Message.MessageResult>(
                 service, METHODID_SEND_MESSAGE)))
-        .addMethod(
-          getEditMessageMethod(),
-          io.grpc.stub.ServerCalls.asyncUnaryCall(
-            new MethodHandlers<
-              message.Message.EditMessageRequest,
-              message.Message.MessageResult>(
-                service, METHODID_EDIT_MESSAGE)))
         .addMethod(
           getMarkAsReadMethod(),
           io.grpc.stub.ServerCalls.asyncUnaryCall(
@@ -430,7 +357,6 @@ public final class MessageServiceGrpc {
           serviceDescriptor = result = io.grpc.ServiceDescriptor.newBuilder(SERVICE_NAME)
               .setSchemaDescriptor(new MessageServiceFileDescriptorSupplier())
               .addMethod(getSendMessageMethod())
-              .addMethod(getEditMessageMethod())
               .addMethod(getMarkAsReadMethod())
               .build();
         }

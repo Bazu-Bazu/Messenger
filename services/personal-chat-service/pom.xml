@@ -162,12 +162,6 @@
             <artifactId>spring-security-test</artifactId>
             <scope>test</scope>
         </dependency>
-        <dependency>
-            <groupId>org.checkerframework</groupId>
-            <artifactId>checker-qual</artifactId>
-            <version>3.49.3</version>
-            <scope>test</scope>
-        </dependency>
     </dependencies>
 
     <build>

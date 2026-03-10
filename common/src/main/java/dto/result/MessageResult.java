@@ -4,6 +4,7 @@ import dto.response.ErrorResponse;
 import dto.response.MessageResponse;
 
 public record MessageResult(
+
         MessageResponse success,
         ErrorResponse error,
         boolean isSuccess
@@ -16,5 +17,4 @@ public record MessageResult(
     public static MessageResult error(ErrorResponse response) {
         return new MessageResult(null, response, false);
     }
-
 }

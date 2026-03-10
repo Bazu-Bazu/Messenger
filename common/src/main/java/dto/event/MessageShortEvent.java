@@ -7,6 +7,7 @@ import java.time.Instant;
 
 @Builder
 public record MessageShortEvent(
+
         Long id,
         Long chatId,
         ChatType chatType,

@@ -8,6 +8,7 @@ import java.time.Instant;
 
 @Builder
 public record MessageResponse (
+
          Long id,
          Long chatId,
          ChatType chatType,
@@ -15,6 +16,5 @@ public record MessageResponse (
          Long senderId,
          MessageType messageType,
          Instant createdAt,
-         Instant editedAt,
          Instant readAt
 ) {}

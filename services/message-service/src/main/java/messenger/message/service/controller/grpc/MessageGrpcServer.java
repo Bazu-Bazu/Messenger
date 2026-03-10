@@ -1,7 +1,6 @@
 package messenger.message.service.controller.grpc;
 
 import converter.MessageConverter;
-import dto.request.EditMessageRequest;
 import dto.request.MarkMessageAsReadRequest;
 import dto.request.SendMessageRequest;
 import dto.response.ErrorResponse;
@@ -10,6 +9,7 @@ import io.grpc.stub.StreamObserver;
 import lombok.RequiredArgsConstructor;
 import message.Message;
 import message.MessageServiceGrpc;
+import messenger.message.service.exception.mapper.ErrorMapper;
 import messenger.message.service.service.MessageService;
 import net.devh.boot.grpc.server.service.GrpcService;
 
@@ -19,6 +19,7 @@ public class MessageGrpcServer extends MessageServiceGrpc.MessageServiceImplBase
 
     private final MessageService messageService;
     private final MessageConverter messageConverter;
+    private final ErrorMapper errorMapper;
 
     @Override
     public void sendMessage(
@@ -30,22 +31,6 @@ public class MessageGrpcServer extends MessageServiceGrpc.MessageServiceImplBase
             Long senderId = grpcRequest.getSenderId();
 
             MessageResponse messageResponse = messageService.sendMessage(request, senderId);
-            sendSuccess(messageResponse, responseObserver);
-        } catch (Exception e) {
-            sendError(e, responseObserver);
-        }
-    }
-
-    @Override
-    public void editMessage(
-            Message.EditMessageRequest grpcRequest,
-            StreamObserver<Message.MessageResult> responseObserver
-    ) {
-        try {
-            EditMessageRequest request = messageConverter.fromGrpcRequest(grpcRequest);
-            Long editorId = grpcRequest.getEditorId();
-
-            MessageResponse messageResponse = messageService.editMessage(request, editorId);
             sendSuccess(messageResponse, responseObserver);
         } catch (Exception e) {
             sendError(e, responseObserver);
@@ -85,7 +70,7 @@ public class MessageGrpcServer extends MessageServiceGrpc.MessageServiceImplBase
             Exception e,
             StreamObserver<Message.MessageResult> responseObserver
     ) {
-        ErrorResponse errorResponse = ErrorResponse.from(e);
+        ErrorResponse errorResponse = errorMapper.from(e);
         Message.ErrorResponse grpcErrorResponse = messageConverter.toGrpcResponse(errorResponse);
         Message.MessageResult grpcMessageResult = Message.MessageResult.newBuilder()
                 .setError(grpcErrorResponse)
@@ -94,5 +79,4 @@ public class MessageGrpcServer extends MessageServiceGrpc.MessageServiceImplBase
         responseObserver.onNext(grpcMessageResult);
         responseObserver.onCompleted();
     }
-
 }

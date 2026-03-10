@@ -27,7 +27,7 @@ pipeline {
         stage('Build Services') {
             steps {
                 script {
-                    def services = ['api-gateway', 'sso-service', 'user-service', 'personal-chat-service', 'group-chat-service']
+                    def services = ['api-gateway', 'sso-service', 'user-service', 'personal-chat-service', 'group-chat-service', 'message-service', 'web-socket-service']
 
                     for (service in services) {
                         echo "Building service: ${service}"
@@ -42,7 +42,7 @@ pipeline {
         stage('Build Docker Images') {
             steps {
                 script {
-                    def services = ['api-gateway', 'sso-service', 'user-service', 'personal-chat-service', 'group-chat-service']
+                    def services = ['api-gateway', 'sso-service', 'user-service', 'personal-chat-service', 'group-chat-service', 'message-service', 'web-socket-service']
 
                     withCredentials([usernamePassword(credentialsId: 'docker-hub-credentials',
                                                       usernameVariable: 'DOCKER_USER',

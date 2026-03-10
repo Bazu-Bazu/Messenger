@@ -4,15 +4,24 @@ import messenger.message.service.domain.entity.Message;
 import enums.ChatType;
 import org.springframework.data.domain.Pageable;
 import org.springframework.data.jpa.repository.JpaRepository;
+import org.springframework.data.jpa.repository.Modifying;
+import org.springframework.data.jpa.repository.Query;
 import org.springframework.stereotype.Repository;
 
+import java.time.Instant;
 import java.util.List;
-import java.util.Optional;
 
 @Repository
 public interface MessageRepository extends JpaRepository<Message, Long> {
 
     List<Message> findByChatIdAndChatType(Long chatId, ChatType chatType, Pageable pageable);
-    Optional<Message> findByIdAndChatIdAndChatType(Long messageId, Long chatId, ChatType chatType);
 
+    @Modifying(clearAutomatically = true, flushAutomatically = true)
+    @Query("""
+        UPDATE Message m
+        SET m.readAt = :readAt
+        WHERE m.id = :id
+        AND m.readAt IS NULL
+    """)
+    void markAsRead(Long id, Instant readAt);
 }

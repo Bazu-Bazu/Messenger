@@ -4,7 +4,6 @@ import com.google.protobuf.Timestamp;
 import dto.request.SendMessageRequest;
 import enums.ChatType;
 import enums.MessageType;
-import dto.request.EditMessageRequest;
 import dto.request.MarkMessageAsReadRequest;
 import dto.response.ErrorResponse;
 import dto.response.MessageResponse;
@@ -35,27 +34,6 @@ public class MessageConverter {
                 .build();
     }
 
-    public Message.EditMessageRequest toGrpcRequest(EditMessageRequest wsRequest, Long editorId) {
-        return Message.EditMessageRequest.newBuilder()
-                .setEditorId(editorId)
-                .setId(wsRequest.messageId())
-                .setChatId(wsRequest.chatId())
-                .setChatType(convertChatType(wsRequest.chatType()))
-                .setContent(wsRequest.content())
-                .setMessageType(convertMessageType(wsRequest.messageType()))
-                .build();
-    }
-
-    public EditMessageRequest fromGrpcRequest(Message.EditMessageRequest grpcRequest) {
-        return EditMessageRequest.builder()
-                .messageId(grpcRequest.getId())
-                .chatId(grpcRequest.getChatId())
-                .chatType(convertChatType(grpcRequest.getChatType()))
-                .content(grpcRequest.getContent())
-                .messageType(convertMessageType(grpcRequest.getMessageType()))
-                .build();
-    }
-
     public Message.MarkAsReadRequest toGrpcRequest(MarkMessageAsReadRequest wsRequest, Long readerId) {
         return Message.MarkAsReadRequest.newBuilder()
                 .setReaderId(readerId)
@@ -82,7 +60,6 @@ public class MessageConverter {
                 .content(grpcResponse.getContent())
                 .messageType(convertMessageType(grpcResponse.getMessageType()))
                 .createdAt(toInstant(grpcResponse.getCreatedAt()))
-                .editedAt(toInstant(grpcResponse.getEditedAt()))
                 .readAt(toInstant(grpcResponse.getReadAt()))
                 .build();
     }
@@ -97,10 +74,6 @@ public class MessageConverter {
 
         if (response.createdAt() != null) {
             builder.setCreatedAt(toTimestamp(response.createdAt()));
-        }
-
-        if (response.editedAt() != null) {
-            builder.setEditedAt(toTimestamp(response.editedAt()));
         }
 
         if (response.readAt() != null) {

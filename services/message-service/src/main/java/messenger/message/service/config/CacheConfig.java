@@ -56,5 +56,4 @@ public class CacheConfig {
 
         return template;
     }
-
 }

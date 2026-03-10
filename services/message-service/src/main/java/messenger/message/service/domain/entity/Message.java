@@ -1,10 +1,7 @@
 package messenger.message.service.domain.entity;
 
 import jakarta.persistence.*;
-import lombok.AllArgsConstructor;
-import lombok.Builder;
-import lombok.Data;
-import lombok.NoArgsConstructor;
+import lombok.*;
 import enums.ChatType;
 import enums.MessageType;
 
@@ -12,8 +9,9 @@ import java.time.Instant;
 
 @Entity
 @Table(name = "messages")
-@Data
 @Builder
+@Getter
+@Setter
 @NoArgsConstructor
 @AllArgsConstructor
 public class Message {
@@ -40,9 +38,8 @@ public class Message {
     private MessageType messageType;
 
     @Column(nullable = false)
-    private Instant createdAt;
+    @Builder.Default
+    private Instant createdAt = Instant.now();
 
-    private Instant editedAt;
     private Instant readAt;
-
 }

@@ -5,5 +5,4 @@ public enum MessageType {
     TEXT,
     IMAGE,
     FILE
-
 }
