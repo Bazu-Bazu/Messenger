@@ -28,7 +28,7 @@ class GroupChatGrpcServiceTest {
     private GroupMemberRepository groupMemberRepository;
 
     @Mock
-    private StreamObserver<GroupChat.ValidateMemberRightsInGroupChatRequestResponse> rightsObserver;
+    private StreamObserver<GroupChat.ValidateMemberRightsInGroupChatResponse> rightsObserver;
 
     @Mock
     private StreamObserver<GroupChat.GetAllGroupChatMembersResponse> membersObserver;
@@ -55,8 +55,8 @@ class GroupChatGrpcServiceTest {
 
         grpcService.validateMemberRightsInGroupChat(request, rightsObserver);
 
-        ArgumentCaptor<GroupChat.ValidateMemberRightsInGroupChatRequestResponse> captor =
-                ArgumentCaptor.forClass(GroupChat.ValidateMemberRightsInGroupChatRequestResponse.class);
+        ArgumentCaptor<GroupChat.ValidateMemberRightsInGroupChatResponse> captor =
+                ArgumentCaptor.forClass(GroupChat.ValidateMemberRightsInGroupChatResponse.class);
 
         verify(rightsObserver).onNext(captor.capture());
         verify(rightsObserver).onCompleted();
@@ -85,8 +85,8 @@ class GroupChatGrpcServiceTest {
 
         grpcService.validateMemberRightsInGroupChat(request, rightsObserver);
 
-        ArgumentCaptor<GroupChat.ValidateMemberRightsInGroupChatRequestResponse> captor =
-                ArgumentCaptor.forClass(GroupChat.ValidateMemberRightsInGroupChatRequestResponse.class);
+        ArgumentCaptor<GroupChat.ValidateMemberRightsInGroupChatResponse> captor =
+                ArgumentCaptor.forClass(GroupChat.ValidateMemberRightsInGroupChatResponse.class);
 
         verify(rightsObserver).onNext(captor.capture());
         verify(rightsObserver).onCompleted();
