@@ -16,28 +16,28 @@ public final class GroupChatServiceGrpc {
 
   // Static method descriptors that strictly reflect the proto.
   private static volatile io.grpc.MethodDescriptor<group_chat.GroupChat.ValidateMemberRightsInGroupChatRequest,
-      group_chat.GroupChat.ValidateMemberRightsInGroupChatRequestResponse> getValidateMemberRightsInGroupChatMethod;
+      group_chat.GroupChat.ValidateMemberRightsInGroupChatResponse> getValidateMemberRightsInGroupChatMethod;
 
   @io.grpc.stub.annotations.RpcMethod(
       fullMethodName = SERVICE_NAME + '/' + "ValidateMemberRightsInGroupChat",
       requestType = group_chat.GroupChat.ValidateMemberRightsInGroupChatRequest.class,
-      responseType = group_chat.GroupChat.ValidateMemberRightsInGroupChatRequestResponse.class,
+      responseType = group_chat.GroupChat.ValidateMemberRightsInGroupChatResponse.class,
       methodType = io.grpc.MethodDescriptor.MethodType.UNARY)
   public static io.grpc.MethodDescriptor<group_chat.GroupChat.ValidateMemberRightsInGroupChatRequest,
-      group_chat.GroupChat.ValidateMemberRightsInGroupChatRequestResponse> getValidateMemberRightsInGroupChatMethod() {
-    io.grpc.MethodDescriptor<group_chat.GroupChat.ValidateMemberRightsInGroupChatRequest, group_chat.GroupChat.ValidateMemberRightsInGroupChatRequestResponse> getValidateMemberRightsInGroupChatMethod;
+      group_chat.GroupChat.ValidateMemberRightsInGroupChatResponse> getValidateMemberRightsInGroupChatMethod() {
+    io.grpc.MethodDescriptor<group_chat.GroupChat.ValidateMemberRightsInGroupChatRequest, group_chat.GroupChat.ValidateMemberRightsInGroupChatResponse> getValidateMemberRightsInGroupChatMethod;
     if ((getValidateMemberRightsInGroupChatMethod = GroupChatServiceGrpc.getValidateMemberRightsInGroupChatMethod) == null) {
       synchronized (GroupChatServiceGrpc.class) {
         if ((getValidateMemberRightsInGroupChatMethod = GroupChatServiceGrpc.getValidateMemberRightsInGroupChatMethod) == null) {
           GroupChatServiceGrpc.getValidateMemberRightsInGroupChatMethod = getValidateMemberRightsInGroupChatMethod =
-              io.grpc.MethodDescriptor.<group_chat.GroupChat.ValidateMemberRightsInGroupChatRequest, group_chat.GroupChat.ValidateMemberRightsInGroupChatRequestResponse>newBuilder()
+              io.grpc.MethodDescriptor.<group_chat.GroupChat.ValidateMemberRightsInGroupChatRequest, group_chat.GroupChat.ValidateMemberRightsInGroupChatResponse>newBuilder()
               .setType(io.grpc.MethodDescriptor.MethodType.UNARY)
               .setFullMethodName(generateFullMethodName(SERVICE_NAME, "ValidateMemberRightsInGroupChat"))
               .setSampledToLocalTracing(true)
               .setRequestMarshaller(io.grpc.protobuf.ProtoUtils.marshaller(
                   group_chat.GroupChat.ValidateMemberRightsInGroupChatRequest.getDefaultInstance()))
               .setResponseMarshaller(io.grpc.protobuf.ProtoUtils.marshaller(
-                  group_chat.GroupChat.ValidateMemberRightsInGroupChatRequestResponse.getDefaultInstance()))
+                  group_chat.GroupChat.ValidateMemberRightsInGroupChatResponse.getDefaultInstance()))
               .setSchemaDescriptor(new GroupChatServiceMethodDescriptorSupplier("ValidateMemberRightsInGroupChat"))
               .build();
         }
@@ -128,7 +128,7 @@ public final class GroupChatServiceGrpc {
     /**
      */
     default void validateMemberRightsInGroupChat(group_chat.GroupChat.ValidateMemberRightsInGroupChatRequest request,
-        io.grpc.stub.StreamObserver<group_chat.GroupChat.ValidateMemberRightsInGroupChatRequestResponse> responseObserver) {
+        io.grpc.stub.StreamObserver<group_chat.GroupChat.ValidateMemberRightsInGroupChatResponse> responseObserver) {
       io.grpc.stub.ServerCalls.asyncUnimplementedUnaryCall(getValidateMemberRightsInGroupChatMethod(), responseObserver);
     }
 
@@ -170,7 +170,7 @@ public final class GroupChatServiceGrpc {
     /**
      */
     public void validateMemberRightsInGroupChat(group_chat.GroupChat.ValidateMemberRightsInGroupChatRequest request,
-        io.grpc.stub.StreamObserver<group_chat.GroupChat.ValidateMemberRightsInGroupChatRequestResponse> responseObserver) {
+        io.grpc.stub.StreamObserver<group_chat.GroupChat.ValidateMemberRightsInGroupChatResponse> responseObserver) {
       io.grpc.stub.ClientCalls.asyncUnaryCall(
           getChannel().newCall(getValidateMemberRightsInGroupChatMethod(), getCallOptions()), request, responseObserver);
     }
@@ -202,7 +202,7 @@ public final class GroupChatServiceGrpc {
 
     /**
      */
-    public group_chat.GroupChat.ValidateMemberRightsInGroupChatRequestResponse validateMemberRightsInGroupChat(group_chat.GroupChat.ValidateMemberRightsInGroupChatRequest request) {
+    public group_chat.GroupChat.ValidateMemberRightsInGroupChatResponse validateMemberRightsInGroupChat(group_chat.GroupChat.ValidateMemberRightsInGroupChatRequest request) {
       return io.grpc.stub.ClientCalls.blockingUnaryCall(
           getChannel(), getValidateMemberRightsInGroupChatMethod(), getCallOptions(), request);
     }
@@ -233,7 +233,7 @@ public final class GroupChatServiceGrpc {
 
     /**
      */
-    public com.google.common.util.concurrent.ListenableFuture<group_chat.GroupChat.ValidateMemberRightsInGroupChatRequestResponse> validateMemberRightsInGroupChat(
+    public com.google.common.util.concurrent.ListenableFuture<group_chat.GroupChat.ValidateMemberRightsInGroupChatResponse> validateMemberRightsInGroupChat(
         group_chat.GroupChat.ValidateMemberRightsInGroupChatRequest request) {
       return io.grpc.stub.ClientCalls.futureUnaryCall(
           getChannel().newCall(getValidateMemberRightsInGroupChatMethod(), getCallOptions()), request);
@@ -270,7 +270,7 @@ public final class GroupChatServiceGrpc {
       switch (methodId) {
         case METHODID_VALIDATE_MEMBER_RIGHTS_IN_GROUP_CHAT:
           serviceImpl.validateMemberRightsInGroupChat((group_chat.GroupChat.ValidateMemberRightsInGroupChatRequest) request,
-              (io.grpc.stub.StreamObserver<group_chat.GroupChat.ValidateMemberRightsInGroupChatRequestResponse>) responseObserver);
+              (io.grpc.stub.StreamObserver<group_chat.GroupChat.ValidateMemberRightsInGroupChatResponse>) responseObserver);
           break;
         case METHODID_GET_ALL_GROUP_CHAT_MEMBERS:
           serviceImpl.getAllGroupChatMembers((group_chat.GroupChat.GetAllGroupChatMembersRequest) request,
@@ -299,7 +299,7 @@ public final class GroupChatServiceGrpc {
           io.grpc.stub.ServerCalls.asyncUnaryCall(
             new MethodHandlers<
               group_chat.GroupChat.ValidateMemberRightsInGroupChatRequest,
-              group_chat.GroupChat.ValidateMemberRightsInGroupChatRequestResponse>(
+              group_chat.GroupChat.ValidateMemberRightsInGroupChatResponse>(
                 service, METHODID_VALIDATE_MEMBER_RIGHTS_IN_GROUP_CHAT)))
         .addMethod(
           getGetAllGroupChatMembersMethod(),

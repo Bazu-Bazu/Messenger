@@ -5,7 +5,6 @@ import "google/protobuf/timestamp.proto";
 
 service MessageService {
   rpc SendMessage(SendMessageRequest) returns (MessageResult);
-  rpc EditMessage(EditMessageRequest) returns (MessageResult);
   rpc MarkAsRead(MarkAsReadRequest) returns (MessageResult);
 }
 
@@ -41,15 +40,6 @@ message SendMessageRequest {
   ChatType chat_type = 3;
   string content = 4;
   MessageType message_type = 5;
-}
-
-message EditMessageRequest {
-  int64 editor_id = 1;
-  int64 id = 2;
-  int64 chat_id = 3;
-  ChatType chat_type = 4;
-  string content = 5;
-  MessageType message_type = 6;
 }
 
 message MarkAsReadRequest {

@@ -565,8 +565,8 @@ public final class GroupChat {
 
   }
 
-  public interface ValidateMemberRightsInGroupChatRequestResponseOrBuilder extends
-      // @@protoc_insertion_point(interface_extends:group_chat.ValidateMemberRightsInGroupChatRequestResponse)
+  public interface ValidateMemberRightsInGroupChatResponseOrBuilder extends
+      // @@protoc_insertion_point(interface_extends:group_chat.ValidateMemberRightsInGroupChatResponse)
       com.google.protobuf.MessageOrBuilder {
 
     /**
@@ -594,38 +594,38 @@ public final class GroupChat {
     boolean getCanGetMessage();
   }
   /**
-   * Protobuf type {@code group_chat.ValidateMemberRightsInGroupChatRequestResponse}
+   * Protobuf type {@code group_chat.ValidateMemberRightsInGroupChatResponse}
    */
-  public static final class ValidateMemberRightsInGroupChatRequestResponse extends
+  public static final class ValidateMemberRightsInGroupChatResponse extends
       com.google.protobuf.GeneratedMessageV3 implements
-      // @@protoc_insertion_point(message_implements:group_chat.ValidateMemberRightsInGroupChatRequestResponse)
-      ValidateMemberRightsInGroupChatRequestResponseOrBuilder {
+      // @@protoc_insertion_point(message_implements:group_chat.ValidateMemberRightsInGroupChatResponse)
+      ValidateMemberRightsInGroupChatResponseOrBuilder {
   private static final long serialVersionUID = 0L;
-    // Use ValidateMemberRightsInGroupChatRequestResponse.newBuilder() to construct.
-    private ValidateMemberRightsInGroupChatRequestResponse(com.google.protobuf.GeneratedMessageV3.Builder<?> builder) {
+    // Use ValidateMemberRightsInGroupChatResponse.newBuilder() to construct.
+    private ValidateMemberRightsInGroupChatResponse(com.google.protobuf.GeneratedMessageV3.Builder<?> builder) {
       super(builder);
     }
-    private ValidateMemberRightsInGroupChatRequestResponse() {
+    private ValidateMemberRightsInGroupChatResponse() {
     }
 
     @java.lang.Override
     @SuppressWarnings({"unused"})
     protected java.lang.Object newInstance(
         UnusedPrivateParameter unused) {
-      return new ValidateMemberRightsInGroupChatRequestResponse();
+      return new ValidateMemberRightsInGroupChatResponse();
     }
 
     public static final com.google.protobuf.Descriptors.Descriptor
         getDescriptor() {
-      return group_chat.GroupChat.internal_static_group_chat_ValidateMemberRightsInGroupChatRequestResponse_descriptor;
+      return group_chat.GroupChat.internal_static_group_chat_ValidateMemberRightsInGroupChatResponse_descriptor;
     }
 
     @java.lang.Override
     protected com.google.protobuf.GeneratedMessageV3.FieldAccessorTable
         internalGetFieldAccessorTable() {
-      return group_chat.GroupChat.internal_static_group_chat_ValidateMemberRightsInGroupChatRequestResponse_fieldAccessorTable
+      return group_chat.GroupChat.internal_static_group_chat_ValidateMemberRightsInGroupChatResponse_fieldAccessorTable
           .ensureFieldAccessorsInitialized(
-              group_chat.GroupChat.ValidateMemberRightsInGroupChatRequestResponse.class, group_chat.GroupChat.ValidateMemberRightsInGroupChatRequestResponse.Builder.class);
+              group_chat.GroupChat.ValidateMemberRightsInGroupChatResponse.class, group_chat.GroupChat.ValidateMemberRightsInGroupChatResponse.Builder.class);
     }
 
     public static final int USERID_FIELD_NUMBER = 1;
@@ -733,10 +733,10 @@ public final class GroupChat {
       if (obj == this) {
        return true;
       }
-      if (!(obj instanceof group_chat.GroupChat.ValidateMemberRightsInGroupChatRequestResponse)) {
+      if (!(obj instanceof group_chat.GroupChat.ValidateMemberRightsInGroupChatResponse)) {
         return super.equals(obj);
       }
-      group_chat.GroupChat.ValidateMemberRightsInGroupChatRequestResponse other = (group_chat.GroupChat.ValidateMemberRightsInGroupChatRequestResponse) obj;
+      group_chat.GroupChat.ValidateMemberRightsInGroupChatResponse other = (group_chat.GroupChat.ValidateMemberRightsInGroupChatResponse) obj;
 
       if (getUserId()
           != other.getUserId()) return false;
@@ -774,44 +774,44 @@ public final class GroupChat {
       return hash;
     }
 
-    public static group_chat.GroupChat.ValidateMemberRightsInGroupChatRequestResponse parseFrom(
+    public static group_chat.GroupChat.ValidateMemberRightsInGroupChatResponse parseFrom(
         java.nio.ByteBuffer data)
         throws com.google.protobuf.InvalidProtocolBufferException {
       return PARSER.parseFrom(data);
     }
-    public static group_chat.GroupChat.ValidateMemberRightsInGroupChatRequestResponse parseFrom(
+    public static group_chat.GroupChat.ValidateMemberRightsInGroupChatResponse parseFrom(
         java.nio.ByteBuffer data,
         com.google.protobuf.ExtensionRegistryLite extensionRegistry)
         throws com.google.protobuf.InvalidProtocolBufferException {
       return PARSER.parseFrom(data, extensionRegistry);
     }
-    public static group_chat.GroupChat.ValidateMemberRightsInGroupChatRequestResponse parseFrom(
+    public static group_chat.GroupChat.ValidateMemberRightsInGroupChatResponse parseFrom(
         com.google.protobuf.ByteString data)
         throws com.google.protobuf.InvalidProtocolBufferException {
       return PARSER.parseFrom(data);
     }
-    public static group_chat.GroupChat.ValidateMemberRightsInGroupChatRequestResponse parseFrom(
+    public static group_chat.GroupChat.ValidateMemberRightsInGroupChatResponse parseFrom(
         com.google.protobuf.ByteString data,
         com.google.protobuf.ExtensionRegistryLite extensionRegistry)
         throws com.google.protobuf.InvalidProtocolBufferException {
       return PARSER.parseFrom(data, extensionRegistry);
     }
-    public static group_chat.GroupChat.ValidateMemberRightsInGroupChatRequestResponse parseFrom(byte[] data)
+    public static group_chat.GroupChat.ValidateMemberRightsInGroupChatResponse parseFrom(byte[] data)
         throws com.google.protobuf.InvalidProtocolBufferException {
       return PARSER.parseFrom(data);
     }
-    public static group_chat.GroupChat.ValidateMemberRightsInGroupChatRequestResponse parseFrom(
+    public static group_chat.GroupChat.ValidateMemberRightsInGroupChatResponse parseFrom(
         byte[] data,
         com.google.protobuf.ExtensionRegistryLite extensionRegistry)
         throws com.google.protobuf.InvalidProtocolBufferException {
       return PARSER.parseFrom(data, extensionRegistry);
     }
-    public static group_chat.GroupChat.ValidateMemberRightsInGroupChatRequestResponse parseFrom(java.io.InputStream input)
+    public static group_chat.GroupChat.ValidateMemberRightsInGroupChatResponse parseFrom(java.io.InputStream input)
         throws java.io.IOException {
       return com.google.protobuf.GeneratedMessageV3
           .parseWithIOException(PARSER, input);
     }
-    public static group_chat.GroupChat.ValidateMemberRightsInGroupChatRequestResponse parseFrom(
+    public static group_chat.GroupChat.ValidateMemberRightsInGroupChatResponse parseFrom(
         java.io.InputStream input,
         com.google.protobuf.ExtensionRegistryLite extensionRegistry)
         throws java.io.IOException {
@@ -819,26 +819,26 @@ public final class GroupChat {
           .parseWithIOException(PARSER, input, extensionRegistry);
     }
 
-    public static group_chat.GroupChat.ValidateMemberRightsInGroupChatRequestResponse parseDelimitedFrom(java.io.InputStream input)
+    public static group_chat.GroupChat.ValidateMemberRightsInGroupChatResponse parseDelimitedFrom(java.io.InputStream input)
         throws java.io.IOException {
       return com.google.protobuf.GeneratedMessageV3
           .parseDelimitedWithIOException(PARSER, input);
     }
 
-    public static group_chat.GroupChat.ValidateMemberRightsInGroupChatRequestResponse parseDelimitedFrom(
+    public static group_chat.GroupChat.ValidateMemberRightsInGroupChatResponse parseDelimitedFrom(
         java.io.InputStream input,
         com.google.protobuf.ExtensionRegistryLite extensionRegistry)
         throws java.io.IOException {
       return com.google.protobuf.GeneratedMessageV3
           .parseDelimitedWithIOException(PARSER, input, extensionRegistry);
     }
-    public static group_chat.GroupChat.ValidateMemberRightsInGroupChatRequestResponse parseFrom(
+    public static group_chat.GroupChat.ValidateMemberRightsInGroupChatResponse parseFrom(
         com.google.protobuf.CodedInputStream input)
         throws java.io.IOException {
       return com.google.protobuf.GeneratedMessageV3
           .parseWithIOException(PARSER, input);
     }
-    public static group_chat.GroupChat.ValidateMemberRightsInGroupChatRequestResponse parseFrom(
+    public static group_chat.GroupChat.ValidateMemberRightsInGroupChatResponse parseFrom(
         com.google.protobuf.CodedInputStream input,
         com.google.protobuf.ExtensionRegistryLite extensionRegistry)
         throws java.io.IOException {
@@ -851,7 +851,7 @@ public final class GroupChat {
     public static Builder newBuilder() {
       return DEFAULT_INSTANCE.toBuilder();
     }
-    public static Builder newBuilder(group_chat.GroupChat.ValidateMemberRightsInGroupChatRequestResponse prototype) {
+    public static Builder newBuilder(group_chat.GroupChat.ValidateMemberRightsInGroupChatResponse prototype) {
       return DEFAULT_INSTANCE.toBuilder().mergeFrom(prototype);
     }
     @java.lang.Override
@@ -867,26 +867,26 @@ public final class GroupChat {
       return builder;
     }
     /**
-     * Protobuf type {@code group_chat.ValidateMemberRightsInGroupChatRequestResponse}
+     * Protobuf type {@code group_chat.ValidateMemberRightsInGroupChatResponse}
      */
     public static final class Builder extends
         com.google.protobuf.GeneratedMessageV3.Builder<Builder> implements
-        // @@protoc_insertion_point(builder_implements:group_chat.ValidateMemberRightsInGroupChatRequestResponse)
-        group_chat.GroupChat.ValidateMemberRightsInGroupChatRequestResponseOrBuilder {
+        // @@protoc_insertion_point(builder_implements:group_chat.ValidateMemberRightsInGroupChatResponse)
+        group_chat.GroupChat.ValidateMemberRightsInGroupChatResponseOrBuilder {
       public static final com.google.protobuf.Descriptors.Descriptor
           getDescriptor() {
-        return group_chat.GroupChat.internal_static_group_chat_ValidateMemberRightsInGroupChatRequestResponse_descriptor;
+        return group_chat.GroupChat.internal_static_group_chat_ValidateMemberRightsInGroupChatResponse_descriptor;
       }
 
       @java.lang.Override
       protected com.google.protobuf.GeneratedMessageV3.FieldAccessorTable
           internalGetFieldAccessorTable() {
-        return group_chat.GroupChat.internal_static_group_chat_ValidateMemberRightsInGroupChatRequestResponse_fieldAccessorTable
+        return group_chat.GroupChat.internal_static_group_chat_ValidateMemberRightsInGroupChatResponse_fieldAccessorTable
             .ensureFieldAccessorsInitialized(
-                group_chat.GroupChat.ValidateMemberRightsInGroupChatRequestResponse.class, group_chat.GroupChat.ValidateMemberRightsInGroupChatRequestResponse.Builder.class);
+                group_chat.GroupChat.ValidateMemberRightsInGroupChatResponse.class, group_chat.GroupChat.ValidateMemberRightsInGroupChatResponse.Builder.class);
       }
 
-      // Construct using group_chat.GroupChat.ValidateMemberRightsInGroupChatRequestResponse.newBuilder()
+      // Construct using group_chat.GroupChat.ValidateMemberRightsInGroupChatResponse.newBuilder()
       private Builder() {
 
       }
@@ -910,17 +910,17 @@ public final class GroupChat {
       @java.lang.Override
       public com.google.protobuf.Descriptors.Descriptor
           getDescriptorForType() {
-        return group_chat.GroupChat.internal_static_group_chat_ValidateMemberRightsInGroupChatRequestResponse_descriptor;
+        return group_chat.GroupChat.internal_static_group_chat_ValidateMemberRightsInGroupChatResponse_descriptor;
       }
 
       @java.lang.Override
-      public group_chat.GroupChat.ValidateMemberRightsInGroupChatRequestResponse getDefaultInstanceForType() {
-        return group_chat.GroupChat.ValidateMemberRightsInGroupChatRequestResponse.getDefaultInstance();
+      public group_chat.GroupChat.ValidateMemberRightsInGroupChatResponse getDefaultInstanceForType() {
+        return group_chat.GroupChat.ValidateMemberRightsInGroupChatResponse.getDefaultInstance();
       }
 
       @java.lang.Override
-      public group_chat.GroupChat.ValidateMemberRightsInGroupChatRequestResponse build() {
-        group_chat.GroupChat.ValidateMemberRightsInGroupChatRequestResponse result = buildPartial();
+      public group_chat.GroupChat.ValidateMemberRightsInGroupChatResponse build() {
+        group_chat.GroupChat.ValidateMemberRightsInGroupChatResponse result = buildPartial();
         if (!result.isInitialized()) {
           throw newUninitializedMessageException(result);
         }
@@ -928,14 +928,14 @@ public final class GroupChat {
       }
 
       @java.lang.Override
-      public group_chat.GroupChat.ValidateMemberRightsInGroupChatRequestResponse buildPartial() {
-        group_chat.GroupChat.ValidateMemberRightsInGroupChatRequestResponse result = new group_chat.GroupChat.ValidateMemberRightsInGroupChatRequestResponse(this);
+      public group_chat.GroupChat.ValidateMemberRightsInGroupChatResponse buildPartial() {
+        group_chat.GroupChat.ValidateMemberRightsInGroupChatResponse result = new group_chat.GroupChat.ValidateMemberRightsInGroupChatResponse(this);
         if (bitField0_ != 0) { buildPartial0(result); }
         onBuilt();
         return result;
       }
 
-      private void buildPartial0(group_chat.GroupChat.ValidateMemberRightsInGroupChatRequestResponse result) {
+      private void buildPartial0(group_chat.GroupChat.ValidateMemberRightsInGroupChatResponse result) {
         int from_bitField0_ = bitField0_;
         if (((from_bitField0_ & 0x00000001) != 0)) {
           result.userId_ = userId_;
@@ -985,16 +985,16 @@ public final class GroupChat {
       }
       @java.lang.Override
       public Builder mergeFrom(com.google.protobuf.Message other) {
-        if (other instanceof group_chat.GroupChat.ValidateMemberRightsInGroupChatRequestResponse) {
-          return mergeFrom((group_chat.GroupChat.ValidateMemberRightsInGroupChatRequestResponse)other);
+        if (other instanceof group_chat.GroupChat.ValidateMemberRightsInGroupChatResponse) {
+          return mergeFrom((group_chat.GroupChat.ValidateMemberRightsInGroupChatResponse)other);
         } else {
           super.mergeFrom(other);
           return this;
         }
       }
 
-      public Builder mergeFrom(group_chat.GroupChat.ValidateMemberRightsInGroupChatRequestResponse other) {
-        if (other == group_chat.GroupChat.ValidateMemberRightsInGroupChatRequestResponse.getDefaultInstance()) return this;
+      public Builder mergeFrom(group_chat.GroupChat.ValidateMemberRightsInGroupChatResponse other) {
+        if (other == group_chat.GroupChat.ValidateMemberRightsInGroupChatResponse.getDefaultInstance()) return this;
         if (other.getUserId() != 0L) {
           setUserId(other.getUserId());
         }
@@ -1210,23 +1210,23 @@ public final class GroupChat {
       }
 
 
-      // @@protoc_insertion_point(builder_scope:group_chat.ValidateMemberRightsInGroupChatRequestResponse)
+      // @@protoc_insertion_point(builder_scope:group_chat.ValidateMemberRightsInGroupChatResponse)
     }
 
-    // @@protoc_insertion_point(class_scope:group_chat.ValidateMemberRightsInGroupChatRequestResponse)
-    private static final group_chat.GroupChat.ValidateMemberRightsInGroupChatRequestResponse DEFAULT_INSTANCE;
+    // @@protoc_insertion_point(class_scope:group_chat.ValidateMemberRightsInGroupChatResponse)
+    private static final group_chat.GroupChat.ValidateMemberRightsInGroupChatResponse DEFAULT_INSTANCE;
     static {
-      DEFAULT_INSTANCE = new group_chat.GroupChat.ValidateMemberRightsInGroupChatRequestResponse();
+      DEFAULT_INSTANCE = new group_chat.GroupChat.ValidateMemberRightsInGroupChatResponse();
     }
 
-    public static group_chat.GroupChat.ValidateMemberRightsInGroupChatRequestResponse getDefaultInstance() {
+    public static group_chat.GroupChat.ValidateMemberRightsInGroupChatResponse getDefaultInstance() {
       return DEFAULT_INSTANCE;
     }
 
-    private static final com.google.protobuf.Parser<ValidateMemberRightsInGroupChatRequestResponse>
-        PARSER = new com.google.protobuf.AbstractParser<ValidateMemberRightsInGroupChatRequestResponse>() {
+    private static final com.google.protobuf.Parser<ValidateMemberRightsInGroupChatResponse>
+        PARSER = new com.google.protobuf.AbstractParser<ValidateMemberRightsInGroupChatResponse>() {
       @java.lang.Override
-      public ValidateMemberRightsInGroupChatRequestResponse parsePartialFrom(
+      public ValidateMemberRightsInGroupChatResponse parsePartialFrom(
           com.google.protobuf.CodedInputStream input,
           com.google.protobuf.ExtensionRegistryLite extensionRegistry)
           throws com.google.protobuf.InvalidProtocolBufferException {
@@ -1245,17 +1245,17 @@ public final class GroupChat {
       }
     };
 
-    public static com.google.protobuf.Parser<ValidateMemberRightsInGroupChatRequestResponse> parser() {
+    public static com.google.protobuf.Parser<ValidateMemberRightsInGroupChatResponse> parser() {
       return PARSER;
     }
 
     @java.lang.Override
-    public com.google.protobuf.Parser<ValidateMemberRightsInGroupChatRequestResponse> getParserForType() {
+    public com.google.protobuf.Parser<ValidateMemberRightsInGroupChatResponse> getParserForType() {
       return PARSER;
     }
 
     @java.lang.Override
-    public group_chat.GroupChat.ValidateMemberRightsInGroupChatRequestResponse getDefaultInstanceForType() {
+    public group_chat.GroupChat.ValidateMemberRightsInGroupChatResponse getDefaultInstanceForType() {
       return DEFAULT_INSTANCE;
     }
 
@@ -2340,10 +2340,10 @@ public final class GroupChat {
     com.google.protobuf.GeneratedMessageV3.FieldAccessorTable
       internal_static_group_chat_ValidateMemberRightsInGroupChatRequest_fieldAccessorTable;
   private static final com.google.protobuf.Descriptors.Descriptor
-    internal_static_group_chat_ValidateMemberRightsInGroupChatRequestResponse_descriptor;
+    internal_static_group_chat_ValidateMemberRightsInGroupChatResponse_descriptor;
   private static final 
     com.google.protobuf.GeneratedMessageV3.FieldAccessorTable
-      internal_static_group_chat_ValidateMemberRightsInGroupChatRequestResponse_fieldAccessorTable;
+      internal_static_group_chat_ValidateMemberRightsInGroupChatResponse_fieldAccessorTable;
   private static final com.google.protobuf.Descriptors.Descriptor
     internal_static_group_chat_GetAllGroupChatMembersRequest_descriptor;
   private static final 
@@ -2365,20 +2365,20 @@ public final class GroupChat {
     java.lang.String[] descriptorData = {
       "\n\020group_chat.proto\022\ngroup_chat\"H\n&Valida" +
       "teMemberRightsInGroupChatRequest\022\016\n\006user" +
-      "Id\030\001 \001(\003\022\016\n\006chatId\030\002 \001(\003\"\177\n.ValidateMemb" +
-      "erRightsInGroupChatRequestResponse\022\016\n\006us" +
-      "erId\030\001 \001(\003\022\016\n\006chatId\030\002 \001(\003\022\026\n\016canSendMes" +
-      "sage\030\003 \001(\010\022\025\n\rcanGetMessage\030\004 \001(\010\"/\n\035Get" +
-      "AllGroupChatMembersRequest\022\016\n\006chatId\030\001 \001" +
-      "(\003\"0\n\036GetAllGroupChatMembersResponse\022\016\n\006" +
-      "userId\030\001 \003(\0032\227\002\n\020GroupChatService\022\221\001\n\037Va" +
-      "lidateMemberRightsInGroupChat\0222.group_ch" +
-      "at.ValidateMemberRightsInGroupChatReques" +
-      "t\032:.group_chat.ValidateMemberRightsInGro" +
-      "upChatRequestResponse\022o\n\026GetAllGroupChat" +
-      "Members\022).group_chat.GetAllGroupChatMemb" +
-      "ersRequest\032*.group_chat.GetAllGroupChatM" +
-      "embersResponseb\006proto3"
+      "Id\030\001 \001(\003\022\016\n\006chatId\030\002 \001(\003\"x\n\'ValidateMemb" +
+      "erRightsInGroupChatResponse\022\016\n\006userId\030\001 " +
+      "\001(\003\022\016\n\006chatId\030\002 \001(\003\022\026\n\016canSendMessage\030\003 " +
+      "\001(\010\022\025\n\rcanGetMessage\030\004 \001(\010\"/\n\035GetAllGrou" +
+      "pChatMembersRequest\022\016\n\006chatId\030\001 \001(\003\"0\n\036G" +
+      "etAllGroupChatMembersResponse\022\016\n\006userId\030" +
+      "\001 \003(\0032\220\002\n\020GroupChatService\022\212\001\n\037ValidateM" +
+      "emberRightsInGroupChat\0222.group_chat.Vali" +
+      "dateMemberRightsInGroupChatRequest\0323.gro" +
+      "up_chat.ValidateMemberRightsInGroupChatR" +
+      "esponse\022o\n\026GetAllGroupChatMembers\022).grou" +
+      "p_chat.GetAllGroupChatMembersRequest\032*.g" +
+      "roup_chat.GetAllGroupChatMembersResponse" +
+      "b\006proto3"
     };
     descriptor = com.google.protobuf.Descriptors.FileDescriptor
       .internalBuildGeneratedFileFrom(descriptorData,
@@ -2390,11 +2390,11 @@ public final class GroupChat {
       com.google.protobuf.GeneratedMessageV3.FieldAccessorTable(
         internal_static_group_chat_ValidateMemberRightsInGroupChatRequest_descriptor,
         new java.lang.String[] { "UserId", "ChatId", });
-    internal_static_group_chat_ValidateMemberRightsInGroupChatRequestResponse_descriptor =
+    internal_static_group_chat_ValidateMemberRightsInGroupChatResponse_descriptor =
       getDescriptor().getMessageTypes().get(1);
-    internal_static_group_chat_ValidateMemberRightsInGroupChatRequestResponse_fieldAccessorTable = new
+    internal_static_group_chat_ValidateMemberRightsInGroupChatResponse_fieldAccessorTable = new
       com.google.protobuf.GeneratedMessageV3.FieldAccessorTable(
-        internal_static_group_chat_ValidateMemberRightsInGroupChatRequestResponse_descriptor,
+        internal_static_group_chat_ValidateMemberRightsInGroupChatResponse_descriptor,
         new java.lang.String[] { "UserId", "ChatId", "CanSendMessage", "CanGetMessage", });
     internal_static_group_chat_GetAllGroupChatMembersRequest_descriptor =
       getDescriptor().getMessageTypes().get(2);

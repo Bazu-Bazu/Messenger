@@ -9,6 +9,7 @@ import java.util.Set;
 
 @Builder
 public record MessageDetailEvent(
+
         Long id,
         Long chatId,
         ChatType chatType,
