@@ -19,5 +19,4 @@ public class MapperConfig {
 
         return mapper;
     }
-
 }

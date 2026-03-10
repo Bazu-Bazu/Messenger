@@ -49,9 +49,7 @@ public class MessageEventConsumer {
                 .senderId(event.senderId())
                 .messageType(event.messageType())
                 .createdAt(event.createdAt())
-                .editedAt(event.editedAt())
                 .readAt(event.readAt())
                 .build();
     }
-
 }

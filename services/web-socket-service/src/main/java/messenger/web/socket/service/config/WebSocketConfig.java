@@ -22,5 +22,4 @@ public class WebSocketConfig implements WebSocketConfigurer {
                 .addInterceptors(authHandshakeInterceptor)
                 .setAllowedOriginPatterns("*");
     }
-
 }

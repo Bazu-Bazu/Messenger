@@ -1,6 +1,5 @@
 package messenger.web.socket.service.client.grpc;
 
-import dto.request.EditMessageRequest;
 import dto.request.MarkMessageAsReadRequest;
 import dto.request.SendMessageRequest;
 import dto.response.ErrorResponse;
@@ -27,14 +26,6 @@ public class MessageGrpcClient {
         Message.SendMessageRequest grpcRequest = messageConverter.toGrpcRequest(wsRequest, senderId);
 
         Message.MessageResult grpcResult = blockingStub.sendMessage(grpcRequest);
-
-        return proccessMessageResult(grpcResult);
-    }
-
-    public MessageResult editMessage(EditMessageRequest wsRequest, Long editorId) {
-        Message.EditMessageRequest grpcRequest = messageConverter.toGrpcRequest(wsRequest, editorId);
-
-        Message.MessageResult grpcResult = blockingStub.editMessage(grpcRequest);
 
         return proccessMessageResult(grpcResult);
     }
@@ -71,5 +62,4 @@ public class MessageGrpcClient {
                 return MessageResult.error(unknownError);
         }
     }
-
 }
