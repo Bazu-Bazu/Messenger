@@ -22,7 +22,7 @@ public class GroupChatGrpcService extends GroupChatServiceGrpc.GroupChatServiceI
     @Override
     public void validateMemberRightsInGroupChat(
             GroupChat.ValidateMemberRightsInGroupChatRequest request,
-            StreamObserver<GroupChat.ValidateMemberRightsInGroupChatRequestResponse> responseObserver
+            StreamObserver<GroupChat.ValidateMemberRightsInGroupChatResponse> responseObserver
     ) {
         Optional<GroupChatMember> member = groupMemberRepository.findByGroupIdAndUserId(
                 request.getChatId(), request.getUserId()
@@ -31,7 +31,7 @@ public class GroupChatGrpcService extends GroupChatServiceGrpc.GroupChatServiceI
         boolean canSendMessage = member.isPresent() && member.get().canSendMessage();
         boolean canGetMessages = member.isPresent();
 
-        var response = GroupChat.ValidateMemberRightsInGroupChatRequestResponse.newBuilder()
+        var response = GroupChat.ValidateMemberRightsInGroupChatResponse.newBuilder()
                 .setUserId(request.getUserId())
                 .setChatId(request.getChatId())
                 .setCanSendMessage(canSendMessage)
