@@ -1,6 +1,8 @@
 package messenger.message.service.client.grpc;
 
-import exception.AuthorizationException;
+import lombok.RequiredArgsConstructor;
+import messenger.message.service.dto.MemberRightsInPersonalChatDto;
+import messenger.message.service.mapper.PersonalChatGrpcMapper;
 import net.devh.boot.grpc.client.inject.GrpcClient;
 import org.springframework.stereotype.Component;
 import personal_chat.PersonalChat;
@@ -10,24 +12,22 @@ import java.util.HashSet;
 import java.util.Set;
 
 @Component
-public class PersonalChatServiceClient {
+@RequiredArgsConstructor
+public class PersonalChatGrpcClient {
 
     @GrpcClient("personal-chat-service")
     private PersonalChatServiceGrpc.PersonalChatServiceBlockingStub blockingStub;
 
-    public void validateUserIsPersonalChatMember(Long userId, Long chatId) {
+    private final PersonalChatGrpcMapper personalChatGrpcMapper;
+
+    public MemberRightsInPersonalChatDto getMemberRightsInPersonalChat(Long userId, Long chatId) {
         var request = PersonalChat.ValidateUserIsMemberOfPersonalChatRequest.newBuilder()
                 .setUserId(userId)
                 .setChatId(chatId)
                 .build();
 
         var response = blockingStub.validateUserIsMemberOfPersonalChat(request);
-
-        if (!response.getIsMember()) {
-            throw new AuthorizationException(
-                    String.format("User %d not member of personal chat %d", userId, chatId)
-            );
-        }
+        return personalChatGrpcMapper.fromGrpc(response);
     }
 
     public Set<Long> getAllPersonalChatMembers(Long chatId) {
@@ -39,5 +39,4 @@ public class PersonalChatServiceClient {
 
         return new HashSet<>(response.getUserIdList());
     }
-
 }
