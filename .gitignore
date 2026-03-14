@@ -4,6 +4,7 @@ services/api-gateway/target
 services/sso-service/target
 services/user-service/target
 services/message-service/target
+services/media-service/target
 services/personal-chat-service/target
 services/group-chat-service/target
 services/web-socket-service/target
