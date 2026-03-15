@@ -1,4 +1,4 @@
-package com.messenger.media.service.domain.enums
+package messenger.media.service.domain.enums
 
 enum class MediaType {
     FILE,

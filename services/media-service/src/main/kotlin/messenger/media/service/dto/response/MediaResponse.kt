@@ -1,6 +1,6 @@
-package com.messenger.media.service.dto.response
+package messenger.media.service.dto.response
 
-import com.messenger.media.service.domain.enums.MediaType
+import messenger.media.service.domain.enums.MediaType
 
 data class MediaResponse(
     val id: Long?,

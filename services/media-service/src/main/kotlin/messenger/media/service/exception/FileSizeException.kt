@@ -1,3 +1,3 @@
-package com.messenger.media.service.exception
+package messenger.media.service.exception
 
 class FileSizeException(message: String) : RuntimeException(message)

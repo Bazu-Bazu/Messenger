@@ -67,6 +67,18 @@ services:
     volumes:
       - postgres_message:/var/lib/postgresql/data
 
+  postgres_media:
+    image: postgres:16
+    container_name: postgres_media
+    environment:
+      POSTGRES_USER: postgres
+      POSTGRES_PASSWORD: postgres
+      POSTGRES_DB: media_db
+    ports:
+      - "5437:5432"
+    volumes:
+      - postgres_media:/var/lib/postgresql/data
+
   zookeeper:
     image: wurstmeister/zookeeper:latest
     container_name: zookeeper_z
@@ -245,6 +257,23 @@ services:
     ports:
       - "8086:8086"
 
+  media-service:
+    build:
+      context: ./services/media-service
+      dockerfile: Dockerfile
+    container_name: media-service
+    depends_on:
+      - discovery-service
+      - postgres_media
+    environment:
+      SPRING_PROFILES_ACTIVE: dev
+      SPRING_DATASOURCE_URL: jdbc:postgresql://postgres_media:5432/postgres
+      SPRING_DATASOURCE_USERNAME: postgres
+      SPRING_DATASOURCE_PASSWORD: postgres
+      SERVER_PORT: 8087
+    ports:
+      - "8087:8087"
+
   jenkins:
     build:
       context: ./jenkins
@@ -265,5 +294,6 @@ volumes:
   postgres_personal-chat:
   postgres_group-chat:
   postgres_message:
+  postgres_media:
   redis:
   jenkins_home:

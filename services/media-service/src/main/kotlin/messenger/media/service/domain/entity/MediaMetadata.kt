@@ -1,10 +1,10 @@
-package com.messenger.media.service.domain.entity
+package messenger.media.service.domain.entity
 
-import com.messenger.media.service.domain.enums.MediaType
+import messenger.media.service.domain.enums.MediaType
 import jakarta.persistence.*
 
 @Entity
-@Table(name = "media_metadatas")
+@Table(name = "media_metadata")
 data class MediaMetadata(
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)

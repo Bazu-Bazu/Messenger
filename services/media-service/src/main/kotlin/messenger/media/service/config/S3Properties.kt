@@ -1,4 +1,4 @@
-package com.messenger.media.service.config
+package messenger.media.service.config
 
 import org.springframework.boot.context.properties.ConfigurationProperties
 
