@@ -46,6 +46,11 @@ spring:
           predicates:
             - Path=/ws/chat/**
 
+        - id: media-service
+          uri: http://media-service
+          predicates:
+            - Path=/media/**
+
 
 
         - id: sso-service-docs
@@ -76,6 +81,13 @@ spring:
           filters:
             - RewritePath=/group-chat-service/(?<segment>.*), /$\{segment}
 
+        - id: media-service-docs
+          uri: http://media-service
+          predicates:
+            - Path=/media-service/v3/api-docs
+          filters:
+            - RewritePath=/media-service/(?<segment>.*), /$\{segment}
+
 springdoc:
   api-docs:
     enabled: true
@@ -92,6 +104,8 @@ springdoc:
         url: /personal-chat-service/v3/api-docs
       - name: group-chat-service
         url: /group-chat-service/v3/api-docs
+      - name: media-service
+        url: /media-service/v3/api-docs
 
 logging:
   level:
