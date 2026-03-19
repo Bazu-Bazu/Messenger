@@ -1,5 +1,6 @@
 package messenger.message.service.service;
 
+import dto.payload.TextPayload;
 import dto.request.GetMessagesRequest;
 import dto.request.MarkMessageAsReadRequest;
 import dto.request.SendMessageRequest;
@@ -57,9 +58,11 @@ class MessageServiceTest {
         Message message = mock(Message.class);
         MessageResponse response = mock(MessageResponse.class);
 
+        TextPayload payload = new TextPayload("Hello");
+
         when(request.chatId()).thenReturn(10L);
         when(request.chatType()).thenReturn(ChatType.GROUP);
-        when(request.content()).thenReturn("Hello");
+        when(request.payload()).thenReturn(payload);
         when(request.messageType()).thenReturn(MessageType.TEXT);
 
         when(messageRepository.save(any(Message.class))).thenReturn(message);
@@ -75,7 +78,8 @@ class MessageServiceTest {
 
         Message savedMessage = messageCaptor.getValue();
         assertEquals(senderId, savedMessage.getSenderId());
-        assertEquals("Hello", savedMessage.getContent());
+        assertEquals("Hello", savedMessage.getText());
+        assertNull(savedMessage.getMediaId());
         assertEquals(ChatType.GROUP, savedMessage.getChatType());
 
         assertEquals(response, result);

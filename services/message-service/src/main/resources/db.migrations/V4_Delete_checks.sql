@@ -1,0 +1,1 @@
+ALTER TABLE messages DROP CONSTRAINT message_type_check;

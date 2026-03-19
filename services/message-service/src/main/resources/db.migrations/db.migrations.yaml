@@ -1,3 +1,9 @@
 databaseChangeLog:
   - include:
       file: db.migrations/V1_Created_messages_table.sql
+  - include:
+      file: db.migrations/V2_Deleted_edited_column.sql
+  - include:
+      file: db.migrations/V3_Updated_message_table.sql
+  - include:
+      file: db.migrations/V4_Delete_checks.sql

@@ -1,4 +1,4 @@
-package messenger.web.socket.service.controller.kafka;
+package messenger.web.socket.service.kafka.consumer;
 
 import com.fasterxml.jackson.databind.ObjectMapper;
 import dto.event.MessageDetailEvent;
@@ -45,7 +45,7 @@ public class MessageEventConsumer {
                 .id(event.id())
                 .chatId(event.chatId())
                 .chatType(event.chatType())
-                .content(event.content())
+                .payload(event.payload())
                 .senderId(event.senderId())
                 .messageType(event.messageType())
                 .createdAt(event.createdAt())
