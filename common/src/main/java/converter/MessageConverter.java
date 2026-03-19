@@ -1,6 +1,8 @@
 package converter;
 
 import com.google.protobuf.Timestamp;
+import dto.payload.MediaPayload;
+import dto.payload.TextPayload;
 import dto.request.SendMessageRequest;
 import enums.ChatType;
 import enums.MessageType;
@@ -16,22 +18,40 @@ import java.time.Instant;
 public class MessageConverter {
 
     public Message.SendMessageRequest toGrpcRequest(SendMessageRequest wsRequest, Long senderId) {
-        return Message.SendMessageRequest.newBuilder()
+        var builder = Message.SendMessageRequest.newBuilder()
                 .setSenderId(senderId)
                 .setChatId(wsRequest.chatId())
                 .setChatType(convertChatType(wsRequest.chatType()))
-                .setContent(wsRequest.content())
-                .setMessageType(convertMessageType(wsRequest.messageType()))
-                .build();
+                .setMessageType(convertMessageType(wsRequest.messageType()));
+
+        var payload = wsRequest.payload();
+
+        if (payload instanceof TextPayload t) {
+            builder.setText(t.text());
+        } else if (payload instanceof MediaPayload m) {
+            builder.setMediaId(m.mediaId());
+        } else {
+            throw new IllegalArgumentException("Unknow payload");
+        }
+
+        return builder.build();
     }
 
     public SendMessageRequest fromGrpcRequest(Message.SendMessageRequest grpcRequest) {
-        return SendMessageRequest.builder()
+        var builder = SendMessageRequest.builder()
                 .chatId(grpcRequest.getChatId())
-                .content(grpcRequest.getContent())
                 .chatType(convertChatType(grpcRequest.getChatType()))
-                .messageType(convertMessageType(grpcRequest.getMessageType()))
-                .build();
+                .messageType(convertMessageType(grpcRequest.getMessageType()));
+
+        var payload =  grpcRequest.getPayloadCase();
+
+        switch (payload) {
+            case TEXT -> builder.payload(new TextPayload(grpcRequest.getText()));
+            case MEDIA_ID -> builder.payload(new MediaPayload(grpcRequest.getMediaId()));
+            case PAYLOAD_NOT_SET -> throw new IllegalArgumentException("Payload not set");
+        }
+
+        return builder.build();
     }
 
     public Message.MarkAsReadRequest toGrpcRequest(MarkMessageAsReadRequest wsRequest, Long readerId) {
@@ -52,32 +72,48 @@ public class MessageConverter {
     }
 
     public MessageResponse fromGrpcResponse(Message.MessageResponse grpcResponse) {
-        return MessageResponse.builder()
+        var builder = MessageResponse.builder()
                 .id(grpcResponse.getId())
                 .chatId(grpcResponse.getChatId())
                 .chatType(convertChatType(grpcResponse.getChatType()))
                 .senderId(grpcResponse.getSenderId())
-                .content(grpcResponse.getContent())
                 .messageType(convertMessageType(grpcResponse.getMessageType()))
                 .createdAt(toInstant(grpcResponse.getCreatedAt()))
-                .readAt(toInstant(grpcResponse.getReadAt()))
-                .build();
+                .readAt(toInstant(grpcResponse.getReadAt()));
+
+        var payload =  grpcResponse.getPayloadCase();
+
+        switch (payload) {
+            case TEXT -> builder.payload(new TextPayload(grpcResponse.getText()));
+            case MEDIA_ID -> builder.payload(new MediaPayload(grpcResponse.getMediaId()));
+            case PAYLOAD_NOT_SET -> throw new IllegalArgumentException("Payload not set");
+        }
+
+        return builder.build();
     }
 
     public Message.MessageResponse toGrpcResponse(MessageResponse response) {
-        Message.MessageResponse.Builder builder = Message.MessageResponse.newBuilder()
+        var builder = Message.MessageResponse.newBuilder()
                 .setId(response.id())
                 .setChatId(response.chatId())
                 .setChatType(convertChatType(response.chatType()))
-                .setSenderId(response.senderId())
-                .setContent(response.content());
+                .setSenderId(response.senderId());
 
         if (response.createdAt() != null) {
             builder.setCreatedAt(toTimestamp(response.createdAt()));
         }
-
         if (response.readAt() != null) {
             builder.setReadAt(toTimestamp(response.readAt()));
+        }
+
+        var payload = response.payload();
+
+        if (payload instanceof TextPayload t) {
+            builder.setText(t.text());
+        } else if (payload instanceof MediaPayload m) {
+            builder.setMediaId(m.mediaId());
+        } else {
+            throw new IllegalArgumentException("Unknow payload");
         }
 
         return builder.build();

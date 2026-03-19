@@ -27,8 +27,8 @@ public class Message {
     @Column(nullable = false)
     private ChatType chatType;
 
-    @Column(nullable = false)
-    private String content;
+    private String text;
+    private Long mediaId;
 
     @Column(nullable = false)
     private Long senderId;

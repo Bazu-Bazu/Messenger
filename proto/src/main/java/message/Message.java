@@ -133,13 +133,9 @@ public final class Message {
      */
     TEXT(0),
     /**
-     * <code>IMAGE = 1;</code>
+     * <code>MEDIA = 1;</code>
      */
-    IMAGE(1),
-    /**
-     * <code>FILE = 2;</code>
-     */
-    FILE(2),
+    MEDIA(1),
     UNRECOGNIZED(-1),
     ;
 
@@ -148,13 +144,9 @@ public final class Message {
      */
     public static final int TEXT_VALUE = 0;
     /**
-     * <code>IMAGE = 1;</code>
+     * <code>MEDIA = 1;</code>
      */
-    public static final int IMAGE_VALUE = 1;
-    /**
-     * <code>FILE = 2;</code>
-     */
-    public static final int FILE_VALUE = 2;
+    public static final int MEDIA_VALUE = 1;
 
 
     public final int getNumber() {
@@ -182,8 +174,7 @@ public final class Message {
     public static MessageType forNumber(int value) {
       switch (value) {
         case 0: return TEXT;
-        case 1: return IMAGE;
-        case 2: return FILE;
+        case 1: return MEDIA;
         default: return null;
       }
     }
@@ -1201,72 +1192,90 @@ public final class Message {
     long getSenderId();
 
     /**
-     * <code>string content = 5;</code>
-     * @return The content.
-     */
-    java.lang.String getContent();
-    /**
-     * <code>string content = 5;</code>
-     * @return The bytes for content.
-     */
-    com.google.protobuf.ByteString
-        getContentBytes();
-
-    /**
-     * <code>.message.MessageType message_type = 6;</code>
+     * <code>.message.MessageType message_type = 5;</code>
      * @return The enum numeric value on the wire for messageType.
      */
     int getMessageTypeValue();
     /**
-     * <code>.message.MessageType message_type = 6;</code>
+     * <code>.message.MessageType message_type = 5;</code>
      * @return The messageType.
      */
     message.Message.MessageType getMessageType();
 
     /**
-     * <code>.google.protobuf.Timestamp created_at = 7;</code>
+     * <code>string text = 6;</code>
+     * @return Whether the text field is set.
+     */
+    boolean hasText();
+    /**
+     * <code>string text = 6;</code>
+     * @return The text.
+     */
+    java.lang.String getText();
+    /**
+     * <code>string text = 6;</code>
+     * @return The bytes for text.
+     */
+    com.google.protobuf.ByteString
+        getTextBytes();
+
+    /**
+     * <code>int64 media_id = 7;</code>
+     * @return Whether the mediaId field is set.
+     */
+    boolean hasMediaId();
+    /**
+     * <code>int64 media_id = 7;</code>
+     * @return The mediaId.
+     */
+    long getMediaId();
+
+    /**
+     * <code>.google.protobuf.Timestamp created_at = 8;</code>
      * @return Whether the createdAt field is set.
      */
     boolean hasCreatedAt();
     /**
-     * <code>.google.protobuf.Timestamp created_at = 7;</code>
+     * <code>.google.protobuf.Timestamp created_at = 8;</code>
      * @return The createdAt.
      */
     com.google.protobuf.Timestamp getCreatedAt();
     /**
-     * <code>.google.protobuf.Timestamp created_at = 7;</code>
+     * <code>.google.protobuf.Timestamp created_at = 8;</code>
      */
     com.google.protobuf.TimestampOrBuilder getCreatedAtOrBuilder();
 
     /**
-     * <code>optional .google.protobuf.Timestamp edited_at = 8;</code>
+     * <code>optional .google.protobuf.Timestamp edited_at = 9;</code>
      * @return Whether the editedAt field is set.
      */
     boolean hasEditedAt();
     /**
-     * <code>optional .google.protobuf.Timestamp edited_at = 8;</code>
+     * <code>optional .google.protobuf.Timestamp edited_at = 9;</code>
      * @return The editedAt.
      */
     com.google.protobuf.Timestamp getEditedAt();
     /**
-     * <code>optional .google.protobuf.Timestamp edited_at = 8;</code>
+     * <code>optional .google.protobuf.Timestamp edited_at = 9;</code>
      */
     com.google.protobuf.TimestampOrBuilder getEditedAtOrBuilder();
 
     /**
-     * <code>optional .google.protobuf.Timestamp read_at = 9;</code>
+     * <code>optional .google.protobuf.Timestamp read_at = 10;</code>
      * @return Whether the readAt field is set.
      */
     boolean hasReadAt();
     /**
-     * <code>optional .google.protobuf.Timestamp read_at = 9;</code>
+     * <code>optional .google.protobuf.Timestamp read_at = 10;</code>
      * @return The readAt.
      */
     com.google.protobuf.Timestamp getReadAt();
     /**
-     * <code>optional .google.protobuf.Timestamp read_at = 9;</code>
+     * <code>optional .google.protobuf.Timestamp read_at = 10;</code>
      */
     com.google.protobuf.TimestampOrBuilder getReadAtOrBuilder();
+
+    message.Message.MessageResponse.PayloadCase getPayloadCase();
   }
   /**
    * Protobuf type {@code message.MessageResponse}
@@ -1282,7 +1291,6 @@ public final class Message {
     }
     private MessageResponse() {
       chatType_ = 0;
-      content_ = "";
       messageType_ = 0;
     }
 
@@ -1307,6 +1315,48 @@ public final class Message {
     }
 
     private int bitField0_;
+    private int payloadCase_ = 0;
+    @SuppressWarnings("serial")
+    private java.lang.Object payload_;
+    public enum PayloadCase
+        implements com.google.protobuf.Internal.EnumLite,
+            com.google.protobuf.AbstractMessage.InternalOneOfEnum {
+      TEXT(6),
+      MEDIA_ID(7),
+      PAYLOAD_NOT_SET(0);
+      private final int value;
+      private PayloadCase(int value) {
+        this.value = value;
+      }
+      /**
+       * @param value The number of the enum to look for.
+       * @return The enum associated with the given number.
+       * @deprecated Use {@link #forNumber(int)} instead.
+       */
+      @java.lang.Deprecated
+      public static PayloadCase valueOf(int value) {
+        return forNumber(value);
+      }
+
+      public static PayloadCase forNumber(int value) {
+        switch (value) {
+          case 6: return TEXT;
+          case 7: return MEDIA_ID;
+          case 0: return PAYLOAD_NOT_SET;
+          default: return null;
+        }
+      }
+      public int getNumber() {
+        return this.value;
+      }
+    };
+
+    public PayloadCase
+    getPayloadCase() {
+      return PayloadCase.forNumber(
+          payloadCase_);
+    }
+
     public static final int ID_FIELD_NUMBER = 1;
     private long id_ = 0L;
     /**
@@ -1358,56 +1408,17 @@ public final class Message {
       return senderId_;
     }
 
-    public static final int CONTENT_FIELD_NUMBER = 5;
-    @SuppressWarnings("serial")
-    private volatile java.lang.Object content_ = "";
-    /**
-     * <code>string content = 5;</code>
-     * @return The content.
-     */
-    @java.lang.Override
-    public java.lang.String getContent() {
-      java.lang.Object ref = content_;
-      if (ref instanceof java.lang.String) {
-        return (java.lang.String) ref;
-      } else {
-        com.google.protobuf.ByteString bs = 
-            (com.google.protobuf.ByteString) ref;
-        java.lang.String s = bs.toStringUtf8();
-        content_ = s;
-        return s;
-      }
-    }
-    /**
-     * <code>string content = 5;</code>
-     * @return The bytes for content.
-     */
-    @java.lang.Override
-    public com.google.protobuf.ByteString
-        getContentBytes() {
-      java.lang.Object ref = content_;
-      if (ref instanceof java.lang.String) {
-        com.google.protobuf.ByteString b = 
-            com.google.protobuf.ByteString.copyFromUtf8(
-                (java.lang.String) ref);
-        content_ = b;
-        return b;
-      } else {
-        return (com.google.protobuf.ByteString) ref;
-      }
-    }
-
-    public static final int MESSAGE_TYPE_FIELD_NUMBER = 6;
+    public static final int MESSAGE_TYPE_FIELD_NUMBER = 5;
     private int messageType_ = 0;
     /**
-     * <code>.message.MessageType message_type = 6;</code>
+     * <code>.message.MessageType message_type = 5;</code>
      * @return The enum numeric value on the wire for messageType.
      */
     @java.lang.Override public int getMessageTypeValue() {
       return messageType_;
     }
     /**
-     * <code>.message.MessageType message_type = 6;</code>
+     * <code>.message.MessageType message_type = 5;</code>
      * @return The messageType.
      */
     @java.lang.Override public message.Message.MessageType getMessageType() {
@@ -1415,10 +1426,83 @@ public final class Message {
       return result == null ? message.Message.MessageType.UNRECOGNIZED : result;
     }
 
-    public static final int CREATED_AT_FIELD_NUMBER = 7;
+    public static final int TEXT_FIELD_NUMBER = 6;
+    /**
+     * <code>string text = 6;</code>
+     * @return Whether the text field is set.
+     */
+    public boolean hasText() {
+      return payloadCase_ == 6;
+    }
+    /**
+     * <code>string text = 6;</code>
+     * @return The text.
+     */
+    public java.lang.String getText() {
+      java.lang.Object ref = "";
+      if (payloadCase_ == 6) {
+        ref = payload_;
+      }
+      if (ref instanceof java.lang.String) {
+        return (java.lang.String) ref;
+      } else {
+        com.google.protobuf.ByteString bs = 
+            (com.google.protobuf.ByteString) ref;
+        java.lang.String s = bs.toStringUtf8();
+        if (payloadCase_ == 6) {
+          payload_ = s;
+        }
+        return s;
+      }
+    }
+    /**
+     * <code>string text = 6;</code>
+     * @return The bytes for text.
+     */
+    public com.google.protobuf.ByteString
+        getTextBytes() {
+      java.lang.Object ref = "";
+      if (payloadCase_ == 6) {
+        ref = payload_;
+      }
+      if (ref instanceof java.lang.String) {
+        com.google.protobuf.ByteString b = 
+            com.google.protobuf.ByteString.copyFromUtf8(
+                (java.lang.String) ref);
+        if (payloadCase_ == 6) {
+          payload_ = b;
+        }
+        return b;
+      } else {
+        return (com.google.protobuf.ByteString) ref;
+      }
+    }
+
+    public static final int MEDIA_ID_FIELD_NUMBER = 7;
+    /**
+     * <code>int64 media_id = 7;</code>
+     * @return Whether the mediaId field is set.
+     */
+    @java.lang.Override
+    public boolean hasMediaId() {
+      return payloadCase_ == 7;
+    }
+    /**
+     * <code>int64 media_id = 7;</code>
+     * @return The mediaId.
+     */
+    @java.lang.Override
+    public long getMediaId() {
+      if (payloadCase_ == 7) {
+        return (java.lang.Long) payload_;
+      }
+      return 0L;
+    }
+
+    public static final int CREATED_AT_FIELD_NUMBER = 8;
     private com.google.protobuf.Timestamp createdAt_;
     /**
-     * <code>.google.protobuf.Timestamp created_at = 7;</code>
+     * <code>.google.protobuf.Timestamp created_at = 8;</code>
      * @return Whether the createdAt field is set.
      */
     @java.lang.Override
@@ -1426,7 +1510,7 @@ public final class Message {
       return ((bitField0_ & 0x00000001) != 0);
     }
     /**
-     * <code>.google.protobuf.Timestamp created_at = 7;</code>
+     * <code>.google.protobuf.Timestamp created_at = 8;</code>
      * @return The createdAt.
      */
     @java.lang.Override
@@ -1434,17 +1518,17 @@ public final class Message {
       return createdAt_ == null ? com.google.protobuf.Timestamp.getDefaultInstance() : createdAt_;
     }
     /**
-     * <code>.google.protobuf.Timestamp created_at = 7;</code>
+     * <code>.google.protobuf.Timestamp created_at = 8;</code>
      */
     @java.lang.Override
     public com.google.protobuf.TimestampOrBuilder getCreatedAtOrBuilder() {
       return createdAt_ == null ? com.google.protobuf.Timestamp.getDefaultInstance() : createdAt_;
     }
 
-    public static final int EDITED_AT_FIELD_NUMBER = 8;
+    public static final int EDITED_AT_FIELD_NUMBER = 9;
     private com.google.protobuf.Timestamp editedAt_;
     /**
-     * <code>optional .google.protobuf.Timestamp edited_at = 8;</code>
+     * <code>optional .google.protobuf.Timestamp edited_at = 9;</code>
      * @return Whether the editedAt field is set.
      */
     @java.lang.Override
@@ -1452,7 +1536,7 @@ public final class Message {
       return ((bitField0_ & 0x00000002) != 0);
     }
     /**
-     * <code>optional .google.protobuf.Timestamp edited_at = 8;</code>
+     * <code>optional .google.protobuf.Timestamp edited_at = 9;</code>
      * @return The editedAt.
      */
     @java.lang.Override
@@ -1460,17 +1544,17 @@ public final class Message {
       return editedAt_ == null ? com.google.protobuf.Timestamp.getDefaultInstance() : editedAt_;
     }
     /**
-     * <code>optional .google.protobuf.Timestamp edited_at = 8;</code>
+     * <code>optional .google.protobuf.Timestamp edited_at = 9;</code>
      */
     @java.lang.Override
     public com.google.protobuf.TimestampOrBuilder getEditedAtOrBuilder() {
       return editedAt_ == null ? com.google.protobuf.Timestamp.getDefaultInstance() : editedAt_;
     }
 
-    public static final int READ_AT_FIELD_NUMBER = 9;
+    public static final int READ_AT_FIELD_NUMBER = 10;
     private com.google.protobuf.Timestamp readAt_;
     /**
-     * <code>optional .google.protobuf.Timestamp read_at = 9;</code>
+     * <code>optional .google.protobuf.Timestamp read_at = 10;</code>
      * @return Whether the readAt field is set.
      */
     @java.lang.Override
@@ -1478,7 +1562,7 @@ public final class Message {
       return ((bitField0_ & 0x00000004) != 0);
     }
     /**
-     * <code>optional .google.protobuf.Timestamp read_at = 9;</code>
+     * <code>optional .google.protobuf.Timestamp read_at = 10;</code>
      * @return The readAt.
      */
     @java.lang.Override
@@ -1486,7 +1570,7 @@ public final class Message {
       return readAt_ == null ? com.google.protobuf.Timestamp.getDefaultInstance() : readAt_;
     }
     /**
-     * <code>optional .google.protobuf.Timestamp read_at = 9;</code>
+     * <code>optional .google.protobuf.Timestamp read_at = 10;</code>
      */
     @java.lang.Override
     public com.google.protobuf.TimestampOrBuilder getReadAtOrBuilder() {
@@ -1519,20 +1603,24 @@ public final class Message {
       if (senderId_ != 0L) {
         output.writeInt64(4, senderId_);
       }
-      if (!com.google.protobuf.GeneratedMessageV3.isStringEmpty(content_)) {
-        com.google.protobuf.GeneratedMessageV3.writeString(output, 5, content_);
-      }
       if (messageType_ != message.Message.MessageType.TEXT.getNumber()) {
-        output.writeEnum(6, messageType_);
+        output.writeEnum(5, messageType_);
+      }
+      if (payloadCase_ == 6) {
+        com.google.protobuf.GeneratedMessageV3.writeString(output, 6, payload_);
+      }
+      if (payloadCase_ == 7) {
+        output.writeInt64(
+            7, (long)((java.lang.Long) payload_));
       }
       if (((bitField0_ & 0x00000001) != 0)) {
-        output.writeMessage(7, getCreatedAt());
+        output.writeMessage(8, getCreatedAt());
       }
       if (((bitField0_ & 0x00000002) != 0)) {
-        output.writeMessage(8, getEditedAt());
+        output.writeMessage(9, getEditedAt());
       }
       if (((bitField0_ & 0x00000004) != 0)) {
-        output.writeMessage(9, getReadAt());
+        output.writeMessage(10, getReadAt());
       }
       getUnknownFields().writeTo(output);
     }
@@ -1559,24 +1647,29 @@ public final class Message {
         size += com.google.protobuf.CodedOutputStream
           .computeInt64Size(4, senderId_);
       }
-      if (!com.google.protobuf.GeneratedMessageV3.isStringEmpty(content_)) {
-        size += com.google.protobuf.GeneratedMessageV3.computeStringSize(5, content_);
-      }
       if (messageType_ != message.Message.MessageType.TEXT.getNumber()) {
         size += com.google.protobuf.CodedOutputStream
-          .computeEnumSize(6, messageType_);
+          .computeEnumSize(5, messageType_);
+      }
+      if (payloadCase_ == 6) {
+        size += com.google.protobuf.GeneratedMessageV3.computeStringSize(6, payload_);
+      }
+      if (payloadCase_ == 7) {
+        size += com.google.protobuf.CodedOutputStream
+          .computeInt64Size(
+              7, (long)((java.lang.Long) payload_));
       }
       if (((bitField0_ & 0x00000001) != 0)) {
         size += com.google.protobuf.CodedOutputStream
-          .computeMessageSize(7, getCreatedAt());
+          .computeMessageSize(8, getCreatedAt());
       }
       if (((bitField0_ & 0x00000002) != 0)) {
         size += com.google.protobuf.CodedOutputStream
-          .computeMessageSize(8, getEditedAt());
+          .computeMessageSize(9, getEditedAt());
       }
       if (((bitField0_ & 0x00000004) != 0)) {
         size += com.google.protobuf.CodedOutputStream
-          .computeMessageSize(9, getReadAt());
+          .computeMessageSize(10, getReadAt());
       }
       size += getUnknownFields().getSerializedSize();
       memoizedSize = size;
@@ -1600,8 +1693,6 @@ public final class Message {
       if (chatType_ != other.chatType_) return false;
       if (getSenderId()
           != other.getSenderId()) return false;
-      if (!getContent()
-          .equals(other.getContent())) return false;
       if (messageType_ != other.messageType_) return false;
       if (hasCreatedAt() != other.hasCreatedAt()) return false;
       if (hasCreatedAt()) {
@@ -1617,6 +1708,19 @@ public final class Message {
       if (hasReadAt()) {
         if (!getReadAt()
             .equals(other.getReadAt())) return false;
+      }
+      if (!getPayloadCase().equals(other.getPayloadCase())) return false;
+      switch (payloadCase_) {
+        case 6:
+          if (!getText()
+              .equals(other.getText())) return false;
+          break;
+        case 7:
+          if (getMediaId()
+              != other.getMediaId()) return false;
+          break;
+        case 0:
+        default:
       }
       if (!getUnknownFields().equals(other.getUnknownFields())) return false;
       return true;
@@ -1640,8 +1744,6 @@ public final class Message {
       hash = (37 * hash) + SENDER_ID_FIELD_NUMBER;
       hash = (53 * hash) + com.google.protobuf.Internal.hashLong(
           getSenderId());
-      hash = (37 * hash) + CONTENT_FIELD_NUMBER;
-      hash = (53 * hash) + getContent().hashCode();
       hash = (37 * hash) + MESSAGE_TYPE_FIELD_NUMBER;
       hash = (53 * hash) + messageType_;
       if (hasCreatedAt()) {
@@ -1655,6 +1757,19 @@ public final class Message {
       if (hasReadAt()) {
         hash = (37 * hash) + READ_AT_FIELD_NUMBER;
         hash = (53 * hash) + getReadAt().hashCode();
+      }
+      switch (payloadCase_) {
+        case 6:
+          hash = (37 * hash) + TEXT_FIELD_NUMBER;
+          hash = (53 * hash) + getText().hashCode();
+          break;
+        case 7:
+          hash = (37 * hash) + MEDIA_ID_FIELD_NUMBER;
+          hash = (53 * hash) + com.google.protobuf.Internal.hashLong(
+              getMediaId());
+          break;
+        case 0:
+        default:
       }
       hash = (29 * hash) + getUnknownFields().hashCode();
       memoizedHashCode = hash;
@@ -1799,7 +1914,6 @@ public final class Message {
         chatId_ = 0L;
         chatType_ = 0;
         senderId_ = 0L;
-        content_ = "";
         messageType_ = 0;
         createdAt_ = null;
         if (createdAtBuilder_ != null) {
@@ -1816,6 +1930,8 @@ public final class Message {
           readAtBuilder_.dispose();
           readAtBuilder_ = null;
         }
+        payloadCase_ = 0;
+        payload_ = null;
         return this;
       }
 
@@ -1843,6 +1959,7 @@ public final class Message {
       public message.Message.MessageResponse buildPartial() {
         message.Message.MessageResponse result = new message.Message.MessageResponse(this);
         if (bitField0_ != 0) { buildPartial0(result); }
+        buildPartialOneofs(result);
         onBuilt();
         return result;
       }
@@ -1862,31 +1979,33 @@ public final class Message {
           result.senderId_ = senderId_;
         }
         if (((from_bitField0_ & 0x00000010) != 0)) {
-          result.content_ = content_;
-        }
-        if (((from_bitField0_ & 0x00000020) != 0)) {
           result.messageType_ = messageType_;
         }
         int to_bitField0_ = 0;
-        if (((from_bitField0_ & 0x00000040) != 0)) {
+        if (((from_bitField0_ & 0x00000080) != 0)) {
           result.createdAt_ = createdAtBuilder_ == null
               ? createdAt_
               : createdAtBuilder_.build();
           to_bitField0_ |= 0x00000001;
         }
-        if (((from_bitField0_ & 0x00000080) != 0)) {
+        if (((from_bitField0_ & 0x00000100) != 0)) {
           result.editedAt_ = editedAtBuilder_ == null
               ? editedAt_
               : editedAtBuilder_.build();
           to_bitField0_ |= 0x00000002;
         }
-        if (((from_bitField0_ & 0x00000100) != 0)) {
+        if (((from_bitField0_ & 0x00000200) != 0)) {
           result.readAt_ = readAtBuilder_ == null
               ? readAt_
               : readAtBuilder_.build();
           to_bitField0_ |= 0x00000004;
         }
         result.bitField0_ |= to_bitField0_;
+      }
+
+      private void buildPartialOneofs(message.Message.MessageResponse result) {
+        result.payloadCase_ = payloadCase_;
+        result.payload_ = this.payload_;
       }
 
       @java.lang.Override
@@ -1945,11 +2064,6 @@ public final class Message {
         if (other.getSenderId() != 0L) {
           setSenderId(other.getSenderId());
         }
-        if (!other.getContent().isEmpty()) {
-          content_ = other.content_;
-          bitField0_ |= 0x00000010;
-          onChanged();
-        }
         if (other.messageType_ != 0) {
           setMessageTypeValue(other.getMessageTypeValue());
         }
@@ -1961,6 +2075,21 @@ public final class Message {
         }
         if (other.hasReadAt()) {
           mergeReadAt(other.getReadAt());
+        }
+        switch (other.getPayloadCase()) {
+          case TEXT: {
+            payloadCase_ = 6;
+            payload_ = other.payload_;
+            onChanged();
+            break;
+          }
+          case MEDIA_ID: {
+            setMediaId(other.getMediaId());
+            break;
+          }
+          case PAYLOAD_NOT_SET: {
+            break;
+          }
         }
         this.mergeUnknownFields(other.getUnknownFields());
         onChanged();
@@ -2008,37 +2137,43 @@ public final class Message {
                 bitField0_ |= 0x00000008;
                 break;
               } // case 32
-              case 42: {
-                content_ = input.readStringRequireUtf8();
+              case 40: {
+                messageType_ = input.readEnum();
                 bitField0_ |= 0x00000010;
                 break;
-              } // case 42
-              case 48: {
-                messageType_ = input.readEnum();
-                bitField0_ |= 0x00000020;
+              } // case 40
+              case 50: {
+                java.lang.String s = input.readStringRequireUtf8();
+                payloadCase_ = 6;
+                payload_ = s;
                 break;
-              } // case 48
-              case 58: {
-                input.readMessage(
-                    getCreatedAtFieldBuilder().getBuilder(),
-                    extensionRegistry);
-                bitField0_ |= 0x00000040;
+              } // case 50
+              case 56: {
+                payload_ = input.readInt64();
+                payloadCase_ = 7;
                 break;
-              } // case 58
+              } // case 56
               case 66: {
                 input.readMessage(
-                    getEditedAtFieldBuilder().getBuilder(),
+                    getCreatedAtFieldBuilder().getBuilder(),
                     extensionRegistry);
                 bitField0_ |= 0x00000080;
                 break;
               } // case 66
               case 74: {
                 input.readMessage(
-                    getReadAtFieldBuilder().getBuilder(),
+                    getEditedAtFieldBuilder().getBuilder(),
                     extensionRegistry);
                 bitField0_ |= 0x00000100;
                 break;
               } // case 74
+              case 82: {
+                input.readMessage(
+                    getReadAtFieldBuilder().getBuilder(),
+                    extensionRegistry);
+                bitField0_ |= 0x00000200;
+                break;
+              } // case 82
               default: {
                 if (!super.parseUnknownField(input, extensionRegistry, tag)) {
                   done = true; // was an endgroup tag
@@ -2054,6 +2189,21 @@ public final class Message {
         } // finally
         return this;
       }
+      private int payloadCase_ = 0;
+      private java.lang.Object payload_;
+      public PayloadCase
+          getPayloadCase() {
+        return PayloadCase.forNumber(
+            payloadCase_);
+      }
+
+      public Builder clearPayload() {
+        payloadCase_ = 0;
+        payload_ = null;
+        onChanged();
+        return this;
+      }
+
       private int bitField0_;
 
       private long id_ ;
@@ -2205,99 +2355,27 @@ public final class Message {
         return this;
       }
 
-      private java.lang.Object content_ = "";
-      /**
-       * <code>string content = 5;</code>
-       * @return The content.
-       */
-      public java.lang.String getContent() {
-        java.lang.Object ref = content_;
-        if (!(ref instanceof java.lang.String)) {
-          com.google.protobuf.ByteString bs =
-              (com.google.protobuf.ByteString) ref;
-          java.lang.String s = bs.toStringUtf8();
-          content_ = s;
-          return s;
-        } else {
-          return (java.lang.String) ref;
-        }
-      }
-      /**
-       * <code>string content = 5;</code>
-       * @return The bytes for content.
-       */
-      public com.google.protobuf.ByteString
-          getContentBytes() {
-        java.lang.Object ref = content_;
-        if (ref instanceof String) {
-          com.google.protobuf.ByteString b = 
-              com.google.protobuf.ByteString.copyFromUtf8(
-                  (java.lang.String) ref);
-          content_ = b;
-          return b;
-        } else {
-          return (com.google.protobuf.ByteString) ref;
-        }
-      }
-      /**
-       * <code>string content = 5;</code>
-       * @param value The content to set.
-       * @return This builder for chaining.
-       */
-      public Builder setContent(
-          java.lang.String value) {
-        if (value == null) { throw new NullPointerException(); }
-        content_ = value;
-        bitField0_ |= 0x00000010;
-        onChanged();
-        return this;
-      }
-      /**
-       * <code>string content = 5;</code>
-       * @return This builder for chaining.
-       */
-      public Builder clearContent() {
-        content_ = getDefaultInstance().getContent();
-        bitField0_ = (bitField0_ & ~0x00000010);
-        onChanged();
-        return this;
-      }
-      /**
-       * <code>string content = 5;</code>
-       * @param value The bytes for content to set.
-       * @return This builder for chaining.
-       */
-      public Builder setContentBytes(
-          com.google.protobuf.ByteString value) {
-        if (value == null) { throw new NullPointerException(); }
-        checkByteStringIsUtf8(value);
-        content_ = value;
-        bitField0_ |= 0x00000010;
-        onChanged();
-        return this;
-      }
-
       private int messageType_ = 0;
       /**
-       * <code>.message.MessageType message_type = 6;</code>
+       * <code>.message.MessageType message_type = 5;</code>
        * @return The enum numeric value on the wire for messageType.
        */
       @java.lang.Override public int getMessageTypeValue() {
         return messageType_;
       }
       /**
-       * <code>.message.MessageType message_type = 6;</code>
+       * <code>.message.MessageType message_type = 5;</code>
        * @param value The enum numeric value on the wire for messageType to set.
        * @return This builder for chaining.
        */
       public Builder setMessageTypeValue(int value) {
         messageType_ = value;
-        bitField0_ |= 0x00000020;
+        bitField0_ |= 0x00000010;
         onChanged();
         return this;
       }
       /**
-       * <code>.message.MessageType message_type = 6;</code>
+       * <code>.message.MessageType message_type = 5;</code>
        * @return The messageType.
        */
       @java.lang.Override
@@ -2306,7 +2384,7 @@ public final class Message {
         return result == null ? message.Message.MessageType.UNRECOGNIZED : result;
       }
       /**
-       * <code>.message.MessageType message_type = 6;</code>
+       * <code>.message.MessageType message_type = 5;</code>
        * @param value The messageType to set.
        * @return This builder for chaining.
        */
@@ -2314,19 +2392,154 @@ public final class Message {
         if (value == null) {
           throw new NullPointerException();
         }
-        bitField0_ |= 0x00000020;
+        bitField0_ |= 0x00000010;
         messageType_ = value.getNumber();
         onChanged();
         return this;
       }
       /**
-       * <code>.message.MessageType message_type = 6;</code>
+       * <code>.message.MessageType message_type = 5;</code>
        * @return This builder for chaining.
        */
       public Builder clearMessageType() {
-        bitField0_ = (bitField0_ & ~0x00000020);
+        bitField0_ = (bitField0_ & ~0x00000010);
         messageType_ = 0;
         onChanged();
+        return this;
+      }
+
+      /**
+       * <code>string text = 6;</code>
+       * @return Whether the text field is set.
+       */
+      @java.lang.Override
+      public boolean hasText() {
+        return payloadCase_ == 6;
+      }
+      /**
+       * <code>string text = 6;</code>
+       * @return The text.
+       */
+      @java.lang.Override
+      public java.lang.String getText() {
+        java.lang.Object ref = "";
+        if (payloadCase_ == 6) {
+          ref = payload_;
+        }
+        if (!(ref instanceof java.lang.String)) {
+          com.google.protobuf.ByteString bs =
+              (com.google.protobuf.ByteString) ref;
+          java.lang.String s = bs.toStringUtf8();
+          if (payloadCase_ == 6) {
+            payload_ = s;
+          }
+          return s;
+        } else {
+          return (java.lang.String) ref;
+        }
+      }
+      /**
+       * <code>string text = 6;</code>
+       * @return The bytes for text.
+       */
+      @java.lang.Override
+      public com.google.protobuf.ByteString
+          getTextBytes() {
+        java.lang.Object ref = "";
+        if (payloadCase_ == 6) {
+          ref = payload_;
+        }
+        if (ref instanceof String) {
+          com.google.protobuf.ByteString b = 
+              com.google.protobuf.ByteString.copyFromUtf8(
+                  (java.lang.String) ref);
+          if (payloadCase_ == 6) {
+            payload_ = b;
+          }
+          return b;
+        } else {
+          return (com.google.protobuf.ByteString) ref;
+        }
+      }
+      /**
+       * <code>string text = 6;</code>
+       * @param value The text to set.
+       * @return This builder for chaining.
+       */
+      public Builder setText(
+          java.lang.String value) {
+        if (value == null) { throw new NullPointerException(); }
+        payloadCase_ = 6;
+        payload_ = value;
+        onChanged();
+        return this;
+      }
+      /**
+       * <code>string text = 6;</code>
+       * @return This builder for chaining.
+       */
+      public Builder clearText() {
+        if (payloadCase_ == 6) {
+          payloadCase_ = 0;
+          payload_ = null;
+          onChanged();
+        }
+        return this;
+      }
+      /**
+       * <code>string text = 6;</code>
+       * @param value The bytes for text to set.
+       * @return This builder for chaining.
+       */
+      public Builder setTextBytes(
+          com.google.protobuf.ByteString value) {
+        if (value == null) { throw new NullPointerException(); }
+        checkByteStringIsUtf8(value);
+        payloadCase_ = 6;
+        payload_ = value;
+        onChanged();
+        return this;
+      }
+
+      /**
+       * <code>int64 media_id = 7;</code>
+       * @return Whether the mediaId field is set.
+       */
+      public boolean hasMediaId() {
+        return payloadCase_ == 7;
+      }
+      /**
+       * <code>int64 media_id = 7;</code>
+       * @return The mediaId.
+       */
+      public long getMediaId() {
+        if (payloadCase_ == 7) {
+          return (java.lang.Long) payload_;
+        }
+        return 0L;
+      }
+      /**
+       * <code>int64 media_id = 7;</code>
+       * @param value The mediaId to set.
+       * @return This builder for chaining.
+       */
+      public Builder setMediaId(long value) {
+
+        payloadCase_ = 7;
+        payload_ = value;
+        onChanged();
+        return this;
+      }
+      /**
+       * <code>int64 media_id = 7;</code>
+       * @return This builder for chaining.
+       */
+      public Builder clearMediaId() {
+        if (payloadCase_ == 7) {
+          payloadCase_ = 0;
+          payload_ = null;
+          onChanged();
+        }
         return this;
       }
 
@@ -2334,14 +2547,14 @@ public final class Message {
       private com.google.protobuf.SingleFieldBuilderV3<
           com.google.protobuf.Timestamp, com.google.protobuf.Timestamp.Builder, com.google.protobuf.TimestampOrBuilder> createdAtBuilder_;
       /**
-       * <code>.google.protobuf.Timestamp created_at = 7;</code>
+       * <code>.google.protobuf.Timestamp created_at = 8;</code>
        * @return Whether the createdAt field is set.
        */
       public boolean hasCreatedAt() {
-        return ((bitField0_ & 0x00000040) != 0);
+        return ((bitField0_ & 0x00000080) != 0);
       }
       /**
-       * <code>.google.protobuf.Timestamp created_at = 7;</code>
+       * <code>.google.protobuf.Timestamp created_at = 8;</code>
        * @return The createdAt.
        */
       public com.google.protobuf.Timestamp getCreatedAt() {
@@ -2352,7 +2565,7 @@ public final class Message {
         }
       }
       /**
-       * <code>.google.protobuf.Timestamp created_at = 7;</code>
+       * <code>.google.protobuf.Timestamp created_at = 8;</code>
        */
       public Builder setCreatedAt(com.google.protobuf.Timestamp value) {
         if (createdAtBuilder_ == null) {
@@ -2363,12 +2576,12 @@ public final class Message {
         } else {
           createdAtBuilder_.setMessage(value);
         }
-        bitField0_ |= 0x00000040;
+        bitField0_ |= 0x00000080;
         onChanged();
         return this;
       }
       /**
-       * <code>.google.protobuf.Timestamp created_at = 7;</code>
+       * <code>.google.protobuf.Timestamp created_at = 8;</code>
        */
       public Builder setCreatedAt(
           com.google.protobuf.Timestamp.Builder builderForValue) {
@@ -2377,16 +2590,16 @@ public final class Message {
         } else {
           createdAtBuilder_.setMessage(builderForValue.build());
         }
-        bitField0_ |= 0x00000040;
+        bitField0_ |= 0x00000080;
         onChanged();
         return this;
       }
       /**
-       * <code>.google.protobuf.Timestamp created_at = 7;</code>
+       * <code>.google.protobuf.Timestamp created_at = 8;</code>
        */
       public Builder mergeCreatedAt(com.google.protobuf.Timestamp value) {
         if (createdAtBuilder_ == null) {
-          if (((bitField0_ & 0x00000040) != 0) &&
+          if (((bitField0_ & 0x00000080) != 0) &&
             createdAt_ != null &&
             createdAt_ != com.google.protobuf.Timestamp.getDefaultInstance()) {
             getCreatedAtBuilder().mergeFrom(value);
@@ -2397,16 +2610,16 @@ public final class Message {
           createdAtBuilder_.mergeFrom(value);
         }
         if (createdAt_ != null) {
-          bitField0_ |= 0x00000040;
+          bitField0_ |= 0x00000080;
           onChanged();
         }
         return this;
       }
       /**
-       * <code>.google.protobuf.Timestamp created_at = 7;</code>
+       * <code>.google.protobuf.Timestamp created_at = 8;</code>
        */
       public Builder clearCreatedAt() {
-        bitField0_ = (bitField0_ & ~0x00000040);
+        bitField0_ = (bitField0_ & ~0x00000080);
         createdAt_ = null;
         if (createdAtBuilder_ != null) {
           createdAtBuilder_.dispose();
@@ -2416,15 +2629,15 @@ public final class Message {
         return this;
       }
       /**
-       * <code>.google.protobuf.Timestamp created_at = 7;</code>
+       * <code>.google.protobuf.Timestamp created_at = 8;</code>
        */
       public com.google.protobuf.Timestamp.Builder getCreatedAtBuilder() {
-        bitField0_ |= 0x00000040;
+        bitField0_ |= 0x00000080;
         onChanged();
         return getCreatedAtFieldBuilder().getBuilder();
       }
       /**
-       * <code>.google.protobuf.Timestamp created_at = 7;</code>
+       * <code>.google.protobuf.Timestamp created_at = 8;</code>
        */
       public com.google.protobuf.TimestampOrBuilder getCreatedAtOrBuilder() {
         if (createdAtBuilder_ != null) {
@@ -2435,7 +2648,7 @@ public final class Message {
         }
       }
       /**
-       * <code>.google.protobuf.Timestamp created_at = 7;</code>
+       * <code>.google.protobuf.Timestamp created_at = 8;</code>
        */
       private com.google.protobuf.SingleFieldBuilderV3<
           com.google.protobuf.Timestamp, com.google.protobuf.Timestamp.Builder, com.google.protobuf.TimestampOrBuilder> 
@@ -2455,14 +2668,14 @@ public final class Message {
       private com.google.protobuf.SingleFieldBuilderV3<
           com.google.protobuf.Timestamp, com.google.protobuf.Timestamp.Builder, com.google.protobuf.TimestampOrBuilder> editedAtBuilder_;
       /**
-       * <code>optional .google.protobuf.Timestamp edited_at = 8;</code>
+       * <code>optional .google.protobuf.Timestamp edited_at = 9;</code>
        * @return Whether the editedAt field is set.
        */
       public boolean hasEditedAt() {
-        return ((bitField0_ & 0x00000080) != 0);
+        return ((bitField0_ & 0x00000100) != 0);
       }
       /**
-       * <code>optional .google.protobuf.Timestamp edited_at = 8;</code>
+       * <code>optional .google.protobuf.Timestamp edited_at = 9;</code>
        * @return The editedAt.
        */
       public com.google.protobuf.Timestamp getEditedAt() {
@@ -2473,7 +2686,7 @@ public final class Message {
         }
       }
       /**
-       * <code>optional .google.protobuf.Timestamp edited_at = 8;</code>
+       * <code>optional .google.protobuf.Timestamp edited_at = 9;</code>
        */
       public Builder setEditedAt(com.google.protobuf.Timestamp value) {
         if (editedAtBuilder_ == null) {
@@ -2484,12 +2697,12 @@ public final class Message {
         } else {
           editedAtBuilder_.setMessage(value);
         }
-        bitField0_ |= 0x00000080;
+        bitField0_ |= 0x00000100;
         onChanged();
         return this;
       }
       /**
-       * <code>optional .google.protobuf.Timestamp edited_at = 8;</code>
+       * <code>optional .google.protobuf.Timestamp edited_at = 9;</code>
        */
       public Builder setEditedAt(
           com.google.protobuf.Timestamp.Builder builderForValue) {
@@ -2498,16 +2711,16 @@ public final class Message {
         } else {
           editedAtBuilder_.setMessage(builderForValue.build());
         }
-        bitField0_ |= 0x00000080;
+        bitField0_ |= 0x00000100;
         onChanged();
         return this;
       }
       /**
-       * <code>optional .google.protobuf.Timestamp edited_at = 8;</code>
+       * <code>optional .google.protobuf.Timestamp edited_at = 9;</code>
        */
       public Builder mergeEditedAt(com.google.protobuf.Timestamp value) {
         if (editedAtBuilder_ == null) {
-          if (((bitField0_ & 0x00000080) != 0) &&
+          if (((bitField0_ & 0x00000100) != 0) &&
             editedAt_ != null &&
             editedAt_ != com.google.protobuf.Timestamp.getDefaultInstance()) {
             getEditedAtBuilder().mergeFrom(value);
@@ -2518,16 +2731,16 @@ public final class Message {
           editedAtBuilder_.mergeFrom(value);
         }
         if (editedAt_ != null) {
-          bitField0_ |= 0x00000080;
+          bitField0_ |= 0x00000100;
           onChanged();
         }
         return this;
       }
       /**
-       * <code>optional .google.protobuf.Timestamp edited_at = 8;</code>
+       * <code>optional .google.protobuf.Timestamp edited_at = 9;</code>
        */
       public Builder clearEditedAt() {
-        bitField0_ = (bitField0_ & ~0x00000080);
+        bitField0_ = (bitField0_ & ~0x00000100);
         editedAt_ = null;
         if (editedAtBuilder_ != null) {
           editedAtBuilder_.dispose();
@@ -2537,15 +2750,15 @@ public final class Message {
         return this;
       }
       /**
-       * <code>optional .google.protobuf.Timestamp edited_at = 8;</code>
+       * <code>optional .google.protobuf.Timestamp edited_at = 9;</code>
        */
       public com.google.protobuf.Timestamp.Builder getEditedAtBuilder() {
-        bitField0_ |= 0x00000080;
+        bitField0_ |= 0x00000100;
         onChanged();
         return getEditedAtFieldBuilder().getBuilder();
       }
       /**
-       * <code>optional .google.protobuf.Timestamp edited_at = 8;</code>
+       * <code>optional .google.protobuf.Timestamp edited_at = 9;</code>
        */
       public com.google.protobuf.TimestampOrBuilder getEditedAtOrBuilder() {
         if (editedAtBuilder_ != null) {
@@ -2556,7 +2769,7 @@ public final class Message {
         }
       }
       /**
-       * <code>optional .google.protobuf.Timestamp edited_at = 8;</code>
+       * <code>optional .google.protobuf.Timestamp edited_at = 9;</code>
        */
       private com.google.protobuf.SingleFieldBuilderV3<
           com.google.protobuf.Timestamp, com.google.protobuf.Timestamp.Builder, com.google.protobuf.TimestampOrBuilder> 
@@ -2576,14 +2789,14 @@ public final class Message {
       private com.google.protobuf.SingleFieldBuilderV3<
           com.google.protobuf.Timestamp, com.google.protobuf.Timestamp.Builder, com.google.protobuf.TimestampOrBuilder> readAtBuilder_;
       /**
-       * <code>optional .google.protobuf.Timestamp read_at = 9;</code>
+       * <code>optional .google.protobuf.Timestamp read_at = 10;</code>
        * @return Whether the readAt field is set.
        */
       public boolean hasReadAt() {
-        return ((bitField0_ & 0x00000100) != 0);
+        return ((bitField0_ & 0x00000200) != 0);
       }
       /**
-       * <code>optional .google.protobuf.Timestamp read_at = 9;</code>
+       * <code>optional .google.protobuf.Timestamp read_at = 10;</code>
        * @return The readAt.
        */
       public com.google.protobuf.Timestamp getReadAt() {
@@ -2594,7 +2807,7 @@ public final class Message {
         }
       }
       /**
-       * <code>optional .google.protobuf.Timestamp read_at = 9;</code>
+       * <code>optional .google.protobuf.Timestamp read_at = 10;</code>
        */
       public Builder setReadAt(com.google.protobuf.Timestamp value) {
         if (readAtBuilder_ == null) {
@@ -2605,12 +2818,12 @@ public final class Message {
         } else {
           readAtBuilder_.setMessage(value);
         }
-        bitField0_ |= 0x00000100;
+        bitField0_ |= 0x00000200;
         onChanged();
         return this;
       }
       /**
-       * <code>optional .google.protobuf.Timestamp read_at = 9;</code>
+       * <code>optional .google.protobuf.Timestamp read_at = 10;</code>
        */
       public Builder setReadAt(
           com.google.protobuf.Timestamp.Builder builderForValue) {
@@ -2619,16 +2832,16 @@ public final class Message {
         } else {
           readAtBuilder_.setMessage(builderForValue.build());
         }
-        bitField0_ |= 0x00000100;
+        bitField0_ |= 0x00000200;
         onChanged();
         return this;
       }
       /**
-       * <code>optional .google.protobuf.Timestamp read_at = 9;</code>
+       * <code>optional .google.protobuf.Timestamp read_at = 10;</code>
        */
       public Builder mergeReadAt(com.google.protobuf.Timestamp value) {
         if (readAtBuilder_ == null) {
-          if (((bitField0_ & 0x00000100) != 0) &&
+          if (((bitField0_ & 0x00000200) != 0) &&
             readAt_ != null &&
             readAt_ != com.google.protobuf.Timestamp.getDefaultInstance()) {
             getReadAtBuilder().mergeFrom(value);
@@ -2639,16 +2852,16 @@ public final class Message {
           readAtBuilder_.mergeFrom(value);
         }
         if (readAt_ != null) {
-          bitField0_ |= 0x00000100;
+          bitField0_ |= 0x00000200;
           onChanged();
         }
         return this;
       }
       /**
-       * <code>optional .google.protobuf.Timestamp read_at = 9;</code>
+       * <code>optional .google.protobuf.Timestamp read_at = 10;</code>
        */
       public Builder clearReadAt() {
-        bitField0_ = (bitField0_ & ~0x00000100);
+        bitField0_ = (bitField0_ & ~0x00000200);
         readAt_ = null;
         if (readAtBuilder_ != null) {
           readAtBuilder_.dispose();
@@ -2658,15 +2871,15 @@ public final class Message {
         return this;
       }
       /**
-       * <code>optional .google.protobuf.Timestamp read_at = 9;</code>
+       * <code>optional .google.protobuf.Timestamp read_at = 10;</code>
        */
       public com.google.protobuf.Timestamp.Builder getReadAtBuilder() {
-        bitField0_ |= 0x00000100;
+        bitField0_ |= 0x00000200;
         onChanged();
         return getReadAtFieldBuilder().getBuilder();
       }
       /**
-       * <code>optional .google.protobuf.Timestamp read_at = 9;</code>
+       * <code>optional .google.protobuf.Timestamp read_at = 10;</code>
        */
       public com.google.protobuf.TimestampOrBuilder getReadAtOrBuilder() {
         if (readAtBuilder_ != null) {
@@ -2677,7 +2890,7 @@ public final class Message {
         }
       }
       /**
-       * <code>optional .google.protobuf.Timestamp read_at = 9;</code>
+       * <code>optional .google.protobuf.Timestamp read_at = 10;</code>
        */
       private com.google.protobuf.SingleFieldBuilderV3<
           com.google.protobuf.Timestamp, com.google.protobuf.Timestamp.Builder, com.google.protobuf.TimestampOrBuilder> 
@@ -3764,27 +3977,45 @@ public final class Message {
     message.Message.ChatType getChatType();
 
     /**
-     * <code>string content = 4;</code>
-     * @return The content.
-     */
-    java.lang.String getContent();
-    /**
-     * <code>string content = 4;</code>
-     * @return The bytes for content.
-     */
-    com.google.protobuf.ByteString
-        getContentBytes();
-
-    /**
-     * <code>.message.MessageType message_type = 5;</code>
+     * <code>.message.MessageType message_type = 4;</code>
      * @return The enum numeric value on the wire for messageType.
      */
     int getMessageTypeValue();
     /**
-     * <code>.message.MessageType message_type = 5;</code>
+     * <code>.message.MessageType message_type = 4;</code>
      * @return The messageType.
      */
     message.Message.MessageType getMessageType();
+
+    /**
+     * <code>string text = 5;</code>
+     * @return Whether the text field is set.
+     */
+    boolean hasText();
+    /**
+     * <code>string text = 5;</code>
+     * @return The text.
+     */
+    java.lang.String getText();
+    /**
+     * <code>string text = 5;</code>
+     * @return The bytes for text.
+     */
+    com.google.protobuf.ByteString
+        getTextBytes();
+
+    /**
+     * <code>int64 media_id = 6;</code>
+     * @return Whether the mediaId field is set.
+     */
+    boolean hasMediaId();
+    /**
+     * <code>int64 media_id = 6;</code>
+     * @return The mediaId.
+     */
+    long getMediaId();
+
+    message.Message.SendMessageRequest.PayloadCase getPayloadCase();
   }
   /**
    * Protobuf type {@code message.SendMessageRequest}
@@ -3800,7 +4031,6 @@ public final class Message {
     }
     private SendMessageRequest() {
       chatType_ = 0;
-      content_ = "";
       messageType_ = 0;
     }
 
@@ -3822,6 +4052,48 @@ public final class Message {
       return message.Message.internal_static_message_SendMessageRequest_fieldAccessorTable
           .ensureFieldAccessorsInitialized(
               message.Message.SendMessageRequest.class, message.Message.SendMessageRequest.Builder.class);
+    }
+
+    private int payloadCase_ = 0;
+    @SuppressWarnings("serial")
+    private java.lang.Object payload_;
+    public enum PayloadCase
+        implements com.google.protobuf.Internal.EnumLite,
+            com.google.protobuf.AbstractMessage.InternalOneOfEnum {
+      TEXT(5),
+      MEDIA_ID(6),
+      PAYLOAD_NOT_SET(0);
+      private final int value;
+      private PayloadCase(int value) {
+        this.value = value;
+      }
+      /**
+       * @param value The number of the enum to look for.
+       * @return The enum associated with the given number.
+       * @deprecated Use {@link #forNumber(int)} instead.
+       */
+      @java.lang.Deprecated
+      public static PayloadCase valueOf(int value) {
+        return forNumber(value);
+      }
+
+      public static PayloadCase forNumber(int value) {
+        switch (value) {
+          case 5: return TEXT;
+          case 6: return MEDIA_ID;
+          case 0: return PAYLOAD_NOT_SET;
+          default: return null;
+        }
+      }
+      public int getNumber() {
+        return this.value;
+      }
+    };
+
+    public PayloadCase
+    getPayloadCase() {
+      return PayloadCase.forNumber(
+          payloadCase_);
     }
 
     public static final int SENDER_ID_FIELD_NUMBER = 1;
@@ -3864,61 +4136,95 @@ public final class Message {
       return result == null ? message.Message.ChatType.UNRECOGNIZED : result;
     }
 
-    public static final int CONTENT_FIELD_NUMBER = 4;
-    @SuppressWarnings("serial")
-    private volatile java.lang.Object content_ = "";
-    /**
-     * <code>string content = 4;</code>
-     * @return The content.
-     */
-    @java.lang.Override
-    public java.lang.String getContent() {
-      java.lang.Object ref = content_;
-      if (ref instanceof java.lang.String) {
-        return (java.lang.String) ref;
-      } else {
-        com.google.protobuf.ByteString bs = 
-            (com.google.protobuf.ByteString) ref;
-        java.lang.String s = bs.toStringUtf8();
-        content_ = s;
-        return s;
-      }
-    }
-    /**
-     * <code>string content = 4;</code>
-     * @return The bytes for content.
-     */
-    @java.lang.Override
-    public com.google.protobuf.ByteString
-        getContentBytes() {
-      java.lang.Object ref = content_;
-      if (ref instanceof java.lang.String) {
-        com.google.protobuf.ByteString b = 
-            com.google.protobuf.ByteString.copyFromUtf8(
-                (java.lang.String) ref);
-        content_ = b;
-        return b;
-      } else {
-        return (com.google.protobuf.ByteString) ref;
-      }
-    }
-
-    public static final int MESSAGE_TYPE_FIELD_NUMBER = 5;
+    public static final int MESSAGE_TYPE_FIELD_NUMBER = 4;
     private int messageType_ = 0;
     /**
-     * <code>.message.MessageType message_type = 5;</code>
+     * <code>.message.MessageType message_type = 4;</code>
      * @return The enum numeric value on the wire for messageType.
      */
     @java.lang.Override public int getMessageTypeValue() {
       return messageType_;
     }
     /**
-     * <code>.message.MessageType message_type = 5;</code>
+     * <code>.message.MessageType message_type = 4;</code>
      * @return The messageType.
      */
     @java.lang.Override public message.Message.MessageType getMessageType() {
       message.Message.MessageType result = message.Message.MessageType.forNumber(messageType_);
       return result == null ? message.Message.MessageType.UNRECOGNIZED : result;
+    }
+
+    public static final int TEXT_FIELD_NUMBER = 5;
+    /**
+     * <code>string text = 5;</code>
+     * @return Whether the text field is set.
+     */
+    public boolean hasText() {
+      return payloadCase_ == 5;
+    }
+    /**
+     * <code>string text = 5;</code>
+     * @return The text.
+     */
+    public java.lang.String getText() {
+      java.lang.Object ref = "";
+      if (payloadCase_ == 5) {
+        ref = payload_;
+      }
+      if (ref instanceof java.lang.String) {
+        return (java.lang.String) ref;
+      } else {
+        com.google.protobuf.ByteString bs = 
+            (com.google.protobuf.ByteString) ref;
+        java.lang.String s = bs.toStringUtf8();
+        if (payloadCase_ == 5) {
+          payload_ = s;
+        }
+        return s;
+      }
+    }
+    /**
+     * <code>string text = 5;</code>
+     * @return The bytes for text.
+     */
+    public com.google.protobuf.ByteString
+        getTextBytes() {
+      java.lang.Object ref = "";
+      if (payloadCase_ == 5) {
+        ref = payload_;
+      }
+      if (ref instanceof java.lang.String) {
+        com.google.protobuf.ByteString b = 
+            com.google.protobuf.ByteString.copyFromUtf8(
+                (java.lang.String) ref);
+        if (payloadCase_ == 5) {
+          payload_ = b;
+        }
+        return b;
+      } else {
+        return (com.google.protobuf.ByteString) ref;
+      }
+    }
+
+    public static final int MEDIA_ID_FIELD_NUMBER = 6;
+    /**
+     * <code>int64 media_id = 6;</code>
+     * @return Whether the mediaId field is set.
+     */
+    @java.lang.Override
+    public boolean hasMediaId() {
+      return payloadCase_ == 6;
+    }
+    /**
+     * <code>int64 media_id = 6;</code>
+     * @return The mediaId.
+     */
+    @java.lang.Override
+    public long getMediaId() {
+      if (payloadCase_ == 6) {
+        return (java.lang.Long) payload_;
+      }
+      return 0L;
     }
 
     private byte memoizedIsInitialized = -1;
@@ -3944,11 +4250,15 @@ public final class Message {
       if (chatType_ != message.Message.ChatType.PERSONAL.getNumber()) {
         output.writeEnum(3, chatType_);
       }
-      if (!com.google.protobuf.GeneratedMessageV3.isStringEmpty(content_)) {
-        com.google.protobuf.GeneratedMessageV3.writeString(output, 4, content_);
-      }
       if (messageType_ != message.Message.MessageType.TEXT.getNumber()) {
-        output.writeEnum(5, messageType_);
+        output.writeEnum(4, messageType_);
+      }
+      if (payloadCase_ == 5) {
+        com.google.protobuf.GeneratedMessageV3.writeString(output, 5, payload_);
+      }
+      if (payloadCase_ == 6) {
+        output.writeInt64(
+            6, (long)((java.lang.Long) payload_));
       }
       getUnknownFields().writeTo(output);
     }
@@ -3971,12 +4281,17 @@ public final class Message {
         size += com.google.protobuf.CodedOutputStream
           .computeEnumSize(3, chatType_);
       }
-      if (!com.google.protobuf.GeneratedMessageV3.isStringEmpty(content_)) {
-        size += com.google.protobuf.GeneratedMessageV3.computeStringSize(4, content_);
-      }
       if (messageType_ != message.Message.MessageType.TEXT.getNumber()) {
         size += com.google.protobuf.CodedOutputStream
-          .computeEnumSize(5, messageType_);
+          .computeEnumSize(4, messageType_);
+      }
+      if (payloadCase_ == 5) {
+        size += com.google.protobuf.GeneratedMessageV3.computeStringSize(5, payload_);
+      }
+      if (payloadCase_ == 6) {
+        size += com.google.protobuf.CodedOutputStream
+          .computeInt64Size(
+              6, (long)((java.lang.Long) payload_));
       }
       size += getUnknownFields().getSerializedSize();
       memoizedSize = size;
@@ -3998,9 +4313,20 @@ public final class Message {
       if (getChatId()
           != other.getChatId()) return false;
       if (chatType_ != other.chatType_) return false;
-      if (!getContent()
-          .equals(other.getContent())) return false;
       if (messageType_ != other.messageType_) return false;
+      if (!getPayloadCase().equals(other.getPayloadCase())) return false;
+      switch (payloadCase_) {
+        case 5:
+          if (!getText()
+              .equals(other.getText())) return false;
+          break;
+        case 6:
+          if (getMediaId()
+              != other.getMediaId()) return false;
+          break;
+        case 0:
+        default:
+      }
       if (!getUnknownFields().equals(other.getUnknownFields())) return false;
       return true;
     }
@@ -4020,10 +4346,21 @@ public final class Message {
           getChatId());
       hash = (37 * hash) + CHAT_TYPE_FIELD_NUMBER;
       hash = (53 * hash) + chatType_;
-      hash = (37 * hash) + CONTENT_FIELD_NUMBER;
-      hash = (53 * hash) + getContent().hashCode();
       hash = (37 * hash) + MESSAGE_TYPE_FIELD_NUMBER;
       hash = (53 * hash) + messageType_;
+      switch (payloadCase_) {
+        case 5:
+          hash = (37 * hash) + TEXT_FIELD_NUMBER;
+          hash = (53 * hash) + getText().hashCode();
+          break;
+        case 6:
+          hash = (37 * hash) + MEDIA_ID_FIELD_NUMBER;
+          hash = (53 * hash) + com.google.protobuf.Internal.hashLong(
+              getMediaId());
+          break;
+        case 0:
+        default:
+      }
       hash = (29 * hash) + getUnknownFields().hashCode();
       memoizedHashCode = hash;
       return hash;
@@ -4158,8 +4495,9 @@ public final class Message {
         senderId_ = 0L;
         chatId_ = 0L;
         chatType_ = 0;
-        content_ = "";
         messageType_ = 0;
+        payloadCase_ = 0;
+        payload_ = null;
         return this;
       }
 
@@ -4187,6 +4525,7 @@ public final class Message {
       public message.Message.SendMessageRequest buildPartial() {
         message.Message.SendMessageRequest result = new message.Message.SendMessageRequest(this);
         if (bitField0_ != 0) { buildPartial0(result); }
+        buildPartialOneofs(result);
         onBuilt();
         return result;
       }
@@ -4203,11 +4542,13 @@ public final class Message {
           result.chatType_ = chatType_;
         }
         if (((from_bitField0_ & 0x00000008) != 0)) {
-          result.content_ = content_;
-        }
-        if (((from_bitField0_ & 0x00000010) != 0)) {
           result.messageType_ = messageType_;
         }
+      }
+
+      private void buildPartialOneofs(message.Message.SendMessageRequest result) {
+        result.payloadCase_ = payloadCase_;
+        result.payload_ = this.payload_;
       }
 
       @java.lang.Override
@@ -4263,13 +4604,23 @@ public final class Message {
         if (other.chatType_ != 0) {
           setChatTypeValue(other.getChatTypeValue());
         }
-        if (!other.getContent().isEmpty()) {
-          content_ = other.content_;
-          bitField0_ |= 0x00000008;
-          onChanged();
-        }
         if (other.messageType_ != 0) {
           setMessageTypeValue(other.getMessageTypeValue());
+        }
+        switch (other.getPayloadCase()) {
+          case TEXT: {
+            payloadCase_ = 5;
+            payload_ = other.payload_;
+            onChanged();
+            break;
+          }
+          case MEDIA_ID: {
+            setMediaId(other.getMediaId());
+            break;
+          }
+          case PAYLOAD_NOT_SET: {
+            break;
+          }
         }
         this.mergeUnknownFields(other.getUnknownFields());
         onChanged();
@@ -4312,16 +4663,22 @@ public final class Message {
                 bitField0_ |= 0x00000004;
                 break;
               } // case 24
-              case 34: {
-                content_ = input.readStringRequireUtf8();
+              case 32: {
+                messageType_ = input.readEnum();
                 bitField0_ |= 0x00000008;
                 break;
-              } // case 34
-              case 40: {
-                messageType_ = input.readEnum();
-                bitField0_ |= 0x00000010;
+              } // case 32
+              case 42: {
+                java.lang.String s = input.readStringRequireUtf8();
+                payloadCase_ = 5;
+                payload_ = s;
                 break;
-              } // case 40
+              } // case 42
+              case 48: {
+                payload_ = input.readInt64();
+                payloadCase_ = 6;
+                break;
+              } // case 48
               default: {
                 if (!super.parseUnknownField(input, extensionRegistry, tag)) {
                   done = true; // was an endgroup tag
@@ -4337,6 +4694,21 @@ public final class Message {
         } // finally
         return this;
       }
+      private int payloadCase_ = 0;
+      private java.lang.Object payload_;
+      public PayloadCase
+          getPayloadCase() {
+        return PayloadCase.forNumber(
+            payloadCase_);
+      }
+
+      public Builder clearPayload() {
+        payloadCase_ = 0;
+        payload_ = null;
+        onChanged();
+        return this;
+      }
+
       private int bitField0_;
 
       private long senderId_ ;
@@ -4456,99 +4828,27 @@ public final class Message {
         return this;
       }
 
-      private java.lang.Object content_ = "";
-      /**
-       * <code>string content = 4;</code>
-       * @return The content.
-       */
-      public java.lang.String getContent() {
-        java.lang.Object ref = content_;
-        if (!(ref instanceof java.lang.String)) {
-          com.google.protobuf.ByteString bs =
-              (com.google.protobuf.ByteString) ref;
-          java.lang.String s = bs.toStringUtf8();
-          content_ = s;
-          return s;
-        } else {
-          return (java.lang.String) ref;
-        }
-      }
-      /**
-       * <code>string content = 4;</code>
-       * @return The bytes for content.
-       */
-      public com.google.protobuf.ByteString
-          getContentBytes() {
-        java.lang.Object ref = content_;
-        if (ref instanceof String) {
-          com.google.protobuf.ByteString b = 
-              com.google.protobuf.ByteString.copyFromUtf8(
-                  (java.lang.String) ref);
-          content_ = b;
-          return b;
-        } else {
-          return (com.google.protobuf.ByteString) ref;
-        }
-      }
-      /**
-       * <code>string content = 4;</code>
-       * @param value The content to set.
-       * @return This builder for chaining.
-       */
-      public Builder setContent(
-          java.lang.String value) {
-        if (value == null) { throw new NullPointerException(); }
-        content_ = value;
-        bitField0_ |= 0x00000008;
-        onChanged();
-        return this;
-      }
-      /**
-       * <code>string content = 4;</code>
-       * @return This builder for chaining.
-       */
-      public Builder clearContent() {
-        content_ = getDefaultInstance().getContent();
-        bitField0_ = (bitField0_ & ~0x00000008);
-        onChanged();
-        return this;
-      }
-      /**
-       * <code>string content = 4;</code>
-       * @param value The bytes for content to set.
-       * @return This builder for chaining.
-       */
-      public Builder setContentBytes(
-          com.google.protobuf.ByteString value) {
-        if (value == null) { throw new NullPointerException(); }
-        checkByteStringIsUtf8(value);
-        content_ = value;
-        bitField0_ |= 0x00000008;
-        onChanged();
-        return this;
-      }
-
       private int messageType_ = 0;
       /**
-       * <code>.message.MessageType message_type = 5;</code>
+       * <code>.message.MessageType message_type = 4;</code>
        * @return The enum numeric value on the wire for messageType.
        */
       @java.lang.Override public int getMessageTypeValue() {
         return messageType_;
       }
       /**
-       * <code>.message.MessageType message_type = 5;</code>
+       * <code>.message.MessageType message_type = 4;</code>
        * @param value The enum numeric value on the wire for messageType to set.
        * @return This builder for chaining.
        */
       public Builder setMessageTypeValue(int value) {
         messageType_ = value;
-        bitField0_ |= 0x00000010;
+        bitField0_ |= 0x00000008;
         onChanged();
         return this;
       }
       /**
-       * <code>.message.MessageType message_type = 5;</code>
+       * <code>.message.MessageType message_type = 4;</code>
        * @return The messageType.
        */
       @java.lang.Override
@@ -4557,7 +4857,7 @@ public final class Message {
         return result == null ? message.Message.MessageType.UNRECOGNIZED : result;
       }
       /**
-       * <code>.message.MessageType message_type = 5;</code>
+       * <code>.message.MessageType message_type = 4;</code>
        * @param value The messageType to set.
        * @return This builder for chaining.
        */
@@ -4565,19 +4865,154 @@ public final class Message {
         if (value == null) {
           throw new NullPointerException();
         }
-        bitField0_ |= 0x00000010;
+        bitField0_ |= 0x00000008;
         messageType_ = value.getNumber();
         onChanged();
         return this;
       }
       /**
-       * <code>.message.MessageType message_type = 5;</code>
+       * <code>.message.MessageType message_type = 4;</code>
        * @return This builder for chaining.
        */
       public Builder clearMessageType() {
-        bitField0_ = (bitField0_ & ~0x00000010);
+        bitField0_ = (bitField0_ & ~0x00000008);
         messageType_ = 0;
         onChanged();
+        return this;
+      }
+
+      /**
+       * <code>string text = 5;</code>
+       * @return Whether the text field is set.
+       */
+      @java.lang.Override
+      public boolean hasText() {
+        return payloadCase_ == 5;
+      }
+      /**
+       * <code>string text = 5;</code>
+       * @return The text.
+       */
+      @java.lang.Override
+      public java.lang.String getText() {
+        java.lang.Object ref = "";
+        if (payloadCase_ == 5) {
+          ref = payload_;
+        }
+        if (!(ref instanceof java.lang.String)) {
+          com.google.protobuf.ByteString bs =
+              (com.google.protobuf.ByteString) ref;
+          java.lang.String s = bs.toStringUtf8();
+          if (payloadCase_ == 5) {
+            payload_ = s;
+          }
+          return s;
+        } else {
+          return (java.lang.String) ref;
+        }
+      }
+      /**
+       * <code>string text = 5;</code>
+       * @return The bytes for text.
+       */
+      @java.lang.Override
+      public com.google.protobuf.ByteString
+          getTextBytes() {
+        java.lang.Object ref = "";
+        if (payloadCase_ == 5) {
+          ref = payload_;
+        }
+        if (ref instanceof String) {
+          com.google.protobuf.ByteString b = 
+              com.google.protobuf.ByteString.copyFromUtf8(
+                  (java.lang.String) ref);
+          if (payloadCase_ == 5) {
+            payload_ = b;
+          }
+          return b;
+        } else {
+          return (com.google.protobuf.ByteString) ref;
+        }
+      }
+      /**
+       * <code>string text = 5;</code>
+       * @param value The text to set.
+       * @return This builder for chaining.
+       */
+      public Builder setText(
+          java.lang.String value) {
+        if (value == null) { throw new NullPointerException(); }
+        payloadCase_ = 5;
+        payload_ = value;
+        onChanged();
+        return this;
+      }
+      /**
+       * <code>string text = 5;</code>
+       * @return This builder for chaining.
+       */
+      public Builder clearText() {
+        if (payloadCase_ == 5) {
+          payloadCase_ = 0;
+          payload_ = null;
+          onChanged();
+        }
+        return this;
+      }
+      /**
+       * <code>string text = 5;</code>
+       * @param value The bytes for text to set.
+       * @return This builder for chaining.
+       */
+      public Builder setTextBytes(
+          com.google.protobuf.ByteString value) {
+        if (value == null) { throw new NullPointerException(); }
+        checkByteStringIsUtf8(value);
+        payloadCase_ = 5;
+        payload_ = value;
+        onChanged();
+        return this;
+      }
+
+      /**
+       * <code>int64 media_id = 6;</code>
+       * @return Whether the mediaId field is set.
+       */
+      public boolean hasMediaId() {
+        return payloadCase_ == 6;
+      }
+      /**
+       * <code>int64 media_id = 6;</code>
+       * @return The mediaId.
+       */
+      public long getMediaId() {
+        if (payloadCase_ == 6) {
+          return (java.lang.Long) payload_;
+        }
+        return 0L;
+      }
+      /**
+       * <code>int64 media_id = 6;</code>
+       * @param value The mediaId to set.
+       * @return This builder for chaining.
+       */
+      public Builder setMediaId(long value) {
+
+        payloadCase_ = 6;
+        payload_ = value;
+        onChanged();
+        return this;
+      }
+      /**
+       * <code>int64 media_id = 6;</code>
+       * @return This builder for chaining.
+       */
+      public Builder clearMediaId() {
+        if (payloadCase_ == 6) {
+          payloadCase_ = 0;
+          payload_ = null;
+          onChanged();
+        }
         return this;
       }
       @java.lang.Override
@@ -5410,31 +5845,32 @@ public final class Message {
       "f/timestamp.proto\"o\n\rMessageResult\022+\n\007su" +
       "ccess\030\001 \001(\0132\030.message.MessageResponseH\000\022" +
       "\'\n\005error\030\002 \001(\0132\026.message.ErrorResponseH\000" +
-      "B\010\n\006result\"\324\002\n\017MessageResponse\022\n\n\002id\030\001 \001" +
+      "B\010\n\006result\"\362\002\n\017MessageResponse\022\n\n\002id\030\001 \001" +
       "(\003\022\017\n\007chat_id\030\002 \001(\003\022$\n\tchat_type\030\003 \001(\0162\021" +
-      ".message.ChatType\022\021\n\tsender_id\030\004 \001(\003\022\017\n\007" +
-      "content\030\005 \001(\t\022*\n\014message_type\030\006 \001(\0162\024.me" +
-      "ssage.MessageType\022.\n\ncreated_at\030\007 \001(\0132\032." +
-      "google.protobuf.Timestamp\0222\n\tedited_at\030\010" +
-      " \001(\0132\032.google.protobuf.TimestampH\000\210\001\001\0220\n" +
-      "\007read_at\030\t \001(\0132\032.google.protobuf.Timesta" +
-      "mpH\001\210\001\001B\014\n\n_edited_atB\n\n\010_read_at\"r\n\rErr" +
-      "orResponse\022\022\n\nerror_code\030\001 \001(\005\022\r\n\005error\030" +
-      "\002 \001(\t\022\017\n\007message\030\003 \001(\t\022-\n\ttimestamp\030\004 \001(" +
-      "\0132\032.google.protobuf.Timestamp\"\233\001\n\022SendMe" +
-      "ssageRequest\022\021\n\tsender_id\030\001 \001(\003\022\017\n\007chat_" +
-      "id\030\002 \001(\003\022$\n\tchat_type\030\003 \001(\0162\021.message.Ch" +
-      "atType\022\017\n\007content\030\004 \001(\t\022*\n\014message_type\030" +
-      "\005 \001(\0162\024.message.MessageType\"i\n\021MarkAsRea" +
-      "dRequest\022\021\n\treader_id\030\001 \001(\003\022\n\n\002id\030\002 \001(\003\022" +
-      "\017\n\007chat_id\030\003 \001(\003\022$\n\tchat_type\030\004 \001(\0162\021.me" +
-      "ssage.ChatType*#\n\010ChatType\022\014\n\010PERSONAL\020\000" +
-      "\022\t\n\005GROUP\020\001*,\n\013MessageType\022\010\n\004TEXT\020\000\022\t\n\005" +
-      "IMAGE\020\001\022\010\n\004FILE\020\0022\226\001\n\016MessageService\022B\n\013" +
-      "SendMessage\022\033.message.SendMessageRequest" +
-      "\032\026.message.MessageResult\022@\n\nMarkAsRead\022\032" +
-      ".message.MarkAsReadRequest\032\026.message.Mes" +
-      "sageResultb\006proto3"
+      ".message.ChatType\022\021\n\tsender_id\030\004 \001(\003\022*\n\014" +
+      "message_type\030\005 \001(\0162\024.message.MessageType" +
+      "\022\016\n\004text\030\006 \001(\tH\000\022\022\n\010media_id\030\007 \001(\003H\000\022.\n\n" +
+      "created_at\030\010 \001(\0132\032.google.protobuf.Times" +
+      "tamp\0222\n\tedited_at\030\t \001(\0132\032.google.protobu" +
+      "f.TimestampH\001\210\001\001\0220\n\007read_at\030\n \001(\0132\032.goog" +
+      "le.protobuf.TimestampH\002\210\001\001B\t\n\007payloadB\014\n" +
+      "\n_edited_atB\n\n\010_read_at\"r\n\rErrorResponse" +
+      "\022\022\n\nerror_code\030\001 \001(\005\022\r\n\005error\030\002 \001(\t\022\017\n\007m" +
+      "essage\030\003 \001(\t\022-\n\ttimestamp\030\004 \001(\0132\032.google" +
+      ".protobuf.Timestamp\"\271\001\n\022SendMessageReque" +
+      "st\022\021\n\tsender_id\030\001 \001(\003\022\017\n\007chat_id\030\002 \001(\003\022$" +
+      "\n\tchat_type\030\003 \001(\0162\021.message.ChatType\022*\n\014" +
+      "message_type\030\004 \001(\0162\024.message.MessageType" +
+      "\022\016\n\004text\030\005 \001(\tH\000\022\022\n\010media_id\030\006 \001(\003H\000B\t\n\007" +
+      "payload\"i\n\021MarkAsReadRequest\022\021\n\treader_i" +
+      "d\030\001 \001(\003\022\n\n\002id\030\002 \001(\003\022\017\n\007chat_id\030\003 \001(\003\022$\n\t" +
+      "chat_type\030\004 \001(\0162\021.message.ChatType*#\n\010Ch" +
+      "atType\022\014\n\010PERSONAL\020\000\022\t\n\005GROUP\020\001*\"\n\013Messa" +
+      "geType\022\010\n\004TEXT\020\000\022\t\n\005MEDIA\020\0012\226\001\n\016MessageS" +
+      "ervice\022B\n\013SendMessage\022\033.message.SendMess" +
+      "ageRequest\032\026.message.MessageResult\022@\n\nMa" +
+      "rkAsRead\022\032.message.MarkAsReadRequest\032\026.m" +
+      "essage.MessageResultb\006proto3"
     };
     descriptor = com.google.protobuf.Descriptors.FileDescriptor
       .internalBuildGeneratedFileFrom(descriptorData,
@@ -5452,7 +5888,7 @@ public final class Message {
     internal_static_message_MessageResponse_fieldAccessorTable = new
       com.google.protobuf.GeneratedMessageV3.FieldAccessorTable(
         internal_static_message_MessageResponse_descriptor,
-        new java.lang.String[] { "Id", "ChatId", "ChatType", "SenderId", "Content", "MessageType", "CreatedAt", "EditedAt", "ReadAt", });
+        new java.lang.String[] { "Id", "ChatId", "ChatType", "SenderId", "MessageType", "Text", "MediaId", "CreatedAt", "EditedAt", "ReadAt", "Payload", });
     internal_static_message_ErrorResponse_descriptor =
       getDescriptor().getMessageTypes().get(2);
     internal_static_message_ErrorResponse_fieldAccessorTable = new
@@ -5464,7 +5900,7 @@ public final class Message {
     internal_static_message_SendMessageRequest_fieldAccessorTable = new
       com.google.protobuf.GeneratedMessageV3.FieldAccessorTable(
         internal_static_message_SendMessageRequest_descriptor,
-        new java.lang.String[] { "SenderId", "ChatId", "ChatType", "Content", "MessageType", });
+        new java.lang.String[] { "SenderId", "ChatId", "ChatType", "MessageType", "Text", "MediaId", "Payload", });
     internal_static_message_MarkAsReadRequest_descriptor =
       getDescriptor().getMessageTypes().get(4);
     internal_static_message_MarkAsReadRequest_fieldAccessorTable = new

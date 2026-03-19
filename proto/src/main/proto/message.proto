@@ -20,11 +20,16 @@ message MessageResponse {
   int64 chat_id = 2;
   ChatType chat_type = 3;
   int64 sender_id = 4;
-  string content = 5;
-  MessageType message_type = 6;
-  google.protobuf.Timestamp created_at = 7;
-  optional google.protobuf.Timestamp edited_at = 8;
-  optional google.protobuf.Timestamp read_at = 9;
+  MessageType message_type = 5;
+
+  oneof payload {
+    string text = 6;
+    int64 media_id = 7;
+  }
+
+  google.protobuf.Timestamp created_at = 8;
+  optional google.protobuf.Timestamp edited_at = 9;
+  optional google.protobuf.Timestamp read_at = 10;
 }
 
 message ErrorResponse {
@@ -38,8 +43,12 @@ message SendMessageRequest {
   int64 sender_id = 1;
   int64 chat_id = 2;
   ChatType chat_type = 3;
-  string content = 4;
-  MessageType message_type = 5;
+  MessageType message_type = 4;
+
+  oneof payload {
+    string text = 5;
+    int64 media_id = 6;
+  }
 }
 
 message MarkAsReadRequest {
@@ -56,6 +65,5 @@ enum ChatType {
 
 enum MessageType {
   TEXT = 0;
-  IMAGE = 1;
-  FILE = 2;
+  MEDIA = 1;
 }
