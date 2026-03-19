@@ -24,6 +24,9 @@
 <input id="messageInput" placeholder="Введите сообщение">
 <button id="sendBtn">Отправить</button>
 
+<input id="mediaIdInput" placeholder="Media ID">
+<button id="sendMediaBtn">Отправить медиа</button>
+
 <hr>
 <input id="tokenInput" placeholder="JWT Token">
 <button id="setTokenBtn">Установить токен</button>
@@ -50,6 +53,11 @@
         bindEvents() {
             this.sendBtn = document.getElementById('sendBtn');
             this.sendBtn.onclick = () => this.sendMessage();
+
+            this.sendMediaBtn = document.getElementById('sendMediaBtn');
+            this.mediaIdInput = document.getElementById('mediaIdInput');
+
+            this.sendMediaBtn.onclick = () => this.sendMediaMessage();
 
             this.setTokenBtn.onclick = () => {
                 const token = this.tokenInput.value.trim();
@@ -129,8 +137,34 @@
                 action: 'send',
                 chatId: parseInt(this.chatIdInput.value),
                 chatType: this.chatTypeSelect.value,
-                content: content,
-                messageType: 'TEXT' // Если у тебя MessageType enum, можно сделать выбор
+                    payload: {
+                        type: 'TEXT',
+                        text: content
+                    },
+                messageType: 'TEXT'
+            };
+
+            this.ws.send(JSON.stringify(payload));
+            this.messageInput.value = '';
+        }
+
+        sendMediaMessage() {
+            const content = this.mediaIdInput.value.trim();
+            if (!content) return;
+            if (!this.ws || this.ws.readyState !== WebSocket.OPEN) {
+                alert('Сначала подключитесь к WebSocket!');
+                return;
+            }
+
+            const payload = {
+                action: 'send',
+                chatId: parseInt(this.chatIdInput.value),
+                chatType: this.chatTypeSelect.value,
+                payload: {
+                    type: 'MEDIA',
+                    mediaId: parseInt(this.mediaIdInput.value)
+                },
+                messageType: 'MEDIA'
             };
 
             this.ws.send(JSON.stringify(payload));
@@ -146,7 +180,17 @@
             else div.classList.add('other-message');
 
             const time = msg.createdAt ? new Date(msg.createdAt).toLocaleTimeString() : '';
-            div.innerHTML = `<strong>${msg.senderId}</strong> [${time}]: ${msg.content}`;
+            let content = '';
+
+            if (msg.payload) {
+                if (msg.payload.text) {
+                    content = msg.payload.text;
+                } else if (msg.payload.mediaId) {
+                    content = `[media: ${msg.payload.mediaId}]`;
+                }
+            }
+
+            div.innerHTML = `<strong>${msg.senderId}</strong> [${time}]: ${content}`;
             this.chatDiv.appendChild(div);
             this.chatDiv.scrollTop = this.chatDiv.scrollHeight;
         }
