@@ -5,11 +5,10 @@ import lombok.RequiredArgsConstructor;
 import lombok.extern.log4j.Log4j2;
 import messenger.user.service.domain.entity.User;
 import messenger.user.service.service.outbox.OutboxEvent;
-import messenger.user.service.service.outbox.OutboxEventRepository;
+import messenger.user.service.service.outbox.OutboxEventService;
 import org.springframework.kafka.core.KafkaTemplate;
 import org.springframework.scheduling.annotation.Scheduled;
 import org.springframework.stereotype.Component;
-import org.springframework.transaction.annotation.Transactional;
 
 import java.util.List;
 
@@ -18,13 +17,12 @@ import java.util.List;
 @Log4j2
 public class OutboxPublisher {
 
-    private final OutboxEventRepository outboxEventRepository;
+    private final OutboxEventService outboxEventService;
     private final KafkaTemplate<String, Object> kafkaTemplate;
 
-    @Transactional
-    @Scheduled(fixedDelay = 5000)
+    @Scheduled(fixedDelay = 3000)
     public void publishEvents() {
-        List<OutboxEvent> events = outboxEventRepository.findTop100BySentFalseOrderByCreatedAtAsc();
+        List<OutboxEvent> events = outboxEventService.fetchPendingEvents();
 
         for (OutboxEvent outboxEvent : events) {
             UserEvent userEvent = createUserEvent(outboxEvent);
@@ -32,7 +30,8 @@ public class OutboxPublisher {
             try {
                 kafkaTemplate.send(outboxEvent.getTopic(), outboxEvent.getId().toString(), userEvent)
                         .get();
-                outboxEvent.setSent(true);
+
+                outboxEventService.markEventSent(outboxEvent);
             }
             catch (Exception e) {
                 log.error("Failed to send event {} to Kafka", outboxEvent.getId(), e);
@@ -50,6 +49,7 @@ public class OutboxPublisher {
                 .password(user.getPassword())
                 .email(user.getEmail())
                 .username(user.getUsername())
+                .avatarId(user.getProfile() != null ? user.getProfile().getAvatarId() : 0L)
                 .build();
     }
 }

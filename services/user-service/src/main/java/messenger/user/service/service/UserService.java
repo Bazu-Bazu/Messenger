@@ -153,7 +153,7 @@ public class UserService {
                 .map(user -> UserInfoDto.builder()
                         .userId(user.getId())
                         .username(user.getUsername())
-                        .avatarUrl(user.getProfile().getAvatarUrl() != null ? user.getProfile().getAvatarUrl() : "")
+                        .avatarId(user.getProfile().getAvatarId() != null ? user.getProfile().getAvatarId() : 0)
                         .build()
                 )
                 .toList();

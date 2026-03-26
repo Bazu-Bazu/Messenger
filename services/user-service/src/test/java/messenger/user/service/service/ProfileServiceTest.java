@@ -6,6 +6,7 @@ import messenger.user.service.domain.enums.Gender;
 import messenger.user.service.dto.request.AddAvatarRequest;
 import messenger.user.service.dto.request.UpdateProfileRequest;
 import messenger.user.service.dto.response.ProfileResponse;
+import messenger.user.service.service.event.UserEventPublisher;
 import org.junit.jupiter.api.Test;
 import org.junit.jupiter.api.extension.ExtendWith;
 import org.mockito.InjectMocks;
@@ -15,6 +16,7 @@ import org.mockito.junit.jupiter.MockitoExtension;
 import java.time.LocalDate;
 
 import static org.junit.jupiter.api.Assertions.*;
+import static org.mockito.Mockito.verify;
 import static org.mockito.Mockito.when;
 
 @ExtendWith(MockitoExtension.class)
@@ -22,6 +24,9 @@ public class ProfileServiceTest {
 
     @Mock
     private UserService userService;
+
+    @Mock
+    private UserEventPublisher userEventPublisher;
 
     @InjectMocks
     private ProfileService profileService;
@@ -33,12 +38,13 @@ public class ProfileServiceTest {
 
         when(userService.findUserById(1L)).thenReturn(user);
 
-        AddAvatarRequest request = new AddAvatarRequest("avatar.png");
-        ProfileResponse response = profileService.addAvatarUrl(1L, request);
+        AddAvatarRequest request = new AddAvatarRequest(10L);
+        ProfileResponse response = profileService.addAvatar(1L, request);
 
-        assertEquals("avatar.png", user.getProfile().getAvatarUrl());
-        assertEquals("avatar.png", response.getAvatarUrl());
+        assertEquals(10L, user.getProfile().getAvatarId());
+        assertEquals(10L, response.getAvatarId());
         assertEquals("john", response.getUsername());
+        verify(userEventPublisher).publishUserAvatarChanged(user);
     }
 
     @Test
@@ -46,7 +52,7 @@ public class ProfileServiceTest {
         Profile profile = new Profile();
         profile.setFirstName("John");
         profile.setLastName("Doe");
-        profile.setAvatarUrl("avatar.png");
+        profile.setAvatarId(10L);
         profile.setBirthDate(LocalDate.of(1990, 1, 1));
         profile.setGender(Gender.MALE);
         profile.setBio("Hello world");
@@ -58,7 +64,7 @@ public class ProfileServiceTest {
 
         assertEquals("John", response.getFirstName());
         assertEquals("Doe", response.getLastName());
-        assertEquals("avatar.png", response.getAvatarUrl());
+        assertEquals(10L, response.getAvatarId());
         assertEquals(Gender.MALE, response.getGender());
         assertEquals("Hello world", response.getBio());
     }

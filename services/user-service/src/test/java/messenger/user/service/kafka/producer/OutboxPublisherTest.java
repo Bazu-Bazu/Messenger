@@ -4,7 +4,7 @@ import dto.event.UserEvent;
 import enums.UserEventType;
 import messenger.user.service.domain.entity.User;
 import messenger.user.service.service.outbox.OutboxEvent;
-import messenger.user.service.service.outbox.OutboxEventRepository;
+import messenger.user.service.service.outbox.OutboxEventService;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 import org.junit.jupiter.api.extension.ExtendWith;
@@ -25,10 +25,10 @@ import static org.mockito.Mockito.when;
 public class OutboxPublisherTest {
 
     @Mock
-    private OutboxEventRepository outboxEventRepository;
+    private KafkaTemplate<String, Object> kafkaTemplate;
 
     @Mock
-    private KafkaTemplate<String, Object> kafkaTemplate;
+    private OutboxEventService outboxEventService;
 
     @InjectMocks
     private OutboxPublisher outboxPublisher;
@@ -54,7 +54,7 @@ public class OutboxPublisherTest {
 
     @Test
     void publishEvents_shouldSendEventsAndMarkAsSent() throws Exception {
-        when(outboxEventRepository.findTop100BySentFalseOrderByCreatedAtAsc())
+        when(outboxEventService.fetchPendingEvents())
                 .thenReturn(List.of(event));
 
         CompletableFuture mockFuture = CompletableFuture.completedFuture(null);
@@ -64,12 +64,12 @@ public class OutboxPublisherTest {
         outboxPublisher.publishEvents();
 
         verify(kafkaTemplate).send(eq("user-event"), eq(event.getId().toString()), any(UserEvent.class));
-        assertTrue(event.isSent());
+        verify(outboxEventService).markEventSent(event);
     }
 
     @Test
     void publishEvents_shouldNotFail_whenKafkaThrowsException() throws Exception {
-        when(outboxEventRepository.findTop100BySentFalseOrderByCreatedAtAsc())
+        when(outboxEventService.fetchPendingEvents())
                 .thenReturn(List.of(event));
 
         CompletableFuture mockFuture = new CompletableFuture<>();
