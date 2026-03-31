@@ -20,7 +20,7 @@ public class UserGrpcMapper {
         return UserInfoDto.builder()
                 .userId(dto.getUserId())
                 .username(dto.getUsername())
-                .avatarUrl(dto.getAvatarUrl())
+                .avatarId(dto.getAvatarId())
                 .build();
     }
 }
