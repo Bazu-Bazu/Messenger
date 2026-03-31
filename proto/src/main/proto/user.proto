@@ -27,7 +27,7 @@ message UsersInfoResponse {
   message UserInfo {
     int64 userId = 1;
     string username = 2;
-    string avatarUrl = 3;
+    int64 avatarId = 3;
   }
   repeated UserInfo results = 1;
 }
