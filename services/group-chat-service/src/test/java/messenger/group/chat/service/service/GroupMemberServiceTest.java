@@ -60,8 +60,8 @@ class GroupMemberServiceTest {
 
         when(userGrpcClient.getUsersInfo(userIds))
                 .thenReturn(List.of(
-                        new UserInfoDto(2L, "user2", "avatar"),
-                        new UserInfoDto(3L, "user3", "avatar")
+                        new UserInfoDto(2L, "user2", 10L),
+                        new UserInfoDto(3L, "user3", 10L)
                 ));
 
         List<GroupMemberResponse> result =
@@ -88,7 +88,7 @@ class GroupMemberServiceTest {
                 .thenReturn(List.of(member));
 
         when(userGrpcClient.getUsersInfo(List.of(2L)))
-                .thenReturn(List.of(new UserInfoDto(2L, "user2", "avatar")));
+                .thenReturn(List.of(new UserInfoDto(2L, "user2", 10L)));
 
         List<GroupMemberResponse> result =
                 groupMemberService.getGroupMembers(groupId, PageRequest.of(0, 10));
@@ -123,7 +123,7 @@ class GroupMemberServiceTest {
                 .thenReturn(List.of(member));
 
         when(userGrpcClient.getUsersInfo(userIds))
-                .thenReturn(List.of(new UserInfoDto(2L, "user2", "avatar")));
+                .thenReturn(List.of(new UserInfoDto(2L, "user2", 10L)));
 
         List<GroupMemberResponse> result =
                 groupMemberService.setRoles(groupId, userIds, GroupMemberRole.ADMIN);
