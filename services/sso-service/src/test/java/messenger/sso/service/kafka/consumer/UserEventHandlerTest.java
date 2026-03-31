@@ -28,7 +28,8 @@ class UserEventHandlerTest {
                 "john",
                 "79999999999",
                 "john@mail.com",
-                "pass"
+                "pass",
+                10L
         );
 
         userEventHandler.handleUserEvent(event);
@@ -44,7 +45,8 @@ class UserEventHandlerTest {
                 "john",
                 "newPhone",
                 "john@mail.com",
-                "pass"
+                "pass",
+                10L
         );
 
         userEventHandler.handleUserEvent(event);
@@ -60,7 +62,8 @@ class UserEventHandlerTest {
                 "john",
                 "79999999999",
                 "john@mail.com",
-                "newPass"
+                "newPass",
+                10L
         );
 
         userEventHandler.handleUserEvent(event);
@@ -76,7 +79,8 @@ class UserEventHandlerTest {
                 "john",
                 "79999999999",
                 "new@mail.com",
-                "pass"
+                "pass",
+                10L
         );
 
         userEventHandler.handleUserEvent(event);
@@ -92,7 +96,8 @@ class UserEventHandlerTest {
                 "newName",
                 "79999999999",
                 "john@mail.com",
-                "pass"
+                "pass",
+                10L
         );
 
         userEventHandler.handleUserEvent(event);

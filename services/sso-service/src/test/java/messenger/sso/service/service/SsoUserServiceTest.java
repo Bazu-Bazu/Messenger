@@ -37,7 +37,8 @@ public class SsoUserServiceTest {
                 "username",
                 "79999999999",
                 "mail@test.com",
-                "encodedPassword"
+                "encodedPassword",
+                10L
         );
 
         ssoUserService.createSsoUser(event);
@@ -64,7 +65,8 @@ public class SsoUserServiceTest {
                 "username",
                 "newPhone",
                 "mail@test.com",
-                "encodedPassword"
+                "encodedPassword",
+                10L
         );
 
         when(ssoUserRepository.findById(1L))
@@ -91,7 +93,8 @@ public class SsoUserServiceTest {
                 "username",
                 "79999999999",
                 "mail@test.com",
-                "newPass"
+                "newPass",
+                10L
         );
 
         when(ssoUserRepository.findById(1L))
@@ -117,7 +120,8 @@ public class SsoUserServiceTest {
                 "username",
                 "79999999999",
                 "new@mail.com",
-                "encodedPassword"
+                "encodedPassword",
+                10L
         );
 
         when(ssoUserRepository.findById(1L))
@@ -143,7 +147,8 @@ public class SsoUserServiceTest {
                 "newName",
                 "79999999999",
                 "mail@test.com",
-                "encodedPassword"
+                "encodedPassword",
+                10L
         );
 
         when(ssoUserRepository.findById(1L))
