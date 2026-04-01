@@ -79,6 +79,19 @@ services:
     volumes:
       - postgres_media:/var/lib/postgresql/data
 
+  postgres_chat:
+    image: postgres:16
+    container_name: postgres_chat
+    environment:
+      POSTGRES_USER: postgres
+      POSTGRES_PASSWORD: postgres
+      POSTGRES_DB: chat_db
+    ports:
+      - "5438:5432"
+    volumes:
+      - postgres_chat:/var/lib/postgresql/data
+
+
   zookeeper:
     image: wurstmeister/zookeeper:latest
     container_name: zookeeper_z
@@ -274,6 +287,28 @@ services:
     ports:
       - "8087:8087"
 
+  chat-service:
+    build:
+      context: ./services/chat-service
+      dockerfile: Dockerfile
+    container_name: chat-service
+    depends_on:
+      - discovery-service
+      - postgres_chat
+      - redis
+      - kafka
+    environment:
+      SPRING_PROFILES_ACTIVE: dev
+      SPRING_DATASOURCE_URL: jdbc:postgresql://postgres_chat:5432/postgres
+      SPRING_DATASOURCE_USERNAME: postgres
+      SPRING_DATASOURCE_PASSWORD: postgres
+      SPRING_KAFKA_BOOTSTRAP_SERVERS: kafka:9093
+      SPRING_REDIS_HOST: redis
+      SPRING_REDIS_PORT: 6379
+      SERVER_PORT: 8088
+    ports:
+      - "8088:8088"
+
   jenkins:
     build:
       context: ./jenkins
@@ -295,5 +330,6 @@ volumes:
   postgres_group-chat:
   postgres_message:
   postgres_media:
+  postgres_chat:
   redis:
   jenkins_home:
