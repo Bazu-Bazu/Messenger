@@ -7,3 +7,5 @@ databaseChangeLog:
       file: db.migrations/V3_Create_outbox_events_table.sql
   - include:
       file: db.migrations/V4_Changed_avatar_column.sql
+  - include:
+      file: db.migrations/V5_Added_new_event_type_in_check.sql
