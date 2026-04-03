@@ -63,16 +63,16 @@ public class UserGrpcServerTest {
                 .addAllUserIds(userIds)
                 .build();
 
-        UserInfoDto dto1 = UserInfoDto.builder().userId(1L).username("john").avatarUrl("url1").build();
-        UserInfoDto dto2 = UserInfoDto.builder().userId(2L).username("jane").avatarUrl("url2").build();
+        UserInfoDto dto1 = UserInfoDto.builder().userId(1L).username("john").avatarId(1L).build();
+        UserInfoDto dto2 = UserInfoDto.builder().userId(2L).username("jane").avatarId(2L).build();
         List<UserInfoDto> dtoList = List.of(dto1, dto2);
 
         when(userService.getUsersInfo(userIds)).thenReturn(dtoList);
 
         User.UsersInfoResponse.UserInfo grpc1 = User.UsersInfoResponse.UserInfo.newBuilder()
-                .setUserId(1L).setUsername("john").setAvatarUrl("url1").build();
+                .setUserId(1L).setUsername("john").setAvatarId(1L).build();
         User.UsersInfoResponse.UserInfo grpc2 = User.UsersInfoResponse.UserInfo.newBuilder()
-                .setUserId(2L).setUsername("jane").setAvatarUrl("url2").build();
+                .setUserId(2L).setUsername("jane").setAvatarId(2L).build();
 
         when(userGrpcMapper.toGrpc(dto1)).thenReturn(grpc1);
         when(userGrpcMapper.toGrpc(dto2)).thenReturn(grpc2);

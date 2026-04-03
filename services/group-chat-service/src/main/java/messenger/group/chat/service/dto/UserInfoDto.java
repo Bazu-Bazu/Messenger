@@ -7,5 +7,5 @@ public record UserInfoDto(
 
         Long userId,
         String username,
-        String avatarUrl
+        Long avatarId
 ) {}

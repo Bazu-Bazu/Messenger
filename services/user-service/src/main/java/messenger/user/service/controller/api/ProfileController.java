@@ -37,7 +37,7 @@ public class ProfileController {
             @RequestHeader("X-User-Id") Long userId,
             @RequestBody @Valid AddAvatarRequest request
     ) {
-        ProfileResponse response = profileService.addAvatarUrl(userId, request);
+        ProfileResponse response = profileService.addAvatar(userId, request);
 
         return ResponseEntity.status(HttpStatus.OK).body(response);
     }

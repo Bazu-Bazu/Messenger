@@ -66,4 +66,13 @@ public class UserEventPublisherTest {
 
         verify(outboxEventService).saveEvent("user-event", UserEventType.USER_USERNAME_UPDATED, user);
     }
+
+    @Test
+    void publishUserAvatarChanged_shouldCallOutboxEventService() {
+        User user = User.builder().id(1L).username("john").build();
+
+        userEventPublisher.publishUserAvatarChanged(user);
+
+        verify(outboxEventService).saveEvent("user-event", UserEventType.USER_AVATAR_UPDATED, user);
+    }
 }

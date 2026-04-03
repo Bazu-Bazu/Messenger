@@ -2699,16 +2699,10 @@ public final class User {
           getUsernameBytes();
 
       /**
-       * <code>string avatarUrl = 3;</code>
-       * @return The avatarUrl.
+       * <code>int64 avatarId = 3;</code>
+       * @return The avatarId.
        */
-      java.lang.String getAvatarUrl();
-      /**
-       * <code>string avatarUrl = 3;</code>
-       * @return The bytes for avatarUrl.
-       */
-      com.google.protobuf.ByteString
-          getAvatarUrlBytes();
+      long getAvatarId();
     }
     /**
      * Protobuf type {@code user.UsersInfoResponse.UserInfo}
@@ -2724,7 +2718,6 @@ public final class User {
       }
       private UserInfo() {
         username_ = "";
-        avatarUrl_ = "";
       }
 
       @java.lang.Override
@@ -2797,43 +2790,15 @@ public final class User {
         }
       }
 
-      public static final int AVATARURL_FIELD_NUMBER = 3;
-      @SuppressWarnings("serial")
-      private volatile java.lang.Object avatarUrl_ = "";
+      public static final int AVATARID_FIELD_NUMBER = 3;
+      private long avatarId_ = 0L;
       /**
-       * <code>string avatarUrl = 3;</code>
-       * @return The avatarUrl.
+       * <code>int64 avatarId = 3;</code>
+       * @return The avatarId.
        */
       @java.lang.Override
-      public java.lang.String getAvatarUrl() {
-        java.lang.Object ref = avatarUrl_;
-        if (ref instanceof java.lang.String) {
-          return (java.lang.String) ref;
-        } else {
-          com.google.protobuf.ByteString bs = 
-              (com.google.protobuf.ByteString) ref;
-          java.lang.String s = bs.toStringUtf8();
-          avatarUrl_ = s;
-          return s;
-        }
-      }
-      /**
-       * <code>string avatarUrl = 3;</code>
-       * @return The bytes for avatarUrl.
-       */
-      @java.lang.Override
-      public com.google.protobuf.ByteString
-          getAvatarUrlBytes() {
-        java.lang.Object ref = avatarUrl_;
-        if (ref instanceof java.lang.String) {
-          com.google.protobuf.ByteString b = 
-              com.google.protobuf.ByteString.copyFromUtf8(
-                  (java.lang.String) ref);
-          avatarUrl_ = b;
-          return b;
-        } else {
-          return (com.google.protobuf.ByteString) ref;
-        }
+      public long getAvatarId() {
+        return avatarId_;
       }
 
       private byte memoizedIsInitialized = -1;
@@ -2856,8 +2821,8 @@ public final class User {
         if (!com.google.protobuf.GeneratedMessageV3.isStringEmpty(username_)) {
           com.google.protobuf.GeneratedMessageV3.writeString(output, 2, username_);
         }
-        if (!com.google.protobuf.GeneratedMessageV3.isStringEmpty(avatarUrl_)) {
-          com.google.protobuf.GeneratedMessageV3.writeString(output, 3, avatarUrl_);
+        if (avatarId_ != 0L) {
+          output.writeInt64(3, avatarId_);
         }
         getUnknownFields().writeTo(output);
       }
@@ -2875,8 +2840,9 @@ public final class User {
         if (!com.google.protobuf.GeneratedMessageV3.isStringEmpty(username_)) {
           size += com.google.protobuf.GeneratedMessageV3.computeStringSize(2, username_);
         }
-        if (!com.google.protobuf.GeneratedMessageV3.isStringEmpty(avatarUrl_)) {
-          size += com.google.protobuf.GeneratedMessageV3.computeStringSize(3, avatarUrl_);
+        if (avatarId_ != 0L) {
+          size += com.google.protobuf.CodedOutputStream
+            .computeInt64Size(3, avatarId_);
         }
         size += getUnknownFields().getSerializedSize();
         memoizedSize = size;
@@ -2897,8 +2863,8 @@ public final class User {
             != other.getUserId()) return false;
         if (!getUsername()
             .equals(other.getUsername())) return false;
-        if (!getAvatarUrl()
-            .equals(other.getAvatarUrl())) return false;
+        if (getAvatarId()
+            != other.getAvatarId()) return false;
         if (!getUnknownFields().equals(other.getUnknownFields())) return false;
         return true;
       }
@@ -2915,8 +2881,9 @@ public final class User {
             getUserId());
         hash = (37 * hash) + USERNAME_FIELD_NUMBER;
         hash = (53 * hash) + getUsername().hashCode();
-        hash = (37 * hash) + AVATARURL_FIELD_NUMBER;
-        hash = (53 * hash) + getAvatarUrl().hashCode();
+        hash = (37 * hash) + AVATARID_FIELD_NUMBER;
+        hash = (53 * hash) + com.google.protobuf.Internal.hashLong(
+            getAvatarId());
         hash = (29 * hash) + getUnknownFields().hashCode();
         memoizedHashCode = hash;
         return hash;
@@ -3050,7 +3017,7 @@ public final class User {
           bitField0_ = 0;
           userId_ = 0L;
           username_ = "";
-          avatarUrl_ = "";
+          avatarId_ = 0L;
           return this;
         }
 
@@ -3091,7 +3058,7 @@ public final class User {
             result.username_ = username_;
           }
           if (((from_bitField0_ & 0x00000004) != 0)) {
-            result.avatarUrl_ = avatarUrl_;
+            result.avatarId_ = avatarId_;
           }
         }
 
@@ -3147,10 +3114,8 @@ public final class User {
             bitField0_ |= 0x00000002;
             onChanged();
           }
-          if (!other.getAvatarUrl().isEmpty()) {
-            avatarUrl_ = other.avatarUrl_;
-            bitField0_ |= 0x00000004;
-            onChanged();
+          if (other.getAvatarId() != 0L) {
+            setAvatarId(other.getAvatarId());
           }
           this.mergeUnknownFields(other.getUnknownFields());
           onChanged();
@@ -3188,11 +3153,11 @@ public final class User {
                   bitField0_ |= 0x00000002;
                   break;
                 } // case 18
-                case 26: {
-                  avatarUrl_ = input.readStringRequireUtf8();
+                case 24: {
+                  avatarId_ = input.readInt64();
                   bitField0_ |= 0x00000004;
                   break;
-                } // case 26
+                } // case 24
                 default: {
                   if (!super.parseUnknownField(input, extensionRegistry, tag)) {
                     done = true; // was an endgroup tag
@@ -3314,74 +3279,34 @@ public final class User {
           return this;
         }
 
-        private java.lang.Object avatarUrl_ = "";
+        private long avatarId_ ;
         /**
-         * <code>string avatarUrl = 3;</code>
-         * @return The avatarUrl.
+         * <code>int64 avatarId = 3;</code>
+         * @return The avatarId.
          */
-        public java.lang.String getAvatarUrl() {
-          java.lang.Object ref = avatarUrl_;
-          if (!(ref instanceof java.lang.String)) {
-            com.google.protobuf.ByteString bs =
-                (com.google.protobuf.ByteString) ref;
-            java.lang.String s = bs.toStringUtf8();
-            avatarUrl_ = s;
-            return s;
-          } else {
-            return (java.lang.String) ref;
-          }
+        @java.lang.Override
+        public long getAvatarId() {
+          return avatarId_;
         }
         /**
-         * <code>string avatarUrl = 3;</code>
-         * @return The bytes for avatarUrl.
-         */
-        public com.google.protobuf.ByteString
-            getAvatarUrlBytes() {
-          java.lang.Object ref = avatarUrl_;
-          if (ref instanceof String) {
-            com.google.protobuf.ByteString b = 
-                com.google.protobuf.ByteString.copyFromUtf8(
-                    (java.lang.String) ref);
-            avatarUrl_ = b;
-            return b;
-          } else {
-            return (com.google.protobuf.ByteString) ref;
-          }
-        }
-        /**
-         * <code>string avatarUrl = 3;</code>
-         * @param value The avatarUrl to set.
+         * <code>int64 avatarId = 3;</code>
+         * @param value The avatarId to set.
          * @return This builder for chaining.
          */
-        public Builder setAvatarUrl(
-            java.lang.String value) {
-          if (value == null) { throw new NullPointerException(); }
-          avatarUrl_ = value;
+        public Builder setAvatarId(long value) {
+
+          avatarId_ = value;
           bitField0_ |= 0x00000004;
           onChanged();
           return this;
         }
         /**
-         * <code>string avatarUrl = 3;</code>
+         * <code>int64 avatarId = 3;</code>
          * @return This builder for chaining.
          */
-        public Builder clearAvatarUrl() {
-          avatarUrl_ = getDefaultInstance().getAvatarUrl();
+        public Builder clearAvatarId() {
           bitField0_ = (bitField0_ & ~0x00000004);
-          onChanged();
-          return this;
-        }
-        /**
-         * <code>string avatarUrl = 3;</code>
-         * @param value The bytes for avatarUrl to set.
-         * @return This builder for chaining.
-         */
-        public Builder setAvatarUrlBytes(
-            com.google.protobuf.ByteString value) {
-          if (value == null) { throw new NullPointerException(); }
-          checkByteStringIsUtf8(value);
-          avatarUrl_ = value;
-          bitField0_ |= 0x00000004;
+          avatarId_ = 0L;
           onChanged();
           return this;
         }
@@ -4212,14 +4137,14 @@ public final class User {
       "stResponse.UserExistence\032A\n\rUserExistenc" +
       "e\022\016\n\006userId\030\001 \001(\003\022\016\n\006exists\030\002 \001(\010\022\020\n\010isA" +
       "ctive\030\003 \001(\010\"#\n\020UsersInfoRequest\022\017\n\007userI" +
-      "ds\030\001 \003(\003\"\207\001\n\021UsersInfoResponse\0221\n\007result" +
+      "ds\030\001 \003(\003\"\206\001\n\021UsersInfoResponse\0221\n\007result" +
       "s\030\001 \003(\0132 .user.UsersInfoResponse.UserInf" +
-      "o\032?\n\010UserInfo\022\016\n\006userId\030\001 \001(\003\022\020\n\010usernam" +
-      "e\030\002 \001(\t\022\021\n\tavatarUrl\030\003 \001(\t2\234\001\n\013UserServi" +
-      "ce\022O\n\022ValidateUsersExist\022\037.user.Validate" +
-      "UsersExistRequest\032\030.user.UsersExistRespo" +
-      "nse\022<\n\tUsersInfo\022\026.user.UsersInfoRequest" +
-      "\032\027.user.UsersInfoResponseb\006proto3"
+      "o\032>\n\010UserInfo\022\016\n\006userId\030\001 \001(\003\022\020\n\010usernam" +
+      "e\030\002 \001(\t\022\020\n\010avatarId\030\003 \001(\0032\234\001\n\013UserServic" +
+      "e\022O\n\022ValidateUsersExist\022\037.user.ValidateU" +
+      "sersExistRequest\032\030.user.UsersExistRespon" +
+      "se\022<\n\tUsersInfo\022\026.user.UsersInfoRequest\032" +
+      "\027.user.UsersInfoResponseb\006proto3"
     };
     descriptor = com.google.protobuf.Descriptors.FileDescriptor
       .internalBuildGeneratedFileFrom(descriptorData,
@@ -4260,7 +4185,7 @@ public final class User {
     internal_static_user_UsersInfoResponse_UserInfo_fieldAccessorTable = new
       com.google.protobuf.GeneratedMessageV3.FieldAccessorTable(
         internal_static_user_UsersInfoResponse_UserInfo_descriptor,
-        new java.lang.String[] { "UserId", "Username", "AvatarUrl", });
+        new java.lang.String[] { "UserId", "Username", "AvatarId", });
   }
 
   // @@protoc_insertion_point(outer_class_scope)

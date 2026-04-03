@@ -68,22 +68,22 @@ public class ProfileControllerTest {
 
     @Test
     void addAvatarUrl_shouldReturnProfileWithAvatar() throws Exception {
-        AddAvatarRequest request = new AddAvatarRequest("https://example.com/avatar.png");
+        AddAvatarRequest request = new AddAvatarRequest(10L);
 
         ProfileResponse response = ProfileResponse.builder()
                 .userId(1L)
                 .username("john")
-                .avatarUrl("avatar.png")
+                .avatarId(10L)
                 .build();
 
-        when(profileService.addAvatarUrl(eq(1L), any(AddAvatarRequest.class))).thenReturn(response);
+        when(profileService.addAvatar(eq(1L), any(AddAvatarRequest.class))).thenReturn(response);
 
         mockMvc.perform(patch("/profile/avatar")
                         .header("X-User-Id", String.valueOf(1L))
                         .contentType(MediaType.APPLICATION_JSON)
                         .content(objectMapper.writeValueAsString(request)))
                 .andExpect(status().isOk())
-                .andExpect(jsonPath("$.avatarUrl").value("avatar.png"))
+                .andExpect(jsonPath("$.avatarId").value(10L))
                 .andExpect(jsonPath("$.username").value("john"));
     }
 

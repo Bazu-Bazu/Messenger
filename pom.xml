@@ -14,6 +14,7 @@
         <module>services/api-gateway</module>
         <module>services/sso-service</module>
         <module>services/user-service</module>
+        <module>services/chat-service</module>
         <module>services/personal-chat-service</module>
         <module>services/group-chat-service</module>
         <module>services/web-socket-service</module>

@@ -31,4 +31,8 @@ public class UserEventPublisher {
     public void publishUserUsernameChanged(User user) {
         outboxEventService.saveEvent("user-event", UserEventType.USER_USERNAME_UPDATED, user);
     }
+
+    public void publishUserAvatarChanged(User user) {
+        outboxEventService.saveEvent("user-event", UserEventType.USER_AVATAR_UPDATED, user);
+    }
 }

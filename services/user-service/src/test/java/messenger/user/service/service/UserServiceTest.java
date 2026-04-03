@@ -125,7 +125,7 @@ public class UserServiceTest {
     @Test
     void getUsersInfo_shouldReturnUserInfoDtos() {
         Profile profile = new Profile();
-        profile.setAvatarUrl("avatar.png");
+        profile.setAvatarId(10L);
 
         User user = User.builder()
                 .id(1L)
@@ -138,6 +138,6 @@ public class UserServiceTest {
         List<UserInfoDto> result = userService.getUsersInfo(List.of(1L));
 
         assertEquals(1, result.size());
-        assertEquals("avatar.png", result.get(0).avatarUrl());
+        assertEquals(10L, result.get(0).avatarId());
     }
 }

@@ -26,8 +26,7 @@ public class Profile {
     @Column(length = 500)
     private String bio;
 
-    @Column(length = 255)
-    private String avatarUrl;
+    private Long avatarId = 0L;
 
     private LocalDate birthDate;
 

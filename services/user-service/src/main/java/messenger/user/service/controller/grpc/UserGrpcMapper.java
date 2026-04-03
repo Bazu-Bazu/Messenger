@@ -20,7 +20,7 @@ public class UserGrpcMapper {
         return User.UsersInfoResponse.UserInfo.newBuilder()
                 .setUserId(dto.userId())
                 .setUsername(dto.username())
-                .setAvatarUrl(dto.avatarUrl())
+                .setAvatarId(dto.avatarId())
                 .build();
     }
 }

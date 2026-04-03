@@ -11,5 +11,6 @@ public record UserEvent(
         String username,
         String phone,
         String email,
-        String password
+        String password,
+        Long avatarId
 ) {}

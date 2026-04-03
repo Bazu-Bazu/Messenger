@@ -95,7 +95,7 @@ class UserGrpcClientTest {
         when(userGrpcMapper.fromGrpc(any(User.UsersInfoResponse.UserInfo.class)))
                 .thenAnswer(invocation -> {
                     User.UsersInfoResponse.UserInfo arg = invocation.getArgument(0);
-                    return new UserInfoDto(arg.getUserId(), arg.getUsername(), "avatar");
+                    return new UserInfoDto(arg.getUserId(), arg.getUsername(), 10L);
                 });
 
         List<UserInfoDto> result = userGrpcClient.getUsersInfo(userIds);

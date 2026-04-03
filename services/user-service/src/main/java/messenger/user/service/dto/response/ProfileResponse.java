@@ -19,7 +19,7 @@ public class ProfileResponse {
     private String firstName;
     private String lastName;
     private String bio;
-    private String avatarUrl;
+    private Long avatarId;
     private LocalDate birthDate;
     private Integer age;
     private Gender gender;
