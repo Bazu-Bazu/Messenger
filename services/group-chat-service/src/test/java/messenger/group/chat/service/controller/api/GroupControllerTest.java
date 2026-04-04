@@ -45,7 +45,7 @@ class GroupControllerTest {
     @Test
     void createGroupChat_success() throws Exception {
         CreateGroupRequest request =
-                new CreateGroupRequest("group", "desc", List.of(2L, 3L), "https://avatar");
+                new CreateGroupRequest("group", "desc", List.of(2L, 3L), 10L);
 
         GroupResponse response = GroupResponse.builder()
                 .id(10L)
@@ -70,7 +70,7 @@ class GroupControllerTest {
     @Test
     void changeGroupInfo_success() throws Exception {
         ChangeGroupInfoRequest request =
-                new ChangeGroupInfoRequest("newDesc","https://avatar","newName");
+                new ChangeGroupInfoRequest("newDesc",10L,"newName");
 
         GroupResponse response = GroupResponse.builder()
                 .id(10L)

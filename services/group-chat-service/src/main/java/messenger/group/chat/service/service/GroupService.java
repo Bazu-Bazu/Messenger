@@ -43,7 +43,7 @@ public class GroupService {
                 .createdBy(creatorId)
                 .name(request.name())
                 .description(request.description())
-                .avatarUrl(request.avatarUrl())
+                .avatarId(request.avatarId())
                 .build();
 
         groupRepository.save(newGroup);
@@ -155,7 +155,7 @@ public class GroupService {
                 .createdBy(group.getCreatedBy())
                 .createdAt(group.getCreatedAt())
                 .lastActivityAt(group.getLastActivityAt())
-                .avatarUrl(group.getAvatarUrl())
+                .avatarId(group.getAvatarId())
                 .build();
     }
 }
