@@ -1,3 +1,7 @@
 databaseChangeLog:
   - include:
       file: db.migrations/V1_Create_users_table.sql
+  - include:
+      file: db.migrations/V2_Create_chats_table.sql
+  - include:
+      file: db.migrations/V3_Created_user_chats_table.sql
