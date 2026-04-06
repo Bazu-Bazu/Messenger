@@ -28,8 +28,8 @@ public class LoggingAspect extends BaseLoggingAspect {
             "execution(public * messenger.user.service.controller.api.*.*(..)) || " +
             "execution(public * messenger.user.service.controller.grpc.UserGrpcServer.*(..)) || " +
             "execution(public * messenger.user.service.service.event.*.*(..)) || " +
-            "execution(public * messenger.user.service.service.outbox.OutboxEventService.*(..)) || " +
-            "execution(public * messenger.user.service.service.*.*(..)) || " +
+            "execution(public * messenger.user.service.service.ProfileService.*(..)) || " +
+            "execution(public * messenger.user.service.service.UserService.*(..)) || " +
             "execution(public * messenger.user.service.validation.validator.*.*(..)) || " +
             "execution(public * messenger.user.service.kafka..*(..))"
     )
