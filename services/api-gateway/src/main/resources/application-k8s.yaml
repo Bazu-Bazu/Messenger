@@ -31,6 +31,11 @@ spring:
           predicates:
             - Path=/chats/personal/**
 
+        - id: personal-chat-service
+          uri: lb://personal-chat-service
+          predicates:
+            - Path=/chats/saved/**
+
         - id: group-chat-service-chats
           uri: http://group-chat-service
           predicates:
