@@ -1,0 +1,6 @@
+CREATE TABLE saved_chats (
+        id BIGSERIAL PRIMARY KEY,
+        user_id BIGINT NOT NULL,
+        created_at TIMESTAMP WITH TIME ZONE DEFAULT CURRENT_TIMESTAMP,
+        deleted BOOLEAN DEFAULT FALSE
+);

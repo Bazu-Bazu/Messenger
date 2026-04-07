@@ -24,7 +24,7 @@ public class GroupChat {
     @Column(nullable = false, length = 40)
     private String name;
 
-    private String avatarUrl;
+    private Long avatarId;
 
     @Column(nullable = false)
     private Long createdBy;
@@ -60,8 +60,8 @@ public class GroupChat {
         if (request.description() != null) {
             this.description = request.description();
         }
-        if (request.avatarUrl() != null) {
-            this.avatarUrl = request.avatarUrl();
+        if (request.avatarId() != null) {
+            this.avatarId = request.avatarId();
         }
     }
 }

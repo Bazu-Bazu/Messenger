@@ -5,3 +5,5 @@ databaseChangeLog:
       file: db.migrations/V2_Created_group_chat_members_table.sql
   - include:
       file: db.migrations/V3_Deleted_custom_nickname_column.sql
+  - include:
+      file: db.migrations/V4_Changed_avatar_column.sql

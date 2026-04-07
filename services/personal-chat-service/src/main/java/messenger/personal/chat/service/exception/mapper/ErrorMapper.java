@@ -1,10 +1,7 @@
 package messenger.personal.chat.service.exception.mapper;
 
 import mapper.AbstractErrorMapper;
-import messenger.personal.chat.service.exception.AuthorizationException;
-import messenger.personal.chat.service.exception.PersonalChatNotFoundException;
-import messenger.personal.chat.service.exception.UserIsNotActive;
-import messenger.personal.chat.service.exception.UserNotFoundException;
+import messenger.personal.chat.service.exception.*;
 import org.springframework.stereotype.Component;
 import org.springframework.web.bind.MethodArgumentNotValidException;
 
@@ -15,10 +12,13 @@ public class ErrorMapper extends AbstractErrorMapper {
     protected int getErrorCode(Throwable e) {
         if (
                 e instanceof PersonalChatNotFoundException ||
-                e instanceof UserNotFoundException
+                e instanceof UserNotFoundException ||
+                e instanceof SavedChatNotFoundException
         ) {
             return 404;
-        } else if (e instanceof UserIsNotActive) {
+        } else if (
+                e instanceof UserIsNotActive ||
+                e instanceof IllegalRequestExcepion) {
             return 400;
         } else if (e instanceof AuthorizationException) {
             return 403;

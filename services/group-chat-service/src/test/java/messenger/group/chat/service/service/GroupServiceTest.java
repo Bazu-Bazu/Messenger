@@ -60,7 +60,7 @@ class GroupServiceTest {
                 "group",
                 "desc",
                 List.of(2L, 3L),
-                "avatar"
+                10L
         );
 
         GroupChat group = GroupChat.builder()
@@ -68,7 +68,7 @@ class GroupServiceTest {
                 .createdBy(creatorId)
                 .name("group")
                 .description("desc")
-                .avatarUrl("avatar")
+                .avatarId(10L)
                 .build();
 
         when(groupRepository.save(any())).thenReturn(group);
@@ -160,7 +160,7 @@ class GroupServiceTest {
         Long groupId = 10L;
         Long changer = 1L;
 
-        ChangeGroupInfoRequest request = new ChangeGroupInfoRequest("name","desc","avatar");
+        ChangeGroupInfoRequest request = new ChangeGroupInfoRequest("name",10L,"avatar");
 
         GroupChat group = mock(GroupChat.class);
 

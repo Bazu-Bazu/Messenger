@@ -11,8 +11,6 @@ import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
-import java.util.List;
-
 @RestController
 @RequestMapping("/chats/personal")
 @SecurityRequirement(name = "bearerAuth")
@@ -27,19 +25,9 @@ public class PersonalChatController {
             @RequestHeader("X-User-Id") Long user1Id,
             @RequestBody @Valid CreatePersonalChatRequest request
     ) {
-        PersonalChatResponse response = personalChatService.getOrCreatePersonalChat(user1Id, request);
+        PersonalChatResponse response = personalChatService.getOrCreate(user1Id, request);
 
         return ResponseEntity.status(HttpStatus.OK).body(response);
-    }
-
-    @GetMapping
-    public ResponseEntity<List<PersonalChatResponse>> getAllUserPersonalChats(
-            @Parameter(hidden = true)
-            @RequestHeader("X-User-Id") Long userId
-    ) {
-        List<PersonalChatResponse> responses = personalChatService.getAllUserPersonalChats(userId);
-
-        return ResponseEntity.status(HttpStatus.OK).body(responses);
     }
 
     @DeleteMapping("/{chatId}")
@@ -48,7 +36,7 @@ public class PersonalChatController {
             @RequestHeader("X-User-Id") Long userId,
             @PathVariable("chatId") @Valid Long chatId
     ) {
-        personalChatService.deletePersonalChat(userId, chatId);
+        personalChatService.delete(userId, chatId);
 
         return ResponseEntity.noContent().build();
     }

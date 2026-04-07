@@ -6,7 +6,12 @@ import lombok.*;
 import java.time.Instant;
 
 @Entity
-@Table(name = "personal_chats")
+@Table(
+        name = "personal_chats",
+        uniqueConstraints = {
+                @UniqueConstraint(columnNames = {"user1Id", "user2Id"})
+        }
+)
 @Builder
 @Getter
 @Setter
@@ -30,5 +35,5 @@ public class PersonalChat {
 
     @Column(nullable = false)
     @Builder.Default
-    private Instant lastActivityAt = Instant.now();
+    private boolean deleted = false;
 }

@@ -1,7 +1,6 @@
 package messenger.group.chat.service.dto.request;
 
 import jakarta.validation.constraints.NotBlank;
-import jakarta.validation.constraints.Pattern;
 import jakarta.validation.constraints.Size;
 
 import java.util.List;
@@ -19,9 +18,7 @@ public record CreateGroupRequest(
         @Size(max = 50, message = "You can add a maximum of 50 users at a time")
         List<Long> userIds,
 
-        @Size(max = 255, message = "URL must not exceed 255 characters")
-        @Pattern(regexp = "^(http|https)://.*$", message = "URL must start with http or https")
-        String avatarUrl
+        Long avatarId
 ) {
 
     public CreateGroupRequest {

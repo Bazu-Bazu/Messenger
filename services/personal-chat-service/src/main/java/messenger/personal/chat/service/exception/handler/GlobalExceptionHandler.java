@@ -2,11 +2,8 @@ package messenger.personal.chat.service.exception.handler;
 
 import dto.response.ErrorResponse;
 import lombok.RequiredArgsConstructor;
-import messenger.personal.chat.service.exception.AuthorizationException;
-import messenger.personal.chat.service.exception.UserIsNotActive;
-import messenger.personal.chat.service.exception.UserNotFoundException;
+import messenger.personal.chat.service.exception.*;
 
-import messenger.personal.chat.service.exception.PersonalChatNotFoundException;
 import messenger.personal.chat.service.exception.mapper.ErrorMapper;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
@@ -41,9 +38,17 @@ public class GlobalExceptionHandler {
         return ResponseEntity.status(HttpStatus.BAD_REQUEST).body(response);
     }
 
+    @ExceptionHandler(IllegalRequestExcepion.class)
+    public ResponseEntity<ErrorResponse> handleBadRequest(IllegalRequestExcepion e) {
+        ErrorResponse response = errorMapper.from(e);
+
+        return ResponseEntity.status(HttpStatus.BAD_REQUEST).body(response);
+    }
+
     @ExceptionHandler({
             PersonalChatNotFoundException.class,
-            UserNotFoundException.class
+            UserNotFoundException.class,
+            SavedChatNotFoundException.class
     })
     public ResponseEntity<ErrorResponse> handleNotFound(RuntimeException e) {
         ErrorResponse response = errorMapper.from(e);

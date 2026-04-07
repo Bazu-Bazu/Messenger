@@ -1,0 +1,2 @@
+ALTER TABLE personal_chats
+ADD COLUMN deleted BOOLEAN DEFAULT FALSE;

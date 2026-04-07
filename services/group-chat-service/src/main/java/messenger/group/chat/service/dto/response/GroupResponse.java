@@ -12,7 +12,7 @@ public class GroupResponse {
 
     private Long id;
     private String name;
-    private String avatarUrl;
+    private Long avatarId;
     private String description;
     private Long createdBy;
     private Instant createdAt;
