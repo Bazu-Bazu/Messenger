@@ -5,10 +5,9 @@ import lombok.Builder;
 import java.time.Instant;
 
 @Builder
-public record PersonalChatResponse(
+public record SavedChatResponse(
 
         Long id,
-        Long user1Id,
-        Long user2Id,
+        Long userId,
         Instant createdAt
 ) {}

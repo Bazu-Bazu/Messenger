@@ -6,28 +6,20 @@ import lombok.*;
 import java.time.Instant;
 
 @Entity
-@Table(
-        name = "personal_chats",
-        uniqueConstraints = {
-                @UniqueConstraint(columnNames = {"user1Id", "user2Id"})
-        }
-)
+@Table(name = "saved_chats")
 @Builder
 @Getter
 @Setter
 @NoArgsConstructor
 @AllArgsConstructor
-public class PersonalChat {
+public class SavedChat {
 
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
 
-    @Column(nullable = false)
-    Long user1Id;
-
-    @Column(nullable = false)
-    Long user2Id;
+    @Column(nullable = false, unique = true)
+    private Long userId;
 
     @Column(nullable = false)
     @Builder.Default

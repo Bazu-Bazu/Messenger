@@ -1,3 +1,13 @@
 databaseChangeLog:
   - include:
       file: db.migrations/V1_Created_personal_chats_table.sql
+  - include:
+      file: db.migrations/V2_Added_deleted_column.sql
+  - include:
+      file: db.migrations/V3_Added_unique_constraint.sql
+  - include:
+      file: db.migrations/V4_Create_saved_chat.sql
+  - include:
+      file: db.migrations/V5_Create_outbox_events_table.sql
+  - include:
+      file: db.migrations/V6_Deleted_last_activity.sql

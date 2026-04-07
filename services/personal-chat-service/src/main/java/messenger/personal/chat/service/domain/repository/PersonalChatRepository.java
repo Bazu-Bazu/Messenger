@@ -20,12 +20,6 @@ public interface PersonalChatRepository extends JpaRepository<PersonalChat, Long
     Optional<PersonalChat> findPersonalChatByUsers(@Param("user1Id") Long user1Id, @Param("user2Id") Long user2Id);
 
     @Query("""
-        SELECT pc FROM PersonalChat pc
-        WHERE (pc.user1Id = :userId OR pc.user2Id = :userId)
-    """)
-    List<PersonalChat> findAllUserChats(@Param("userId") Long userId);
-
-    @Query("""
         SELECT COUNT(pc) > 0 FROM PersonalChat pc
         WHERE (pc.user1Id = :userId OR pc.user2Id = :userId)
         AND pc.id = :chatId
