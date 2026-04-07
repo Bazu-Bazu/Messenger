@@ -5,3 +5,5 @@ databaseChangeLog:
       file: db.migrations/V2_Create_chats_table.sql
   - include:
       file: db.migrations/V3_Created_user_chats_table.sql
+  - include:
+      file: db.migrations/V4_Changed_role_column.sql

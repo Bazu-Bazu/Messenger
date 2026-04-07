@@ -1,7 +1,7 @@
 package messenger.chat.service.service;
 
 import dto.event.GroupChatEvent;
-import enums.ChatMemberRole;
+import enums.ChatMemberPermissions;
 import enums.ChatType;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.log4j.Log4j2;
@@ -32,7 +32,7 @@ public class GroupChatService {
 
         Chat savedChat = chatRepository.save(chat);
 
-        userChatService.createUsersChat(savedChat, List.of(event.ownerId()), ChatMemberRole.OWNER);
+        userChatService.createUsersChat(savedChat, List.of(event.ownerId()), ChatMemberPermissions.ALL);
 
         if (event.members() != null) {
             userChatService.createUsersChat(savedChat, event.members().userIds(), event.members().role());
@@ -51,7 +51,7 @@ public class GroupChatService {
     }
 
     @Transactional
-    public void changeRoles(GroupChatEvent event) {
+    public void changePermissions(GroupChatEvent event) {
         if (event.members() != null) {
             userChatService.changeRoles(event.id(), event.members().userIds(), event.members().role());
         } else {
@@ -82,7 +82,7 @@ public class GroupChatService {
         int updated = chatRepository.deleteByChatIdAndChatType(event.id(), ChatType.GROUP);
 
         if (updated == 0) {
-            log.warn("{} chat {} deleted or not found", ChatType.PERSONAL, event.id());
+            log.warn("{} chat {} already deleted or not found", ChatType.PERSONAL, event.id());
         }
     }
 }

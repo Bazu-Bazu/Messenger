@@ -1,8 +1,5 @@
 package messenger.chat.service.config;
 
-import dto.event.GroupChatEvent;
-import dto.event.PersonalChatEvent;
-import dto.event.UserEvent;
 import org.apache.kafka.clients.consumer.ConsumerConfig;
 import org.apache.kafka.common.serialization.StringDeserializer;
 import org.springframework.beans.factory.annotation.Value;
@@ -28,7 +25,7 @@ public class KafkaConsumerConfig {
     private String autoOffsetReset;
 
     @Bean
-    public ConsumerFactory<String, UserEvent> stringUserEventConsumerFactory() {
+    public ConsumerFactory<String, String> consumerFactory() {
         Map<String, Object> configProperties = new HashMap<>();
         configProperties.put(ConsumerConfig.BOOTSTRAP_SERVERS_CONFIG, bootstrapServers);
         configProperties.put(ConsumerConfig.GROUP_ID_CONFIG, groupId);
@@ -40,47 +37,9 @@ public class KafkaConsumerConfig {
     }
 
     @Bean
-    public ConcurrentKafkaListenerContainerFactory<String, UserEvent> kafkaUserEventListenerContainerFactory() {
-        var factory = new ConcurrentKafkaListenerContainerFactory<String, UserEvent>();
-        factory.setConsumerFactory(stringUserEventConsumerFactory());
-        return factory;
-    }
-
-    @Bean
-    public ConsumerFactory<String, PersonalChatEvent> stringPersonalChatEventConsumerFactory() {
-        Map<String, Object> configProperties = new HashMap<>();
-        configProperties.put(ConsumerConfig.BOOTSTRAP_SERVERS_CONFIG, bootstrapServers);
-        configProperties.put(ConsumerConfig.GROUP_ID_CONFIG, groupId);
-        configProperties.put(ConsumerConfig.KEY_DESERIALIZER_CLASS_CONFIG, StringDeserializer.class);
-        configProperties.put(ConsumerConfig.VALUE_DESERIALIZER_CLASS_CONFIG, StringDeserializer.class);
-        configProperties.put(ConsumerConfig.AUTO_OFFSET_RESET_CONFIG, autoOffsetReset);
-
-        return new DefaultKafkaConsumerFactory<>(configProperties);
-    }
-
-    @Bean
-    public ConcurrentKafkaListenerContainerFactory<String, PersonalChatEvent> kafkaPersonalChatEventListenerContainerFactory() {
-        var factory = new ConcurrentKafkaListenerContainerFactory<String, PersonalChatEvent>();
-        factory.setConsumerFactory(stringPersonalChatEventConsumerFactory());
-        return factory;
-    }
-
-    @Bean
-    public ConsumerFactory<String, GroupChatEvent> stringGroupChatEventConsumerFactory() {
-        Map<String, Object> configProperties = new HashMap<>();
-        configProperties.put(ConsumerConfig.BOOTSTRAP_SERVERS_CONFIG, bootstrapServers);
-        configProperties.put(ConsumerConfig.GROUP_ID_CONFIG, groupId);
-        configProperties.put(ConsumerConfig.KEY_DESERIALIZER_CLASS_CONFIG, StringDeserializer.class);
-        configProperties.put(ConsumerConfig.VALUE_DESERIALIZER_CLASS_CONFIG, StringDeserializer.class);
-        configProperties.put(ConsumerConfig.AUTO_OFFSET_RESET_CONFIG, autoOffsetReset);
-
-        return new DefaultKafkaConsumerFactory<>(configProperties);
-    }
-
-    @Bean
-    public ConcurrentKafkaListenerContainerFactory<String, GroupChatEvent> kafkaGroupChatEventListenerContainerFactory() {
-        var factory = new ConcurrentKafkaListenerContainerFactory<String, GroupChatEvent>();
-        factory.setConsumerFactory(stringGroupChatEventConsumerFactory());
+    public ConcurrentKafkaListenerContainerFactory<String, String> containerFactory() {
+        var factory = new ConcurrentKafkaListenerContainerFactory<String, String>();
+        factory.setConsumerFactory(consumerFactory());
         return factory;
     }
 }

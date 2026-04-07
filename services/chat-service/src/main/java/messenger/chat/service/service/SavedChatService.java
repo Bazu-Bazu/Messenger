@@ -1,6 +1,6 @@
 package messenger.chat.service.service;
 
-import dto.event.PersonalChatEvent;
+import dto.event.SavedChatEvent;
 import enums.ChatMemberPermissions;
 import enums.ChatType;
 import lombok.RequiredArgsConstructor;
@@ -15,29 +15,30 @@ import java.util.List;
 @Service
 @RequiredArgsConstructor
 @Log4j2
-public class PersonalChatService {
+public class SavedChatService {
 
     private final ChatRepository chatRepository;
     private final UserChatService userChatService;
 
     @Transactional
-    public void create(PersonalChatEvent event) {
+    public void create(SavedChatEvent event) {
         Chat chat = Chat.builder()
                 .chatId(event.id())
-                .chatType(ChatType.PERSONAL)
+                .chatType(ChatType.SAVED)
+                .title("Saved")
                 .build();
 
         Chat savedChat = chatRepository.save(chat);
 
-        userChatService.createUsersChat(savedChat, List.of(event.user1Id(), event.user2Id()), ChatMemberPermissions.ALL);
+        userChatService.createUsersChat(savedChat, List.of(event.userId()), ChatMemberPermissions.ALL);
     }
 
     @Transactional
-    public void delete(PersonalChatEvent event) {
-        int updated = chatRepository.deleteByChatIdAndChatType(event.id(), ChatType.PERSONAL);
+    public void delete(SavedChatEvent event) {
+        int updated = chatRepository.deleteByChatIdAndChatType(event.id(), ChatType.SAVED);
 
         if (updated == 0) {
-            log.warn("{} chat {} already deleted or not found", ChatType.PERSONAL, event.id());
+            log.warn("{} chat {} already deleted or not found", ChatType.SAVED, event.id());
         }
     }
 }

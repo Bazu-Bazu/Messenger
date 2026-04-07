@@ -1,6 +1,6 @@
 package messenger.chat.service.service;
 
-import enums.ChatMemberRole;
+import enums.ChatMemberPermissions;
 import enums.ChatType;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.log4j.Log4j2;
@@ -22,7 +22,7 @@ public class UserChatService {
     private final UserService userService;
 
     @Transactional
-    public void createUsersChat(Chat chat, List<Long> userIds, ChatMemberRole role) {
+    public void createUsersChat(Chat chat, List<Long> userIds, ChatMemberPermissions permissions) {
         List<User> users = userService.getUsersByIds(userIds);
 
         if (users.size() != userIds.size()) {
@@ -34,7 +34,7 @@ public class UserChatService {
                 .map(user -> UserChat.builder()
                                    .user(user)
                                    .chat(chat)
-                                   .role(role)
+                                   .permissions(permissions)
                                    .build())
                 .toList();
 
@@ -42,8 +42,8 @@ public class UserChatService {
     }
 
     @Transactional
-    public void changeRoles(Long chatId, List<Long> userIds, ChatMemberRole role) {
-        int updated = userChatRepository.changeRoles(userIds, role, chatId, ChatType.GROUP);
+    public void changeRoles(Long chatId, List<Long> userIds, ChatMemberPermissions permissions) {
+        int updated = userChatRepository.changePermissions(userIds, permissions, chatId, ChatType.GROUP);
 
         if (updated == 0) {
             log.warn("Roles not changed (maybe already set) for {} chat {} users {}", ChatType.GROUP, chatId, userIds);

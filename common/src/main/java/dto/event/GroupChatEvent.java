@@ -1,6 +1,6 @@
 package dto.event;
 
-import enums.ChatMemberRole;
+import enums.ChatMemberPermissions;
 import enums.GroupChatEventType;
 import lombok.Builder;
 
@@ -20,6 +20,6 @@ public record GroupChatEvent(
     public record GroupMembers(
 
          List<Long> userIds,
-         ChatMemberRole role
+         ChatMemberPermissions role
     ) {}
 }

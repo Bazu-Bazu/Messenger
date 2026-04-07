@@ -1,6 +1,6 @@
 package messenger.chat.service.domain.repository;
 
-import enums.ChatMemberRole;
+import enums.ChatMemberPermissions;
 import enums.ChatType;
 import messenger.chat.service.domain.entity.UserChat;
 import org.springframework.data.jpa.repository.JpaRepository;
@@ -17,14 +17,14 @@ public interface UserChatRepository extends JpaRepository<UserChat, Long> {
     @Modifying
     @Query("""
         UPDATE UserChat uc
-        SET uc.role = :role
+        SET uc.permissions = :permissions
         WHERE uc.user.userId IN :userIds
         AND uc.chat.chatId = :chatId
         AND uc.chat.chatType = :chatType
     """)
-    int changeRoles(
+    int changePermissions(
             @Param("userIds") List<Long> userIds,
-            @Param("role") ChatMemberRole role,
+            @Param("permissions") ChatMemberPermissions permissions,
             @Param("chatId") Long chatId,
             @Param("chatType") ChatType chatType
     );

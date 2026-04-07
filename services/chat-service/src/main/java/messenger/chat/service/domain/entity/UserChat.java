@@ -1,6 +1,6 @@
 package messenger.chat.service.domain.entity;
 
-import enums.ChatMemberRole;
+import enums.ChatMemberPermissions;
 import jakarta.persistence.*;
 import lombok.*;
 
@@ -37,7 +37,7 @@ public class UserChat {
 
     @Column(nullable = false)
     @Enumerated(EnumType.STRING)
-    private ChatMemberRole role;
+    private ChatMemberPermissions permissions;
 
     private Long lastMessageId;
     private String lastMessageText;

@@ -22,7 +22,7 @@ public class GroupChatEventHandler {
         switch (event.eventType()) {
             case GROUP_CHAT_CREATED -> chatService.create(event);
             case GROUP_CHAT_ADDED_MEMBERS -> chatService.addMembers(event);
-            case GROUP_CHAT_CHANGED_ROLES -> chatService.changeRoles(event);
+            case GROUP_CHAT_CHANGED_ROLES -> chatService.changePermissions(event);
             case GROUP_CHAT_REMOVED_MEMBERS -> chatService.removeMembers(event);
             case GROUP_CHAT_CHANGED_INFO -> chatService.changeInfo(event);
             case GROUP_CHAT_DELETED -> chatService.delete(event);
