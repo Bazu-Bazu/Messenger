@@ -1,2 +1,0 @@
-ALTER TABLE refresh_tokens
-ADD COLUMN used BOOLEAN DEFAULT FALSE;

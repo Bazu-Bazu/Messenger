@@ -1,5 +1,0 @@
-ALTER TABLE users
-DROP COLUMN avatar_url;
-
-ALTER TABLE users
-ADD COLUMN avatar_id BIGINT;

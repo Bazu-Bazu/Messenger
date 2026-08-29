@@ -7,30 +7,6 @@ services:
     volumes:
       - redis:/data
 
-  postgres_user:
-    image: postgres:16
-    container_name: postgres_user
-    environment:
-      POSTGRES_USER: postgres
-      POSTGRES_PASSWORD: postgres
-      POSTGRES_DB: user_db
-    ports:
-      - "5432:5432"
-    volumes:
-      - postgres_user:/var/lib/postgresql/data
-
-  postgres_sso:
-    image: postgres:16
-    container_name: postgres_sso
-    environment:
-      POSTGRES_USER: postgres
-      POSTGRES_PASSWORD: postgres
-      POSTGRES_DB: sso_db
-    ports:
-      - "5433:5432"
-    volumes:
-      - postgres_sso:/var/lib/postgresql/data
-
   postgres_personal-chat:
     image: postgres:16
     container_name: postgres_personal-chat
@@ -91,7 +67,6 @@ services:
     volumes:
       - postgres_chat:/var/lib/postgresql/data
 
-
   zookeeper:
     image: wurstmeister/zookeeper:latest
     container_name: zookeeper_z
@@ -136,49 +111,6 @@ services:
       SERVER_PORT: 8761
     ports:
       - "8761:8761"
-
-  sso-service:
-    build:
-      context: ./services/sso-service
-      dockerfile: Dockerfile
-    container_name: sso-service
-    depends_on:
-      - discovery-service
-      - kafka
-      - postgres_sso
-    environment:
-      SPRING_PROFILES_ACTIVE: dev
-      SPRING_DATASOURCE_URL: jdbc:postgresql://postgres_sso:5432/postgres
-      SPRING_DATASOURCE_USERNAME: postgres
-      SPRING_DATASOURCE_PASSWORD: postgres
-      SPRING_KAFKA_BOOTSTRAP_SERVERS: kafka:9093
-      SERVER_PORT: 8081
-    ports:
-      - "8081:8081"
-
-  user-service:
-    build:
-      context: ./services/user-service
-      dockerfile: Dockerfile
-    container_name: user-service
-    depends_on:
-      - discovery-service
-      - postgres_user
-      - redis
-      - kafka
-    environment:
-      SPRING_PROFILES_ACTIVE: dev
-      SPRING_DATASOURCE_URL: jdbc:postgresql://postgres_user:5432/postgres
-      SPRING_DATASOURCE_USERNAME: postgres
-      SPRING_DATASOURCE_PASSWORD: postgres
-      SPRING_KAFKA_BOOTSTRAP_SERVERS: kafka:9093
-      SPRING_REDIS_HOST: redis
-      SPRING_REDIS_PORT: 6379
-      SERVER_PORT: 8082
-      GRPC_SERVER_PORT: 6565
-    ports:
-      - "8082:8082"
-      - "6565:6565"
 
   personal-chat-service:
     build:
