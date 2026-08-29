@@ -101,17 +101,6 @@ services:
     ports:
       - "8080:8080"
 
-  discovery-service:
-    build:
-      context: ./services/discovery-service
-      dockerfile: Dockerfile
-    container_name: discovery-service
-    environment:
-      SPRING_PROFILES_ACTIVE: dev
-      SERVER_PORT: 8761
-    ports:
-      - "8761:8761"
-
   personal-chat-service:
     build:
       context: ./services/personal-chat-service
