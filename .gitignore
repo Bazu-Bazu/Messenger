@@ -1,7 +1,7 @@
 .idea
+.gigaide
 
-services/discovery-service/
-services/**/application-dev.yaml
+services/**/public.pem
 services/**/target
 services/**/*.iml
 common/target
