@@ -44,6 +44,10 @@ springdoc:
     path: /swagger-ui.html
     disable-swagger-default-url: true
 
+identity:
+  service:
+    url: ${IDENTITY_SERVICE_URL}
+
 eureka:
   client:
     service-url:
