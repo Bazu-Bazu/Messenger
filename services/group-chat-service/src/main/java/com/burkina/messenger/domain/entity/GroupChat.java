@@ -1,0 +1,57 @@
+package com.burkina.messenger.domain.entity;
+
+import jakarta.persistence.*;
+import lombok.*;
+import com.burkina.messenger.dto.request.ChangeGroupInfoRequest;
+
+import java.time.Instant;
+import java.util.ArrayList;
+import java.util.List;
+
+@Entity
+@Table(name = "group_chats")
+@Builder
+@Getter
+@Setter
+@NoArgsConstructor
+@AllArgsConstructor
+public class GroupChat {
+
+    @Id
+    @GeneratedValue(strategy = GenerationType.IDENTITY)
+    private Long id;
+
+    @Column(nullable = false, length = 40)
+    private String name;
+
+    private Long avatarId;
+
+    @Column(nullable = false)
+    private Long createdBy;
+
+    @OneToMany(mappedBy = "group", cascade = CascadeType.ALL, fetch = FetchType.LAZY)
+    @Builder.Default
+    private List<GroupChatMember> members = new ArrayList<>();
+
+    @Column(nullable = false)
+    @Builder.Default
+    private Instant createdAt = Instant.now();
+
+    public void addMember(GroupChatMember member) {
+        members.add(member);
+        member.setGroup(this);
+    }
+
+    public void addMembers(List<GroupChatMember> members) {
+        members.forEach(this::addMember);
+    }
+
+    public void changeFrom(ChangeGroupInfoRequest request) {
+        if (request.name() != null) {
+            this.name = request.name();
+        }
+        if (request.avatarId() != null) {
+            this.avatarId = request.avatarId();
+        }
+    }
+}
