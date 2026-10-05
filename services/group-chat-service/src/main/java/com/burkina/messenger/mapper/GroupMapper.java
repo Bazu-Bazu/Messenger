@@ -50,10 +50,8 @@ public class GroupMapper {
     public GroupChatMembersAddedEvent toGroupChatMembersAddedEvent(Long groupId, List<GroupChatMember> members) {
         return GroupChatMembersAddedEvent.builder()
                 .chatId(groupId)
-                .members(members.stream()
-                        .map(member -> new GroupChatMemberInfo(
-                                member.getUserId(),
-                                member.canSendMessage()))
+                .userIds(members.stream()
+                        .map(GroupChatMember::getUserId)
                         .toList())
                 .build();
     }
