@@ -1,0 +1,15 @@
+databaseChangeLog:
+  - include:
+      file: db/migrations/V1_Created_messages_table.sql
+  - include:
+      file: db/migrations/V2_Deleted_edited_column.sql
+  - include:
+      file: db/migrations/V3_Updated_message_table.sql
+  - include:
+      file: db/migrations/V4_Delete_checks.sql
+  - include:
+      file: db/migrations/V5_Create_chat_members_table.sql
+  - include:
+      file: db/migrations/V6_Delete_readAt_column_and_add_read.sql
+  - include:
+      file: db/migrations/V7_create_outbox_events_table.sql

@@ -26,10 +26,13 @@ spring:
         dialect: org.hibernate.dialect.PostgreSQLDialect
 
   liquibase:
-    change-log: classpath:db.migrations/db.migrations.yaml
+    change-log: classpath:db/migrations/db.migrations.yaml
 
   kafka:
     bootstrap-servers: ${SPRING_KAFKA_BOOTSTRAP_SERVERS}
+    consumer:
+      group-id: messenger-message-service-group
+      auto-offset-reset: earliest
 
   cache:
     type: redis
@@ -42,20 +45,18 @@ spring:
       host: ${SPRING_REDIS_HOST}
       port: ${SPRING_REDIS_PORT}
 
-grpc:
-  client:
-    user-service:
-      address: discovery:///user-service
-      negotiation-type: plaintext
-    group-chat-service:
-      address: discovery:///group-chat-service
-      negotiation-type: plaintext
-    personal-chat-service:
-      address: discovery:///personal-chat-service
-      negotiation-type: plaintext
+  security:
+    oauth2:
+      resourceserver:
+        jwt:
+          public-key-location: classpath:public.pem
 
-  server:
-    port: ${GRPC_SERVER_PORT}
+springdoc:
+  api-docs:
+    path: /v3/api-docs
+  swagger-ui:
+    path: /swagger-ui.html
+    disable-swagger-default-url: true
 
 eureka:
   client:

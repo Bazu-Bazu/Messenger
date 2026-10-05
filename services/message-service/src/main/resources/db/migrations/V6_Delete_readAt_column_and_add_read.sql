@@ -1,0 +1,5 @@
+ALTER TABLE "messages"
+DROP COLUMN "read_at";
+
+ALTER TABLE "messages"
+ADD COLUMN "read" BOOLEAN NOT NULL DEFAULT false;
