@@ -30,7 +30,7 @@ spring:
         dialect: org.hibernate.dialect.PostgreSQLDialect
 
   liquibase:
-    change-log: classpath:db.migrations/db.migrations.yaml
+    change-log: classpath:db/migrations/db.migrations.yaml
 
 springdoc:
   api-docs:
@@ -44,5 +44,10 @@ eureka:
     service-url:
       defaultZone: http://discovery-service:8761/eureka
 
+<<<<<<< HEAD
 api-gateway:
   url: "http://localhost:8080"
+=======
+media:
+  max-file-size: 2GB
+>>>>>>> c819cbe (Media service adapted for burkina ecosystem)

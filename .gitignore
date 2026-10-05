@@ -4,6 +4,7 @@
 services/**/public.pem
 services/**/target
 services/**/*.iml
+services/**/application-secrets.yaml
 common/target
 proto/target
 

@@ -1,3 +1,0 @@
-databaseChangeLog:
-  - include:
-      file: db.migrations/V1_Created_media_metadata_table.sql

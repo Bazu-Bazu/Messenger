@@ -12,6 +12,18 @@
 
     <artifactId>media-service</artifactId>
 
+    <dependencyManagement>
+        <dependencies>
+            <dependency>
+                <groupId>software.amazon.awssdk</groupId>
+                <artifactId>bom</artifactId>
+                <version>${amazon.version}</version>
+                <type>pom</type>
+                <scope>import</scope>
+            </dependency>
+        </dependencies>
+    </dependencyManagement>
+
     <dependencies>
         <dependency>
             <groupId>org.springframework.boot</groupId>
@@ -81,7 +93,7 @@
                 <artifactId>spring-boot-maven-plugin</artifactId>
                 <version>${spring-boot.version}</version>
                 <configuration>
-                    <mainClass>messenger.media.service.MediaServiceApplicationKt</mainClass>
+                    <mainClass>com.burkina.messenger.MediaServiceApplicationKt</mainClass>
                 </configuration>
                 <executions>
                     <execution>

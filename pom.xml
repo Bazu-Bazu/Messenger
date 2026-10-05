@@ -29,6 +29,7 @@
         <java.version>17</java.version>
         <kotlin.version>2.1.0</kotlin.version>
         <spring-boot.version>3.5.5</spring-boot.version>
+        <amazon.version>2.25.10</amazon.version>
     </properties>
 
     <dependencyManagement>
