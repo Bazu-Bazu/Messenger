@@ -15,11 +15,12 @@ public class CacheInvalidationService {
 
     private final RedisTemplate<String, Object> redisTemplate;
 
-    private static final String CACHE_NAME = "chatMember";
+    private final static String CHAT_MEMBER = "chatMember";
+    private final static String CHAT_MEMBERS = "chatMembers";
 
     @Async
     public void evictChatMember(Long userId, Long chatId, ChatType chatType) {
-        String key = CACHE_NAME + "::" + userId + ":" + chatId + ":" + chatType;
+        String key = CHAT_MEMBER + "::" + userId + ":" + chatId + ":" + chatType;
 
         try {
             redisTemplate.delete(key);
@@ -27,6 +28,22 @@ public class CacheInvalidationService {
             log.warn(
                     "Failed to invalidate cache. userId={}, chatId={}, chatType={}",
                     userId,
+                    chatId,
+                    chatType,
+                    e
+            );
+        }
+    }
+
+    @Async
+    public void evictChatMembers(Long chatId, ChatType chatType) {
+        String key = CHAT_MEMBERS + "::" + chatId + ":" + chatType;
+
+        try {
+            redisTemplate.delete(key);
+        } catch (RedisConnectionFailureException e) {
+            log.warn(
+                    "Failed to invalidate cache. chatId={}, chatType={}",
                     chatId,
                     chatType,
                     e

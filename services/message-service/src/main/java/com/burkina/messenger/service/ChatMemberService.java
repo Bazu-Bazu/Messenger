@@ -15,8 +15,10 @@ import org.springframework.cache.annotation.Cacheable;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
+import java.util.HashSet;
 import java.util.List;
 import java.util.Map;
+import java.util.Set;
 import java.util.stream.Collectors;
 
 @Service
@@ -26,7 +28,8 @@ public class ChatMemberService {
     private final ChatMemberRepository memberRepository;
     private final CacheInvalidationService cacheInvalidationService;
 
-    private final static String CACHE_NAME = "chatMember";
+    private final static String CHAT_MEMBER = "chatMember";
+    private final static String CHAT_MEMBERS = "chatMembers";
 
     @Transactional
     public void createMembers(SavedChatCreatedEvent event) {
@@ -92,6 +95,8 @@ public class ChatMemberService {
                 cacheInvalidationService.evictChatMember(member.getUserId(), event.chatId(), ChatType.GROUP);
             }
         }
+
+        cacheInvalidationService.evictChatMembers(event.chatId(), ChatType.GROUP);
     }
 
     @Transactional(readOnly = true)
@@ -114,6 +119,8 @@ public class ChatMemberService {
         userIds.forEach(userId -> {
             cacheInvalidationService.evictChatMember(userId, event.chatId(), ChatType.SAVED);
         });
+
+        cacheInvalidationService.evictChatMembers(event.chatId(), ChatType.SAVED);
     }
 
     @Transactional
@@ -123,6 +130,8 @@ public class ChatMemberService {
         userIds.forEach(userId -> {
             cacheInvalidationService.evictChatMember(userId, event.chatId(), ChatType.PERSONAL);
         });
+
+        cacheInvalidationService.evictChatMembers(event.chatId(), ChatType.PERSONAL);
     }
 
     @Transactional
@@ -132,20 +141,24 @@ public class ChatMemberService {
         userIds.forEach(userId -> {
             cacheInvalidationService.evictChatMember(userId, event.chatId(), ChatType.GROUP);
         });
+
+        cacheInvalidationService.evictChatMembers(event.chatId(), ChatType.GROUP);
     }
 
     @Transactional
     public void removeMembers(GroupChatMembersDeletedEvent event) {
         List<Long> userIds =
-                memberRepository.deleteAllByUsersAndChat(event.userIds(), event.chatId(), ChatType.PERSONAL.name());
+                memberRepository.deleteAllByUsersAndChat(event.userIds(), event.chatId(), ChatType.GROUP.name());
 
         userIds.forEach(userId -> {
-            cacheInvalidationService.evictChatMember(userId, event.chatId(), ChatType.SAVED);
+            cacheInvalidationService.evictChatMember(userId, event.chatId(), ChatType.GROUP);
         });
+
+        cacheInvalidationService.evictChatMembers(event.chatId(), ChatType.GROUP);
     }
 
     @Transactional(readOnly = true)
-    @Cacheable(value = CACHE_NAME, key = "#p0 + ':' + #p1 + ':' + #p2")
+    @Cacheable(value = CHAT_MEMBER, key = "#p0 + ':' + #p1 + ':' + #p2")
     public ChatMember getMemberByUserAndChat(Long userId, Long chatId, ChatType chatType) {
         return memberRepository.findByUserIdAndChatIdAndChatType(userId, chatId, chatType)
                 .orElseThrow(() -> new ChatMemberNotFoundException(
@@ -157,5 +170,11 @@ public class ChatMemberService {
     @Transactional
     public void updateLastReadMessage(Long userId, Long chatId, ChatType chatType, Long messageId) {
         memberRepository.updateLastReadMessageId(userId, chatId, chatType, messageId);
+    }
+
+    @Transactional(readOnly = true)
+    @Cacheable(value = CHAT_MEMBERS, key = "#p0 + ':' + #p1")
+    public Set<Long> getMembersIdsByChat(Long chatId, ChatType chatType) {
+        return new HashSet<>(memberRepository.findUserIdsByChat(chatId, chatType));
     }
 }

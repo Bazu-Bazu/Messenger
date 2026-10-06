@@ -15,6 +15,7 @@ import org.springframework.transaction.annotation.Transactional;
 
 import java.util.Collections;
 import java.util.List;
+import java.util.Set;
 import java.util.stream.Stream;
 
 @Service
@@ -40,7 +41,9 @@ public class MessageService {
 
         Message savedMessage = messageRepository.save(newMessage);
 
-        messagePublisher.publishMessageSentEvent(savedMessage);
+        Set<Long> memberIds = memberService.getMembersIdsByChat(event.chatId(), event.chatType());
+
+        messagePublisher.publishMessageSentEvent(savedMessage, memberIds);
     }
 
     @Transactional
@@ -51,7 +54,9 @@ public class MessageService {
 
         messageRepository.delete(message);
 
-        messagePublisher.publishMessageRemovedEvent(message);
+        Set<Long> memberIds = memberService.getMembersIdsByChat(message.getChatId(), message.getChatType());
+
+        messagePublisher.publishMessageRemovedEvent(message, memberIds);
     }
 
     @Transactional
@@ -63,7 +68,9 @@ public class MessageService {
         int savedMessage = messageRepository.markAsRead(event.messageId());
 
         if (savedMessage == 1) {
-            messagePublisher.publishMessageReadEvent(message);
+            Set<Long> memberIds = memberService.getMembersIdsByChat(message.getChatId(), message.getChatType());
+
+            messagePublisher.publishMessageReadEvent(message, memberIds);
         }
 
         memberService.updateLastReadMessage(event.userId(), message.getChatId(), message.getChatType(), message.getId());

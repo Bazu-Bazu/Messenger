@@ -1,6 +1,9 @@
 package com.burkina.messenger.config;
 
+import com.fasterxml.jackson.annotation.JsonTypeInfo;
 import com.fasterxml.jackson.databind.ObjectMapper;
+import com.fasterxml.jackson.databind.SerializationFeature;
+import com.fasterxml.jackson.databind.jsontype.impl.LaissezFaireSubTypeValidator;
 import com.fasterxml.jackson.datatype.jsr310.JavaTimeModule;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.cache.annotation.EnableCaching;
@@ -25,16 +28,34 @@ public class CacheConfig {
     private int redisTtl;
 
     @Bean
-    public RedisCacheManager cacheManager(RedisConnectionFactory connectionFactory, ObjectMapper objectMapper) {
+    public GenericJackson2JsonRedisSerializer redisSerializer(ObjectMapper objectMapper) {
         ObjectMapper redisMapper = objectMapper.copy();
-        redisMapper.registerModule(new JavaTimeModule());
-        redisMapper.disable(com.fasterxml.jackson.databind.SerializationFeature.WRITE_DATES_AS_TIMESTAMPS);
 
-        RedisCacheConfiguration config = RedisCacheConfiguration.defaultCacheConfig()
-                .entryTtl(Duration.ofMinutes(redisTtl))
-                .disableCachingNullValues()
-                .serializeValuesWith(RedisSerializationContext.SerializationPair
-                        .fromSerializer(new GenericJackson2JsonRedisSerializer(redisMapper)));
+        redisMapper.registerModule(new JavaTimeModule());
+        redisMapper.disable(SerializationFeature.WRITE_DATES_AS_TIMESTAMPS);
+
+        redisMapper.activateDefaultTyping(
+                LaissezFaireSubTypeValidator.instance,
+                ObjectMapper.DefaultTyping.NON_FINAL,
+                JsonTypeInfo.As.PROPERTY
+        );
+
+        return new GenericJackson2JsonRedisSerializer(redisMapper);
+    }
+
+    @Bean
+    public RedisCacheManager cacheManager(
+            RedisConnectionFactory connectionFactory,
+            GenericJackson2JsonRedisSerializer redisSerializer
+    ) {
+        RedisCacheConfiguration config =
+                RedisCacheConfiguration.defaultCacheConfig()
+                        .entryTtl(Duration.ofMinutes(redisTtl))
+                        .disableCachingNullValues()
+                        .serializeValuesWith(
+                                RedisSerializationContext.SerializationPair
+                                        .fromSerializer(redisSerializer)
+                        );
 
         return RedisCacheManager.builder(connectionFactory)
                 .cacheDefaults(config)
@@ -47,12 +68,18 @@ public class CacheConfig {
     }
 
     @Bean
-    public RedisTemplate<String, Object> redisTemplate(RedisConnectionFactory connectionFactory) {
+    public RedisTemplate<String, Object> redisTemplate(
+            RedisConnectionFactory connectionFactory,
+            GenericJackson2JsonRedisSerializer redisSerializer
+    ) {
         RedisTemplate<String, Object> template = new RedisTemplate<>();
+
         template.setConnectionFactory(connectionFactory);
 
         template.setKeySerializer(new StringRedisSerializer());
-        template.setValueSerializer(new GenericJackson2JsonRedisSerializer());
+        template.setValueSerializer(redisSerializer);
+
+        template.afterPropertiesSet();
 
         return template;
     }

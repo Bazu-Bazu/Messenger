@@ -11,6 +11,8 @@ import lombok.RequiredArgsConstructor;
 import lombok.extern.log4j.Log4j2;
 import org.springframework.stereotype.Component;
 
+import java.util.Set;
+
 @Component
 @RequiredArgsConstructor
 @Log4j2
@@ -20,24 +22,24 @@ public class MessagePublisher {
     private final MessageMapper messageMapper;
     private final OutboxEventService outboxEventService;
 
-    public void publishMessageSentEvent(Message message) {
+    public void publishMessageSentEvent(Message message, Set<Long> userIds) {
         publish(
                 EventType.MESSAGES_SENT_EVENT,
-                messageMapper.toMessageSentEvent(message)
+                messageMapper.toMessageSentEvent(message, userIds)
         );
     }
 
-    public void publishMessageRemovedEvent(Message message) {
+    public void publishMessageRemovedEvent(Message message, Set<Long> userIds) {
         publish(
                 EventType.MESSAGE_REMOVED_EVENT,
-                messageMapper.toMessageRemovedEvent(message)
+                messageMapper.toMessageRemovedEvent(message, userIds)
         );
     }
 
-    public void publishMessageReadEvent(Message message) {
+    public void publishMessageReadEvent(Message message, Set<Long> userIds) {
         publish(
                 EventType.MESSAGE_READ_EVENT,
-                messageMapper.toMessageReadEvent(message)
+                messageMapper.toMessageReadEvent(message, userIds)
         );
     }
 

@@ -19,7 +19,7 @@ public class OutboxPublisher {
     private final OutboxEventService outboxEventService;
     private final KafkaTemplate<String, String> kafkaTemplate;
 
-    @Scheduled(fixedDelay = 10000)
+    @Scheduled(fixedDelay = 3000)
     public void publishEvents() {
         List<OutboxEvent> events = outboxEventService.fetchPendingEvents();
 

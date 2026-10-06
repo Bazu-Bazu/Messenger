@@ -8,6 +8,7 @@ import com.burkina.messenger.dto.response.MessageResponse;
 import org.springframework.stereotype.Component;
 
 import java.util.List;
+import java.util.Set;
 
 @Component
 public class MessageMapper {
@@ -32,7 +33,7 @@ public class MessageMapper {
                 .build();
     }
 
-    public MessageSentEvent toMessageSentEvent(Message message) {
+    public MessageSentEvent toMessageSentEvent(Message message, Set<Long> userIds) {
         return MessageSentEvent.builder()
                     .messageId(message.getId())
                     .chatId(message.getChatId())
@@ -42,19 +43,26 @@ public class MessageMapper {
                     .createdAt(message.getCreatedAt())
                     .mediaId(message.getMediaId())
                     .userId(message.getSenderId())
+                    .userIds(userIds)
                     .build();
 
     }
 
-    public MessageRemovedEvent toMessageRemovedEvent(Message message) {
+    public MessageRemovedEvent toMessageRemovedEvent(Message message, Set<Long> userIds) {
         return MessageRemovedEvent.builder()
                     .messageId(message.getId())
+                    .chatId(message.getChatId())
+                    .chatType(message.getChatType())
+                    .userIds(userIds)
                     .build();
     }
 
-    public MessageReadEvent toMessageReadEvent(Message message) {
+    public MessageReadEvent toMessageReadEvent(Message message, Set<Long> userIds) {
         return MessageReadEvent.builder()
                     .messageId(message.getId())
+                    .chatId(message.getChatId())
+                    .chatType(message.getChatType())
+                    .userIds(userIds)
                     .build();
     }
 }

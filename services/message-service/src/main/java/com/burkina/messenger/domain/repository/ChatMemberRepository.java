@@ -10,6 +10,7 @@ import org.springframework.stereotype.Repository;
 
 import java.util.List;
 import java.util.Optional;
+import java.util.Set;
 
 @Repository
 public interface ChatMemberRepository extends JpaRepository<ChatMember, Long> {
@@ -69,5 +70,16 @@ public interface ChatMemberRepository extends JpaRepository<ChatMember, Long> {
             @Param("chatId") Long chatId,
             @Param("chatType") ChatType chatType,
             @Param("lastReadMessageId") Long lastReadMessageId
+    );
+
+    @Query("""
+        SELECT cm.userId
+        FROM ChatMember cm
+        WHERE cm.chatId = :chatId
+          AND cm.chatType = :chatType
+    """)
+    List<Long> findUserIdsByChat(
+            @Param("chatId") Long chatId,
+            @Param("chatType") ChatType chatType
     );
 }
