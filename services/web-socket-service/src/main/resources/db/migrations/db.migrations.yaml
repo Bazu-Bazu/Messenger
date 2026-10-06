@@ -1,0 +1,3 @@
+databaseChangeLog:
+  - include:
+      file: db/migrations/V1_Create_outbox_events_table.sql
