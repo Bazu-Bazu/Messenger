@@ -6,6 +6,8 @@ services:
       - "6379:6379"
     volumes:
       - redis:/data
+    networks:
+      - burkina-network
 
   postgres_personal-chat:
     image: postgres:16
@@ -15,9 +17,11 @@ services:
       POSTGRES_PASSWORD: postgres
       POSTGRES_DB: personal-chat_db
     ports:
-      - "5434:5432"
+      - "5422:5432"
     volumes:
       - postgres_personal-chat:/var/lib/postgresql/data
+    networks:
+      - burkina-network
 
   postgres_group-chat:
     image: postgres:16
@@ -27,9 +31,11 @@ services:
       POSTGRES_PASSWORD: postgres
       POSTGRES_DB: group-chat_db
     ports:
-      - "5435:5432"
+      - "5423:5432"
     volumes:
       - postgres_group-chat:/var/lib/postgresql/data
+    networks:
+      - burkina-network
 
   postgres_message:
     image: postgres:16
@@ -39,9 +45,11 @@ services:
       POSTGRES_PASSWORD: postgres
       POSTGRES_DB: message_db
     ports:
-      - "5436:5432"
+      - "5424:5432"
     volumes:
       - postgres_message:/var/lib/postgresql/data
+    networks:
+      - burkina-network
 
   postgres_media:
     image: postgres:16
@@ -51,9 +59,25 @@ services:
       POSTGRES_PASSWORD: postgres
       POSTGRES_DB: media_db
     ports:
-      - "5437:5432"
+      - "5425:5432"
     volumes:
       - postgres_media:/var/lib/postgresql/data
+    networks:
+      - burkina-network
+
+  postgres_web-socket:
+    image: postgres:16
+    container_name: postgres_web-socket
+    environment:
+      POSTGRES_USER: postgres
+      POSTGRES_PASSWORD: postgres
+      POSTGRES_DB: web-socket_db
+    ports:
+      - "5426:5432"
+    volumes:
+      - postgres_web-socket:/var/lib/postgresql/data
+    networks:
+      - burkina-network
 
   postgres_chat:
     image: postgres:16
@@ -63,43 +87,49 @@ services:
       POSTGRES_PASSWORD: postgres
       POSTGRES_DB: chat_db
     ports:
-      - "5438:5432"
+      - "5427:5432"
     volumes:
       - postgres_chat:/var/lib/postgresql/data
+    networks:
+      - burkina-network
 
   zookeeper:
     image: wurstmeister/zookeeper:latest
-    container_name: zookeeper_z
+    container_name: zookeeper_mes
     ports:
       - "2181:2181"
+    networks:
+      - burkina-network
 
   kafka:
     image: wurstmeister/kafka:latest
-    container_name: kafka
+    container_name: kafka-messenger
     hostname: kafka
     ports:
-      - '9093:9093'
+      - '9092:9092'
     environment:
       KAFKA_ZOOKEEPER_CONNECT: zookeeper:2181
-      KAFKA_ADVERTISED_LISTENERS: PLAINTEXT://kafka:9093
-      KAFKA_LISTENERS: PLAINTEXT://0.0.0.0:9093
+      KAFKA_ADVERTISED_LISTENERS: PLAINTEXT://kafka:9092
+      KAFKA_LISTENERS: PLAINTEXT://0.0.0.0:9092
       KAFKA_LISTENER_SECURITY_PROTOCOL_MAP: PLAINTEXT:PLAINTEXT
       KAFKA_INTER_BROKER_LISTENER_NAME: PLAINTEXT
     depends_on:
       - zookeeper
+    networks:
+      - burkina-network
 
-  api-gateway:
-    build:
-      context: ./services/api-gateway
-      dockerfile: Dockerfile
-    container_name: api-gateway
-    depends_on:
-      - discovery-service
-    environment:
-      SPRING_PROFILES_ACTIVE: dev
-      SERVER_PORT: 8080
-    ports:
-      - "8080:8080"
+#  api-gateway:
+#    build:
+#      context: ./services/api-gateway
+#      dockerfile: Dockerfile
+#    container_name: api-gateway
+#    depends_on:
+#      - discovery-service
+#    environment:
+#      SPRING_PROFILES_ACTIVE: dev
+#      SERVER_PORT: 8080
+#    ports:
+#      - "8080:8080"
 
   personal-chat-service:
     build:
@@ -107,23 +137,20 @@ services:
       dockerfile: Dockerfile
     container_name: personal-chat-service
     depends_on:
-      - discovery-service
       - postgres_personal-chat
-      - redis
       - kafka
     environment:
       SPRING_PROFILES_ACTIVE: dev
       SPRING_DATASOURCE_URL: jdbc:postgresql://postgres_personal-chat:5432/postgres
       SPRING_DATASOURCE_USERNAME: postgres
       SPRING_DATASOURCE_PASSWORD: postgres
-      SPRING_KAFKA_BOOTSTRAP_SERVERS: kafka:9093
-      SPRING_REDIS_HOST: redis
-      SPRING_REDIS_PORT: 6379
-      SERVER_PORT: 8083
-      GRPC_SERVER_PORT: 6567
+      SPRING_KAFKA_BOOTSTRAP_SERVERS: kafka:9092
+      SERVER_PORT: 8080
+      IDENTITY_SERVICE_URL: http://identity-gateway:8080
     ports:
-      - "8083:8083"
-      - "6567:6567"
+      - "8071:8080"
+    networks:
+      - burkina-network
 
   group-chat-service:
     build:
@@ -131,23 +158,20 @@ services:
       dockerfile: Dockerfile
     container_name: group-chat-service
     depends_on:
-      - discovery-service
       - postgres_group-chat
-      - redis
       - kafka
     environment:
       SPRING_PROFILES_ACTIVE: dev
       SPRING_DATASOURCE_URL: jdbc:postgresql://postgres_group-chat:5432/postgres
       SPRING_DATASOURCE_USERNAME: postgres
       SPRING_DATASOURCE_PASSWORD: postgres
-      SPRING_KAFKA_BOOTSTRAP_SERVERS: kafka:9093
-      SPRING_REDIS_HOST: redis
-      SPRING_REDIS_PORT: 6379
-      SERVER_PORT: 8084
-      GRPC_SERVER_PORT: 6566
+      SPRING_KAFKA_BOOTSTRAP_SERVERS: kafka:9092
+      SERVER_PORT: 8080
+      IDENTITY_SERVICE_URL: http://identity-gateway:8080
     ports:
-      - "8084:8084"
-      - "6566:6566"
+      - "8072:8080"
+    networks:
+      - burkina-network
 
   message-service:
     build:
@@ -155,7 +179,6 @@ services:
       dockerfile: Dockerfile
     container_name: message-service
     depends_on:
-      - discovery-service
       - postgres_message
       - redis
       - kafka
@@ -164,14 +187,14 @@ services:
       SPRING_DATASOURCE_URL: jdbc:postgresql://postgres_message:5432/postgres
       SPRING_DATASOURCE_USERNAME: postgres
       SPRING_DATASOURCE_PASSWORD: postgres
-      SPRING_KAFKA_BOOTSTRAP_SERVERS: kafka:9093
+      SPRING_KAFKA_BOOTSTRAP_SERVERS: kafka:9092
       SPRING_REDIS_HOST: redis
       SPRING_REDIS_PORT: 6379
       SERVER_PORT: 8085
-      GRPC_SERVER_PORT: 6568
     ports:
-      - "8085:8085"
-      - "6568:6568"
+      - "8073:8080"
+    networks:
+      - burkina-network
 
   web-socket-service:
     build:
@@ -179,34 +202,43 @@ services:
       dockerfile: Dockerfile
     container_name: web-socket-service
     depends_on:
-      - discovery-service
       - redis
       - kafka
+      - postgres_web-socket
     environment:
       SPRING_PROFILES_ACTIVE: dev
-      SPRING_KAFKA_BOOTSTRAP_SERVERS: kafka:9093
+      SPRING_DATASOURCE_URL: jdbc:postgresql://postgres_web-socket:5432/postgres
+      SPRING_DATASOURCE_USERNAME: postgres
+      SPRING_DATASOURCE_PASSWORD: postgres
+      SPRING_KAFKA_BOOTSTRAP_SERVERS: kafka:9092
       SPRING_REDIS_HOST: redis
       SPRING_REDIS_PORT: 6379
-      SERVER_PORT: 8086
+      SERVER_PORT: 8080
     ports:
-      - "8086:8086"
+      - "8074:8080"
+    networks:
+      - burkina-network
 
   media-service:
     build:
       context: ./services/media-service
       dockerfile: Dockerfile
+    volumes:
+      - ./services/media-service/src/main/resources/application-secrets.yaml:/app/application-secrets.yml:ro
     container_name: media-service
     depends_on:
-      - discovery-service
       - postgres_media
     environment:
       SPRING_PROFILES_ACTIVE: dev
       SPRING_DATASOURCE_URL: jdbc:postgresql://postgres_media:5432/postgres
       SPRING_DATASOURCE_USERNAME: postgres
       SPRING_DATASOURCE_PASSWORD: postgres
-      SERVER_PORT: 8087
+      SPRING_CONFIG_IMPORT: optional:file:/app/application-secrets.yml
+      SERVER_PORT: 8080
     ports:
-      - "8087:8087"
+      - "8075:8080"
+    networks:
+      - burkina-network
 
   chat-service:
     build:
@@ -214,43 +246,45 @@ services:
       dockerfile: Dockerfile
     container_name: chat-service
     depends_on:
-      - discovery-service
       - postgres_chat
-      - redis
       - kafka
     environment:
       SPRING_PROFILES_ACTIVE: dev
       SPRING_DATASOURCE_URL: jdbc:postgresql://postgres_chat:5432/postgres
       SPRING_DATASOURCE_USERNAME: postgres
       SPRING_DATASOURCE_PASSWORD: postgres
-      SPRING_KAFKA_BOOTSTRAP_SERVERS: kafka:9093
-      SPRING_REDIS_HOST: redis
-      SPRING_REDIS_PORT: 6379
-      SERVER_PORT: 8088
+      SPRING_KAFKA_BOOTSTRAP_SERVERS: kafka:9092
+      SERVER_PORT: 8080
     ports:
-      - "8088:8088"
+      - "8076:8080"
+    networks:
+      - burkina-network
 
-  jenkins:
-    build:
-      context: ./jenkins
-      dockerfile: Dockerfile
-    container_name: jenkins
-    restart: unless-stopped
-    user: root
-    ports:
-      - "8888:8080"
-      - "50000:50000"
-    volumes:
-      - ./jenkins/jenkins_home:/var/jenkins_home
-      - /var/run/docker.sock:/var/run/docker.sock
+#  jenkins:
+#    build:
+#      context: ./jenkins
+#      dockerfile: Dockerfile
+#    container_name: jenkins
+#    restart: unless-stopped
+#    user: root
+#    ports:
+#      - "8888:8080"
+#      - "50000:50000"
+#    volumes:
+#      - ./jenkins/jenkins_home:/var/jenkins_home
+#      - /var/run/docker.sock:/var/run/docker.sock
 
 volumes:
-  postgres_user:
-  postgres_sso:
   postgres_personal-chat:
   postgres_group-chat:
   postgres_message:
   postgres_media:
   postgres_chat:
+  postgres_web-socket:
   redis:
   jenkins_home:
+
+networks:
+  burkina-network:
+    name: burkina-network
+    driver: bridge
