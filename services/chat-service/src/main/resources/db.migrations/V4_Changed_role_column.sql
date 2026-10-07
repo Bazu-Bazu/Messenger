@@ -1,5 +1,0 @@
-ALTER TABLE user_chats
-DROP COLUMN role;
-
-ALTER TABLE user_chats
-ADD COLUMN permissions VARCHAR(50) NOT NULL;

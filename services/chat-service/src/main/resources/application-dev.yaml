@@ -26,18 +26,7 @@ spring:
         dialect: org.hibernate.dialect.PostgreSQLDialect
 
   liquibase:
-    change-log: classpath:db.migrations/db.migrations.yaml
-
-  cache:
-    type: redis
-    redis:
-      time-to-live: 3m
-      cache-null-values: false
-
-  data:
-    redis:
-      host: ${SPRING_REDIS_HOST}
-      port: ${SPRING_REDIS_PORT}
+    change-log: classpath:db/migrations/db.migrations.yaml
 
   kafka:
     bootstrap-servers: ${SPRING_KAFKA_BOOTSTRAP_SERVERS}
@@ -45,20 +34,15 @@ spring:
       group-id: chat-service-group
       auto-offset-reset: earliest
 
+  security:
+    oauth2:
+      resourceserver:
+        jwt:
+          public-key-location: classpath:public.pem
+
 springdoc:
   api-docs:
     path: /v3/api-docs
   swagger-ui:
     path: /swagger-ui.html
     disable-swagger-default-url: true
-
-eureka:
-  client:
-    service-url:
-      defaultZone: http://discovery-service:8761/eureka
-
-redis:
-  ttl: 2
-
-api-gateway:
-  url: "http://localhost:8080"
