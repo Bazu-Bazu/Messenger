@@ -1,0 +1,39 @@
+server:
+  port: ${SERVER_PORT}
+
+spring:
+  application:
+    name: messenger-gateway
+
+  cloud:
+    gateway:
+      routes:
+        - id: chat-service
+          uri: http://chat-service:8080
+          predicates:
+            - Path=/chats
+
+        - id: group-chat-service
+          uri: http://group-chat-service:8080
+          predicates:
+            - Path=/chats/groups/**
+
+        - id: personal-chat-service
+          uri: http://personal-chat-service:8080
+          predicates:
+            - Path=/chats/personal/**,/chats/saved/**
+
+        - id: media-service
+          uri: http://media-service:8080
+          predicates:
+            - Path=/media/**
+
+        - id: message-service
+          uri: http://message-service:8080
+          predicates:
+            - Path=/chats/{chatId}/messages
+
+        - id: web-socket-service
+          uri: ws://web-socket-service:8080
+          predicates:
+            - Path=/ws/**

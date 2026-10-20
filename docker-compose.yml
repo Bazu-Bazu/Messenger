@@ -118,18 +118,18 @@ services:
     networks:
       - burkina-network
 
-#  api-gateway:
-#    build:
-#      context: ./services/api-gateway
-#      dockerfile: Dockerfile
-#    container_name: api-gateway
-#    depends_on:
-#      - discovery-service
-#    environment:
-#      SPRING_PROFILES_ACTIVE: dev
-#      SERVER_PORT: 8080
-#    ports:
-#      - "8080:8080"
+  messenger-gateway:
+    build:
+      context: ./services/api-gateway
+      dockerfile: Dockerfile
+    container_name: messenger-gateway
+    environment:
+      SPRING_PROFILES_ACTIVE: dev
+      SERVER_PORT: 8080
+    ports:
+      - "8070:8080"
+    networks:
+      - burkina-network
 
   personal-chat-service:
     build:

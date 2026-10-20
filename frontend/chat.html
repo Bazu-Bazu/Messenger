@@ -82,7 +82,7 @@
             const chatId = parseInt(this.chatIdInput.value);
             const chatType = this.chatTypeSelect.value;
 
-            this.ws = new WebSocket(`ws://localhost:8074/ws/chat?access_token=${token}`);
+            this.ws = new WebSocket(`ws://localhost:8070/ws/chat?access_token=${token}`);
 
             this.ws.onopen = () => {
                 this.updateStatus('✅ Подключен к WebSocket');

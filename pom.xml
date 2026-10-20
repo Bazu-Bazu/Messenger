@@ -16,6 +16,7 @@
         <module>services/web-socket-service</module>
         <module>services/media-service</module>
         <module>services/message-service</module>
+        <module>services/api-gateway</module>
     </modules>
 
     <parent>
@@ -30,10 +31,19 @@
         <kotlin.version>2.1.0</kotlin.version>
         <spring-boot.version>3.5.5</spring-boot.version>
         <amazon.version>2.25.10</amazon.version>
+        <spring-cloud.version>2025.0.3</spring-cloud.version>
     </properties>
 
     <dependencyManagement>
-
+        <dependencies>
+            <dependency>
+                <groupId>org.springframework.cloud</groupId>
+                <artifactId>spring-cloud-dependencies</artifactId>
+                <version>${spring-cloud.version}</version>
+                <type>pom</type>
+                <scope>import</scope>
+            </dependency>
+        </dependencies>
     </dependencyManagement>
 
     <build>
