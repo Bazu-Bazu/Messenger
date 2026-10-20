@@ -24,7 +24,7 @@ class MediaService(
     private val mediaRepository: MediaRepository,
 ) {
 
-    @Value("\${media.max-file-size}")
+    @Value("\${spring.servlet.multipart.max-file-size}")
     private lateinit var maxFileSize: DataSize
 
     @Transactional
